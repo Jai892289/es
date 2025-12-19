@@ -151,7 +151,7 @@ export default function UsersPage() {
       <div className="flex items-center justify-between">
         <button className="flex items-center gap-2 px-4 py-2 rounded-full border border-green-500 text-green-600 hover:bg-green-50 text-sm">
           <Plus className="w-4 h-4" />
-          Add New User
+          Add New Use
         </button>
 
         <div className="flex items-center gap-4 text-sm text-gray-600">
