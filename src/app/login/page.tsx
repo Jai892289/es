@@ -24,9 +24,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#4a9d5f] via-[#52a867] to-[#3d8b52] relative overflow-hidden">
+    <div className="min-h-screen bg-linear-to-br from-[#4a9d5f] via-[#52a867] to-[#3d8b52] relative overflow-hidden">
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-20 w-[500px] h-[500px] bg-white rounded-full blur-[120px]" />
+        <div className="absolute top-20 left-20 w-125 h-125 bg-white rounded-full blur-[120px]" />
         <div className="absolute bottom-20 right-20 w-[400px] h-[400px] bg-white rounded-full blur-[100px]" />
       </div>
 

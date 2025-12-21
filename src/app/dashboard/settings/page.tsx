@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Plus, ChevronDown } from "lucide-react"
+import Link from "next/link"
 
 const users = [
   {
@@ -149,10 +150,13 @@ export default function UsersPage() {
 
       {/* FOOTER */}
       <div className="flex items-center justify-between">
-        <button className="flex items-center gap-2 px-4 py-2 rounded-full border border-green-500 text-green-600 hover:bg-green-50 text-sm">
-          <Plus className="w-4 h-4" />
-          Add New Use
-        </button>
+        <Link
+  href="/dashboard/settings/users"
+  className="flex items-center gap-2 px-4 py-2 rounded-full border border-green-500 text-green-600 hover:bg-green-50 text-sm"
+>
+  <Plus className="w-4 h-4" />
+  Add New User
+</Link>
 
         <div className="flex items-center gap-4 text-sm text-gray-600">
           <span>1 / 16</span>
@@ -164,3 +168,5 @@ export default function UsersPage() {
     </div>
   )
 }
+
+

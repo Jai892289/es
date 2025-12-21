@@ -39,13 +39,13 @@ export default function DashboardPage() {
   }, [])
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="flex min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
         {/* Header */}
       
 
-        <div className="p-8">
+<div className="  mx-auto w-full">
           {/* Product Categories */}
           <div className="mb-8">
             <h2 className="text-sm font-semibold text-gray-700 mb-4">Product Categories</h2>

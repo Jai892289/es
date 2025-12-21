@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { ChevronRight, Plus } from "lucide-react"
+import Link from "next/link"
 
 const inventoryData = [
   {
@@ -134,9 +135,13 @@ export default function InventoryPage() {
                   {item.vendor}
                 </td>
                 <td className="px-4 py-3">
-                  <button className="px-4 py-1.5 rounded-full border border-blue-500 text-blue-500 hover:bg-blue-50 text-xs">
-                    Details
-                  </button>
+                 <Link
+  href={`/dashboard/inventory/${item.id}`}
+  className="inline-block px-4 py-1.5 rounded-full border border-blue-500 text-blue-500 hover:bg-blue-50 text-xs"
+>
+  Details
+</Link>
+
                 </td>
               </tr>
             ))}
@@ -146,10 +151,15 @@ export default function InventoryPage() {
 
       {/* Footer */}
       <div className="flex items-center justify-between">
-        <button className="flex items-center gap-2 px-5 py-2 rounded-full border border-[#14b86e] text-[#14b86e] hover:bg-[#14b86e]/10 text-sm">
-          <Plus className="w-4 h-4" />
-          Add new product
-        </button>
+      <Link
+  href="/dashboard/inventory/add"
+  className="flex items-center gap-2 px-5 py-2 rounded-full
+             border border-green-500 text-green-600
+             hover:bg-green-50 text-sm"
+>
+  + Add Product
+</Link>
+
 
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-600">1 / 16</span>

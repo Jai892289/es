@@ -1,46 +1,85 @@
 "use client"
 
-import { ChevronDown, Search } from "lucide-react"
+import { Menu, LogOut, ChevronDown } from "lucide-react"
+import { useState, useRef, useEffect } from "react"
+import { useRouter } from "next/navigation"
 
-export default function Topbar() {
+export default function Topbar({
+  onToggle,
+  collapsed,
+}: {
+  onToggle: () => void
+  collapsed: boolean
+}) {
+  const [open, setOpen] = useState(false)
+  const router = useRouter()
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handler)
+    return () => document.removeEventListener("mousedown", handler)
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth")     // clear auth flag
+    localStorage.removeItem("token")    // clear token (if used)
+    router.replace("/login")
+  }
+
   return (
-     <header className="bg-white border-b border-gray-200 px-8 py-4 sticky top-0 z-10">
-          <div className="flex items-center justify-between">
-            {/* Search */}
-            <div className="relative w-96">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search"
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all"
-              />
-            </div>
+    <header className="h-16 bg-white border-b flex items-center px-6 gap-4 relative">
+      {/* SIDEBAR TOGGLE */}
+      <button
+        onClick={onToggle}
+        className="p-2 rounded hover:bg-gray-100"
+      >
+        <Menu />
+      </button>
 
-            {/* User Profile */}
-            <div className="flex items-center gap-4">
-              <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <span className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full"></span>
-                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  />
-                </svg>
-              </button>
+      {/* SEARCH */}
+      <input
+        placeholder="Search"
+        className="w-80 px-4 py-2 border rounded-full"
+      />
 
-              <div className="flex items-center gap-3 pl-4 border-l border-gray-200">
-                <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center text-white font-semibold">
-                  VG
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-700">Vinod Gupta</span>
-                  <ChevronDown className="w-4 h-4 text-gray-400" />
-                </div>
-              </div>
-            </div>
+      {/* PROFILE */}
+      <div
+        className="ml-auto relative"
+        ref={dropdownRef}
+      >
+        <button
+          onClick={() => setOpen(!open)}
+          className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-gray-100"
+        >
+          <div className="w-9 h-9 rounded-full bg-green-500 text-white flex items-center justify-center font-semibold">
+            VG
           </div>
-        </header>
+          <span className="font-medium text-sm">Vinod Gupta</span>
+          <ChevronDown className="w-4 h-4 text-gray-600" />
+        </button>
+
+        {/* DROPDOWN */}
+        {open && (
+          <div className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50">
+            <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg"
+            >
+              <LogOut className="w-4 h-4" />
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
+    </header>
   )
 }

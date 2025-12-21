@@ -1,6 +1,7 @@
 "use client"
 
 import { ChevronDown, Plus, Star } from "lucide-react"
+import Link from "next/link"
 
 const vendors = [
   {
@@ -157,10 +158,19 @@ export default function VendorsPage() {
 
       {/* FOOTER */}
       <div className="flex items-center justify-between">
-        <button className="flex items-center gap-2 px-4 py-2 rounded-full border border-green-500 text-green-600 hover:bg-green-50 text-sm">
+        {/* <button className="flex items-center gap-2 px-4 py-2 rounded-full border border-green-500 text-green-600 hover:bg-green-50 text-sm">
           <Plus className="w-4 h-4" />
           Add New Vendor
-        </button>
+        </button> */}
+
+        <Link
+  href="/dashboard/vendors/add"
+  className="flex items-center gap-2 px-4 py-2 rounded-full border border-green-500 text-green-600 hover:bg-green-50 text-sm"
+>
+  <Plus className="w-4 h-4" />
+  Add New Vendor
+</Link>
+
 
         <div className="flex items-center gap-4 text-sm text-gray-600">
           <span>1 / 16</span>
