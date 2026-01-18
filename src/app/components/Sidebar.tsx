@@ -22,7 +22,7 @@ const menu = [
   { name: "Vendors", path: "/dashboard/vendors", icon: Users },
   { name: "Settings", path: "/dashboard/settings", icon: Settings },
 ]
-
+//  ssdf
 export default function Sidebar({ collapsed }: { collapsed: boolean }) {
   const pathname = usePathname()
 
