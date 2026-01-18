@@ -18,7 +18,7 @@ const menu = [
   { name: "Inventory", path: "/dashboard/inventory", icon: Boxes },
   { name: "Reports", path: "/dashboard/reports", icon: BarChart3 },
   { name: "Alerts", path: "/dashboard/alerts", icon: Bell },
-  { name: "Complaints", path: "/dashboard/complaints", icon: AlertCircle },
+  { name: "Product Categories", path: "/dashboard/complaints", icon: AlertCircle },
   { name: "Vendors", path: "/dashboard/vendors", icon: Users },
   { name: "Settings", path: "/dashboard/settings", icon: Settings },
 ]

@@ -45,7 +45,7 @@ export default function DashboardPage() {
         {/* Header */}
       
 
-<div className="  mx-auto w-full">
+<div className="overflow-hidden mx-auto w-full">
           {/* Product Categories */}
           <div className="mb-8">
             <h2 className="text-sm font-semibold text-gray-700 mb-4">Product Categories</h2>
@@ -65,9 +65,9 @@ export default function DashboardPage() {
                   </div>
                 )
               })}
-              <div className="bg-white rounded-xl p-4 border border-gray-200 hover:shadow-md transition-all cursor-pointer flex-shrink-0 min-w-[140px] flex items-center justify-center">
+              {/* <div className="bg-white rounded-xl p-4 border border-gray-200 hover:shadow-md transition-all cursor-pointer flex-shrink-0 min-w-[140px] flex items-center justify-center">
                 <MoreHorizontal className="w-6 h-6 text-gray-400" />
-              </div>
+              </div> */}
             </div>
           </div>
 

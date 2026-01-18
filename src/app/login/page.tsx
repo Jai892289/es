@@ -4,6 +4,7 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { ArrowRight, User, Lock } from "lucide-react"
+import Image from "next/image"
 
 export default function LoginPage() {
   const [username, setUsername] = useState("")
@@ -33,17 +34,19 @@ export default function LoginPage() {
       <div className="relative min-h-screen flex flex-col">
         <div className="p-8">
           <div className="flex items-center gap-3">
-            <svg width="60" height="60" viewBox="0 0 100 100" fill="none">
-              <path d="M50 10 L70 30 L50 50 L30 30 Z" fill="white" opacity="0.9" />
-              <path d="M50 50 L70 70 L50 90 L30 70 Z" fill="white" opacity="0.7" />
-              <path d="M30 30 L50 50 L30 70 L10 50 Z" fill="white" opacity="0.8" />
-              <path d="M70 30 L90 50 L70 70 L50 50 Z" fill="white" opacity="0.6" />
-            </svg>
+           
             <div className="text-white">
-              <div className="text-2xl font-bold tracking-wide">GISPL</div>
+              {/* <div className="text-2xl font-bold tracking-wide">GISPL</div>
               <div className="text-[8px] tracking-widest opacity-80">
                 POWERUNG MOTION. INSPIRING INNOVATION
-              </div>
+              </div> */}
+              <Image
+                          src="/main.png"
+                          alt="logo"
+                          width={150}
+                          height={40}
+                          className="object-contain transition-all duration-300"
+                        />
             </div>
           </div>
         </div>
@@ -52,9 +55,9 @@ export default function LoginPage() {
           <div className="w-full max-w-[1100px] grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Side - Welcome Text */}
             <div className="text-white space-y-6">
-              <h1 className="text-5xl font-bold leading-tight">Welcome to eSampada</h1>
+              <h1 className="text-5xl font-bold leading-tight">Welcome to <br></br>G-Sampada</h1>
               <p className="text-lg leading-relaxed opacity-90">
-                Streamline inventory management with eSampada!
+                Streamline inventory management with G-Sampada!
                 <br />
                 Track procurement, monitor stock utilization,
                 <br />
