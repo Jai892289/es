@@ -12,6 +12,7 @@ import {
   Users,
   Settings,
 } from "lucide-react"
+import { useState, useEffect } from "react"
 
 const menu = [
   { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
@@ -20,11 +21,66 @@ const menu = [
   { name: "Alerts", path: "/dashboard/alerts", icon: Bell },
   { name: "Product Categories", path: "/dashboard/complaints", icon: AlertCircle },
   { name: "Vendors", path: "/dashboard/vendors", icon: Users },
-  { name: "Settings", path: "/dashboard/settings", icon: Settings },
+  {
+    name: "Asset Management",
+    path: "/dashboard/asset-management",
+    icon: Boxes,
+    children: [
+      {
+        name: "Asset Registration",
+        path: "/dashboard/asset/asset-registration",
+      },
+      {
+        name: "Asset Category",
+        path: "/dashboard/asset/asset-category",
+      },
+       {
+        name: "Asset Status Tracking",
+        path: "/dashboard/asset/asset-tracking",
+      }, {
+        name: "Asset Transfer",
+        path: "/dashboard/asset/asset-tracking",
+      }, {
+        name: "Asset Mapping",
+        path: "/dashboard/asset/asset-tracking",
+      }, {
+        name: "Asset Replacement",
+        path: "/dashboard/asset/asset-tracking",
+      },
+    ],
+  },
+
+   {
+    name: "Settings",
+    path: "/dashboard/settings",
+    icon: Settings,
+    children: [
+      {
+        name: "User Management",
+        path: "/dashboard/settings/user-management",
+      },
+      {
+        name: "Department Management",
+        path: "/dashboard/settings/department-management",
+      },
+    ],
+  },
+
+  
+  // { name: "Settings", path: "/dashboard/settings", icon: Settings },
 ]
 //  ssdf
 export default function Sidebar({ collapsed }: { collapsed: boolean }) {
   const pathname = usePathname()
+
+  const [openMenu, setOpenMenu] = useState<string | null>(null)
+
+  // Auto open settings if child route is active
+  useEffect(() => {
+    if (pathname.startsWith("/dashboard/settings")) {
+      setOpenMenu("Settings")
+    }
+  }, [pathname])
 
   return (
     <aside
@@ -96,36 +152,95 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
         </div>
 
         {/* NAV */}
-        <nav className="space-y-2">
-          {menu.map((item) => {
-            const isActive = pathname === item.path
-            const Icon = item.icon
+     <nav className="space-y-2">
+  {menu.map((item) => {
+    const Icon = item.icon
+    const hasChildren = !!item.children
+    const isOpen = openMenu === item.name
 
-            return (
-              <Link key={item.path} href={item.path}>
-                <div
-                  title={collapsed ? item.name : ""}
-                  className={`mx-3 px-4 py-2.5 rounded-xl
-                  transition-all flex items-center
-                  ${collapsed ? "justify-center" : "gap-3"}
-                  ${
-                    isActive
-                      ? "bg-white text-[#14b86e] font-semibold shadow-md"
-                      : "text-white/90 hover:bg-white/10"
-                  }`}
-                >
-                  <Icon className="w-5 h-5 shrink-0" />
+    const isActive =
+      pathname === item.path ||
+      item.children?.some((sub) => pathname === sub.path)
 
-                  {!collapsed && (
-                    <span className="text-sm whitespace-nowrap">
-                      {item.name}
-                    </span>
-                  )}
-                </div>
-              </Link>
-            )
-          })}
-        </nav>
+    return (
+      <div key={item.name}>
+        {/* ===== MAIN MENU ===== */}
+
+        {hasChildren ? (
+          /* SETTINGS (NO LINK, ONLY TOGGLE) */
+          <div
+            onClick={() =>
+              setOpenMenu(isOpen ? null : item.name)
+            }
+            className={`mx-3 px-4 py-2.5 rounded-xl cursor-pointer
+            transition-all flex items-center
+            ${collapsed ? "justify-center" : "gap-3"}
+            ${
+              isActive
+                ? "bg-white text-[#14b86e] font-semibold shadow-md"
+                : "text-white/90 hover:bg-white/10"
+            }`}
+          >
+            <Icon className="w-5 h-5 shrink-0" />
+            {!collapsed && (
+              <span className="text-sm whitespace-nowrap">
+                {item.name}
+              </span>
+            )}
+          </div>
+        ) : (
+          /* NORMAL MENUS (WITH LINK) */
+          <Link href={item.path}>
+            <div
+              className={`mx-3 px-4 py-2.5 rounded-xl
+              transition-all flex items-center
+              ${collapsed ? "justify-center" : "gap-3"}
+              ${
+                isActive
+                  ? "bg-white text-[#14b86e] font-semibold shadow-md"
+                  : "text-white/90 hover:bg-white/10"
+              }`}
+            >
+              <Icon className="w-5 h-5 shrink-0" />
+              {!collapsed && (
+                <span className="text-sm whitespace-nowrap">
+                  {item.name}
+                </span>
+              )}
+            </div>
+          </Link>
+        )}
+
+        {/* ===== SUB MENU ===== */}
+        {!collapsed && hasChildren && isOpen && (
+          <div className="ml-12 mt-1 space-y-1">
+            {item.children.map((sub) => {
+              const isSubActive = pathname === sub.path
+
+              return (
+                <Link key={sub.path} href={sub.path}>
+                  <div
+                    className={`px-3 py-2 rounded-lg text-sm transition-all
+                    ${
+                      isSubActive
+                        ? "bg-white/90 text-[#14b86e] font-medium"
+                        : "text-white/80 hover:bg-white/10"
+                    }`}
+                  >
+                    {sub.name}
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    )
+  })}
+</nav>
+
+
+
 
         {/* FOOTER */}
         {!collapsed && (
