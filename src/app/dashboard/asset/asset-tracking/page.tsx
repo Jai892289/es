@@ -11,6 +11,18 @@ import {
 } from "lucide-react"
 
 export default function DashboardPage() {
+
+  const STATUS_DATA = [
+  { label: "In Use", value: 12450, percent: 85.3, color: "bg-green-600" },
+  { label: "In Store", value: 1250, percent: 8.6, color: "bg-blue-600" },
+  { label: "In Repair", value: 180, percent: 1.2, color: "bg-orange-500" },
+  { label: "Retired / Abandoned", value: 425, percent: 2.9, color: "bg-gray-500" },
+  { label: "Damaged", value: 142, percent: 1.0, color: "bg-red-500" },
+  { label: "Non-Functional", value: 152, percent: 1.0, color: "bg-red-600" },
+]
+
+
+
   return (
     <div className="space-y-10">
 
@@ -25,13 +37,7 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <Image
-          src="/images/asset-tracking.svg"
-          alt="Asset Tracking"
-          width={140}
-          height={140}
-          priority
-        />
+       
       </div>
 
       {/* STATS */}
@@ -75,9 +81,61 @@ export default function DashboardPage() {
       </div>
 
       {/* EMPTY STATE */}
-      <div className="bg-white rounded-xl border p-10">
-        <EmptyState />
+          <div className="space-y-8">
+
+      {/* HEADER */}
+     
+
+      {/* STATUS DISTRIBUTION */}
+      <div className="bg-white rounded-xl border p-6 space-y-5">
+        {STATUS_DATA.map((item) => (
+          <StatusRow key={item.label} {...item} />
+        ))}
       </div>
+
+      {/* RECENT UPDATES */}
+      <div className="bg-white rounded-xl border">
+        <div className="flex items-center justify-between px-6 py-4 border-b">
+          <h3 className="font-semibold text-gray-800">
+            Recent Status Updates
+          </h3>
+          <button className="text-sm text-blue-600 hover:underline">
+            View All
+          </button>
+        </div>
+
+        <table className="w-full text-sm">
+          <thead className="bg-gray-50 text-gray-600">
+            <tr>
+              <th className="px-6 py-3 text-left">Asset ID</th>
+              <th className="px-6 py-3 text-left">Asset Name</th>
+              <th className="px-6 py-3 text-left">Category</th>
+              <th className="px-6 py-3 text-left">Status</th>
+              <th className="px-6 py-3 text-left">Location</th>
+              <th className="px-6 py-3 text-left">Assigned To</th>
+              <th className="px-6 py-3 text-left">Last Updated</th>
+            </tr>
+          </thead>
+
+          <tbody className="divide-y">
+            <tr>
+              <td className="px-6 py-4">AST-2026-145</td>
+              <td className="px-6 py-4">Desktop Computer – Dell OptiPlex</td>
+              <td className="px-6 py-4">IT Assets</td>
+              <td className="px-6 py-4">
+                <span className="px-3 py-1 rounded-full text-xs bg-green-100 text-green-700">
+                  In Use
+                </span>
+              </td>
+              <td className="px-6 py-4">IT Dept – Floor 3</td>
+              <td className="px-6 py-4">Rajesh Kumar</td>
+              <td className="px-6 py-4">22 Jan 2026</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
     </div>
   )
 }
@@ -121,6 +179,38 @@ function EmptyState() {
       <p className="text-sm text-gray-500 mt-1">
         Asset updates will appear here once activity starts.
       </p>
+    </div>
+  )
+}
+
+
+
+function StatusRow({
+  label,
+  value,
+  percent,
+  color,
+}: {
+  label: string
+  value: number
+  percent: number
+  color: string
+}) {
+  return (
+    <div>
+      <div className="flex justify-between text-sm text-gray-700 mb-1">
+        <span>{label}</span>
+        <span>
+          {value.toLocaleString()} ({percent}%)
+        </span>
+      </div>
+
+      <div className="w-full bg-gray-200 rounded-full h-2">
+        <div
+          className={`h-2 rounded-full ${color}`}
+          style={{ width: `${percent}%` }}
+        />
+      </div>
     </div>
   )
 }
