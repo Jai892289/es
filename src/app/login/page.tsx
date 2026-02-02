@@ -55,7 +55,7 @@ export default function LoginPage() {
           <div className="w-full max-w-[1100px] grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Side - Welcome Text */}
             <div className="text-white space-y-6">
-              <h1 className="text-5xl font-bold leading-tight">Welcome to <br></br>G-Sampada</h1>
+              <h1 className="text-4xl font-bold leading-tight">Welcome to G-Sampada</h1>
               <p className="text-lg leading-relaxed opacity-90">
                 Streamline inventory management with G-Sampada!
                 <br />

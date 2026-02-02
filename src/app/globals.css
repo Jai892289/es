@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000; /* FORCE BLACK */
 }
 
 @theme inline {
@@ -12,20 +12,21 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ❌ REMOVE dark mode color override */
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
+*/
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #ffffff;
+  color: #000000; /* FORCE BLACK */
   font-family: Arial, Helvetica, sans-serif;
 }
-
-
 
 /* Hide scrollbar but keep scroll working */
 .no-scrollbar::-webkit-scrollbar {
@@ -35,6 +36,6 @@ body {
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE & Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
