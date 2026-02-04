@@ -25,7 +25,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-[#4a9d5f] via-[#52a867] to-[#3d8b52] relative overflow-hidden">
+    <div
+  className="min-h-screen relative overflow-hidden bg-cover bg-center bg-no-repeat"
+  style={{
+    backgroundImage: "url('/banner.png')",
+  }}
+>
+
+    {/* // <div className="min-h-screen bg-linear-to-br from-[#4a9d5f] via-[#52a867] to-[#3d8b52] relative overflow-hidden"> */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-20 w-125 h-125 bg-white rounded-full blur-[120px]" />
         <div className="absolute bottom-20 right-20 w-[400px] h-[400px] bg-white rounded-full blur-[100px]" />
@@ -52,30 +59,35 @@ export default function LoginPage() {
         </div>
 
         <div className="flex-1 flex items-center justify-center px-8 pb-16">
-          <div className="w-full max-w-[1100px] grid lg:grid-cols-2 gap-16 items-center">
+          <div className="w-full max-w-[1200px] grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Side - Welcome Text */}
             <div className="text-white space-y-6">
-              <h1 className="text-4xl font-bold leading-tight">Welcome to G-Sampada</h1>
+              <h1 className="text-5xl font-bold leading-tight">Welcome to G-Sampada</h1>
               <p className="text-lg leading-relaxed opacity-90">
-                Streamline inventory management with G-Sampada!
-                <br />
-                Track procurement, monitor stock utilization,
-                <br />
-                manage vendor interactions, and stay updated
-                <br />
-                with automated alerts.
+              An online monitoring system, End to End AI & Blockchain based Portal for Monitoring all the Inventories Supplied, Raising Complaints & Suggesting better Vendors/Suppliers.
               </p>
             </div>
 
             {/* Right Side - Login Form */}
-            <div className="bg-white/15 backdrop-blur-md rounded-2xl p-8 border border-white/30 shadow-2xl">
+            <div className="bg-white backdrop-blur-md rounded-2xl p-8 border border-white/30 shadow-2xl">
               <div className="text-center mb-8">
-                <p className="text-white text-sm leading-relaxed">
-                  Login now to access real-time insights and
-                  <br />
-                  keep operations running smoothly.
-                </p>
-              </div>
+  <div className="flex justify-center mb-4">
+    <Image
+      src="/mainIconnew.png"
+      alt="logo"
+      width={150}
+      height={40}
+      className="object-contain transition-all duration-300"
+    />
+  </div>
+
+  <p className="text-gray-800 text-sm leading-relaxed">
+    Login now to access real-time insights and
+    <br />
+    keep operations running smoothly.
+  </p>
+</div>
+
 
               <form onSubmit={handleLogin} className="space-y-5">
                 {/* Username Field with icon */}
@@ -86,7 +98,7 @@ export default function LoginPage() {
                     placeholder="User Name / E-mail"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="w-full h-12 pl-12 pr-4 bg-white rounded-full border-0 text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="w-full border h-12 pl-12 pr-4 bg-white rounded-full  text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
                     required
                   />
                 </div>
@@ -99,23 +111,23 @@ export default function LoginPage() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full h-12 pl-12 pr-4 bg-white rounded-full border-0 text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="w-full h-12 pl-12 pr-4 bg-white rounded-full border text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50"
                     required
                   />
                 </div>
 
                 {/* Remember Me & Forgot Password */}
                 <div className="flex items-center justify-between text-sm">
-                  <label className="flex items-center gap-2 text-white cursor-pointer">
+                  <label className="flex items-center gap-2 text-gray-800 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      className="w-4 h-4 rounded border-white/30 bg-white/20 checked:bg-white checked:border-white cursor-pointer"
+                      className="w-4 h-4 text-gray-800 rounded border-white/30 bg-white/20 checked:bg-white checked:border-white cursor-pointer"
                     />
                     Remember me
                   </label>
-                  <button type="button" className="text-white hover:underline">
+                  <button type="button" className="text-gray-800 hover:underline">
                     Forgot Password?
                   </button>
                 </div>
@@ -130,14 +142,14 @@ export default function LoginPage() {
                 {/* Login Button */}
                 <button
                   type="submit"
-                  className="w-full h-12 bg-white text-green-600 hover:bg-gray-50 rounded-full font-semibold flex items-center justify-center gap-2 transition-all group"
+                  className="w-full h-12 bg-green-600 text-white hover:bg-green-400 rounded-full font-semibold flex items-center justify-center gap-2 transition-all group"
                 >
                   Login
                   <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </button>
 
                 {/* Sign Up Link */}
-                <p className="text-center text-white text-sm mt-6">
+                <p className="text-center text-gray-800 text-sm mt-6">
                   {"Don't have an account yet? "}
                   <button type="button" className="font-semibold hover:underline underline-offset-2">
                     Sign up
@@ -148,8 +160,6 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Copyright Footer */}
-        <div className="absolute bottom-6 left-8 text-white/70 text-sm">© 2025 Web23</div>
       </div>
     </div>
   )
