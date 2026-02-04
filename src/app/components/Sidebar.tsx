@@ -164,9 +164,9 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
         {/* LOGO */}
         <div className="p-6 backdrop-blur-sm rounded-2xl flex justify-center shrink-0">
   <Image
-    src="/logo.png"
+    src="/logo1.png"
     alt="logo"
-    width={collapsed ? 40 : 160}
+    width={collapsed ? 0 : 120}
     height={40}
     className="object-contain transition-all duration-300"
   />
