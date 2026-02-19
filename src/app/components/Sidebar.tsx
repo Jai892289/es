@@ -26,163 +26,72 @@ const menu = [
     path: "/dashboard/asset-management",
     icon: Boxes,
     children: [
-      {
-        name: "Asset Registration",
-        path: "/dashboard/asset/asset-registration",
-      },
-      {
-        name: "Asset Category",
-        path: "/dashboard/asset/asset-category",
-      },
-      {
-        name: "Asset Status Tracking",
-        path: "/dashboard/asset/asset-tracking",
-      }, {
-        name: "Asset Transfer",
-        path: "/dashboard/asset/asset-transfer",
-      }, {
-        name: "Asset Mapping",
-        path: "/dashboard/asset/asset-mapping",
-      }, {
-        name: "Asset Replacement",
-        path: "/dashboard/asset/asset-replacement",
-      },
+      { name: "Asset Registration", path: "/dashboard/asset/asset-registration", icon: Boxes },
+      { name: "Asset Category", path: "/dashboard/asset/asset-category", icon: Boxes },
+      { name: "Asset Status Tracking", path: "/dashboard/asset/asset-tracking", icon: BarChart3 },
+      { name: "Asset Transfer", path: "/dashboard/asset/asset-transfer", icon: Boxes },
+      { name: "Asset Mapping", path: "/dashboard/asset/asset-mapping", icon: Boxes },
+      { name: "Asset Replacement", path: "/dashboard/asset/asset-replacement", icon: Boxes },
     ],
   },
   {
     name: "Reports & Analytics",
     path: "/dashboard/report/reports-analytics",
     icon: LayoutDashboard,
-
   },
   {
     name: "Inspection Management",
-    // path: "/",
     icon: LayoutDashboard,
     children: [
-      {
-        name: "Inspection Planning",
-        path: "/dashboard/inspection/inspection-planning",
-      },
-      {
-        name: "Inspection Reporting",
-        path: "/dashboard/inspection/inspection-reporting",
-      },
-      {
-        name: "Supervisor Approval",
-        path: "/dashboard/inspection/supervisor-approval",
-      },
+      { name: "Inspection Planning", path: "/dashboard/inspection/inspection-planning", icon: BarChart3 },
+      { name: "Inspection Reporting", path: "/dashboard/inspection/inspection-reporting", icon: BarChart3 },
+      { name: "Supervisor Approval", path: "/dashboard/inspection/supervisor-approval", icon: BarChart3 },
     ],
   },
-
   {
     name: "Settings",
     path: "/dashboard/settings",
     icon: Settings,
     children: [
-      {
-        name: "User Management",
-        path: "/dashboard/settings/user-management",
-      },
-      {
-        name: "Department Management",
-        path: "/dashboard/settings/department-management",
-      },
+      { name: "User Management", path: "/dashboard/settings/user-management", icon: Users },
+      { name: "Department Management", path: "/dashboard/settings/department-management", icon: Users },
     ],
   },
-
-
-  // { name: "Settings", path: "/dashboard/settings", icon: Settings },
 ]
-//  ssdf
+
 export default function Sidebar({ collapsed }: { collapsed: boolean }) {
   const pathname = usePathname()
-
   const [openMenu, setOpenMenu] = useState<string | null>(null)
 
-  // Auto open settings if child route is active
   useEffect(() => {
-    if (pathname.startsWith("/dashboard/settings")) {
-      setOpenMenu("Settings")
-    }
+    const activeParent = menu.find((item) =>
+      item.children?.some((sub) => pathname === sub.path)
+    )
+    if (activeParent) setOpenMenu(activeParent.name)
   }, [pathname])
 
   return (
     <aside
-      className={`bg-linear-to-b from-[#14b86e] to-[#0f9d58]
+      className={`bg-gradient-to-b from-[#14b86e] to-[#0f9d58]
       text-white h-screen fixed left-0 top-0 z-40
       transition-all duration-300
-      ${collapsed ? "w-25" : "w-64"}`}
+      ${collapsed ? "w-24" : "w-64"}`}
     >
-      {/* CURVED BACKGROUND */}
-      <div className="absolute inset-0 pointer-events-none">
-        <svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 256 1000"
-          preserveAspectRatio="none"
-        >
-          <defs>
-            <mask id="nav-mask">
-              <rect width="100%" height="100%" fill="white" />
-              {menu.map((_, index) => {
-                const spacing = 48
-                const y = 220 + index * spacing
-                const curveHeight = 20
-                const curveWidth = 48
+      <div className="relative z-10 flex flex-col h-screen">
 
-                return (
-                  <g key={index}>
-                    <path
-                      d={`M0,${y + curveHeight} Q ${curveWidth / 2},${y - curveHeight + 10
-                        } ${curveWidth},${y + curveHeight} L0,${y + curveHeight
-                        } Z`}
-                      fill="black"
-                    />
-                    <path
-                      d={`M0,${y + 40 - curveHeight} Q ${curveWidth / 2
-                        },${y + 40 + curveHeight - 10} ${curveWidth},${y + 40 - curveHeight
-                        } L0,${y + 40 - curveHeight} Z`}
-                      fill="black"
-                    />
-                  </g>
-                )
-              })}
-            </mask>
-          </defs>
-          <rect
-            width="100%"
-            height="100%"
-            fill="white"
-            mask="url(#nav-mask)"
-          />
-        </svg>
-      </div>
-
-      {/* CONTENT */}
-<div className="relative z-10 flex flex-col h-screen">
         {/* LOGO */}
-        <div className="p-6 backdrop-blur-sm rounded-2xl flex justify-center shrink-0">
-  <Image
-    src="/logo1.png"
-    alt="logo"
-    width={collapsed ? 0 : 120}
-    height={40}
-    className="object-contain transition-all duration-300"
-  />
-</div>
-
+        <div className="p-6 flex justify-center shrink-0">
+          <Image
+            src="/logo1.png"
+            alt="logo"
+            width={collapsed ? 0 : 120}
+            height={40}
+            className="object-contain transition-all duration-300"
+          />
+        </div>
 
         {/* NAV */}
-<nav
-  className="
-    flex-1
-    space-y-2
-    overflow-y-auto
-    no-scrollbar
-    pr-2
-  "
->
+<nav className="flex-1 space-y-2 overflow-y-auto no-scrollbar">
           {menu.map((item) => {
             const Icon = item.icon
             const hasChildren = !!item.children
@@ -194,91 +103,72 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
 
             return (
               <div key={item.name}>
-                {/* ===== MAIN MENU ===== */}
-
+                {/* MAIN ITEM */}
                 {hasChildren ? (
-                  /* SETTINGS (NO LINK, ONLY TOGGLE) */
                   <div
                     onClick={() =>
                       setOpenMenu(isOpen ? null : item.name)
                     }
-                    className={`mx-3 px-4 py-2.5 rounded-xl cursor-pointer
-            transition-all flex items-center
-            ${collapsed ? "justify-center" : "gap-3"}
-            ${isActive
-                        ? "bg-white text-[#14b86e] font-semibold shadow-md"
-                        : "text-white/90 hover:bg-white/10"
-                      }`}
+                    className={`ml-3 pl-5 py-3 transition-all flex items-center cursor-pointer
+                    ${collapsed ? "justify-center" : "gap-3"}
+                    ${
+                      isActive
+                        ? "bg-white text-black rounded-bl-full rounded-tl-full shadow-[0_4px_15px_rgba(0,0,0,0.1)] font-semibold"
+                        : "text-white hover:bg-white/10 rounded-bl-full rounded-tl-full"
+                    }`}
                   >
                     <Icon className="w-5 h-5 shrink-0" />
-                    {!collapsed && (
-                      <span className="text-xs whitespace-nowrap">
-                        {item.name}
-                      </span>
-                    )}
+                    {!collapsed && <span className="text-sm">{item.name}</span>}
                   </div>
                 ) : (
-                  /* NORMAL MENUS (WITH LINK) */
                   <Link href={item.path}>
                     <div
-                      className={`mx-3 px-4 py-2.5 rounded-xl
-              transition-all flex items-center
-              ${collapsed ? "justify-center" : "gap-3"}
-              ${isActive
-                          ? "bg-white text-[#14b86e] font-semibold shadow-md"
-                          : "text-white/90 hover:bg-white/10"
-                        }`}
+                      className={`ml-2 pl-5 py-3 transition-all flex items-center
+                      ${collapsed ? "justify-center" : "gap-3"}
+                      ${
+                        isActive
+                          ? "bg-white text-black rounded-bl-full rounded-tl-full shadow-[0_4px_15px_rgba(0,0,0,0.1)] font-semibold"
+                          : "text-white hover:bg-white/10 rounded-bl-full rounded-tl-full"
+                      }`}
                     >
                       <Icon className="w-5 h-5 shrink-0" />
-                      {!collapsed && (
-                        <span className="text-xs whitespace-nowrap">
-                          {item.name}
-                        </span>
-                      )}
+                      {!collapsed && <span className="text-sm">{item.name}</span>}
                     </div>
                   </Link>
                 )}
 
-                {/* ===== SUB MENU ===== */}
-                {!collapsed && hasChildren && isOpen && (
-                  <div className="ml-12 mt-1 space-y-1">
-                    {item.children.map((sub) => {
-                      const isSubActive = pathname === sub.path
+                {/* SUB MENU */}
+                {/* SUB MENU */}
+{!collapsed && hasChildren && isOpen && (
+  <div className="ml-10 mt-2 space-y-2">
+    {item.children.map((sub) => {
+      const isSubActive = pathname === sub.path
+      const SubIcon = sub.icon
 
-                      return (
-                        <Link key={sub.path} href={sub.path}>
-                          <div
-                            className={`px-3 py-2 rounded-lg text-xs transition-all
-                    ${isSubActive
-                                ? "bg-white/90 text-[#14b86e] font-medium"
-                                : "text-white/80 hover:bg-white/10"
-                              }`}
-                          >
-                            {sub.name}
-                          </div>
-                        </Link>
-                      )
-                    })}
-                  </div>
-                )}
+      return (
+        <Link key={sub.path} href={sub.path}>
+          <div
+            className={`flex items-center gap-3 px-4 py-2 text-sm rounded-bl-full rounded-tl-full transition-all
+            ${
+              isSubActive
+                ? "bg-white text-black font-medium shadow"
+                : "text-white/80 hover:bg-white/10"
+            }`}
+          >
+            {SubIcon && <SubIcon className="w-4 h-4 shrink-0" />}
+            <span>{sub.name}</span>
+          </div>
+        </Link>
+      )
+    })}
+  </div>
+)}
+
               </div>
             )
           })}
         </nav>
-
-
-
-
-        {/* FOOTER */}
-        {/* {!collapsed && (
-          <div className="mt-auto text-xs text-white/70">
-            © 2025 Web23
-          </div>
-        )} */}
       </div>
-
-      {/* GRADIENT OVERLAY */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#14b86e] to-[#0f9d58]" />
     </aside>
   )
 }
