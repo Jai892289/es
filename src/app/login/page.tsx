@@ -32,13 +32,13 @@
 //   }}
 // >
 
-   
+
 //       <div className="relative min-h-screen flex flex-col">
 //         <div className="p-8">
 //           <div className="flex items-center gap-3">
-           
+
 //             <div className="text-white">
-            
+
 //               <Image
 //                           src="/main.png"
 //                           alt="logo"
@@ -190,26 +190,28 @@ export default function LoginPage() {
 
   return (
     <div
-  className="min-h-screen relative overflow-hidden bg-cover bg-no-repeat"
-  style={{
-    backgroundImage: `
-      url('/banner.png')
+      className="min-h-screen relative overflow-hidden bg-cover bg-no-repeat"
+      style={{
+        backgroundImage: `
+      linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+      url('/banner1.png')
     `,
-    backgroundPosition: "left bottom",
-    backgroundSize: "cover",
-  }}
->
+        backgroundPosition: "left bottom",
+        backgroundSize: "cover",
+      }}
+    >
+
 
 
       {/* MAIN GRID */}
       <div className="grid lg:grid-cols-2 min-h-screen">
 
         {/* ================= LEFT SIDE ================= */}
-<div className="relative flex flex-col justify-start pt-24 pl-20 text-white min-h-screen overflow-hidden">
+        <div className="relative flex flex-col justify-start pt-24 pl-20 text-white min-h-screen overflow-hidden">
 
           {/* Text Content */}
-          <div className="max-w-2xl z-10">
-            <h1 className="text-5xl font-bold leading-tight mb-6">
+          <div className="max-w-2xl z-10 ">
+            <h1 className="text-5xl font-bold leading-tight mb-0">
               Welcome to <span className="font-extrabold">G-Sampada</span>
             </h1>
 
@@ -233,14 +235,14 @@ export default function LoginPage() {
           </div> */}
 
           {/* Worker Illustration BELOW text */}
-<div className="absolute bottom-0 left-0 w-[90%]">
-  {/* <Image
+          <div className="absolute bottom-0 left-0 w-[90%]">
+            {/* <Image
     src={imag1}
     alt="Worker Illustration"
     priority
     className="w-full h-auto object-contain"
   /> */}
-</div>
+          </div>
 
         </div>
 
@@ -301,14 +303,14 @@ export default function LoginPage() {
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="accent-green-500 w-4 h-4"
+                    className="accent-green-500 w-4 h-4 cursor-pointer"
                   />
                   Remember me
                 </label>
 
                 <button
                   type="button"
-                  className="text-gray-600 hover:text-green-600 hover:underline"
+                  className="text-gray-600 hover:text-green-600 hover:underline cursor-pointer"
                 >
                   Forgot Password?
                 </button>
@@ -324,7 +326,7 @@ export default function LoginPage() {
               {/* Login Button */}
               <button
                 type="submit"
-                className="w-full h-12 bg-green-500 hover:bg-green-600 text-white rounded-full font-semibold flex items-center justify-center gap-2 transition-all"
+                className="w-full h-12 bg-green-500 hover:bg-green-600 text-white cursor-pointer rounded-full font-semibold flex items-center justify-center gap-2 transition-all"
               >
                 Login
                 <ArrowRight className="h-5 w-5" />
@@ -335,7 +337,7 @@ export default function LoginPage() {
                 Don’t have an account yet?{" "}
                 <button
                   type="button"
-                  className="text-green-600 font-semibold hover:underline"
+                  className="text-green-600 font-semibold hover:underline cursor-pointer"
                 >
                   Sign up
                 </button>

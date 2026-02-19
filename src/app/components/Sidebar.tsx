@@ -82,16 +82,16 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
         {/* LOGO */}
         <div className="p-6 flex justify-center shrink-0">
           <Image
-            src="/logo1.png"
+            src="/sidebarIcon.png"
             alt="logo"
-            width={collapsed ? 0 : 120}
-            height={40}
+            width={collapsed ? 0 : 100}
+            height={100}
             className="object-contain transition-all duration-300"
           />
         </div>
 
         {/* NAV */}
-<nav className="flex-1 space-y-2 overflow-y-auto no-scrollbar">
+        <nav className="flex-1 space-y-2 overflow-y-auto no-scrollbar">
           {menu.map((item) => {
             const Icon = item.icon
             const hasChildren = !!item.children
@@ -111,11 +111,10 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
                     }
                     className={`ml-3 pl-5 py-3 transition-all flex items-center cursor-pointer
                     ${collapsed ? "justify-center" : "gap-3"}
-                    ${
-                      isActive
+                    ${isActive
                         ? "bg-white text-black rounded-bl-full rounded-tl-full shadow-[0_4px_15px_rgba(0,0,0,0.1)] font-semibold"
                         : "text-white hover:bg-white/10 rounded-bl-full rounded-tl-full"
-                    }`}
+                      }`}
                   >
                     <Icon className="w-5 h-5 shrink-0" />
                     {!collapsed && <span className="text-sm">{item.name}</span>}
@@ -125,11 +124,10 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
                     <div
                       className={`ml-2 pl-5 py-3 transition-all flex items-center
                       ${collapsed ? "justify-center" : "gap-3"}
-                      ${
-                        isActive
+                      ${isActive
                           ? "bg-white text-black rounded-bl-full rounded-tl-full shadow-[0_4px_15px_rgba(0,0,0,0.1)] font-semibold"
                           : "text-white hover:bg-white/10 rounded-bl-full rounded-tl-full"
-                      }`}
+                        }`}
                     >
                       <Icon className="w-5 h-5 shrink-0" />
                       {!collapsed && <span className="text-sm">{item.name}</span>}
@@ -139,30 +137,29 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
 
                 {/* SUB MENU */}
                 {/* SUB MENU */}
-{!collapsed && hasChildren && isOpen && (
-  <div className="ml-10 mt-2 space-y-2">
-    {item.children.map((sub) => {
-      const isSubActive = pathname === sub.path
-      const SubIcon = sub.icon
+                {!collapsed && hasChildren && isOpen && (
+                  <div className="ml-10 mt-2 space-y-2">
+                    {item.children.map((sub) => {
+                      const isSubActive = pathname === sub.path
+                      const SubIcon = sub.icon
 
-      return (
-        <Link key={sub.path} href={sub.path}>
-          <div
-            className={`flex items-center gap-3 px-4 py-2 text-sm rounded-bl-full rounded-tl-full transition-all
-            ${
-              isSubActive
-                ? "bg-white text-black font-medium shadow"
-                : "text-white/80 hover:bg-white/10"
-            }`}
-          >
-            {SubIcon && <SubIcon className="w-4 h-4 shrink-0" />}
-            <span>{sub.name}</span>
-          </div>
-        </Link>
-      )
-    })}
-  </div>
-)}
+                      return (
+                        <Link key={sub.path} href={sub.path}>
+                          <div
+                            className={`flex items-center gap-3 px-4 py-2 text-sm rounded-bl-full rounded-tl-full transition-all
+            ${isSubActive
+                                ? "bg-white text-black font-medium shadow"
+                                : "text-white/80 hover:bg-white/10"
+                              }`}
+                          >
+                            {SubIcon && <SubIcon className="w-4 h-4 shrink-0" />}
+                            <span>{sub.name}</span>
+                          </div>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                )}
 
               </div>
             )

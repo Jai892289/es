@@ -40,7 +40,7 @@ export default function Topbar({
       {/* SIDEBAR TOGGLE */}
       <button
         onClick={onToggle}
-        className="p-2 rounded hover:bg-gray-100"
+        className="p-2 rounded hover:bg-gray-100 cursor-pointer transition-colors"
       >
         <Menu />
       </button>
@@ -58,7 +58,7 @@ export default function Topbar({
       >
         <button
           onClick={() => setOpen(!open)}
-          className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-gray-100"
+          className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-gray-100 cursor-pointer transition-colors"
         >
           <div className="w-9 h-9 rounded-full bg-green-500 text-white flex items-center justify-center font-semibold">
             VG
@@ -72,7 +72,7 @@ export default function Topbar({
           <div className="absolute right-0 mt-2 w-44 bg-white border rounded-lg shadow-lg z-50">
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg"
+              className="w-full flex items-center gap-2 cursor-pointer px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg"
             >
               <LogOut className="w-4 h-4" />
               Logout
