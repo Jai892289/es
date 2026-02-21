@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronRight, Plus } from "lucide-react"
+import { ChevronRight, ChevronDown, Plus } from "lucide-react"
 import Link from "next/link"
 
 const inventoryData = [
@@ -37,70 +37,126 @@ const inventoryData = [
   },
 ]
 
+const departments = [
+  "Revenue",
+  "Health & Family Welfare",
+  "Education",
+  "PWD",
+  "Law & Order / Police",
+]
+
+const categories = ["Electronics", "Furniture", "Software"]
+const products = ["Laptop", "Monitor", "Printer"]
+const dates = ["Today", "This Week", "This Month"]
+
 export default function InventoryPage() {
-  const [department, setDepartment] = useState("")
-  const [category, setCategory] = useState("")
-  const [product, setProduct] = useState("")
-  const [date, setDate] = useState("")
+  const [department, setDepartment] = useState("By Department")
+  const [category, setCategory] = useState("By Category")
+  const [product, setProduct] = useState("All Products")
+  const [date, setDate] = useState("Select Date")
+
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+
+  const Dropdown = ({
+    label,
+    value,
+    options,
+    onChange,
+  }: {
+    label: string
+    value: string
+    options: string[]
+    onChange: (val: string) => void
+  }) => (
+    <div className="relative">
+      <button
+        onClick={() =>
+          setOpenDropdown(openDropdown === label ? null : label)
+        }
+        className={`h-11 px-5 rounded-full border text-sm flex items-center gap-3 bg-white transition
+        ${
+          openDropdown === label
+            ? "border-emerald-500 ring-2 ring-emerald-100"
+            : "border-gray-300"
+        }`}
+      >
+        {value}
+        <ChevronDown
+          className={`w-4 h-4 transition-transform ${
+            openDropdown === label ? "rotate-180 text-emerald-600" : ""
+          }`}
+        />
+      </button>
+
+      {openDropdown === label && (
+        <div className="absolute left-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-gray-200 py-2 z-50">
+          <div className="px-4 py-2 text-sm text-white bg-blue-600 rounded-t-xl">
+            {label}
+          </div>
+
+          {options.map((opt) => (
+            <div
+              key={opt}
+              onClick={() => {
+                onChange(opt)
+                setOpenDropdown(null)
+              }}
+              className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+            >
+              {opt}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 
   return (
-    <div className="space-y-6">
-      {/* Filters */}
-      <div className="flex flex-wrap items-center gap-4">
+    <div className="flex flex-col min-h-[calc(98vh-100px)]">
+
+      {/* ---------------- FILTERS ---------------- */}
+
+      <div className="flex flex-wrap items-center gap-4 mb-6 relative">
         <span className="font-semibold text-gray-700">Filters</span>
 
-        <select
+        <Dropdown
+          label="By Department"
           value={department}
-          onChange={(e) => setDepartment(e.target.value)}
-          className="h-10 px-4 rounded-full border bg-white text-sm"
-        >
-          <option value="">By Department</option>
-          <option value="it">IT</option>
-          <option value="hr">HR</option>
-          <option value="finance">Finance</option>
-        </select>
+          options={departments}
+          onChange={setDepartment}
+        />
 
-        <select
+        <Dropdown
+          label="By Category"
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="h-10 px-4 rounded-full border bg-white text-sm"
-        >
-          <option value="">By Category</option>
-          <option value="electronics">Electronics</option>
-          <option value="furniture">Furniture</option>
-          <option value="software">Software</option>
-        </select>
+          options={categories}
+          onChange={setCategory}
+        />
 
-        <select
+        <Dropdown
+          label="All Products"
           value={product}
-          onChange={(e) => setProduct(e.target.value)}
-          className="h-10 px-4 rounded-full border bg-white text-sm"
-        >
-          <option value="">All Products</option>
-          <option value="laptop">Laptop</option>
-          <option value="monitor">Monitor</option>
-          <option value="printer">Printer</option>
-        </select>
+          options={products}
+          onChange={setProduct}
+        />
 
-        <select
+        <Dropdown
+          label="Select Date"
           value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="h-10 px-4 rounded-full border bg-white text-sm"
-        >
-          <option value="">Select Date</option>
-          <option value="today">Today</option>
-          <option value="week">This Week</option>
-          <option value="month">This Month</option>
-        </select>
+          options={dates}
+          onChange={setDate}
+        />
 
-        <button className="h-10 px-6 rounded-full bg-blue-600 text-white hover:bg-blue-700 text-sm">
+        {/* APPLY FILTER BUTTON (Border Only) */}
+        <button className="h-11 px-6 rounded-full border border-blue-600 text-blue-600 text-sm hover:bg-blue-50 transition">
           Apply Filter
         </button>
       </div>
 
-      {/* Table */}
-      <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-        <table className="w-full text-sm">
+      {/* ---------------- TABLE ---------------- */}
+
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex-1">
+        <table className="w-full text-sm border-collapse">
           <thead className="bg-[#14b86e] text-white">
             <tr>
               {[
@@ -111,10 +167,13 @@ export default function InventoryPage() {
                 "Procurement Date",
                 "Warranty Expiry Date",
                 "AMC",
-                "Vendor Name",
+                "Vendor name",
                 "",
               ].map((h) => (
-                <th key={h} className="px-4 py-3 text-left font-semibold">
+                <th
+                  key={h}
+                  className="px-4 py-3 text-left font-semibold border-r border-white/20 last:border-r-0"
+                >
                   {h}
                 </th>
               ))}
@@ -122,26 +181,42 @@ export default function InventoryPage() {
           </thead>
 
           <tbody>
-            {inventoryData.map((item) => (
-              <tr key={item.id} className="border-b hover:bg-gray-50">
-                <td className="px-4 py-3 font-medium">{item.id}</td>
-                <td className="px-4 py-3 font-medium">{item.item}</td>
-                <td className="px-4 py-3 text-gray-600">{item.category}</td>
-                <td className="px-4 py-3 text-gray-600">{item.qty}</td>
-                <td className="px-4 py-3 text-gray-600">{item.procurementDate}</td>
-                <td className="px-4 py-3 text-gray-600">{item.warrantyExpiry}</td>
-                <td className="px-4 py-3 text-gray-600">{item.amc}</td>
-                <td className="px-4 py-3 text-gray-600 whitespace-pre-line">
+            {inventoryData.map((item, index) => (
+              <tr
+                key={item.id}
+                className="border-b border-gray-200 hover:bg-gray-50"
+              >
+                <td className="px-4 py-4 border-r border-gray-200">
+                  {index + 1}
+                </td>
+                <td className="px-4 py-4 border-r border-gray-200 font-medium">
+                  {item.item}
+                </td>
+                <td className="px-4 py-4 border-r border-gray-200 text-gray-600">
+                  {item.category}
+                </td>
+                <td className="px-4 py-4 border-r border-gray-200 text-gray-600">
+                  {item.qty}
+                </td>
+                <td className="px-4 py-4 border-r border-gray-200 text-gray-600">
+                  {item.procurementDate}
+                </td>
+                <td className="px-4 py-4 border-r border-gray-200 text-gray-600">
+                  {item.warrantyExpiry}
+                </td>
+                <td className="px-4 py-4 border-r border-gray-200 text-gray-600">
+                  {item.amc}
+                </td>
+                <td className="px-4 py-4 border-r border-gray-200 whitespace-pre-line text-gray-600">
                   {item.vendor}
                 </td>
-                <td className="px-4 py-3">
-                 <Link
-  href={`/dashboard/inventory/${item.id}`}
-  className="inline-block px-4 py-1.5 rounded-full border border-blue-500 text-blue-500 hover:bg-blue-50 text-xs"
->
-  Details
-</Link>
-
+                <td className="px-4 py-4">
+                  <Link
+                    href={`/dashboard/inventory/${item.id}`}
+                    className="inline-block px-4 py-1.5 rounded-full border border-blue-500 text-blue-500 hover:bg-blue-50 text-xs"
+                  >
+                    Details
+                  </Link>
                 </td>
               </tr>
             ))}
@@ -149,21 +224,20 @@ export default function InventoryPage() {
         </table>
       </div>
 
-      {/* Footer */}
-      <div className="flex items-center justify-between">
-      <Link
-  href="/dashboard/inventory/add"
-  className="flex items-center gap-2 px-5 py-2 rounded-full
-             border border-green-500 text-green-600
-             hover:bg-green-50 text-sm"
->
-  + Add Product
-</Link>
+      {/* ---------------- FOOTER ---------------- */}
 
+      <div className="flex items-center justify-between pt-2">
+        <Link
+          href="/dashboard/inventory/add"
+          className="flex items-center gap-2 px-5 py-2 rounded-full border border-green-500 text-green-600 hover:bg-green-50 text-sm"
+        >
+          <Plus className="w-4 h-4" />
+          Add new product
+        </Link>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           <span className="text-sm text-gray-600">1 / 16</span>
-          <button className="flex items-center gap-2 px-5 py-2 rounded-full border text-sm hover:bg-gray-100">
+          <button className="flex items-center gap-2 px-5 py-2 rounded-full border border-gray-300 text-sm hover:bg-gray-100">
             Next Page
             <ChevronRight className="w-4 h-4" />
           </button>

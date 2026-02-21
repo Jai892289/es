@@ -1,9 +1,8 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
-  Search,
   ChevronDown,
   Monitor,
   Smartphone,
@@ -12,191 +11,310 @@ import {
   Wifi,
   HardDrive,
   Printer,
-  MoreHorizontal,
 } from "lucide-react"
 
+const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+
+/* ------------------ PRODUCT CATEGORIES ------------------ */
+
 const productCategories = [
-  { name: "Laptops", count: 34, icon: Laptop, color: "text-emerald-600 bg-emerald-50" },
-  { name: "Smartphones", count: 18, icon: Smartphone, color: "text-lime-600 bg-lime-50" },
-  { name: "Monitors", count: 12, icon: Monitor, color: "text-emerald-600 bg-emerald-50" },
-  { name: "LED Screens", count: 12, icon: Tv, color: "text-emerald-600 bg-emerald-50" },
-  { name: "Routers", count: 8, icon: Wifi, color: "text-emerald-600 bg-emerald-50" },
-  { name: "Hard Drives", count: 5, icon: HardDrive, color: "text-emerald-600 bg-emerald-50" },
-  { name: "Printers", count: 4, icon: Printer, color: "text-emerald-600 bg-emerald-50" },
+  { name: "Laptops", count: 34, icon: Laptop },
+  { name: "Smartphones", count: 18, icon: Smartphone },
+  { name: "Monitors", count: 12, icon: Monitor },
+  { name: "LED Screens", count: 12, icon: Tv },
+  { name: "Routers", count: 8, icon: Wifi },
+  { name: "Hard Drives", count: 5, icon: HardDrive },
+  { name: "Printers", count: 4, icon: Printer },
 ]
 
-const chartData = [12, 5, 8, 10, 2, 15, 7, 1, 0, 14, 0, 0]
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+/* ------------------ PROCUREMENT DATA ------------------ */
+
+const procurementData: any = {
+  2022: {
+    Laptops: [5,3,4,6,2,7,8,4,3,6,2,1],
+    Smartphones: [2,1,3,2,4,3,2,1,2,3,1,1],
+    Printers: Array(12).fill(1),
+  },
+  2023: {
+    Laptops: [8,4,6,7,3,9,5,10,6,4,2,3],
+    Smartphones: [4,2,5,3,6,4,3,2,4,5,2,2],
+    Printers: [1,2,1,3,2,2,1,2,1,2,1,1],
+  },
+  2024: {
+    Laptops: [12,0,5,8,0,10,2,15,7,0,1,0],
+    Smartphones: [6,2,4,5,3,7,4,8,6,2,3,1],
+    Printers: [2,1,2,3,1,4,2,3,2,1,1,2],
+  }
+}
 
 export default function DashboardPage() {
   const router = useRouter()
 
+  const [selectedYear, setSelectedYear] = useState("2024")
+  const [selectedCategory, setSelectedCategory] = useState("Laptops")
+  const [showYearDropdown, setShowYearDropdown] = useState(false)
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false)
+
   useEffect(() => {
     const auth = localStorage.getItem("auth")
-    if (auth !== "true") {
-      router.replace("/login")
-    }
+    if (auth !== "true") router.replace("/login")
   }, [])
 
+  const chartData =
+    procurementData[selectedYear]?.[selectedCategory] ||
+    Array(12).fill(0)
+
+  const maxValue = Math.max(...chartData, 10)
+  const total = chartData.reduce((a: number, b: number) => a + b, 0)
+
   return (
-    <div className="flex min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
-      {/* Main Content */}
-      <main className="flex-1 overflow-auto">
-        {/* Header */}
-      
+<div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 overflow-x-hidden p-6">      <div className="max-w-7xl mx-auto">
 
-<div className="overflow-hidden mx-auto w-full">
-          {/* Product Categories */}
-          <div className="mb-8">
-            <h2 className="text-sm font-semibold text-gray-700 mb-4">Product Categories</h2>
-            <div className="flex gap-4 overflow-x-auto pb-2">
-              {productCategories.map((category) => {
-                const Icon = category.icon
-                return (
-                  <div
-                    key={category.name}
-                    className="bg-white rounded-xl p-4 border border-gray-200 hover:shadow-md transition-all cursor-pointer flex-shrink-0 min-w-[140px]"
-                  >
-                    <div className={`w-12 h-12 rounded-lg ${category.color} flex items-center justify-center mb-3`}>
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <p className="text-xs text-gray-600 mb-1">{category.name}</p>
-                    <p className="text-lg font-bold text-gray-800">{category.count}</p>
-                  </div>
-                )
-              })}
-              {/* <div className="bg-white rounded-xl p-4 border border-gray-200 hover:shadow-md transition-all cursor-pointer flex-shrink-0 min-w-[140px] flex items-center justify-center">
-                <MoreHorizontal className="w-6 h-6 text-gray-400" />
-              </div> */}
-            </div>
-          </div>
+        {/* ------------------ PRODUCT CATEGORIES ------------------ */}
 
-          {/* Overview */}
-          <h2 className="text-sm font-semibold text-gray-700 mb-4">Overview</h2>
+        {/* PRODUCT CATEGORIES */}
+<div className="mb-8">
+  <h2 className="text-sm font-semibold text-gray-700 mb-4">
+    Product Categories
+  </h2>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {[
-              { label: "Total Items Procured", value: 147, color: "text-emerald-600" },
-              { label: "Warranty Ending Soon", value: 32, color: "text-blue-600" },
-              { label: "Pending Complaints", value: 46, color: "text-red-500" },
-              { label: "Pending AMC Renewals", value: 12, color: "text-indigo-600" },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="bg-white p-6 rounded-2xl border border-gray-200 hover:shadow-lg transition-all group"
-              >
-                <p className="text-sm text-gray-600 mb-2">{item.label}</p>
-                <h2 className={`text-4xl font-bold ${item.color} mb-3`}>{item.value}</h2>
-                <button className="text-xs text-emerald-600 font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                  View Details
-                  <span>→</span>
-                </button>
-              </div>
-            ))}
-          </div>
-
-          {/* Lower Panels */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Chart */}
-            <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h3 className="font-semibold text-gray-800 mb-1">Yearly Procurement by Category</h3>
-                  <p className="text-xs text-gray-500">by Category</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <button className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-colors">
-                    2024 <ChevronDown className="w-4 h-4" />
-                  </button>
-                  <button className="px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-50 transition-colors bg-emerald-50 text-emerald-700 border-emerald-200">
-                    <Laptop className="w-4 h-4" />
-                    Laptops <ChevronDown className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              <div className="flex items-end justify-between gap-2 h-64 px-4">
-                {chartData.map((value, index) => (
-                  <div key={index} className="flex flex-col items-center flex-1">
-                    <div className="w-full flex flex-col justify-end h-48">
-                      {value > 0 && (
-                        <>
-                          <div className="text-xs font-semibold text-gray-700 mb-1 text-center">{value}</div>
-                          <div
-                            style={{ height: `${(value / 15) * 100}%` }}
-                            className="bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t-lg transition-all hover:from-emerald-600 hover:to-emerald-500"
-                          />
-                        </>
-                      )}
-                      {value === 0 && <div className="h-1 w-full bg-gray-200 rounded-full" />}
-                    </div>
-                    <p className="text-xs text-gray-500 mt-3 font-medium">{months[index]}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-gray-100 flex items-center gap-4">
-                <div className="bg-emerald-50 rounded-lg p-4 flex items-center justify-center">
-                  <Laptop className="w-8 h-8 text-emerald-600" />
-                </div>
-                <div>
-                  <p className="text-sm text-gray-600 mb-1">Total Laptops Procured in 2024</p>
-                  <p className="text-3xl font-bold text-emerald-600">60</p>
-                </div>
-              </div>
+  <div className="w-full overflow-x-auto no-scrollbar">
+    <div className="flex gap-4">
+      {productCategories.map((cat) => {
+        const Icon = cat.icon
+        return (
+          <div
+            key={cat.name}
+            className="flex items-center gap-3 
+            bg-gray-50 border border-gray-200 
+            rounded-2xl px-5 py-3 
+            flex-shrink-0
+            hover:bg-white hover:shadow-md 
+            transition-all duration-300 cursor-pointer"
+          >
+            <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
+              <Icon className="w-5 h-5 text-emerald-600" />
             </div>
 
-            {/* Complaints */}
-            <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
-              <h3 className="font-semibold text-gray-800 mb-6">Recent Complaints</h3>
+            <div>
+              <p className="text-sm font-medium text-gray-700">
+                {cat.name}
+              </p>
+              <p className="text-sm font-semibold text-gray-500">
+                {cat.count.toString().padStart(2, "0")}
+              </p>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  </div>
+</div>
 
-              <div className="space-y-4">
-                {[
-                  {
-                    text: "Laptop Malfunction Post-Warranty",
-                    tag: "High Priority",
-                    color: "bg-red-500",
-                    user: "Vinod",
-                  },
-                  {
-                    text: "Delayed AMC Service for Printers",
-                    tag: "Medium Priority",
-                    color: "bg-yellow-500",
-                    user: "Vinod",
-                  },
-                  {
-                    text: "Unresponsive Vendor for Software Licensing Renewal",
-                    tag: "Low Priority",
-                    color: "bg-blue-500",
-                    user: "Vinod",
-                  },
-                ].map((complaint, index) => (
-                  <div
-                    key={index}
-                    className="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer border border-gray-100"
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                      <h4 className="text-sm font-medium text-gray-800 leading-snug pr-2">{complaint.text}</h4>
-                      <span
-                        className={`${complaint.color} text-white px-2.5 py-1 rounded-md text-[10px] font-medium whitespace-nowrap flex-shrink-0`}
-                      >
-                        {complaint.tag}
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-500">By {complaint.user} | Jan 05, 2025</p>
-                  </div>
-                ))}
-              </div>
+        {/* ------------------ OVERVIEW ------------------ */}
 
-              <button className="w-full mt-6 text-sm text-emerald-600 font-medium flex items-center justify-center gap-1 hover:gap-2 transition-all">
-                View all complaints
-                <span>→</span>
+        <h2 className="text-sm font-semibold text-gray-700 mt-8 mb-4">
+          Overview
+        </h2>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {[
+            { label: "Total Items Procured", value: 147, color: "text-emerald-600", border: "hover:border-emerald-500" },
+            { label: "Warranty Ending Soon", value: 32, color: "text-blue-600", border: "hover:border-blue-500" },
+            { label: "Pending Complaints", value: 46, color: "text-red-500", border: "hover:border-red-500" },
+            { label: "Pending AMC Renewals", value: 12, color: "text-indigo-600", border: "hover:border-indigo-500" },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className={`bg-white rounded-2xl border border-gray-200 p-6 transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2 hover:scale-[1.03] ${item.border}`}
+            >
+              <p className="text-sm text-gray-600 mb-2">{item.label}</p>
+              <h2 className={`text-4xl font-bold ${item.color}`}>
+                {item.value}
+              </h2>
+              <button className="text-xs text-emerald-600 mt-3 flex items-center gap-1 group">
+                View Details
+                <span className="transition-transform group-hover:translate-x-1">→</span>
               </button>
             </div>
-          </div>
+          ))}
         </div>
-      </main>
+
+        {/* ------------------ LOWER SECTION ------------------ */}
+
+        <div className="grid lg:grid-cols-3 gap-6">
+
+          {/* ------------------ CHART SECTION ------------------ */}
+
+          <div className="lg:col-span-2 bg-white rounded-2xl p-6 border-2 border-purple-400 shadow-sm relative">
+
+            <div className="flex justify-between items-center mb-6">
+
+              <h3 className="font-semibold text-blue-600">
+                Yearly Procurement <br /> by Category
+              </h3>
+
+              <div className="flex gap-3 relative">
+
+                {/* YEAR DROPDOWN */}
+                <div className="relative">
+                  <button
+                    onClick={() => setShowYearDropdown(!showYearDropdown)}
+                    className="bg-gray-100 px-4 py-2 rounded-full text-sm flex items-center gap-2"
+                  >
+                    {selectedYear}
+                    <ChevronDown size={16} />
+                  </button>
+
+                  {showYearDropdown && (
+                    <div className="absolute right-0 mt-2 w-28 bg-white rounded-xl shadow-lg border z-20">
+                      {Object.keys(procurementData).map((year) => (
+                        <div
+                          key={year}
+                          onClick={() => {
+                            setSelectedYear(year)
+                            setShowYearDropdown(false)
+                          }}
+                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                        >
+                          {year}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* CATEGORY DROPDOWN */}
+                <div className="relative">
+                  <button
+                    onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+                    className="bg-gray-100 px-4 py-2 rounded-full text-sm flex items-center gap-2"
+                  >
+                    {selectedCategory}
+                    <ChevronDown size={16} />
+                  </button>
+
+                  {showCategoryDropdown && (
+                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border p-3 space-y-2 z-20">
+                      {productCategories.map((cat) => {
+                        const Icon = cat.icon
+                        return (
+                          <div
+                            key={cat.name}
+                            onClick={() => {
+                              setSelectedCategory(cat.name)
+                              setShowCategoryDropdown(false)
+                            }}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-100 ${
+                              selectedCategory === cat.name
+                                ? "text-emerald-600 font-medium"
+                                : ""
+                            }`}
+                          >
+                            <Icon size={18} />
+                            {cat.name}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+
+              </div>
+            </div>
+
+            {/* BAR CHART */}
+            <div className="flex items-end gap-4 h-64">
+              {chartData.map((val: number, i: number) => (
+                <div key={i} className="flex-1 flex flex-col items-center">
+                  <div className="h-48 w-full flex flex-col justify-end items-center">
+                    {val > 0 ? (
+                      <>
+                        <span className="text-xs font-semibold mb-1">
+                          {val}
+                        </span>
+                        <div
+                          style={{ height: `${(val / maxValue) * 100}%` }}
+                          className="w-6 bg-emerald-500 rounded-t-lg transition-all duration-300"
+                        />
+                      </>
+                    ) : (
+                      <div className="w-6 h-1 bg-gray-300 rounded-full" />
+                    )}
+                  </div>
+                  <span className="text-xs text-gray-500 mt-2">
+                    {months[i]}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* TOTAL */}
+            <div className="mt-6 pt-6 border-t flex items-center gap-4">
+              <div className="bg-indigo-50 p-4 rounded-lg">
+                <Laptop className="text-indigo-600" />
+              </div>
+              <div>
+                <p className="text-sm text-gray-600">
+                  Total {selectedCategory} Procured in {selectedYear}
+                </p>
+                <p className="text-3xl font-bold text-emerald-600">
+                  {total}
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* ------------------ COMPLAINTS ------------------ */}
+
+          <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+            <h3 className="font-semibold mb-6 text-gray-800">
+              Recent Complaints
+            </h3>
+
+            <div className="space-y-4">
+              {[
+                {
+                  text: "Laptop Malfunction Post-Warranty",
+                  tag: "High Priority",
+                  color: "bg-red-500",
+                },
+                {
+                  text: "Delayed AMC Service for Printers",
+                  tag: "Medium Priority",
+                  color: "bg-yellow-500",
+                },
+                {
+                  text: "Unresponsive Vendor for Software Licensing Renewal",
+                  tag: "Low Priority",
+                  color: "bg-blue-500",
+                },
+              ].map((c, i) => (
+                <div
+                  key={i}
+                  className="p-4 bg-gray-50 rounded-xl border hover:bg-gray-100 transition"
+                >
+                  <div className="flex justify-between">
+                    <p className="text-sm font-medium pr-3">{c.text}</p>
+                    <span className={`${c.color} text-white text-[10px] px-2 py-1 rounded-md`}>
+                      {c.tag}
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    By Vinod | Jan 05, 2025
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <button className="mt-6 w-full text-sm text-emerald-600 font-medium hover:underline">
+              View all complaints →
+            </button>
+          </div>
+
+        </div>
+      </div>
     </div>
   )
 }

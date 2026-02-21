@@ -11,15 +11,17 @@ import {
   AlertCircle,
   Users,
   Settings,
+  ChevronDown,
 } from "lucide-react"
 import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 const menu = [
   { name: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
   { name: "Inventory", path: "/dashboard/inventory", icon: Boxes },
   { name: "Reports", path: "/dashboard/reports", icon: BarChart3 },
   { name: "Alerts", path: "/dashboard/alerts", icon: Bell },
-  { name: "Product Categories", path: "/dashboard/complaints", icon: AlertCircle },
+  { name: "Maintenance Management", path: "/dashboard/complaints", icon: AlertCircle },
   { name: "Vendors", path: "/dashboard/vendors", icon: Users },
   {
     name: "Asset Management",
@@ -74,10 +76,10 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
     <aside
       className={`bg-gradient-to-b from-[#14b86e] to-[#0f9d58]
       text-white h-screen fixed left-0 top-0 z-40
-      transition-all duration-300
+      transition-all duration-300 no-scrollbar overflow-y-auto 
       ${collapsed ? "w-24" : "w-64"}`}
     >
-      <div className="relative z-10 flex flex-col h-screen">
+      <div className="flex flex-col h-screen">
 
         {/* LOGO */}
         <div className="p-6 flex justify-center shrink-0">
@@ -91,79 +93,116 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
         </div>
 
         {/* NAV */}
-        <nav className="flex-1 space-y-2 overflow-y-auto no-scrollbar">
+        <nav className="flex-1 space-y-2 overflow-y-auto no-scrollbar px-0">
+
           {menu.map((item) => {
             const Icon = item.icon
             const hasChildren = !!item.children
             const isOpen = openMenu === item.name
-
             const isActive =
               pathname === item.path ||
               item.children?.some((sub) => pathname === sub.path)
 
             return (
               <div key={item.name}>
+
                 {/* MAIN ITEM */}
                 {hasChildren ? (
                   <div
                     onClick={() =>
                       setOpenMenu(isOpen ? null : item.name)
                     }
-                    className={`ml-3 pl-5 py-3 transition-all flex items-center cursor-pointer
-                    ${collapsed ? "justify-center" : "gap-3"}
-                    ${isActive
-                        ? "bg-white text-black rounded-bl-full rounded-tl-full shadow-[0_4px_15px_rgba(0,0,0,0.1)] font-semibold"
-                        : "text-white hover:bg-white/10 rounded-bl-full rounded-tl-full"
-                      }`}
+                    className="relative cursor-pointer"
                   >
-                    <Icon className="w-5 h-5 shrink-0" />
-                    {!collapsed && <span className="text-sm">{item.name}</span>}
+                    <motion.div
+                      layout
+                      className={`ml-3 pl-5 py-3 flex items-center
+                      ${collapsed ? "justify-center" : "gap-3"}
+                      ${
+                        isActive
+                          ? "bg-white text-black rounded-bl-full rounded-tl-full shadow"
+                          : "hover:bg-white/10 rounded-bl-full rounded-tl-full"
+                      }`}
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 300 }}
+                    >
+                      <Icon className="w-5 h-5" />
+                      {!collapsed && (
+                        <>
+                          <span className="text-xs flex-1">{item.name}</span>
+                          <motion.div
+                            animate={{ rotate: isOpen ? 180 : 0 }}
+                            transition={{ duration: 0.3 }}
+                                                    className="mr-3"
+
+                          >
+                            <ChevronDown size={16} />
+                          </motion.div>
+                        </>
+                      )}
+                    </motion.div>
                   </div>
                 ) : (
                   <Link href={item.path}>
-                    <div
-                      className={`ml-2 pl-5 py-3 transition-all flex items-center
+                    <motion.div
+                      layout
+                      className={`ml-3 pl-5 py-3 flex items-center
                       ${collapsed ? "justify-center" : "gap-3"}
-                      ${isActive
-                          ? "bg-white text-black rounded-bl-full rounded-tl-full shadow-[0_4px_15px_rgba(0,0,0,0.1)] font-semibold"
-                          : "text-white hover:bg-white/10 rounded-bl-full rounded-tl-full"
-                        }`}
+                      ${
+                        isActive
+                          ? "bg-white text-black rounded-bl-full rounded-tl-full shadow"
+                          : "hover:bg-white/10 rounded-bl-full rounded-tl-full"
+                      }`}
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ type: "spring", stiffness: 300 }}
                     >
-                      <Icon className="w-5 h-5 shrink-0" />
-                      {!collapsed && <span className="text-sm">{item.name}</span>}
-                    </div>
+                      <Icon className="w-5 h-5" />
+                      {!collapsed && <span className="text-xs">{item.name}</span>}
+                    </motion.div>
                   </Link>
                 )}
 
-                {/* SUB MENU */}
-                {/* SUB MENU */}
-                {!collapsed && hasChildren && isOpen && (
-                  <div className="ml-10 mt-2 space-y-2">
-                    {item.children.map((sub) => {
-                      const isSubActive = pathname === sub.path
-                      const SubIcon = sub.icon
+                {/* SUB MENU ANIMATION */}
+                <AnimatePresence initial={false}>
+                  {!collapsed && hasChildren && isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="ml-10 mt-2 space-y-2">
+                        {item.children.map((sub) => {
+                          const SubIcon = sub.icon
+                          const isSubActive = pathname === sub.path
 
-                      return (
-                        <Link key={sub.path} href={sub.path}>
-                          <div
-                            className={`flex items-center gap-3 px-4 py-2 text-sm rounded-bl-full rounded-tl-full transition-all
-            ${isSubActive
-                                ? "bg-white text-black font-medium shadow"
-                                : "text-white/80 hover:bg-white/10"
-                              }`}
-                          >
-                            {SubIcon && <SubIcon className="w-4 h-4 shrink-0" />}
-                            <span>{sub.name}</span>
-                          </div>
-                        </Link>
-                      )
-                    })}
-                  </div>
-                )}
+                          return (
+                            <Link key={sub.path} href={sub.path}>
+                              <motion.div
+                                whileHover={{ x: 5 }}
+                                className={`flex items-center gap-3 px-4 py-2 text-xs rounded-bl-full rounded-tl-full transition
+                                ${
+                                  isSubActive
+                                    ? "bg-white text-black font-medium shadow"
+                                    : "text-white/80 hover:bg-white/10"
+                                }`}
+                              >
+                                <SubIcon className="w-4 h-4" />
+                                {sub.name}
+                              </motion.div>
+                            </Link>
+                          )
+                        })}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
               </div>
             )
           })}
+
         </nav>
       </div>
     </aside>
