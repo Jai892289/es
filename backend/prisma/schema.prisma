@@ -1,0 +1,214 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+  VENDOR
+}
+
+enum Urgency {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ComplaintStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Department {
+  id          String   @id @default(uuid())
+name  String @unique
+  purpose     String?
+  location    String?
+  city        String?
+  state       String?
+  pincode     String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  products    Product[]
+    complaints          Complaint[]
+
+}
+
+model Vendor {
+  id              String   @id @default(uuid())
+  companyName     String   @unique
+
+  // contact
+  contactNumber   String
+  whatsappNumber  String?
+  email           String
+  website         String?
+
+  // person
+  fullName        String?
+
+  // address
+  addressLine1    String?
+  addressLine2    String?
+  city            String?
+  state           String?
+  pincode         String?
+
+  // business
+  gstNumber       String?
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  products        Product[]
+  bankDetails     VendorBankDetails?  
+  documents       VendorDocument[]
+  complaints      Complaint[]
+
+}
+
+model VendorBankDetails {
+  id            String @id @default(uuid())
+
+  vendorId      String @unique
+  vendor        Vendor @relation(fields: [vendorId], references: [id])
+
+  accountName   String
+  accountNumber String
+  bankName      String
+  branchCode    String?
+  ifscCode      String
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model VendorDocument {
+  id        String @id @default(uuid())
+
+  vendorId  String
+  vendor    Vendor @relation(fields: [vendorId], references: [id])
+
+  fileUrl   String
+  fileType  String
+
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id                  String   @id @default(uuid())
+
+  // Product Info
+  productName         String
+  category            String
+  quantity            Int
+  serialNumber        String?
+
+  // Dates
+  procurementDate     DateTime
+  warrantyExpiryDate  DateTime?
+
+  // Extra
+  amcAvailable        Boolean
+  invoiceNumber       String?
+
+  // Relations
+  departmentId        String
+  department          Department @relation(fields: [departmentId], references: [id])
+
+  vendorId            String
+  vendor              Vendor @relation(fields: [vendorId], references: [id])
+
+  complaints          Complaint[]
+
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model Complaint {
+  id                  String   @id @default(uuid())
+
+  title               String
+  description         String?
+  urgency             Urgency
+
+  // department
+  departmentId        String?
+  department          Department? @relation(fields: [departmentId], references: [id])
+  departmentName      String?
+
+  fullName            String
+  designation         String?
+  contactNumber       String
+  email               String
+  location            String?
+
+  // vendor
+  vendorId            String?
+  vendor              Vendor? @relation(fields: [vendorId], references: [id])
+  vendorCompanyName   String?
+  vendorContactName   String?
+  vendorContactNumber String?
+  vendorWhatsapp      String?
+  vendorEmail         String?
+  vendorLocation String?
+
+  // product
+  productId           String?
+  product             Product? @relation(fields: [productId], references: [id])
+  productName         String?
+
+  category            String?
+  otherProduct        String?
+  serialNumber        String?
+  amcContractNumber   String?
+
+  warrantyExpiryDate  DateTime?
+  issueDate           DateTime
+
+  // communication
+  sendWhatsapp        Boolean @default(false)
+  sendEmail           Boolean @default(false)
+
+  // lifecycle
+  status              ComplaintStatus @default(OPEN)
+  resolvedAt          DateTime?
+
+  attachments         ComplaintAttachment[]
+
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model ComplaintAttachment {
+  id          String   @id @default(uuid())
+
+  complaintId String
+  complaint   Complaint @relation(fields: [complaintId], references: [id])
+
+  fileUrl     String
+  fileType    String
+
+  createdAt   DateTime @default(now())
+}
+
