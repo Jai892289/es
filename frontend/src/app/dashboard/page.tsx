@@ -81,8 +81,8 @@ export default function DashboardPage() {
         {/* ------------------ PRODUCT CATEGORIES ------------------ */}
 
         {/* PRODUCT CATEGORIES */}
-<div className="mb-8">
-  <h2 className="text-sm font-semibold text-gray-700 mb-4">
+<div className="mb-2">
+<h2 className="text-sm font-semibold text-gray-700 mb-2 flex justify-center">
     Product Categories
   </h2>
 
@@ -95,15 +95,15 @@ export default function DashboardPage() {
   key={cat.name}
   className="group flex items-center gap-3 
   bg-gray-50 border border-gray-200 
-  rounded-2xl px-5 py-3 
+  rounded-2xl p-3 
   flex-shrink-0
   transition-all duration-300 cursor-pointer my-5 mx-1
 
-  hover:bg-blue-600 hover:text-white hover:shadow-md"
+  hover:bg-green-600 hover:text-white hover:shadow-md"
 >
   <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center
       group-hover:bg-white/20">
-    <Icon className="w-5 h-5 text-emerald-600 group-hover:text-white" />
+    <Icon className="w-10 h-10 text-emerald-600 group-hover:text-white" />
   </div>
 
   <div>
@@ -123,7 +123,7 @@ export default function DashboardPage() {
 
         {/* ------------------ OVERVIEW ------------------ */}
 
-        <h2 className="text-sm font-semibold text-gray-700 mt-8 mb-4">
+        <h2 className="text-sm font-semibold text-gray-700 mb-4 flex justify-center">
           Overview
         </h2>
 
@@ -136,13 +136,13 @@ export default function DashboardPage() {
           ].map((item) => (
             <div
               key={item.label}
-              className={`bg-white rounded-2xl border border-gray-200 p-6 transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2 hover:scale-[1.03] ${item.border}`}
+              className={`bg-white text-center rounded-2xl border border-gray-200 p-6 transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-2 hover:scale-[1.03] cursor-pointer`}
             >
               <p className="text-sm text-gray-600 mb-2">{item.label}</p>
-              <h2 className={`text-4xl font-bold ${item.color}`}>
+              <h2 className={`text-6xl py-2 font-bold ${item.color}`}>
                 {item.value}
               </h2>
-              <button className="text-xs text-emerald-600 mt-3 flex items-center gap-1 group">
+              <button className="text-xs text-emerald-600 mt-3 gap-1 group ">
                 View Details
                 <span className="transition-transform group-hover:translate-x-1">→</span>
               </button>
@@ -152,17 +152,17 @@ export default function DashboardPage() {
 
         {/* ------------------ LOWER SECTION ------------------ */}
 
-        <div className="grid lg:grid-cols-3 gap-6">
-
+<div className="grid lg:grid-cols-2 gap-6 ">
           {/* ------------------ CHART SECTION ------------------ */}
 
-          <div className="lg:col-span-2 bg-white rounded-2xl p-6 border-2 border-purple-400 shadow-sm relative">
+          <div className=" bg-white rounded-2xl p-6 border-2 border-purple-400 shadow-sm relative">
 
             <div className="flex justify-between items-center mb-6">
 
               <h3 className="font-semibold text-blue-600">
                 Yearly Procurement <br /> by Category
               </h3>
+              
 
               <div className="flex gap-3 relative">
 
@@ -276,54 +276,85 @@ export default function DashboardPage() {
 
           </div>
 
+
           {/* ------------------ COMPLAINTS ------------------ */}
 
-          <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
-            <h3 className="font-semibold mb-6 text-gray-800">
-              Recent Complaints
-            </h3>
+<div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm ">
+  <h3 className="font-semibold mb-6 text-blue-600">
+    Recent Complaints
+  </h3>
 
-            <div className="space-y-4">
-              {[
-                {
-                  text: "Laptop Malfunction Post-Warranty",
-                  tag: "High Priority",
-                  color: "bg-red-500",
-                },
-                {
-                  text: "Delayed AMC Service for Printers",
-                  tag: "Medium Priority",
-                  color: "bg-yellow-500",
-                },
-                {
-                  text: "Unresponsive Vendor for Software Licensing Renewal",
-                  tag: "Low Priority",
-                  color: "bg-blue-500",
-                },
-              ].map((c, i) => (
-                <div
-                  key={i}
-                  className="p-4 bg-gray-50 rounded-xl border hover:bg-gray-100 transition"
-                >
-                  <div className="flex justify-between">
-                    <p className="text-sm font-medium pr-3">{c.text}</p>
-                    <span className={`${c.color} text-white text-[10px] px-2 py-1 rounded-md`}>
-                      {c.tag}
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-500 mt-2">
-                    By Vinod | Jan 05, 2025
-                  </p>
-                </div>
-              ))}
-            </div>
+  <div className="space-y-4">
+    {[
+      {
+        text: "Laptop Malfunction Post-Warranty",
+        tag: "High Priority",
+        color: "bg-red-500",
+      },
+      {
+        text: "Delayed AMC Service for Printers",
+        tag: "Medium Priority",
+        color: "bg-yellow-500",
+      },
+      {
+        text: "Unresponsive Vendor for Software Licensing Renewal",
+        tag: "Low Priority",
+        color: "bg-blue-500",
+      },
+    ].map((c, i) => (
+      <div
+        key={i}
+        className="p-4 bg-gray-50 rounded-xl border border-gray-200 
+                   hover:bg-gray-100 transition duration-300 group cursor-pointer"
+      >
+<div className="flex justify-between items-start gap-3">
+            <p className="text-sm font-medium text-gray-800 leading-snug">
+            {c.text}
+          </p>
 
-            <button className="mt-6 w-full text-sm text-emerald-600 font-medium hover:underline">
-              View all complaints →
-            </button>
-          </div>
+
+
+      {/* Priority Badge */}
+      <span
+        className={`${c.color} text-white  text-[10px] px-3 py-1 mt-4 rounded-md 
+                    transform transition-all duration-300 
+                    group-hover:-translate-x-2 group-hover:scale-105`}
+      >
+        {c.tag}
+      </span>
+    </div>
+
+    <p className="text-xs text-gray-500 -mt-2">
+      By Vinod | Jan 05, 2025
+    </p>
+  </div>
+))}
+
+
+  </div>
+
+{/* View All */}
+<button
+className="mt-6 w-full text-sm text-emerald-600 font-medium
+flex items-center justify-start gap-1
+hover:underline group"
+
+>
+
+
+View all complaints
+
+<span className="transform transition-transform duration-300 group-hover:translate-x-1">
+  →
+</span>
+
+
+  </button>
+</div>
+
 
         </div>
+
       </div>
     </div>
   )

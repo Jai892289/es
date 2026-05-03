@@ -17,30 +17,65 @@ export default function LoginPage() {
   const [error, setError] = useState("")
   const router = useRouter()
 
-
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    console.log("dffer")
+  e.preventDefault();
+  setError("");
 
-    try {
-      const res = await loginApi({
-        email: username,
-        password: password,
-      });
+  // 🔴 STATIC CREDENTIALS
+  const STATIC_USERNAME = "admin";
+  const STATIC_PASSWORD = "123456";
 
-      localStorage.setItem("token", res.token || res.data?.token);
-            localStorage.setItem("auth", "true")
+  try {
+    // ❌ COMMENTED API CALL
+    // const res = await loginApi({
+    //   email: username,
+    //   password: password,
+    // });
 
-      localStorage.setItem("user", JSON.stringify(res.user || res.data?.user));
-      
+    // ✅ STATIC CHECK
+    if (username === STATIC_USERNAME && password === STATIC_PASSWORD) {
+      // mock data
+      const mockUser = {
+        name: "Admin User",
+        email: "admin@example.com",
+      };
+
+      const mockToken = "static-token-123";
+
+      localStorage.setItem("token", mockToken);
+      localStorage.setItem("auth", "true");
+      localStorage.setItem("user", JSON.stringify(mockUser));
 
       router.push("/dashboard");
-
-    } catch (err: any) {
-      setError(err.message || "Login failed");
+    } else {
+      throw new Error("Invalid username or password");
     }
-  };
+
+  } catch (err: any) {
+    setError(err.message || "Login failed");
+  }
+};
+
+
+  // const handleLogin = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError("");
+
+  //   try {
+  //     const res = await loginApi({
+  //       email: username,
+  //       password: password,
+  //     });
+
+  //     localStorage.setItem("token", res.token || res.data?.token);
+  //     localStorage.setItem("auth", "true")
+  //     localStorage.setItem("user", JSON.stringify(res.user || res.data?.user));
+  //     router.push("/dashboard");
+
+  //   } catch (err: any) {
+  //     setError(err.message || "Login failed");
+  //   }
+  // };
 
   return (
     <div
