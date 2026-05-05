@@ -98,7 +98,7 @@ export default function LoginPage() {
           {/* Text Content */}
           <div className="max-w-2xl z-10 ">
             <h1 className="text-5xl font-bold leading-tight mb-0">
-              Welcome to <span className="font-extrabold">G-Sampada</span>
+              Welcome to <span className="font-extrabold">E-Sampada</span>
             </h1>
 
             <p className="text-lg leading-relaxed opacity-90">
@@ -112,19 +112,19 @@ export default function LoginPage() {
         {/* ================= RIGHT SIDE ================= */}
         <div className="flex items-center justify-center px-6">
 
-          <div className="bg-gray-100 rounded-2xl p-10 shadow-2xl border border-green-400 w-full max-w-md">
+          <div className="bg-green-500 rounded-2xl p-10 shadow-2xl border border-green-400 w-full max-w-md">
 
             {/* Logo + Text */}
             <div className="text-center mb-8">
               <Image
-                src="/mainIconnew.png"
+                src="/eccentriclogo.png"
                 alt="logo"
                 width={120}
                 height={40}
                 className="mx-auto mb-4"
               />
 
-              <p className="text-gray-700 text-sm">
+              <p className="text-white text-sm">
                 Login now to access real-time insights and
                 <br />
                 keep operations running smoothly.
@@ -161,7 +161,7 @@ export default function LoginPage() {
 
               {/* Remember + Forgot */}
               <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center gap-2 text-gray-700 cursor-pointer">
+                <label className="flex items-center gap-2 text-white cursor-pointer">
                   <input
                     type="checkbox"
                     checked={rememberMe}
@@ -173,7 +173,7 @@ export default function LoginPage() {
 
                 <button
                   type="button"
-                  className="text-gray-600 hover:text-green-600 hover:underline cursor-pointer"
+                  className="text-white hover:text-green-600 hover:underline cursor-pointer"
                 >
                   Forgot Password?
                 </button>
@@ -189,18 +189,18 @@ export default function LoginPage() {
               {/* Login Button */}
               <button
                 type="submit"
-                className="w-full h-12 bg-green-500 hover:bg-green-600 text-white cursor-pointer rounded-full font-semibold flex items-center justify-center gap-2 transition-all"
+                className="w-full h-12 border border-gray-100 bg-green-500 hover:bg-green-600 text-white cursor-pointer rounded-full font-semibold flex items-center justify-center gap-2 transition-all"
               >
                 Login
                 <ArrowRight className="h-5 w-5" />
               </button>
 
               {/* Signup */}
-              <p className="text-center text-gray-700 text-sm mt-6">
+              <p className="text-center text-white text-sm mt-6">
                 Don’t have an account yet?{" "}
                 <button
                   type="button"
-                  className="text-green-600 font-semibold hover:underline cursor-pointer"
+                  className="text-white font-semibold hover:underline cursor-pointer"
                 >
                   Sign up
                 </button>

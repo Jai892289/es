@@ -298,9 +298,9 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
         {/* LOGO */}
         <div className="p-6 flex justify-center shrink-0">
           <Image
-            src="/sidebarIcon.png"
+            src="/eccentriclogo.png"
             alt="logo"
-            width={collapsed ? 0 : 100}
+            width={collapsed ? 0 : 180}
             height={100}
             className="object-contain transition-all duration-300"
           />
