@@ -154,7 +154,7 @@ export const approveAssetTransferController = async (
 ) => {
   try {
 
-    const { id } = req.params;
+    const { id }:any = req.params;
 
     const { approvedBy } = req.body;
 

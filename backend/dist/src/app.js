@@ -1,0 +1,37 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
+const inventory_route_1 = __importDefault(require("./routes/inventory.route"));
+const vendor_route_1 = __importDefault(require("./routes/vendor.route"));
+const complaint_route_1 = __importDefault(require("./routes/complaint.route"));
+const dashboard_route_1 = __importDefault(require("./routes/dashboard.route"));
+const project_route_1 = __importDefault(require("./routes/project.route"));
+const user_route_1 = __importDefault(require("./routes/user.route"));
+const department_route_1 = __importDefault(require("./routes/department.route"));
+const analytics_route_1 = __importDefault(require("./routes/analytics.route"));
+const inspecction_route_1 = __importDefault(require("./routes/inspecction.route"));
+const auth_middleware_1 = require("./middleware/auth.middleware");
+const role_middleware_1 = require("./middleware/role.middleware");
+const client_1 = require("@prisma/client");
+const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
+app.use(express_1.default.json());
+app.use("/api/auth", auth_routes_1.default);
+app.use("/api/inventory", inventory_route_1.default);
+app.use("/api/vendor", vendor_route_1.default);
+app.use("/api/complaint", complaint_route_1.default);
+app.use("/api/dashboard", dashboard_route_1.default);
+app.use("/api/project", project_route_1.default);
+app.use("/api/users", user_route_1.default);
+app.use("/api/departments", department_route_1.default);
+app.use("/api/analytics", analytics_route_1.default);
+app.use("/api/inspection", inspecction_route_1.default);
+app.get("/", auth_middleware_1.authMiddleware, (0, role_middleware_1.authorizeRoles)(client_1.Role.ADMIN), (req, res) => {
+    res.send("API is running");
+});
+exports.default = app;

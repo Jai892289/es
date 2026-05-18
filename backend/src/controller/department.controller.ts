@@ -39,7 +39,7 @@ export const getDepartmentsController =
   };
 
 export const getSingleDepartmentController =
-  async (req: Request, res: Response) => {
+  async (req: any, res: Response) => {
     try {
       const department =
         await getSingleDepartment(
@@ -59,7 +59,7 @@ export const getSingleDepartmentController =
   };
 
 export const updateDepartmentController =
-  async (req: Request, res: Response) => {
+  async (req: any, res: Response) => {
     try {
       const department =
         await updateDepartment(
@@ -80,7 +80,7 @@ export const updateDepartmentController =
   };
 
 export const deleteDepartmentController =
-  async (req: Request, res: Response) => {
+  async (req: any, res: Response) => {
     try {
       await deleteDepartment(req.params.id);
 

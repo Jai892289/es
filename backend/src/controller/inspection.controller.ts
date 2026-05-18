@@ -76,7 +76,7 @@ export const getAllInspectionsController =
 
 export const getInspectionByIdController =
   async (
-    req: Request,
+    req: any,
     res: Response
   ) => {
     try {
@@ -122,7 +122,7 @@ export const getUpcomingRemindersController =
 
 export const updateInspectionController =
   async (
-    req: Request,
+    req: any,
     res: Response
   ) => {
     try {
@@ -150,7 +150,7 @@ export const updateInspectionController =
 
 export const updateInspectionStatusController =
   async (
-    req: Request,
+    req: any,
     res: Response
   ) => {
     try {
@@ -178,7 +178,7 @@ export const updateInspectionStatusController =
 
 export const deleteInspectionController =
   async (
-    req: Request,
+    req: any,
     res: Response
   ) => {
     try {
@@ -249,7 +249,7 @@ export const getAll =
   };
 
 export const getById =
-  async (req: Request, res: Response) => {
+  async (req: any, res: Response) => {
 
     try {
 
@@ -299,7 +299,7 @@ export const getDashboard =
 
 export const approveReport =
   async (
-    req: Request,
+    req: any,
     res: Response
   ) => {
 

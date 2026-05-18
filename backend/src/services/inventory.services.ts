@@ -122,7 +122,7 @@ export const getCategory = async () => {
     );
 
     const totalAmount = category.products.reduce(
-      (sum, product) =>
+      (sum, product:any) =>
         sum + (product.quantity * product?.unitPrice),
       0
     );

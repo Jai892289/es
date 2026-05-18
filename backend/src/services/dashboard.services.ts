@@ -281,7 +281,7 @@ export const getReportsSummary = async (query: any) => {
   // =========================
 
   const stockValue = products.reduce(
-    (sum, product) =>
+    (sum, product:any) =>
       sum + (product.quantity * product.unitPrice),
     0
   );
@@ -390,7 +390,7 @@ export const getReportsSummary = async (query: any) => {
     Dec: 0,
   };
 
-  products.forEach((product) => {
+  products.forEach((product:any) => {
 
     const month =
       product.procurementDate.toLocaleString(

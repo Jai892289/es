@@ -45,7 +45,7 @@ export const getUsersController = async (
 };
 
 export const getSingleUserController = async (
-  req: Request,
+  req: any,
   res: Response
 ) => {
   try {
@@ -63,7 +63,7 @@ export const getSingleUserController = async (
 };
 
 export const updateUserController = async (
-  req: Request,
+  req: any,
   res: Response
 ) => {
   try {
@@ -84,7 +84,7 @@ export const updateUserController = async (
 };
 
 export const deleteUserController = async (
-  req: Request,
+  req: any,
   res: Response
 ) => {
   try {
