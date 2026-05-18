@@ -177,7 +177,7 @@ export default function AssetCategoryPage() {
               {/* TOP */}
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-blue-100 text-blue-600">
-                  <Icon className="w-5 h-5" />
+                  {/* <Icon className="w-5 h-5" /> */}
                 </div>
 
                 <button className="text-blue-600 text-sm hover:underline">
