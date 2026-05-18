@@ -27,31 +27,117 @@ enum ComplaintStatus {
   CLOSED
 }
 
+enum AssetStatus {
+  IN_USE
+  IN_STORE
+  IN_REPAIR
+  RETIRED
+  DAMAGED
+  NON_FUNCTIONAL
+}
+
+enum TransferStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+enum ReplacementStatus {
+  PENDING
+  COMPLETED
+}
+
+enum UserRole {
+  ADMIN
+  INSPECTION_OFFICER
+  DEPARTMENT_HEAD
+  PROJECT_MANAGER
+  EMPLOYEE
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum InspectionStatus {
+  SCHEDULED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum InspectionPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+
 model User {
   id        String   @id @default(uuid())
+
   name      String
   email     String   @unique
   password  String
-  role      Role     @default(USER)
+
+  mobileNumber String?
+  designation  String?
+
+  status    UserStatus @default(ACTIVE)
+
+  lastLogin DateTime?
+
+  role      Role @default(USER)
+
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id])
+
+  assetMappings AssetMapping[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Department {
   id          String   @id @default(uuid())
-name  String @unique
+
+  name        String   @unique
+
   purpose     String?
   location    String?
   city        String?
   state       String?
   pincode     String?
 
+  // NEW FIELDS
+  code        String?   @unique
+  description String?
+  adminName   String?
+
+  totalStaff  Int       @default(0)
+  totalAssets Int       @default(0)
+
+  isActive    Boolean   @default(true)
+
+  // transfer relations
+  transfersFrom AssetTransfer[] @relation("FromDepartment")
+
+  transfersTo   AssetTransfer[] @relation("ToDepartment")
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   products    Product[]
-    complaints          Complaint[]
 
+  users       User[]
+
+  replacements AssetReplacement[]
+
+  complaints   Complaint[]
+
+  mappings     AssetMapping[]
 }
 
 model Vendor {
@@ -114,13 +200,12 @@ model VendorDocument {
 
   createdAt DateTime @default(now())
 }
-
+ 
 model Product {
   id                  String   @id @default(uuid())
 
   // Product Info
   productName         String
-  category            String
   quantity            Int
   serialNumber        String?
 
@@ -132,6 +217,9 @@ model Product {
   amcAvailable        Boolean
   invoiceNumber       String?
 
+  unitPrice Float?
+  status AssetStatus?
+
   // Relations
   departmentId        String
   department          Department @relation(fields: [departmentId], references: [id])
@@ -139,11 +227,114 @@ model Product {
   vendorId            String
   vendor              Vendor @relation(fields: [vendorId], references: [id])
 
+  categoryId          String
+  category            Category @relation(fields: [categoryId], references: [id])
+
+  transfers           AssetTransfer[]
+
+  mappings AssetMapping[]
+
+
   complaints          Complaint[]
+  projectAssets ProjectAsset[]
+  inspections Inspection[]
+
+  oldReplacements AssetReplacement[] @relation("OldProductReplacement")
+
+  newReplacements AssetReplacement[] @relation("NewProductReplacement")
 
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
 }
+
+model AssetReplacement {
+  id String @id @default(uuid())
+
+  // old product
+  oldProductId String
+  oldProduct   Product @relation("OldProductReplacement",fields: [oldProductId],references: [id])
+
+  // new product
+  newProductId String
+  newProduct   Product @relation("NewProductReplacement",fields: [newProductId],references: [id])
+
+  departmentId String?
+  department   Department? @relation(fields: [departmentId],references: [id])
+
+  reason String?
+
+  replacedBy String
+
+  status ReplacementStatus @default(COMPLETED)
+
+  replacementDate DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AssetTransfer {
+  id String @id @default(uuid())
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  fromDepartmentId String?
+  fromDepartment   Department? @relation("FromDepartment", fields: [fromDepartmentId], references: [id])
+
+  toDepartmentId String?
+  toDepartment   Department? @relation("ToDepartment", fields: [toDepartmentId], references: [id])
+
+  transferredBy String
+  approvedBy    String?
+
+  reason String?
+
+  status TransferStatus @default(PENDING)
+
+  transferDate DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model AssetMapping {
+  id String @id @default(uuid())
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  userId String?
+  user   User? @relation(fields: [userId], references: [id])
+
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id])
+
+  assignedDate DateTime @default(now())
+
+  returnedDate DateTime?
+
+  isActive Boolean @default(true)
+
+  remarks String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  products    Product[]
+}
+
 
 model Complaint {
   id                  String   @id @default(uuid())
@@ -212,3 +403,270 @@ model ComplaintAttachment {
   createdAt   DateTime @default(now())
 }
 
+model Project {
+  id              String   @id @default(uuid())
+
+  projectId       String?   @unique
+  projectName     String
+
+  category        String
+  schemeName      String?
+
+  projectType     String
+
+  department      String
+
+  priorityLevel   String?
+
+  status          String   @default("Pending")
+
+  progress        Int      @default(0)
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+
+
+  // relations
+
+  location         ProjectLocation?
+  description      ProjectDescription?
+  timeline         ProjectTimeline?
+  budget           ProjectBudget?
+  vendor           ProjectVendor?
+
+  assets           ProjectAsset[]
+  inspections Inspection[]
+
+  milestones       ProjectMilestone[]
+
+  team             ProjectTeam?
+
+  approvals        ProjectApproval[]
+}
+
+model ProjectLocation {
+
+  id          String @id @default(uuid())
+
+  projectId   String? @unique
+
+  state       String?
+  district    String
+  block       String
+  ward        String
+
+  address     String?
+
+  project     Project? @relation(fields: [projectId],references: [id])
+}
+
+model ProjectDescription {
+
+  id            String @id @default(uuid())
+
+  projectId     String? @unique
+
+  description   String
+
+  scope         String?
+
+  fileUrl       String?
+
+  project       Project? @relation(fields: [projectId],references: [id])
+}
+
+
+model ProjectTimeline {
+
+  id          String @id @default(uuid())
+
+  projectId   String? @unique
+
+  startDate   DateTime
+
+  endDate     DateTime
+
+  project     Project? @relation(fields: [projectId],references: [id])
+}
+
+
+model ProjectBudget {
+
+  id                String @id @default(uuid())
+
+  projectId         String? @unique
+
+  totalBudget       Float
+
+  fundingSource     String?
+
+  expenseBreakdown  String?
+
+  project           Project? @relation(fields: [projectId],references: [id])
+}
+
+model ProjectVendor {
+
+  id              String @id @default(uuid())
+
+  projectId       String? @unique
+
+  vendorName      String
+
+  companyName     String?
+
+  contactDetails  String?
+
+  contractValue   Float?
+
+  agreementFile   String?
+
+  project         Project? @relation(fields: [projectId],references: [id])
+}
+
+model ProjectAsset {
+
+  id          String @id @default(uuid())
+
+  projectId   String?
+
+  productId   String
+
+  project     Project? @relation(fields: [projectId],references: [id])
+
+  product     Product? @relation(fields: [productId],references: [id] )
+}
+
+model ProjectMilestone {
+
+  id            String @id @default(uuid())
+
+  projectId     String?
+
+  milestoneName String
+
+  dueDate       DateTime
+
+  budgetPercent Float?
+
+  status        String @default("Pending")
+
+  project       Project? @relation(fields: [projectId],references: [id])
+}
+
+model ProjectTeam {
+
+  id                String @id @default(uuid())
+
+  projectId         String? @unique
+
+  projectManager    String
+
+  supervisor        String?
+
+  departmentHead    String?
+
+  project           Project? @relation(fields: [projectId],references: [id])
+}
+
+model ProjectApproval {
+
+  id            String @id @default(uuid())
+
+  projectId     String?
+
+  levelName     String
+
+  isApproved    Boolean @default(false)
+
+  approvedBy    String?
+
+  approvedAt    DateTime?
+
+  order         Int
+
+  project       Project? @relation(fields: [projectId],references: [id])
+}
+
+model Inspection {
+
+  id String @id @default(uuid())
+
+  inspectionId String @unique
+
+  title String
+
+  type String?
+
+  priority String?
+
+  status String?
+
+  scheduledDate DateTime?
+
+  reminderDate DateTime?
+
+  location String?
+
+  inspectorName String?
+
+  notes String?
+  reports InspectionReport[]
+
+  projectId String?
+
+  project Project? @relation(fields: [projectId], references: [id])
+
+  productId String?
+
+  product Product? @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
+
+
+model InspectionReport {
+
+  id String @id @default(uuid())
+
+  inspectionId String
+
+  inspection Inspection @relation(fields: [inspectionId],references: [id])
+
+  observation String
+
+  complianceStatus String
+
+  recommendation String?
+
+  inspectionResult String
+
+  latitude String?
+
+  longitude String?
+
+  address String?
+
+  photoUrls String[]
+
+  videoUrls String[]
+
+  signatureUrl String?
+
+  supervisorStatus String @default("PENDING")
+
+supervisorComment String?
+
+approvedBy String?
+
+approvedAt DateTime?
+
+  status String @default("SUBMITTED")
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+}
