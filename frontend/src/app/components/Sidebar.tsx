@@ -35,7 +35,7 @@ const menu = [
   },
 
   { name: "Reports", path: "/dashboard/reports", icon: BarChart3 },
-  { name: "Alerts", path: "/dashboard/alerts", icon: Bell },
+  // { name: "Alerts", path: "/dashboard/alerts", icon: Bell },
   { name: "Maintenance Management", path: "/dashboard/complaints", icon: AlertCircle },
   { name: "Vendors", path: "/dashboard/vendors", icon: Users },
   { name: "Project Management", path: "/dashboard/project-management", icon: Boxes },
