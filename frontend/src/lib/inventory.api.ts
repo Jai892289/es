@@ -9,11 +9,20 @@ export const createInventoryApi = (data: any) => {
 };
 
 // GET INVENTORY
-export const getInventoryApi = () => {
-  return apiFetch("/inventory", {
-    method: "GET",
-  });
-};
+export const getInventoryApi = (query = "") => {
+
+  return apiFetch(
+    `/inventory${query ? `?${query}` : ""}`,
+    {
+      method: "GET",
+    }
+  )
+}
+// export const getInventoryApi = () => {
+//   return apiFetch("/inventory", {
+//     method: "GET",
+//   });
+// };
 
 export const getInventoryByIdApi = (id: string) => {
   return apiFetch(`/inventory/${id}`, {
@@ -53,5 +62,14 @@ export const getDepartmentWiseAssetMappingsApi = () => {
 export const getAssetReplacementsApi = () => {
   return apiFetch("/inventory/replacements", {
     method: "GET",
+  });
+};
+
+
+// CREATE ASSET TRANSFER
+export const createAssetTransferApi = (data: any) => {
+  return apiFetch("/inventory/transfers", {
+    method: "POST",
+    body: JSON.stringify(data),
   });
 };

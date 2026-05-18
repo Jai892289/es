@@ -8,13 +8,16 @@ import {
   XCircle,
   AlertTriangle,
   Upload,
+  ClipboardCheck,
 } from "lucide-react"
 
 import { createInspectionReportApi } from "@/lib/inspection.api"
 
 export default function InspectionReportingPage() {
+
   const initialFormData = {
-    inspectionId: "3bdbf692-6287-4fea-a0ae-7eabb684e0ae",
+    inspectionId:
+      "3bdbf692-6287-4fea-a0ae-7eabb684e0ae",
 
     observation: "",
 
@@ -42,9 +45,11 @@ export default function InspectionReportingPage() {
   const [formData, setFormData] =
     useState(initialFormData)
 
-  const [errors, setErrors] = useState<any>({})
+  const [errors, setErrors] =
+    useState<any>({})
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] =
+    useState(false)
 
   /* ---------------- HANDLE CHANGE ---------------- */
 
@@ -52,6 +57,7 @@ export default function InspectionReportingPage() {
     field: string,
     value: any
   ) => {
+
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -63,33 +69,49 @@ export default function InspectionReportingPage() {
     }))
   }
 
-  /* ---------------- GEO LOCATION ---------------- */
+  /* ---------------- LOCATION ---------------- */
 
-  const getCurrentLocation = () => {
-    if (!navigator.geolocation) {
-      alert("Geolocation is not supported")
-      return
-    }
+  const getCurrentLocation =
+    () => {
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        handleChange(
-          "latitude",
-          position.coords.latitude.toString()
+      if (
+        !navigator.geolocation
+      ) {
+
+        alert(
+          "Geolocation is not supported"
         )
 
-        handleChange(
-          "longitude",
-          position.coords.longitude.toString()
-        )
-      },
-      (error) => {
-        console.log("Location Error", error)
-
-        alert("Unable to fetch location")
+        return
       }
-    )
-  }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+
+          handleChange(
+            "latitude",
+            position.coords.latitude.toString()
+          )
+
+          handleChange(
+            "longitude",
+            position.coords.longitude.toString()
+          )
+        },
+
+        (error) => {
+
+          console.log(
+            "Location Error",
+            error
+          )
+
+          alert(
+            "Unable to fetch location"
+          )
+        }
+      )
+    }
 
   /* ---------------- FILE UPLOAD ---------------- */
 
@@ -97,493 +119,581 @@ export default function InspectionReportingPage() {
     field: string,
     files: FileList | null
   ) => {
-    if (!files || files.length === 0) return
 
-    const uploadedFiles = Array.from(files).map(
-      (file) => URL.createObjectURL(file)
+    if (
+      !files ||
+      files.length === 0
     )
+      return
 
-    handleChange(field, uploadedFiles)
+    const uploadedFiles =
+      Array.from(files).map(
+        (file) =>
+          URL.createObjectURL(
+            file
+          )
+      )
+
+    handleChange(
+      field,
+      uploadedFiles
+    )
   }
 
   /* ---------------- VALIDATION ---------------- */
 
   const validateForm = () => {
+
     let newErrors: any = {}
 
-    if (!formData.inspectionId.trim()) {
+    if (
+      !formData.inspectionId.trim()
+    ) {
+
       newErrors.inspectionId =
         "Inspection ID is required"
     }
 
-    if (!formData.observation.trim()) {
+    if (
+      !formData.observation.trim()
+    ) {
+
       newErrors.observation =
         "Observation is required"
     }
 
-    if (!formData.complianceStatus.trim()) {
+    if (
+      !formData.complianceStatus.trim()
+    ) {
+
       newErrors.complianceStatus =
         "Compliance status is required"
     }
 
-    if (!formData.inspectionResult.trim()) {
+    if (
+      !formData.inspectionResult.trim()
+    ) {
+
       newErrors.inspectionResult =
         "Inspection result is required"
     }
 
-    if (!formData.latitude.trim()) {
+    if (
+      !formData.latitude.trim()
+    ) {
+
       newErrors.latitude =
         "Latitude is required"
     }
 
-    if (!formData.longitude.trim()) {
+    if (
+      !formData.longitude.trim()
+    ) {
+
       newErrors.longitude =
         "Longitude is required"
     }
 
-    if (!formData.address.trim()) {
+    if (
+      !formData.address.trim()
+    ) {
+
       newErrors.address =
         "Address is required"
     }
 
-    if (formData.photoUrls.length === 0) {
+    if (
+      formData.photoUrls
+        .length === 0
+    ) {
+
       newErrors.photoUrls =
         "Photo upload is required"
     }
 
-    if (formData.videoUrls.length === 0) {
+    if (
+      formData.videoUrls
+        .length === 0
+    ) {
+
       newErrors.videoUrls =
         "Video upload is required"
     }
 
-    if (!formData.signatureUrl.trim()) {
+    if (
+      !formData.signatureUrl.trim()
+    ) {
+
       newErrors.signatureUrl =
         "Signature upload is required"
     }
 
     setErrors(newErrors)
 
-    return Object.keys(newErrors).length === 0
+    return (
+      Object.keys(newErrors)
+        .length === 0
+    )
   }
 
   /* ---------------- SUBMIT ---------------- */
 
-  const handleSubmit = async (
-    e: any
-  ) => {
-    e.preventDefault()
+  const handleSubmit =
+    async (e: any) => {
 
-    const isValid = validateForm()
+      e.preventDefault()
 
-    if (!isValid) return
+      const isValid =
+        validateForm()
 
-    try {
-      setLoading(true)
+      if (!isValid) return
 
-      const response =
-        await createInspectionReportApi(
-          formData
+      try {
+
+        setLoading(true)
+
+        const response =
+          await createInspectionReportApi(
+            formData
+          )
+
+        console.log(
+          "Inspection Report Submitted",
+          response
         )
 
-      console.log(
-        "Inspection Report Submitted",
-        response
-      )
+        alert(
+          "Inspection report submitted successfully"
+        )
 
-      alert(
-        "Inspection report submitted successfully"
-      )
+        setFormData(
+          initialFormData
+        )
 
-      // RESET FORM
-      setFormData(initialFormData)
+        setErrors({})
 
-      setErrors({})
-    } catch (error) {
-      console.log(
-        "Inspection Report Error",
-        error
-      )
-    } finally {
-      setLoading(false)
+      } catch (error) {
+
+        console.log(
+          "Inspection Report Error",
+          error
+        )
+
+      } finally {
+
+        setLoading(false)
+      }
     }
-  }
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-8"
+      className="space-y-7"
     >
-      {/* HEADER */}
-      <div className="bg-white border rounded-xl p-6">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Inspection Reporting
-        </h2>
 
-        <p className="text-sm text-gray-500 mt-1">
-          Submit inspection report with
-          geo-tagged details
-        </p>
+      {/* HERO */}
+
+      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 text-white shadow-xl">
+
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
+
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+
+          {/* LEFT */}
+
+          <div>
+
+            <div className="flex items-center gap-5">
+
+              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+
+                <ClipboardCheck className="w-10 h-10" />
+              </div>
+
+              <div>
+
+                <h1 className="text-4xl font-bold tracking-tight">
+                  Inspection Reporting
+                </h1>
+
+                <p className="text-green-50 mt-2 text-sm">
+                  Submit geo-tagged inspection reports with media evidence
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-10 mt-10">
+
+              <div>
+
+                <h2 className="text-5xl font-bold">
+                  24
+                </h2>
+
+                <p className="text-green-100 text-sm mt-1">
+                  Reports Submitted
+                </p>
+              </div>
+
+              <div>
+
+                <h2 className="text-5xl font-bold">
+                  98%
+                </h2>
+
+                <p className="text-green-100 text-sm mt-1">
+                  Compliance Accuracy
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT */}
+
+          <div className="grid grid-cols-1 gap-4 min-w-[320px]">
+
+            <MiniCard
+              title="Live Tracking"
+              value="Enabled"
+            />
+
+            <MiniCard
+              title="Media Upload"
+              value="Ready"
+            />
+
+            <MiniCard
+              title="Report Status"
+              value="Draft"
+            />
+          </div>
+        </div>
       </div>
 
       {/* FORM */}
-      <div className="bg-white border rounded-xl p-6 space-y-6">
-        {/* INSPECTION ID */}
-        <div>
-          <label className="text-sm font-medium text-gray-700">
-            Inspection ID *
-          </label>
 
-          <input
-            type="text"
-            placeholder="Enter inspection ID"
-            value={formData.inspectionId}
-            onChange={(e) =>
-              handleChange(
-                "inspectionId",
-                e.target.value
-              )
-            }
-            className="mt-2 w-full border rounded-lg p-3 text-sm"
-          />
+      <div className="bg-white border border-gray-100 rounded-[34px] shadow-sm overflow-hidden">
 
-          {errors.inspectionId && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.inspectionId}
+        {/* TOP BAR */}
+
+        <div className="px-8 py-6 border-b border-gray-100 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+
+          <div>
+
+            <h2 className="text-2xl font-bold text-gray-800">
+              Inspection Report Form
+            </h2>
+
+            <p className="text-sm text-gray-500 mt-1">
+              Fill all mandatory details before submitting
             </p>
-          )}
-        </div>
+          </div>
 
-        {/* OBSERVATION */}
-        <Textarea
-          label="Observation *"
-          placeholder="Enter observations"
-          value={formData.observation}
-          onChange={(e: any) =>
-            handleChange(
-              "observation",
-              e.target.value
-            )
-          }
-        />
-
-        {errors.observation && (
-          <p className="text-red-500 text-xs -mt-4">
-            {errors.observation}
-          </p>
-        )}
-
-        {/* COMPLIANCE STATUS */}
-        <RadioGroup
-          label="Compliance Status *"
-          value={formData.complianceStatus}
-          onChange={(value: string) =>
-            handleChange(
-              "complianceStatus",
-              value
-            )
-          }
-          options={[
-            {
-              label: "COMPLIANT",
-              icon: <CheckCircle />,
-            },
-            {
-              label: "PARTIAL",
-              icon: <AlertTriangle />,
-            },
-            {
-              label: "NON_COMPLIANT",
-              icon: <XCircle />,
-            },
-          ]}
-        />
-
-        {errors.complianceStatus && (
-          <p className="text-red-500 text-xs -mt-4">
-            {errors.complianceStatus}
-          </p>
-        )}
-
-        {/* INSPECTION RESULT */}
-        <RadioGroup
-          label="Inspection Result *"
-          value={formData.inspectionResult}
-          onChange={(value: string) =>
-            handleChange(
-              "inspectionResult",
-              value
-            )
-          }
-          options={[
-            {
-              label: "PASSED",
-              icon: <CheckCircle />,
-            },
-            {
-              label: "FAILED",
-              icon: <XCircle />,
-            },
-            {
-              label: "NEEDS_REWORK",
-              icon: <AlertTriangle />,
-            },
-          ]}
-        />
-
-        {errors.inspectionResult && (
-          <p className="text-red-500 text-xs -mt-4">
-            {errors.inspectionResult}
-          </p>
-        )}
-
-        {/* RECOMMENDATION */}
-        <Textarea
-          label="Recommendation"
-          placeholder="Enter recommendation"
-          value={formData.recommendation}
-          onChange={(e: any) =>
-            handleChange(
-              "recommendation",
-              e.target.value
-            )
-          }
-        />
-
-        {/* LOCATION */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-gray-700">
-              Location *
-            </label>
+          <div className="flex items-center gap-3 flex-wrap">
 
             <button
               type="button"
-              onClick={getCurrentLocation}
-              className="text-sm bg-blue-50 text-blue-600 px-4 py-2 rounded-lg"
+              onClick={
+                getCurrentLocation
+              }
+              className="h-12 px-5 rounded-2xl bg-blue-50 hover:bg-blue-100 transition text-blue-600 text-sm font-medium"
             >
               Auto Detect Location
             </button>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* LATITUDE */}
-            <div>
-              <input
-                type="text"
+            <button
+              type="submit"
+              disabled={loading}
+              className="h-12 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 transition text-white text-sm font-medium shadow-lg disabled:opacity-50"
+            >
+              {loading
+                ? "Submitting..."
+                : "Submit Report"}
+            </button>
+          </div>
+        </div>
+
+        {/* BODY */}
+
+        <div className="p-8 space-y-10">
+
+          {/* BASIC INFO */}
+
+          <Section title="Basic Information">
+
+            <InputField
+              label="Inspection ID *"
+              placeholder="Enter inspection ID"
+              value={
+                formData.inspectionId
+              }
+              onChange={(
+                e: any
+              ) =>
+                handleChange(
+                  "inspectionId",
+                  e.target.value
+                )
+              }
+              error={
+                errors.inspectionId
+              }
+            />
+
+            <Textarea
+              label="Observation *"
+              placeholder="Enter detailed observations"
+              value={
+                formData.observation
+              }
+              onChange={(
+                e: any
+              ) =>
+                handleChange(
+                  "observation",
+                  e.target.value
+                )
+              }
+            />
+
+            <Textarea
+              label="Recommendation"
+              placeholder="Enter recommendations"
+              value={
+                formData.recommendation
+              }
+              onChange={(
+                e: any
+              ) =>
+                handleChange(
+                  "recommendation",
+                  e.target.value
+                )
+              }
+            />
+          </Section>
+
+          {/* COMPLIANCE */}
+
+          <Section title="Compliance & Result">
+
+            <RadioGroup
+              label="Compliance Status *"
+              value={
+                formData.complianceStatus
+              }
+              onChange={(
+                value: string
+              ) =>
+                handleChange(
+                  "complianceStatus",
+                  value
+                )
+              }
+              options={[
+                {
+                  label:
+                    "COMPLIANT",
+                  icon:
+                    <CheckCircle />,
+                },
+                {
+                  label:
+                    "PARTIAL",
+                  icon:
+                    <AlertTriangle />,
+                },
+                {
+                  label:
+                    "NON_COMPLIANT",
+                  icon:
+                    <XCircle />,
+                },
+              ]}
+            />
+
+            <RadioGroup
+              label="Inspection Result *"
+              value={
+                formData.inspectionResult
+              }
+              onChange={(
+                value: string
+              ) =>
+                handleChange(
+                  "inspectionResult",
+                  value
+                )
+              }
+              options={[
+                {
+                  label:
+                    "PASSED",
+                  icon:
+                    <CheckCircle />,
+                },
+                {
+                  label:
+                    "FAILED",
+                  icon:
+                    <XCircle />,
+                },
+                {
+                  label:
+                    "NEEDS_REWORK",
+                  icon:
+                    <AlertTriangle />,
+                },
+              ]}
+            />
+          </Section>
+
+          {/* LOCATION */}
+
+          <Section title="Geo Location">
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+              <InputField
+                label="Latitude *"
                 placeholder="Enter latitude"
-                value={formData.latitude}
-                onChange={(e) =>
+                value={
+                  formData.latitude
+                }
+                onChange={(
+                  e: any
+                ) =>
                   handleChange(
                     "latitude",
                     e.target.value
                   )
                 }
-                className="w-full border rounded-lg p-3 text-sm"
+                error={
+                  errors.latitude
+                }
               />
 
-              {errors.latitude && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.latitude}
-                </p>
-              )}
-            </div>
-
-            {/* LONGITUDE */}
-            <div>
-              <input
-                type="text"
+              <InputField
+                label="Longitude *"
                 placeholder="Enter longitude"
-                value={formData.longitude}
-                onChange={(e) =>
+                value={
+                  formData.longitude
+                }
+                onChange={(
+                  e: any
+                ) =>
                   handleChange(
                     "longitude",
                     e.target.value
                   )
                 }
-                className="w-full border rounded-lg p-3 text-sm"
+                error={
+                  errors.longitude
+                }
               />
-
-              {errors.longitude && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.longitude}
-                </p>
-              )}
             </div>
-          </div>
 
-          {/* ADDRESS */}
-          <div>
-            <input
-              type="text"
+            <InputField
+              label="Address *"
               placeholder="Enter address"
-              value={formData.address}
-              onChange={(e) =>
+              value={
+                formData.address
+              }
+              onChange={(
+                e: any
+              ) =>
                 handleChange(
                   "address",
                   e.target.value
                 )
               }
-              className="w-full border rounded-lg p-3 text-sm"
+              error={
+                errors.address
+              }
             />
 
-            {errors.address && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.address}
-              </p>
-            )}
-          </div>
+            {formData.latitude &&
+              formData.longitude && (
 
-          {/* LOCATION PREVIEW */}
-          {formData.latitude &&
-            formData.longitude && (
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
-                <MapPin className="text-green-600 w-5 h-5" />
+                <div className="bg-green-50 border border-green-200 rounded-[24px] p-5 flex items-center gap-4">
 
-                <div>
-                  <p className="text-sm font-medium text-green-800">
-                    Location Captured
-                  </p>
+                  <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-sm">
 
-                  <p className="text-xs text-green-700">
-                    {formData.latitude} ,
-                    {formData.longitude} •{" "}
-                    {formData.address}
-                  </p>
+                    <MapPin className="text-green-600 w-7 h-7" />
+                  </div>
+
+                  <div>
+
+                    <p className="font-semibold text-green-800">
+                      Location Captured Successfully
+                    </p>
+
+                    <p className="text-sm text-green-700 mt-1">
+                      {
+                        formData.latitude
+                      }
+                      ,
+                      {" "}
+                      {
+                        formData.longitude
+                      }
+                    </p>
+                  </div>
                 </div>
-              </div>
-            )}
-        </div>
+              )}
+          </Section>
 
-        {/* PHOTO UPLOAD */}
-        <div>
-          <label className="text-sm font-medium text-gray-700">
-            Upload Photos *
-          </label>
+          {/* MEDIA */}
 
-          <label className="mt-2 border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-blue-400">
-            <Upload className="w-8 h-8 text-gray-400" />
+          <Section title="Evidence Upload">
 
-            <p className="text-sm text-gray-600 mt-2">
-              Click to upload photos
-            </p>
-
-            <input
-              type="file"
-              multiple
+            <UploadBox
+              title="Upload Photos *"
+              subtitle="Upload site images & evidence"
               accept="image/*"
-              className="hidden"
-              onChange={(e) =>
+              multiple
+              onChange={(
+                e: any
+              ) =>
                 handleFileUpload(
                   "photoUrls",
                   e.target.files
                 )
               }
             />
-          </label>
 
-          {formData.photoUrls.length > 0 && (
-            <div className="mt-3 space-y-1">
-              {formData.photoUrls.map(
-                (
-                  file: string,
-                  index: number
-                ) => (
-                  <p
-                    key={index}
-                    className="text-xs text-green-600"
-                  >
-                    Uploaded Photo{" "}
-                    {index + 1}
-                  </p>
-                )
-              )}
-            </div>
-          )}
-
-          {errors.photoUrls && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.photoUrls}
-            </p>
-          )}
-        </div>
-
-        {/* VIDEO UPLOAD */}
-        <div>
-          <label className="text-sm font-medium text-gray-700">
-            Upload Videos *
-          </label>
-
-          <label className="mt-2 border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-blue-400">
-            <Upload className="w-8 h-8 text-gray-400" />
-
-            <p className="text-sm text-gray-600 mt-2">
-              Click to upload videos
-            </p>
-
-            <input
-              type="file"
-              multiple
+            <UploadBox
+              title="Upload Videos *"
+              subtitle="Upload inspection videos"
               accept="video/*"
-              className="hidden"
-              onChange={(e) =>
+              multiple
+              onChange={(
+                e: any
+              ) =>
                 handleFileUpload(
                   "videoUrls",
                   e.target.files
                 )
               }
             />
-          </label>
 
-          {formData.videoUrls.length > 0 && (
-            <div className="mt-3 space-y-1">
-              {formData.videoUrls.map(
-                (
-                  file: string,
-                  index: number
-                ) => (
-                  <p
-                    key={index}
-                    className="text-xs text-green-600"
-                  >
-                    Uploaded Video{" "}
-                    {index + 1}
-                  </p>
-                )
-              )}
-            </div>
-          )}
-
-          {errors.videoUrls && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.videoUrls}
-            </p>
-          )}
-        </div>
-
-        {/* SIGNATURE */}
-        <div>
-          <label className="text-sm font-medium text-gray-700">
-            Upload Signature *
-          </label>
-
-          <label className="mt-2 border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-blue-400">
-            <Upload className="w-8 h-8 text-gray-400" />
-
-            <p className="text-sm text-gray-600 mt-2">
-              Click to upload signature
-            </p>
-
-            <input
-              type="file"
+            <UploadBox
+              title="Upload Signature *"
+              subtitle="Authorized inspector signature"
               accept="image/*"
-              className="hidden"
-              onChange={(e) => {
+              onChange={(
+                e: any
+              ) => {
+
                 const files =
                   e.target.files
 
                 if (
                   !files ||
-                  files.length === 0
+                  files.length ===
+                    0
                 )
                   return
 
@@ -595,54 +705,89 @@ export default function InspectionReportingPage() {
                 )
               }}
             />
-          </label>
-
-          {formData.signatureUrl && (
-            <p className="text-xs text-green-600 mt-2">
-              Signature uploaded
-              successfully
-            </p>
-          )}
-
-          {errors.signatureUrl && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.signatureUrl}
-            </p>
-          )}
-        </div>
-
-        {/* ACTIONS */}
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex-1 bg-blue-600 text-white py-3 rounded-lg font-medium disabled:bg-gray-400 cursor-pointer"
-          >
-            {loading
-              ? "Submitting..."
-              : "Submit Inspection Report"}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setFormData(
-                initialFormData
-              )
-
-              setErrors({})
-            }}
-            className="border px-6 py-3 rounded-lg text-gray-700 cursor-pointer"
-          >
-            Reset
-          </button>
+          </Section>
         </div>
       </div>
     </form>
   )
 }
 
-/* ---------- TEXTAREA ---------- */
+/* ---------------- SECTION ---------------- */
+
+function Section({
+  title,
+  children,
+}: any) {
+
+  return (
+    <div className="space-y-6">
+
+      <div>
+
+        <h3 className="text-xl font-bold text-gray-800">
+          {title}
+        </h3>
+
+        <div className="w-20 h-1 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 mt-3" />
+      </div>
+
+      {children}
+    </div>
+  )
+}
+
+/* ---------------- MINI CARD ---------------- */
+
+function MiniCard({
+  title,
+  value,
+}: any) {
+
+  return (
+    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10">
+
+      <p className="text-sm text-green-50">
+        {title}
+      </p>
+
+      <h3 className="text-2xl font-bold mt-2 text-white">
+        {value}
+      </h3>
+    </div>
+  )
+}
+
+/* ---------------- INPUT ---------------- */
+
+function InputField({
+  label,
+  error,
+  ...props
+}: any) {
+
+  return (
+    <div>
+
+      <label className="text-sm font-medium text-gray-700">
+        {label}
+      </label>
+
+      <input
+        {...props}
+        className="mt-2 w-full h-14 rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+      />
+
+      {error && (
+
+        <p className="text-red-500 text-xs mt-2">
+          {error}
+        </p>
+      )}
+    </div>
+  )
+}
+
+/* ---------------- TEXTAREA ---------------- */
 
 function Textarea({
   label,
@@ -650,24 +795,26 @@ function Textarea({
   value,
   onChange,
 }: any) {
+
   return (
     <div>
+
       <label className="text-sm font-medium text-gray-700">
         {label}
       </label>
 
       <textarea
-        rows={4}
+        rows={5}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="mt-2 w-full border rounded-lg p-3 text-sm"
+        className="mt-2 w-full rounded-2xl border border-gray-200 bg-gray-50 p-5 text-sm outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
       />
     </div>
   )
 }
 
-/* ---------- RADIO GROUP ---------- */
+/* ---------------- RADIO ---------------- */
 
 function RadioGroup({
   label,
@@ -675,40 +822,98 @@ function RadioGroup({
   value,
   onChange,
 }: any) {
+
   return (
     <div>
+
       <label className="text-sm font-medium text-gray-700">
         {label}
       </label>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
-        {options.map((o: any) => (
-          <div
-            key={o.label}
-            onClick={() =>
-              onChange(o.label)
-            }
-            className={`border rounded-lg p-4 flex items-center gap-3 cursor-pointer
-            ${
-              value === o.label
-                ? "border-blue-500 bg-blue-50"
-                : "hover:border-gray-400"
-            }`}
-          >
-            <input
-              type="radio"
-              checked={value === o.label}
-              readOnly
-            />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
 
-            <div>{o.icon}</div>
+        {options.map(
+          (o: any) => (
 
-            <span className="text-sm font-medium">
-              {o.label}
-            </span>
-          </div>
-        ))}
+            <div
+              key={o.label}
+              onClick={() =>
+                onChange(
+                  o.label
+                )
+              }
+              className={`group border rounded-[24px] p-5 flex items-center gap-4 cursor-pointer transition-all duration-300
+              ${
+                value ===
+                o.label
+                  ? "border-emerald-500 bg-emerald-50 shadow-lg"
+                  : "border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/40"
+              }`}
+            >
+
+              <div
+                className={`w-14 h-14 rounded-2xl flex items-center justify-center
+                ${
+                  value ===
+                  o.label
+                    ? "bg-emerald-100 text-emerald-600"
+                    : "bg-gray-100 text-gray-500"
+                }`}
+              >
+                {o.icon}
+              </div>
+
+              <div>
+
+                <p className="font-semibold text-gray-800">
+                  {o.label}
+                </p>
+
+                <p className="text-xs text-gray-500 mt-1">
+                  Select status
+                </p>
+              </div>
+            </div>
+          )
+        )}
       </div>
     </div>
+  )
+}
+
+/* ---------------- UPLOAD ---------------- */
+
+function UploadBox({
+  title,
+  subtitle,
+  accept,
+  multiple,
+  onChange,
+}: any) {
+
+  return (
+    <label className="group border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-[28px] p-10 flex flex-col items-center justify-center text-center cursor-pointer transition bg-gray-50 hover:bg-emerald-50">
+
+      <div className="w-20 h-20 rounded-[28px] bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition">
+
+        <Upload className="w-10 h-10 text-emerald-600" />
+      </div>
+
+      <h3 className="text-lg font-semibold text-gray-800 mt-5">
+        {title}
+      </h3>
+
+      <p className="text-sm text-gray-500 mt-2">
+        {subtitle}
+      </p>
+
+      <input
+        type="file"
+        className="hidden"
+        accept={accept}
+        multiple={multiple}
+        onChange={onChange}
+      />
+    </label>
   )
 }

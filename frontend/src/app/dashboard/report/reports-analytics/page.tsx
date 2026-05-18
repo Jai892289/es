@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
+
 import {
   FileDown,
   FileCode,
-  AlertTriangle,
 } from "lucide-react"
 
 import {
@@ -19,50 +19,73 @@ import {
   Cell,
   BarChart,
   Bar,
-  Legend,
   ResponsiveContainer,
 } from "recharts"
 
 import { getAnalyticsApi } from "@/lib/dashboard.api"
 
 export default function ReportsPage() {
-  const [analytics, setAnalytics] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+
+  const [analytics, setAnalytics] =
+    useState<any>(null)
+
+  const [loading, setLoading] =
+    useState(true)
 
   useEffect(() => {
     fetchAnalytics()
   }, [])
 
-  const fetchAnalytics = async () => {
-    try {
-      setLoading(true)
+  const fetchAnalytics =
+    async () => {
 
-      const response = await getAnalyticsApi()
+      try {
 
-      setAnalytics(response?.data || null)
-    } catch (error) {
-      console.log("Analytics Error", error)
-    } finally {
-      setLoading(false)
+        setLoading(true)
+
+        const response =
+          await getAnalyticsApi()
+
+        setAnalytics(
+          response?.data || null
+        )
+
+      } catch (error) {
+
+        console.log(
+          "Analytics Error",
+          error
+        )
+
+      } finally {
+
+        setLoading(false)
+      }
     }
-  }
 
-  const cards = analytics?.cards || {}
+  const cards =
+    analytics?.cards || {}
 
   const trendData =
-    analytics?.monthlyTrend?.map((item: any) => ({
-      month: item.month,
-      value: item.count,
-    })) || []
+    analytics?.monthlyTrend?.map(
+      (item: any) => ({
+        month: item.month,
+        value: item.count,
+      })
+    ) || []
 
   const deptData =
     analytics?.departmentWise?.map(
-      (item: any, index: number) => ({
+      (
+        item: any,
+        index: number
+      ) => ({
         name: item.name,
-        value: item._count.products,
+        value:
+          item._count.products,
         color: [
-          "#3b82f6",
           "#10b981",
+          "#3b82f6",
           "#8b5cf6",
           "#f59e0b",
           "#ef4444",
@@ -73,93 +96,216 @@ export default function ReportsPage() {
   const statusData = [
     {
       name: "In Use",
-      count: analytics?.statusOverview?.inUse || 0,
+      count:
+        analytics?.statusOverview
+          ?.inUse || 0,
     },
     {
       name: "In Store",
       count:
-        analytics?.statusOverview?.inStore || 0,
+        analytics?.statusOverview
+          ?.inStore || 0,
     },
     {
       name: "In Repair",
       count:
-        analytics?.statusOverview?.inRepair || 0,
+        analytics?.statusOverview
+          ?.inRepair || 0,
     },
     {
       name: "Retired",
       count:
-        analytics?.statusOverview?.retired || 0,
+        analytics?.statusOverview
+          ?.retired || 0,
     },
   ]
 
-  const amcAlerts = analytics?.amcAlerts || []
+  const amcAlerts =
+    analytics?.amcAlerts || []
+
+  if (loading) {
+
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+
+        <div className="space-y-4 text-center">
+
+          <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
+
+          <p className="text-gray-500">
+            Loading Reports...
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="space-y-10">
-      {/* HEADER */}
-      <div className="bg-white border rounded-xl p-6 flex justify-between items-start">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-800">
-            Reports & Analytics
+    <div className="space-y-7">
+
+      {/* HERO */}
+
+      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 text-white shadow-xl">
+
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
+
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+
+          {/* LEFT */}
+
+          <div>
+
+            <h1 className="text-4xl font-bold tracking-tight">
+              Reports & Analytics
+            </h1>
+
+            <p className="text-green-50 mt-3 text-sm max-w-xl">
+              Comprehensive insights,
+              asset tracking,
+              analytics &
+              AMC monitoring dashboard
+            </p>
+
+            <div className="flex flex-wrap gap-10 mt-10">
+
+              <div>
+
+                <h2 className="text-5xl font-bold">
+                  {
+                    cards.totalAssets
+                  }
+                </h2>
+
+                <p className="text-green-100 text-sm mt-1">
+                  Total Assets
+                </p>
+              </div>
+
+              <div>
+
+                <h2 className="text-5xl font-bold">
+                  ₹
+                  {
+                    cards.totalValue
+                  }
+                </h2>
+
+                <p className="text-green-100 text-sm mt-1">
+                  Asset Value
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT */}
+
+          <div className="grid grid-cols-1 gap-4 min-w-[320px]">
+
+            <MiniCard
+              title="New Assets"
+              value={
+                cards.newAssets ||
+                0
+              }
+            />
+
+            <MiniCard
+              title="Expiring Soon"
+              value={
+                cards.expiringSoon ||
+                0
+              }
+            />
+
+            <MiniCard
+              title="System Status"
+              value="Healthy"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* ACTIONS */}
+
+      <div className="flex flex-wrap items-center justify-end gap-3">
+
+        <button className="h-12 px-5 rounded-2xl bg-red-600 hover:bg-red-700 transition text-white text-sm font-medium flex items-center gap-2 shadow-lg">
+
+          <FileDown className="w-4 h-4" />
+
+          PDF
+        </button>
+
+        <button className="h-12 px-5 rounded-2xl bg-green-600 hover:bg-green-700 transition text-white text-sm font-medium flex items-center gap-2 shadow-lg">
+
+          <FileCode className="w-4 h-4" />
+
+          XML
+        </button>
+      </div>
+
+      {/* KPI */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+        <PremiumKpi
+          title="Total Assets"
+          value={
+            cards.totalAssets || 0
+          }
+          color="emerald"
+        />
+
+        <PremiumKpi
+          title="New Assets"
+          value={
+            cards.newAssets || 0
+          }
+          color="blue"
+        />
+
+        <PremiumKpi
+          title="Expiring Soon"
+          value={
+            cards.expiringSoon ||
+            0
+          }
+          color="orange"
+        />
+
+        <PremiumKpi
+          title="Total Value"
+          value={`₹${cards.totalValue || 0}`}
+          color="green"
+        />
+      </div>
+
+      {/* TREND */}
+
+      <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
+
+        <div className="mb-8">
+
+          <h2 className="text-2xl font-bold text-gray-800">
+            Asset Insertion Trend
           </h2>
 
           <p className="text-sm text-gray-500 mt-1">
-            Comprehensive reports and analytics
-            for asset management
+            Monthly asset analytics
           </p>
         </div>
 
-        <div className="flex gap-3">
-          <button className="bg-red-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2">
-            <FileDown className="w-4 h-4" />
-            PDF
-          </button>
+        <ResponsiveContainer
+          width="100%"
+          height={350}
+        >
 
-          <button className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2">
-            <FileCode className="w-4 h-4" />
-            XML
-          </button>
-        </div>
-      </div>
+          <LineChart
+            data={trendData}
+          >
 
-      {/* KPI CARDS */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Kpi
-          title="Total Assets"
-          value={cards.totalAssets || 0}
-          sub="All assets"
-        />
-
-        <Kpi
-          title="New Assets"
-          value={cards.newAssets || 0}
-          sub="Recently added"
-          blue
-        />
-
-        <Kpi
-          title="Expiring Soon"
-          value={cards.expiringSoon || 0}
-          sub="Within 30 days"
-          warn
-        />
-
-        <Kpi
-          title="Total Value"
-          value={`₹${cards.totalValue || 0}`}
-          sub="All assets value"
-          green
-        />
-      </div>
-
-      {/* TREND CHART */}
-      <div className="bg-white border rounded-xl p-6">
-        <h3 className="font-semibold text-gray-800 mb-4">
-          Asset Insertion Trend
-        </h3>
-
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={trendData}>
             <CartesianGrid strokeDasharray="3 3" />
 
             <XAxis dataKey="month" />
@@ -171,29 +317,46 @@ export default function ReportsPage() {
             <Line
               type="monotone"
               dataKey="value"
-              stroke="#2563eb"
-              strokeWidth={2}
+              stroke="#10b981"
+              strokeWidth={3}
             />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
       {/* CHARTS */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* PIE CHART */}
-        <ChartCard title="Department-wise Asset Distribution">
-          <ResponsiveContainer width="100%" height={300}>
+
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+
+        <ChartCard title="Department-wise Distribution">
+
+          <ResponsiveContainer
+            width="100%"
+            height={320}
+          >
+
             <PieChart>
+
               <Pie
                 data={deptData}
                 dataKey="value"
                 nameKey="name"
-                outerRadius={100}
+                outerRadius={110}
                 label
               >
-                {deptData.map((e: any, i: number) => (
-                  <Cell key={i} fill={e.color} />
-                ))}
+
+                {deptData.map(
+                  (
+                    e: any,
+                    i: number
+                  ) => (
+
+                    <Cell
+                      key={i}
+                      fill={e.color}
+                    />
+                  )
+                )}
               </Pie>
 
               <Tooltip />
@@ -201,10 +364,17 @@ export default function ReportsPage() {
           </ResponsiveContainer>
         </ChartCard>
 
-        {/* BAR CHART */}
         <ChartCard title="Asset Status Overview">
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={statusData}>
+
+          <ResponsiveContainer
+            width="100%"
+            height={320}
+          >
+
+            <BarChart
+              data={statusData}
+            >
+
               <CartesianGrid strokeDasharray="3 3" />
 
               <XAxis dataKey="name" />
@@ -213,223 +383,232 @@ export default function ReportsPage() {
 
               <Tooltip />
 
-              <Legend />
-
               <Bar
                 dataKey="count"
-                fill="#3b82f6"
+                fill="#10b981"
+                radius={[
+                  8,
+                  8,
+                  0,
+                  0,
+                ]}
               />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
       </div>
 
-      {/* AMC ALERTS */}
-      <div className="bg-white border rounded-xl">
-        <div className="px-6 py-4 border-b flex items-center gap-2">
-          <AlertTriangle className="text-orange-500 w-5 h-5" />
+      {/* AMC TABLE */}
 
-          <h3 className="font-semibold text-gray-800">
-            AMC Renewal Alerts
-          </h3>
+      <div className="bg-white border border-gray-100 rounded-[32px] shadow-sm overflow-hidden">
+
+        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
+
+          <div>
+
+            <h2 className="text-2xl font-bold text-gray-800">
+              AMC Renewal Alerts
+            </h2>
+
+            <p className="text-sm text-gray-500 mt-1">
+              Upcoming warranty &
+              AMC renewals
+            </p>
+          </div>
         </div>
 
-        <table className="w-full text-sm">
-          <thead className="bg-gray-50">
-            <tr>
-              <Th>Asset / Equipment</Th>
-              <Th>Vendor</Th>
-              <Th>Expiry Date</Th>
-              <Th>Status</Th>
-              <Th>Value</Th>
-              <Th>Action</Th>
-            </tr>
-          </thead>
+        <div className="overflow-x-auto">
 
-          <tbody className="divide-y">
-            {loading ? (
+          <table className="w-full min-w-[1000px]">
+
+            <thead className="bg-gray-50 border-b border-gray-100">
+
               <tr>
-                <td
-                  colSpan={6}
-                  className="text-center py-6"
-                >
-                  Loading...
-                </td>
+
+                {[
+                  "Asset",
+                  "Vendor",
+                  "Expiry Date",
+                  "Status",
+                  "Value",
+                  "Action",
+                ].map((head) => (
+
+                  <th
+                    key={head}
+                    className="px-8 py-5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
+                  >
+                    {head}
+                  </th>
+                ))}
               </tr>
-            ) : amcAlerts.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={6}
-                  className="text-center py-6"
-                >
-                  No AMC alerts found
-                </td>
-              </tr>
-            ) : (
-              amcAlerts.map((item: any) => (
-                <AlertRow
-                  key={item.id}
-                  asset={item.productName}
-                  vendor={
-                    item.vendor?.companyName ||
-                    "N/A"
-                  }
-                  date={new Date(
-                    item.warrantyExpiryDate
-                  ).toLocaleDateString("en-GB")}
-                  status={item.status}
-                  value={`₹${item.unitPrice}`}
-                />
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+            </thead>
 
-      {/* EXPIRY TRACKING */}
-      <div className="bg-white border rounded-xl p-6 space-y-4">
-        <h3 className="font-semibold text-gray-800">
-          Asset Expiry Tracking
-        </h3>
+            <tbody className="divide-y divide-gray-100">
 
-        <ExpiryBox
-          title="Expiring Soon"
-          count={cards.expiringSoon || 0}
-          desc="Assets nearing warranty expiry"
-          color="orange"
-        />
+              {amcAlerts.length ===
+              0 ? (
 
-        <ExpiryBox
-          title="Total Assets"
-          count={cards.totalAssets || 0}
-          desc="Overall managed assets"
-          color="yellow"
-        />
+                <tr>
 
-        <ExpiryBox
-          title="New Assets"
-          count={cards.newAssets || 0}
-          desc="Recently procured assets"
-          color="red"
-        />
+                  <td
+                    colSpan={6}
+                    className="text-center py-10 text-gray-500"
+                  >
+                    No AMC alerts found
+                  </td>
+                </tr>
+              ) : (
+
+                amcAlerts.map(
+                  (
+                    item: any
+                  ) => (
+
+                    <tr
+                      key={
+                        item.id
+                      }
+                      className="hover:bg-gray-50 transition"
+                    >
+
+                      <td className="px-8 py-6 font-medium text-gray-800">
+                        {
+                          item.productName
+                        }
+                      </td>
+
+                      <td className="px-8 py-6 text-gray-600">
+                        {item
+                          .vendor
+                          ?.companyName ||
+                          "N/A"}
+                      </td>
+
+                      <td className="px-8 py-6 text-gray-600">
+                        {new Date(
+                          item.warrantyExpiryDate
+                        ).toLocaleDateString(
+                          "en-GB"
+                        )}
+                      </td>
+
+                      <td className="px-8 py-6">
+
+                        <span className="px-4 py-2 rounded-2xl bg-orange-50 text-orange-700 text-sm font-medium">
+                          {
+                            item.status
+                          }
+                        </span>
+                      </td>
+
+                      <td className="px-8 py-6 font-semibold text-gray-800">
+                        ₹
+                        {
+                          item.unitPrice
+                        }
+                      </td>
+
+                      <td className="px-8 py-6">
+
+                        <button className="h-11 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-medium">
+
+                          Renew AMC
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                )
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )
 }
 
-/* ---------------- SMALL COMPONENTS ---------------- */
+/* ---------------- MINI CARD ---------------- */
 
-function Kpi({
+function MiniCard({
   title,
   value,
-  sub,
-  blue,
-  warn,
-  green,
 }: any) {
-  const color = green
-    ? "text-green-600"
-    : warn
-    ? "text-orange-600"
-    : blue
-    ? "text-blue-600"
-    : "text-gray-800"
 
   return (
-    <div className="bg-white border rounded-xl p-6">
-      <p className="text-sm text-gray-500">
+    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10">
+
+      <p className="text-sm text-green-50">
         {title}
       </p>
 
-      <p
-        className={`text-2xl font-semibold mt-2 ${color}`}
-      >
+      <h3 className="text-2xl font-bold mt-2 text-white">
         {value}
-      </p>
-
-      <p className="text-xs text-gray-400 mt-1">
-        {sub}
-      </p>
-    </div>
-  )
-}
-
-function ChartCard({ title, children }: any) {
-  return (
-    <div className="bg-white border rounded-xl p-6">
-      <h3 className="font-semibold text-gray-800 mb-4">
-        {title}
       </h3>
-
-      {children}
     </div>
   )
 }
 
-function Th({ children }: any) {
-  return (
-    <th className="px-6 py-3 text-left text-xs text-gray-500">
-      {children}
-    </th>
-  )
-}
+/* ---------------- KPI ---------------- */
 
-function AlertRow({
-  asset,
-  vendor,
-  date,
-  status,
-  value,
-}: any) {
-  return (
-    <tr>
-      <td className="px-6 py-4">{asset}</td>
-
-      <td className="px-6 py-4">{vendor}</td>
-
-      <td className="px-6 py-4">{date}</td>
-
-      <td className="px-6 py-4">
-        <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs">
-          {status}
-        </span>
-      </td>
-
-      <td className="px-6 py-4">{value}</td>
-
-      <td className="px-6 py-4 text-blue-600 hover:underline cursor-pointer">
-        Renew AMC
-      </td>
-    </tr>
-  )
-}
-
-function ExpiryBox({
+function PremiumKpi({
   title,
-  desc,
-  count,
+  value,
   color,
 }: any) {
+
   const styles =
-    color === "red"
-      ? "bg-red-50 border-red-200 text-red-700"
+    color === "blue"
+      ? "from-blue-500 to-cyan-500"
       : color === "orange"
-      ? "bg-orange-50 border-orange-200 text-orange-700"
-      : "bg-yellow-50 border-yellow-200 text-yellow-700"
+      ? "from-orange-500 to-amber-500"
+      : color === "green"
+      ? "from-green-500 to-emerald-600"
+      : "from-emerald-500 to-green-600"
 
   return (
-    <div className={`border rounded-lg p-4 ${styles}`}>
-      <div className="flex justify-between items-center">
-        <div>
-          <p className="font-medium">{title}</p>
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
 
-          <p className="text-xs mt-1">{desc}</p>
+      <div
+        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${styles} opacity-10 rounded-full blur-3xl`}
+      />
+
+      <div className="relative z-10">
+
+        <div
+          className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${styles} shadow-lg`}
+        />
+
+        <div className="mt-8">
+
+          <p className="text-sm text-gray-500">
+            {title}
+          </p>
+
+          <h2 className="text-4xl font-bold text-gray-900 mt-3">
+            {value}
+          </h2>
         </div>
-
-        <span className="text-xl font-semibold">
-          {count}
-        </span>
       </div>
+    </div>
+  )
+}
+
+/* ---------------- CHART CARD ---------------- */
+
+function ChartCard({
+  title,
+  children,
+}: any) {
+
+  return (
+    <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
+
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        {title}
+      </h2>
+
+      {children}
     </div>
   )
 }

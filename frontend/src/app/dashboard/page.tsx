@@ -1,7 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
 import { useRouter } from "next/navigation";
+
+import {
+  motion,
+  AnimatePresence,
+} from "framer-motion";
 
 import {
   ChevronDown,
@@ -12,6 +22,11 @@ import {
   Wifi,
   HardDrive,
   Printer,
+  AlertTriangle,
+  ShieldCheck,
+  Activity,
+  Package2,
+  ArrowUpRight,
 } from "lucide-react";
 
 import { getDashboardAnalyticsApi } from "@/lib/dashboard.api";
@@ -31,7 +46,8 @@ const months = [
   "Dec",
 ];
 
-// ICON MAPPING
+/* ---------------- ICON MAP ---------------- */
+
 const iconMap: any = {
   Laptop,
   Laptops: Laptop,
@@ -49,7 +65,16 @@ const iconMap: any = {
   Printers: Printer,
 };
 
+const gradients = [
+  "from-blue-500 to-cyan-500",
+  "from-green-500 to-emerald-500",
+  "from-orange-500 to-amber-500",
+  "from-purple-500 to-pink-500",
+  "from-indigo-500 to-blue-500",
+];
+
 export default function DashboardPage() {
+
   const router = useRouter();
 
   const [dashboardData, setDashboardData] =
@@ -58,20 +83,16 @@ export default function DashboardPage() {
   const [loading, setLoading] =
     useState(true);
 
-  const [selectedYear, setSelectedYear] =
-    useState("2024");
-
   const [selectedCategory, setSelectedCategory] =
     useState("Laptop");
-
-  const [showYearDropdown, setShowYearDropdown] =
-    useState(false);
 
   const [showCategoryDropdown, setShowCategoryDropdown] =
     useState(false);
 
-  // AUTH CHECK
+  /* ---------------- AUTH ---------------- */
+
   useEffect(() => {
+
     const token =
       localStorage.getItem("token");
 
@@ -80,462 +101,543 @@ export default function DashboardPage() {
     }
   }, [router]);
 
-  // FETCH DASHBOARD
+  /* ---------------- FETCH ---------------- */
+
   useEffect(() => {
+
     const fetchDashboard = async () => {
+
       try {
+
         const analytics =
           await getDashboardAnalyticsApi();
 
-        console.log(
-          "dashboardData",
-          analytics
+        setDashboardData(
+          analytics.data
         );
 
-        // SAVE ONLY DATA
-        setDashboardData(analytics.data);
       } catch (error) {
+
         console.log(error);
+
       } finally {
+
         setLoading(false);
       }
     };
 
     fetchDashboard();
+
   }, []);
 
-  // CHART DATA
+  /* ---------------- CHART ---------------- */
+
   const chartData =
     dashboardData?.yearlyProcurement?.map(
       (item: any) => item.count
     ) || Array(12).fill(0);
 
-  // COMPLAINTS
   const complaints =
     dashboardData?.recentComplaints || [];
 
-  // MAX VALUE
   const maxValue =
     Math.max(...chartData, 10);
 
-  // TOTAL
   const total =
     chartData.reduce(
       (a: number, b: number) => a + b,
       0
     );
 
+  const overviewCards = useMemo(
+    () => [
+      {
+        label:
+          "Total Items Procured",
+
+        value:
+          dashboardData?.overview
+            ?.totalItemsProcured || 0,
+
+        icon: Package2,
+
+        gradient:
+          "from-emerald-500 to-green-600",
+      },
+
+      {
+        label:
+          "Warranty Ending Soon",
+
+        value:
+          dashboardData?.overview
+            ?.warrantyEndingSoon || 0,
+
+        icon: ShieldCheck,
+
+        gradient:
+          "from-blue-500 to-cyan-500",
+      },
+
+      {
+        label:
+          "Pending Complaints",
+
+        value:
+          dashboardData?.overview
+            ?.pendingComplaints || 0,
+
+        icon: AlertTriangle,
+
+        gradient:
+          "from-red-500 to-rose-500",
+      },
+
+      {
+        label:
+          "Pending AMC Renewals",
+
+        value:
+          dashboardData?.overview
+            ?.pendingAmcRenewals || 0,
+
+        icon: Activity,
+
+        gradient:
+          "from-indigo-500 to-violet-500",
+      },
+    ],
+    [dashboardData]
+  );
+
+  /* ---------------- LOADING ---------------- */
+
   if (loading) {
+
     return (
-      <div className="p-10 text-lg font-semibold">
-        Loading...
+      <div className="min-h-screen flex items-center justify-center bg-[#f5f7fb]">
+
+        <div className="text-center">
+
+          <motion.div
+            animate={{
+              rotate: 360,
+            }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="w-20 h-20 border-[6px] border-emerald-500 border-t-transparent rounded-full mx-auto"
+          />
+
+          <motion.p
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            transition={{
+              duration: 1,
+              repeat: Infinity,
+              repeatType:
+                "reverse",
+            }}
+            className="text-gray-500 mt-6 text-sm font-medium"
+          >
+            Loading Dashboard...
+          </motion.p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 overflow-x-hidden p-3">
-      <div className="max-w-8xl mx-auto">
+    <div className="min-h-screen bg-[#f5f7fb]">
 
-        {/* PRODUCT CATEGORIES */}
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 20,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.6,
+        }}
+        className="max-w-[1800px] mx-auto space-y-7"
+      >
 
-        <div className="mb-2">
-          <h2 className="text-sm font-semibold text-gray-700 mb-2 flex justify-center">
-            Product Categories
-          </h2>
+        {/* HERO */}
 
-          <div className="w-full">
-            <div className="flex gap-4">
+        <motion.div
+          initial={{
+            opacity: 0,
+            scale: 0.96,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+          className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 rounded-[36px] p-8 shadow-xl text-white"
+        >
 
-              {dashboardData?.categories?.map(
-                (cat: any) => {
+          {/* FLOATING BLOBS */}
 
-                  const Icon =
-                    iconMap[cat.name] ||
-                    Laptop;
+          <motion.div
+            animate={{
+              y: [0, -25, 0],
+              x: [0, 10, 0],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"
+          />
 
-                  return (
-                    <div
-                      key={cat.name}
-                      className="
-                      group flex items-center gap-3
-                      bg-white border border-gray-200
-                      rounded-2xl p-2
-                      flex-shrink-0
-                      transition-all duration-300
-                      cursor-pointer
-                      hover:bg-emerald-600
-                      hover:text-white
-                      hover:shadow-xl
-                      hover:-translate-y-1
-                    "
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center group-hover:bg-white/20">
-                        <Icon className="w-7 h-7 text-emerald-600 group-hover:text-white" />
+          <motion.div
+            animate={{
+              y: [0, 20, 0],
+              x: [0, -15, 0],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl"
+          />
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+
+            {/* LEFT */}
+
+            <div>
+
+              <div className="flex items-center gap-5">
+
+                <motion.div
+                  whileHover={{
+                    rotate: 8,
+                    scale: 1.05,
+                  }}
+                  className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg"
+                >
+
+                  <Activity className="w-10 h-10" />
+                </motion.div>
+
+                <div>
+
+                  <h1 className="text-4xl font-bold tracking-tight">
+                    Asset Intelligence Dashboard
+                  </h1>
+
+                  <p className="text-green-50 mt-2 text-sm">
+                    Real-time monitoring of assets,
+                    procurement, warranty &
+                    complaints
+                  </p>
+                </div>
+              </div>
+
+              {/* QUICK STATS */}
+
+              <div className="flex flex-wrap items-center gap-10 mt-10">
+
+                <div>
+
+                  <motion.h2
+                    initial={{
+                      opacity: 0,
+                      y: 10,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    transition={{
+                      delay: 0.3,
+                    }}
+                    className="text-5xl font-bold"
+                  >
+                    {
+                      dashboardData?.overview
+                        ?.totalItemsProcured
+                    }
+                  </motion.h2>
+
+                  <p className="text-green-100 text-sm mt-1">
+                    Total Assets
+                  </p>
+                </div>
+
+                <div>
+
+                  <motion.h2
+                    initial={{
+                      opacity: 0,
+                      y: 10,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    transition={{
+                      delay: 0.4,
+                    }}
+                    className="text-5xl font-bold"
+                  >
+                    {
+                      dashboardData?.categories
+                        ?.length
+                    }
+                  </motion.h2>
+
+                  <p className="text-green-100 text-sm mt-1">
+                    Categories
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT */}
+
+            <div className="grid grid-cols-2 gap-4 min-w-[320px]">
+
+              <MiniStat
+                label="Asset Health"
+                value="94%"
+              />
+
+              <MiniStat
+                label="Operational"
+                value="89%"
+              />
+
+              <MiniStat
+                label="Complaints"
+                value={
+                  dashboardData?.overview
+                    ?.pendingComplaints || 0
+                }
+              />
+
+              <MiniStat
+                label="Warranty"
+                value={
+                  dashboardData?.overview
+                    ?.warrantyEndingSoon || 0
+                }
+              />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* CATEGORY STRIP */}
+
+        <div>
+
+          <div className="flex items-center justify-between mb-4">
+
+            <h2 className="text-lg font-bold text-gray-800">
+              Product Categories
+            </h2>
+
+            <button className="text-sm text-emerald-600 font-medium hover:underline">
+              View All
+            </button>
+          </div>
+
+          <div className="flex gap-5 overflow-x-auto pb-2 no-scrollbar">
+
+            {dashboardData?.categories?.map(
+              (cat: any, i: number) => {
+
+                const Icon =
+                  iconMap[cat.name] ||
+                  Laptop;
+
+                const gradient =
+                  gradients[
+                    i % gradients.length
+                  ];
+
+                return (
+                  <motion.div
+                    key={cat.name}
+                    initial={{
+                      opacity: 0,
+                      y: 20,
+                    }}
+                    whileInView={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    viewport={{
+                      once: true,
+                    }}
+                    transition={{
+                      delay: i * 0.06,
+                      duration: 0.4,
+                    }}
+                    whileHover={{
+                      y: -10,
+                      scale: 1.02,
+                    }}
+                    className="group min-w-[230px] bg-white border border-gray-100 hover:border-emerald-100 rounded-[28px] p-5 shadow-sm hover:shadow-2xl transition-all duration-300 cursor-pointer"
+                  >
+
+                    <div className="flex items-start justify-between">
+
+                      <div
+                        className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
+                      >
+
+                        <Icon className="w-7 h-7" />
                       </div>
 
-                      <div>
-                        <p className="text-sm font-medium text-gray-700 group-hover:text-white">
-                          {cat.name}
-                        </p>
+                      <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
+                    </div>
 
-                        <p className="text-lg font-bold text-gray-500 group-hover:text-white">
-                          {String(cat.count).padStart(
-                            2,
-                            "0"
-                          )}
-                        </p>
+                    <div className="mt-6">
+
+                      <h3 className="text-lg font-semibold text-gray-800">
+                        {cat.name}
+                      </h3>
+
+                      <p className="text-sm text-gray-500 mt-1">
+                        Active inventory assets
+                      </p>
+
+                      <div className="mt-5 flex items-end justify-between">
+
+                        <h2 className="text-4xl font-bold text-gray-900">
+                          {String(
+                            cat.count
+                          ).padStart(2, "0")}
+                        </h2>
+
+                        <span className="text-xs px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 font-medium">
+                          Active
+                        </span>
                       </div>
                     </div>
-                  );
-                }
-              )}
-
-            </div>
+                  </motion.div>
+                );
+              }
+            )}
           </div>
         </div>
 
         {/* OVERVIEW */}
 
-        <h2 className="text-sm font-semibold text-gray-700 mb-4 flex justify-center">
-          Overview
-        </h2>
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {overviewCards.map(
+            (item, index) => {
 
-          {[
-            {
-              label:
-                "Total Items Procured",
+              const Icon =
+                item.icon;
 
-              value:
-                dashboardData?.overview
-                  ?.totalItemsProcured || 0,
-
-              color: "text-emerald-600",
-            },
-
-            {
-              label:
-                "Warranty Ending Soon",
-
-              value:
-                dashboardData?.overview
-                  ?.warrantyEndingSoon || 0,
-
-              color: "text-blue-600",
-            },
-
-            {
-              label:
-                "Pending Complaints",
-
-              value:
-                dashboardData?.overview
-                  ?.pendingComplaints || 0,
-
-              color: "text-red-500",
-            },
-
-            {
-              label:
-                "Pending AMC Renewals",
-
-              value:
-                dashboardData?.overview
-                  ?.pendingAmcRenewals || 0,
-
-              color: "text-indigo-600",
-            },
-          ].map((item) => (
-
-            <div
-              key={item.label}
-              className="
-              bg-white text-center rounded-2xl
-              border border-gray-200 p-6
-              transition-all duration-300
-              hover:shadow-2xl
-              hover:-translate-y-2
-              hover:scale-[1.03]
-              cursor-pointer
-            "
-            >
-              <p className="text-sm text-gray-600 mb-3">
-                {item.label}
-              </p>
-
-              <h2
-                className={`text-6xl font-bold ${item.color}`}
-              >
-                {item.value}
-              </h2>
-            </div>
-          ))}
-        </div>
-
-        {/* LOWER SECTION */}
-
-        <div className="grid lg:grid-cols-2 gap-6">
-
-          {/* CHART */}
-
-          <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
-
-            <div className="flex justify-between items-center mb-6">
-
-              <h3 className="font-semibold text-blue-600">
-                Yearly Procurement
-                <br />
-                by Category
-              </h3>
-
-              <div className="flex gap-3 relative">
-
-                {/* YEAR DROPDOWN */}
-
-                {/* <div className="relative">
-
-                  <button
-                    onClick={() =>
-                      setShowYearDropdown(
-                        !showYearDropdown
-                      )
-                    }
-                    className="bg-gray-100 px-4 py-2 rounded-full text-sm flex items-center gap-2"
-                  >
-                    {selectedYear}
-
-                    <ChevronDown size={16} />
-                  </button>
-
-                  {showYearDropdown && (
-                    <div className="absolute right-0 mt-2 w-28 bg-white rounded-xl shadow-lg border z-20">
-
-                      {[
-                        "2022",
-                        "2023",
-                        "2024",
-                        "2025",
-                      ].map((year) => (
-
-                        <div
-                          key={year}
-                          onClick={() => {
-                            setSelectedYear(
-                              year
-                            );
-
-                            setShowYearDropdown(
-                              false
-                            );
-                          }}
-                          className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-                        >
-                          {year}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div> */}
-
-                {/* CATEGORY DROPDOWN */}
-
-                <div className="relative">
-
-                  <button
-                    onClick={() =>
-                      setShowCategoryDropdown(
-                        !showCategoryDropdown
-                      )
-                    }
-                    className="bg-gray-100 cursor-pointer px-4 py-2 rounded-full text-sm flex items-center gap-2"
-                  >
-                    {selectedCategory}
-
-                    <ChevronDown size={16} />
-                  </button>
-
-                  {showCategoryDropdown && (
-                    <div className="absolute right-0 p-0 mt-2 w-40 bg-white rounded-2xl shadow-xl border border-gray-200 space-y-2 z-20">
-
-                      {dashboardData?.categories?.map(
-                        (cat: any) => {
-
-                          const Icon =
-                            iconMap[cat.name] ||
-                            Laptop;
-
-                          return (
-                            <div
-                              key={cat.name}
-                              onClick={() => {
-                                setSelectedCategory(
-                                  cat.name
-                                );
-
-                                setShowCategoryDropdown(
-                                  false
-                                );
-                              }}
-                              className="flex items-center gap-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-100"
-                            >
-                              <Icon size={18} />
-
-                              {cat.name}
-                            </div>
-                          );
-                        }
-                      )}
-                    </div>
-                  )}
-                </div>
-
-              </div>
-            </div>
-
-            {/* BAR CHART */}
-
-            <div className="flex items-end gap-4 h-64">
-
-              {chartData.map(
-                (val: number, i: number) => (
+              return (
+                <motion.div
+                  key={item.label}
+                  initial={{
+                    opacity: 0,
+                    y: 30,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  viewport={{
+                    once: true,
+                  }}
+                  transition={{
+                    delay:
+                      index * 0.08,
+                    duration: 0.45,
+                  }}
+                  whileHover={{
+                    y: -8,
+                  }}
+                  className="group relative overflow-hidden bg-white rounded-[30px] border border-gray-100 hover:border-emerald-100 p-6 shadow-sm hover:shadow-2xl transition-all duration-300"
+                >
 
                   <div
-                    key={i}
-                    className="flex-1 flex flex-col items-center"
-                  >
-                    <div className="h-48 w-full flex flex-col justify-end items-center">
+                    className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${item.gradient} opacity-10 rounded-full blur-3xl`}
+                  />
 
-                      {val > 0 ? (
-                        <>
-                          <span className="text-xs font-semibold mb-1">
-                            {val}
-                          </span>
+                  <div className="relative z-10">
 
-                          <div
-                            style={{
-                              height: `${(val / maxValue) * 100
-                                }%`,
-                            }}
-                            className="
-                            w-7 bg-emerald-500
-                            rounded-t-xl
-                            transition-all duration-500
-                            hover:bg-emerald-600
-                          "
-                          />
-                        </>
-                      ) : (
-                        <div className="w-7 h-1 bg-gray-300 rounded-full" />
-                      )}
-                    </div>
+                    <div className="flex items-center justify-between">
 
-                    <span className="text-xs text-gray-500 mt-2">
-                      {months[i]}
-                    </span>
-                  </div>
-                )
-              )}
-            </div>
+                      <div
+                        className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${item.gradient} flex items-center justify-center text-white shadow-lg`}
+                      >
 
-            {/* TOTAL */}
-
-            <div className="mt-6 pt-6 border-t flex items-center gap-4">
-
-              <div className="bg-indigo-50 p-4 rounded-xl">
-                <Laptop className="text-indigo-600" />
-              </div>
-
-              <div>
-                <p className="text-sm text-gray-600">
-                  Total {selectedCategory} Procured {" "}
-                  {/* {selectedYear} */}
-                </p>
-
-                <p className="text-3xl font-bold text-emerald-600">
-                  {total}
-                </p>
-              </div>
-            </div>
-
-          </div>
-
-          {/* RECENT COMPLAINTS */}
-
-          <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
-
-            <h3 className="font-semibold mb-6 text-blue-600">
-              Recent Complaints
-            </h3>
-
-            <div className="space-y-4">
-
-              {complaints.length > 0 ? (
-                complaints.map(
-                  (c: any, i: number) => (
-
-                    <div
-                      key={i}
-                      className="
-                      p-4 bg-gray-50 rounded-xl
-                      border border-gray-200
-                      hover:bg-gray-100
-                      transition duration-300
-                      group cursor-pointer
-                    "
-                    >
-                      <div className="flex justify-between items-start gap-3">
-
-                        <p className="text-sm font-medium text-gray-800 leading-snug">
-                          {c.title}
-                        </p>
-
-                        <span className="bg-red-500 text-white text-[10px] px-3 py-1 rounded-md">
-                          {c.priority || "High"}
-                        </span>
+                        <Icon className="w-8 h-8" />
                       </div>
 
-                      <p className="text-xs text-gray-500 mt-2">
-                        By{" "}
-                        {c.createdBy?.name ||
-                          "User"}{" "}
-                        |{" "}
-                        {new Date(
-                          c.createdAt
-                        ).toLocaleDateString()}
-                      </p>
+                      <span className="text-xs font-semibold text-gray-400">
+                        Analytics
+                      </span>
                     </div>
-                  )
-                )
-              ) : (
-                <div className="text-sm text-gray-500">
-                  No complaints found
-                </div>
-              )}
 
-            </div>
+                    <div className="mt-8">
 
-            <button
-              className="
-              mt-6 w-full text-sm
-              text-emerald-600 font-medium
-              flex items-center justify-start gap-1
-              hover:underline group
-            "
-            >
-              View all complaints
+                      <p className="text-sm text-gray-500">
+                        {item.label}
+                      </p>
 
-              <span className="transform transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </button>
-
-          </div>
-
+                      <h2 className="text-5xl font-bold text-gray-900 mt-3">
+                        {item.value}
+                      </h2>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            }
+          )}
         </div>
 
-      </div>
+      </motion.div>
     </div>
+  );
+}
+
+/* MINI STAT */
+
+function MiniStat({
+  label,
+  value,
+}: any) {
+
+  return (
+    <motion.div
+      whileHover={{
+        y: -4,
+        scale: 1.02,
+      }}
+      className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10"
+    >
+
+      <p className="text-sm text-green-50">
+        {label}
+      </p>
+
+      <h3 className="text-3xl font-bold mt-2">
+        {value}
+      </h3>
+    </motion.div>
   );
 }

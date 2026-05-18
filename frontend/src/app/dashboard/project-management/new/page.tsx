@@ -1,918 +1,1460 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  useRouter,
+} from "next/navigation";
+
+import {
+  motion,
+  AnimatePresence,
+} from "framer-motion";
+
+import {
+  Building2,
+  Check,
+  ChevronRight,
+  Sparkles,
+} from "lucide-react";
 
 const steps = [
-    "Basic Details",
-    "Location",
-    "Description",
-    "Timeline",
-    "Budget",
-    "Vendor",
-    "Assets",
-    "Milestones",
-    "Assign Team",
-    "Approval Flow",
+  "Basic Details",
+  "Location",
+  "Description",
+  "Timeline",
+  "Budget",
+  "Vendor",
+  "Assets",
+  "Milestones",
+  "Assign Team",
+  "Approval Flow",
 ];
 
 export default function NewProjectPage() {
-    const [step, setStep] = useState(1);
-    const router = useRouter();
 
-    const [milestone, setMilestone] = useState({
-        name: "",
-        date: "",
-        percent: "",
+  const [step, setStep] =
+    useState(1);
+
+  const router =
+    useRouter();
+
+  const [milestone, setMilestone] =
+    useState({
+      name: "",
+      date: "",
+      percent: "",
     });
 
-    const [form, setForm] = useState<any>({
-        name: "",
-        category: "",
-        scheme: "",
-        type: "New",
-        department: "",
-        priority: "",
+  const [form, setForm] =
+    useState<any>({
+      name: "",
+      category: "",
+      scheme: "",
+      type: "New",
+      department: "",
+      priority: "",
 
-        state: "",
-        district: "",
-        block: "",
-        ward: "",
-        address: "",
+      state: "",
+      district: "",
+      block: "",
+      ward: "",
+      address: "",
 
-        description: "",
-        scope: "",
-        files: [],
+      description: "",
+      scope: "",
+      files: [],
 
-        startDate: "",
-        endDate: "",
+      startDate: "",
+      endDate: "",
 
-        budget: "",
-        funding: "",
-        expense: "",
+      budget: "",
+      funding: "",
+      expense: "",
 
-        vendorName: "",
-        companyName: "",
-        contact: "",
-        contractValue: "",
-        vendorFile: null,
+      vendorName: "",
+      companyName: "",
+      contact: "",
+      contractValue: "",
+      vendorFile: null,
 
-        assets: [],
+      assets: [],
 
-        milestones: [],
+      milestones: [],
 
-        projectManager: "",
-        supervisor: "",
-        departmentHead: "",
+      projectManager: "",
+      supervisor: "",
+      departmentHead: "",
 
-        approvals: [],
+      approvals: [],
     });
 
-    // ✅ Load from session
-    useEffect(() => {
-        const saved = sessionStorage.getItem("projectForm");
-        if (saved) setForm(JSON.parse(saved));
-    }, []);
+  /* ---------------- SESSION ---------------- */
 
-    // ✅ Save to session
-    useEffect(() => {
-        sessionStorage.setItem("projectForm", JSON.stringify(form));
-    }, [form]);
+  useEffect(() => {
 
-    const handleNext = () => {
-        if (step < steps.length) setStep(step + 1);
-    };
+    const saved =
+      sessionStorage.getItem(
+        "projectForm"
+      );
 
-    const handleBack = () => {
-        if (step > 1) setStep(step - 1);
-    };
+    if (saved) {
 
-    const handleSubmit = () => {
-        console.log("FINAL DATA:", form);
-        sessionStorage.removeItem("projectForm");
-        alert("Project Created Successfully 🚀");
-        router.push("/dashboard/project-management")
-    };
+      setForm(
+        JSON.parse(saved)
+      );
+    }
+  }, []);
 
-    return (
-        <div className="p-6 bg-gray-50 min-h-screen">
+  useEffect(() => {
 
-            {/* HEADER */}
-            <h1 className="text-2xl font-semibold mb-1">Add New Project</h1>
-            <p className="text-sm text-gray-500 mb-6">
-                Create a new government project
+    sessionStorage.setItem(
+      "projectForm",
+      JSON.stringify(form)
+    );
+
+  }, [form]);
+
+  /* ---------------- NAVIGATION ---------------- */
+
+  const handleNext = () => {
+
+    if (
+      step < steps.length
+    ) {
+
+      setStep(step + 1);
+    }
+  };
+
+  const handleBack = () => {
+
+    if (step > 1) {
+
+      setStep(step - 1);
+    }
+  };
+
+  const handleSubmit = () => {
+
+    console.log(
+      "FINAL DATA:",
+      form
+    );
+
+    sessionStorage.removeItem(
+      "projectForm"
+    );
+
+    alert(
+      "Project Created Successfully 🚀"
+    );
+
+    router.push(
+      "/dashboard/project-management"
+    );
+  };
+
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 15,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.45,
+      }}
+      className="min-h-screen bg-[#f4f7fb] p-4 md:p-7 space-y-7"
+    >
+
+      {/* HERO */}
+
+      <div className="relative overflow-hidden rounded-[36px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 md:p-10 shadow-2xl text-white">
+
+        {/* BLOBS */}
+
+        <motion.div
+          animate={{
+            y: [0, -25, 0],
+            x: [0, 15, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"
+        />
+
+        <motion.div
+          animate={{
+            y: [0, 20, 0],
+            x: [0, -10, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+          className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl"
+        />
+
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+
+          {/* LEFT */}
+
+          <div>
+
+            <div className="flex items-center gap-5">
+
+              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center shadow-xl">
+
+                <Building2 className="w-10 h-10" />
+              </div>
+
+              <div>
+
+                <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/15 border border-white/10 backdrop-blur text-xs font-medium">
+
+                  <Sparkles className="w-3.5 h-3.5" />
+
+                  Smart Workflow
+                </div>
+
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight mt-4">
+                  Create New Project
+                </h1>
+
+                <p className="text-white/80 mt-3 max-w-2xl leading-7">
+                  Create and manage government infrastructure projects,
+                  approvals, budgeting, milestones & team workflows.
+                </p>
+              </div>
+            </div>
+
+            {/* MINI CARDS */}
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+
+              <MiniCard
+                title="Steps"
+                value="10"
+              />
+
+              <MiniCard
+                title="Workflow"
+                value="Smart"
+              />
+
+              <MiniCard
+                title="Approval"
+                value="Multi"
+              />
+
+              <MiniCard
+                title="Tracking"
+                value="Live"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* STEPPER */}
+
+      <div className="bg-white/90 backdrop-blur-xl border border-gray-100 rounded-[32px] p-7 shadow-xl overflow-x-auto">
+
+        <div className="flex items-center min-w-[1100px]">
+
+          {steps.map(
+            (
+              label,
+              index
+            ) => {
+
+              const current =
+                index + 1;
+
+              const active =
+                step >= current;
+
+              return (
+                <div
+                  key={index}
+                  className="flex items-center w-full"
+                >
+
+                  {/* STEP */}
+
+                  <div className="flex flex-col items-center relative z-10">
+
+                    <motion.div
+                      whileHover={{
+                        scale: 1.05,
+                      }}
+                      className={`
+                        w-12 h-12
+                        rounded-full
+                        flex items-center justify-center
+                        text-sm font-semibold
+                        transition-all duration-300
+                        ${
+                          active
+                            ? `
+                              bg-gradient-to-r
+                              from-emerald-500
+                              to-green-600
+                              text-white
+                              shadow-lg shadow-emerald-500/30
+                            `
+                            : `
+                              bg-gray-100
+                              text-gray-500
+                              border border-gray-200
+                            `
+                        }
+                      `}
+                    >
+
+                      {step >
+                      current ? (
+
+                        <Check className="w-5 h-5" />
+
+                      ) : (
+                        current
+                      )}
+                    </motion.div>
+
+                    <span className="text-[12px] font-medium mt-3 whitespace-nowrap text-gray-600">
+                      {label}
+                    </span>
+                  </div>
+
+                  {/* CONNECTOR */}
+
+                  {index !==
+                    steps.length -
+                      1 && (
+
+                    <div
+                      className={`
+                        flex-1 h-[3px]
+                        rounded-full mx-2 relative top-[-15px]
+                        ${
+                          step >
+                          current
+                            ? "bg-gradient-to-r from-emerald-500 to-green-600"
+                            : "bg-gray-200"
+                        }
+                      `}
+                    />
+                  )}
+                </div>
+              );
+            }
+          )}
+        </div>
+      </div>
+
+      {/* FORM CONTAINER */}
+
+      <motion.div
+        layout
+        className="bg-white border border-gray-100 rounded-[36px] shadow-xl overflow-hidden"
+      >
+
+        {/* HEADER */}
+
+        <div className="px-8 py-7 border-b border-gray-100 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+
+          <div>
+
+            <h2 className="text-3xl font-bold text-gray-800">
+              {
+                steps[
+                  step - 1
+                ]
+              }
+            </h2>
+
+            <p className="text-sm text-gray-500 mt-2">
+              Complete the required information carefully
             </p>
 
-            {/* STEPPER */}
-            <div className="bg-white rounded-xl p-6 shadow mb-6">
-                <div className="flex items-center">
-                    {steps.map((label, index) => {
-                        const current = index + 1;
+            <div className="w-20 h-1 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 mt-4" />
+          </div>
 
-                        return (
-                            <div key={index} className="flex items-center w-full">
+          <div className="px-5 py-3 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-semibold">
 
-                                {/* STEP */}
-                                <div className="flex flex-col items-center z-10">
-                                    <div
-                                        className={`w-9 h-9 flex items-center justify-center rounded-full text-sm font-medium ${step >= current
-                                                ? "bg-green-500 text-white"
-                                                : "bg-gray-200 text-gray-600"
-                                            }`}
-                                    >
-                                        {current}
-                                    </div>
-
-                                    <span className="text-xs mt-2 whitespace-nowrap">
-                                        {label}
-                                    </span>
-                                </div>
-
-                                {/* CONNECTOR */}
-                                {index !== steps.length - 1 && (
-                                    <div
-                                        className={`flex-1 h-[2px] mx-2 relative top-[-12px] ${step > current ? "bg-green-500" : "bg-gray-300"
-                                            }`}
-                                    />
-                                )}
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-
-            {/* FORM */}
-            <div className="bg-white rounded-xl p-6 shadow">
-
-                {/* STEP 1 */}
-                {step === 1 && (
-                    <>
-                        <h2 className="font-semibold mb-4">Step 1: Basic Details</h2>
-
-                        <div className="grid grid-cols-2 gap-5">
-
-                            <div className="col-span-2">
-                                <label className="text-sm">Project Name *</label>
-                                <input
-                                    value={form.name}
-                                    onChange={(e) =>
-                                        setForm({ ...form, name: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-sm">Category *</label>
-                                <select
-                                    value={form.category}
-                                    onChange={(e) =>
-                                        setForm({ ...form, category: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg"
-                                >
-                                    <option>Select Category</option>
-                                    <option>Infrastructure</option>
-                                    <option>Education</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label className="text-sm">Scheme Name</label>
-                                <input
-                                    value={form.scheme}
-                                    onChange={(e) =>
-                                        setForm({ ...form, scheme: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-sm">Project Type *</label>
-                                <select
-                                    value={form.type}
-                                    onChange={(e) =>
-                                        setForm({ ...form, type: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg"
-                                >
-                                    <option>New</option>
-                                    <option>Upgrade</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label className="text-sm">Department *</label>
-                                <input
-                                    value={form.department}
-                                    onChange={(e) =>
-                                        setForm({ ...form, department: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg"
-                                />
-                            </div>
-                        </div>
-
-                        {/* PRIORITY */}
-                        <div className="mt-4">
-                            <label className="text-sm">Priority Level</label>
-                            <div className="flex gap-4 mt-2 text-sm">
-                                {["Low", "Medium", "High"].map((p) => (
-                                    <label key={p} className="flex items-center gap-2">
-                                        <input
-                                            type="radio"
-                                            checked={form.priority === p}
-                                            onChange={() =>
-                                                setForm({ ...form, priority: p })
-                                            }
-                                        />
-                                        {p}
-                                    </label>
-                                ))}
-                            </div>
-                        </div>
-                    </>
-                )}
-
-                {/* STEP 2 */}
-                {step === 2 && (
-                    <>
-                        <h2 className="font-semibold mb-4">Step 2: Location</h2>
-
-                        <div className="grid grid-cols-2 gap-5">
-
-                            <div>
-                                <label className="text-sm">State</label>
-                                <input
-                                    value={form.state}
-                                    onChange={(e) =>
-                                        setForm({ ...form, state: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-sm">District *</label>
-                                <input
-                                    value={form.district}
-                                    onChange={(e) =>
-                                        setForm({ ...form, district: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-sm">Block *</label>
-                                <input
-                                    value={form.block}
-                                    onChange={(e) =>
-                                        setForm({ ...form, block: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg"
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-sm">Ward / Panchayat *</label>
-                                <input
-                                    value={form.ward}
-                                    onChange={(e) =>
-                                        setForm({ ...form, ward: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg"
-                                />
-                            </div>
-
-                            <div className="col-span-2">
-                                <label className="text-sm">Address</label>
-                                <textarea
-                                    rows={3}
-                                    value={form.address}
-                                    onChange={(e) =>
-                                        setForm({ ...form, address: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="mt-5 bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg p-3">
-                            💡 You can also select location using map picker.
-                        </div>
-                    </>
-                )}
-
-                {step === 3 && (
-                    <>
-                        <h2 className="font-semibold mb-4">Step 3: Description</h2>
-
-                        {/* DESCRIPTION */}
-                        <div className="mb-5">
-                            <label className="text-sm font-medium">
-                                Project Description
-                            </label>
-                            <textarea
-                                rows={4}
-                                value={form.description || ""}
-                                onChange={(e) =>
-                                    setForm({ ...form, description: e.target.value })
-                                }
-                                className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                placeholder="Provide detailed description of the project"
-                            />
-                        </div>
-
-                        {/* SCOPE */}
-                        <div className="mb-5">
-                            <label className="text-sm font-medium">
-                                Scope / Objectives
-                            </label>
-                            <textarea
-                                rows={4}
-                                value={form.scope || ""}
-                                onChange={(e) =>
-                                    setForm({ ...form, scope: e.target.value })
-                                }
-                                className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                placeholder="Define project scope and objectives"
-                            />
-                        </div>
-
-                        {/* FILE UPLOAD */}
-                        <div>
-                            <label className="text-sm font-medium mb-2 block">
-                                File Upload
-                            </label>
-
-                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-green-400 transition cursor-pointer">
-                                <input
-                                    type="file"
-                                    multiple
-                                    className="hidden"
-                                    id="fileUpload"
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            files: Array.from(e.target.files || []),
-                                        })
-                                    }
-                                />
-
-                                <label htmlFor="fileUpload" className="cursor-pointer">
-                                    <p className="text-sm text-gray-600">
-                                        Upload DPR, approvals, or related documents
-                                    </p>
-                                    <p className="text-xs text-gray-400 mt-1">
-                                        Click to browse or drag and drop files here
-                                    </p>
-                                </label>
-                            </div>
-
-                            {/* FILE LIST */}
-                            {form.files?.length > 0 && (
-                                <div className="mt-3 text-sm text-gray-600">
-                                    {form.files.map((file: any, i: number) => (
-                                        <div key={i}>📄 {file.name}</div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </>
-                )}
-
-                {step === 4 && (
-                    <>
-                        <h2 className="font-semibold mb-4">Step 4: Timeline</h2>
-
-                        <div className="grid grid-cols-2 gap-5">
-
-                            {/* START DATE */}
-                            <div>
-                                <label className="text-sm font-medium">
-                                    Start Date <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="date"
-                                    value={form.startDate || ""}
-                                    onChange={(e) =>
-                                        setForm({ ...form, startDate: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                />
-                            </div>
-
-                            {/* END DATE */}
-                            <div>
-                                <label className="text-sm font-medium">
-                                    End Date <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="date"
-                                    value={form.endDate || ""}
-                                    onChange={(e) =>
-                                        setForm({ ...form, endDate: e.target.value })
-                                    }
-                                    min={form.startDate} // 🔥 prevents invalid selection
-                                    className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                />
-                            </div>
-                        </div>
-
-                        {/* VALIDATION MESSAGE */}
-                        {form.endDate && form.startDate && form.endDate < form.startDate && (
-                            <p className="text-red-500 text-sm mt-3">
-                                End date cannot be before start date
-                            </p>
-                        )}
-                    </>
-                )}
-
-                {step === 5 && (
-                    <>
-                        <h2 className="font-semibold mb-4">Step 5: Budget</h2>
-
-                        {/* TOTAL BUDGET */}
-                        <div className="mb-5">
-                            <label className="text-sm font-medium">
-                                Total Budget (₹) <span className="text-red-500">*</span>
-                            </label>
-                            <input
-                                type="number"
-                                value={form.budget || ""}
-                                onChange={(e) =>
-                                    setForm({ ...form, budget: e.target.value })
-                                }
-                                className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                placeholder="Enter total budget"
-                            />
-
-                            {/* formatted preview */}
-                            {form.budget && (
-                                <p className="text-sm text-gray-500 mt-1">
-                                    ₹ {Number(form.budget).toLocaleString("en-IN")}
-                                </p>
-                            )}
-                        </div>
-
-                        {/* FUNDING SOURCE */}
-                        <div className="mb-5">
-                            <label className="text-sm font-medium">Funding Source</label>
-                            <input
-                                value={form.funding || ""}
-                                onChange={(e) =>
-                                    setForm({ ...form, funding: e.target.value })
-                                }
-                                className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                placeholder="e.g., Central Government, State Government"
-                            />
-                        </div>
-
-                        {/* EXPENSE BREAKDOWN */}
-                        <div>
-                            <label className="text-sm font-medium">
-                                Expense Breakdown (Optional)
-                            </label>
-                            <textarea
-                                rows={4}
-                                value={form.expense || ""}
-                                onChange={(e) =>
-                                    setForm({ ...form, expense: e.target.value })
-                                }
-                                className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                placeholder="Provide breakdown of major expenses"
-                            />
-                        </div>
-
-                        {/* VALIDATION */}
-                        {form.budget && Number(form.budget) <= 0 && (
-                            <p className="text-red-500 text-sm mt-2">
-                                Budget must be greater than 0
-                            </p>
-                        )}
-                    </>
-                )}
-
-                {step === 6 && (
-                    <>
-                        <h2 className="font-semibold mb-4">Step 6: Vendor</h2>
-
-                        <div className="grid grid-cols-2 gap-5">
-
-                            {/* VENDOR NAME */}
-                            <div>
-                                <label className="text-sm font-medium">
-                                    Vendor Name <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    value={form.vendorName || ""}
-                                    onChange={(e) =>
-                                        setForm({ ...form, vendorName: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                    placeholder="Enter vendor name"
-                                />
-                            </div>
-
-                            {/* COMPANY NAME */}
-                            <div>
-                                <label className="text-sm font-medium">Company Name</label>
-                                <input
-                                    value={form.companyName || ""}
-                                    onChange={(e) =>
-                                        setForm({ ...form, companyName: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                    placeholder="Enter company name"
-                                />
-                            </div>
-
-                            {/* CONTACT */}
-                            <div className="col-span-2">
-                                <label className="text-sm font-medium">Contact Details</label>
-                                <input
-                                    value={form.contact || ""}
-                                    onChange={(e) =>
-                                        setForm({ ...form, contact: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                    placeholder="Phone number, email, etc."
-                                />
-                            </div>
-
-                            {/* CONTRACT VALUE */}
-                            <div className="col-span-2">
-                                <label className="text-sm font-medium">
-                                    Contract Value (₹)
-                                </label>
-                                <input
-                                    type="number"
-                                    value={form.contractValue || ""}
-                                    onChange={(e) =>
-                                        setForm({ ...form, contractValue: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                    placeholder="Enter contract value"
-                                />
-
-                                {/* formatted preview */}
-                                {form.contractValue && (
-                                    <p className="text-sm text-gray-500 mt-1">
-                                        ₹ {Number(form.contractValue).toLocaleString("en-IN")}
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-
-                        {/* FILE UPLOAD */}
-                        <div className="mt-5">
-                            <label className="text-sm font-medium mb-2 block">
-                                Agreement Upload
-                            </label>
-
-                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-green-400 transition cursor-pointer">
-                                <input
-                                    type="file"
-                                    className="hidden"
-                                    id="vendorFile"
-                                    onChange={(e) =>
-                                        setForm({
-                                            ...form,
-                                            vendorFile: e.target.files?.[0] || null,
-                                        })
-                                    }
-                                />
-
-                                <label htmlFor="vendorFile" className="cursor-pointer">
-                                    <p className="text-sm text-gray-600">
-                                        Upload vendor agreement or contract
-                                    </p>
-                                </label>
-                            </div>
-
-                            {/* FILE PREVIEW */}
-                            {form.vendorFile && (
-                                <div className="mt-2 text-sm text-gray-600">
-                                    📄 {form.vendorFile.name}
-                                </div>
-                            )}
-                        </div>
-
-                        {/* VALIDATION */}
-                        {!form.vendorName && (
-                            <p className="text-red-500 text-sm mt-3">
-                                Vendor name is required
-                            </p>
-                        )}
-                    </>
-                )}
-
-                {step === 7 && (
-                    <>
-                        <h2 className="font-semibold mb-4">Step 7: Asset Allocation</h2>
-
-                        {/* INFO BOX */}
-                        <div className="mb-4 bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg p-3">
-                            Select assets that will be allocated to this project (e.g., vehicles, machinery, equipment)
-                        </div>
-
-                        {/* ASSET LIST */}
-                        <div className="border rounded-lg p-4 space-y-3">
-                            {[
-                                { id: "EXC-001", name: "Excavator" },
-                                { id: "BLD-002", name: "Bulldozer" },
-                                { id: "CMX-003", name: "Concrete Mixer" },
-                                { id: "TRK-004", name: "Truck" },
-                            ].map((asset) => (
-                                <label
-                                    key={asset.id}
-                                    className="flex items-center gap-3 p-2 rounded-md hover:bg-gray-50 cursor-pointer"
-                                >
-                                    <input
-                                        type="checkbox"
-                                        checked={form.assets?.includes(asset.id)}
-                                        onChange={(e) => {
-                                            if (e.target.checked) {
-                                                setForm({
-                                                    ...form,
-                                                    assets: [...(form.assets || []), asset.id],
-                                                });
-                                            } else {
-                                                setForm({
-                                                    ...form,
-                                                    assets: form.assets.filter((a: string) => a !== asset.id),
-                                                });
-                                            }
-                                        }}
-                                    />
-                                    <span className="text-sm">
-                                        {asset.name} - {asset.id}
-                                    </span>
-                                </label>
-                            ))}
-                        </div>
-
-                        {/* SELECTED ASSETS */}
-                        {form.assets?.length > 0 && (
-                            <div className="mt-4">
-                                <p className="text-sm text-gray-600 mb-1">Selected Assets:</p>
-                                <div className="flex flex-wrap gap-2">
-                                    {form.assets.map((a: string) => (
-                                        <span
-                                            key={a}
-                                            className="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-full"
-                                        >
-                                            {a}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </>
-                )}
-
-
-                {step === 8 && (
-                    <>
-                        <h2 className="font-semibold mb-4">Step 8: Milestones</h2>
-
-                        {/* INFO */}
-                        <div className="mb-4 bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg p-3">
-                            Add project milestones to track progress. You can add multiple milestones.
-                        </div>
-
-                        {/* INPUT ROW */}
-                        <div className="grid grid-cols-3 gap-4 mb-4">
-                            <input
-                                placeholder="Milestone Name"
-                                value={milestone.name}
-                                onChange={(e) =>
-                                    setMilestone({ ...milestone, name: e.target.value })
-                                }
-                                className="p-2.5 border rounded-lg"
-                            />
-
-                            <input
-                                type="date"
-                                value={milestone.date}
-                                onChange={(e) =>
-                                    setMilestone({ ...milestone, date: e.target.value })
-                                }
-                                className="p-2.5 border rounded-lg"
-                            />
-
-                            <input
-                                type="number"
-                                placeholder="Budget %"
-                                value={milestone.percent}
-                                onChange={(e) =>
-                                    setMilestone({ ...milestone, percent: e.target.value })
-                                }
-                                className="p-2.5 border rounded-lg"
-                            />
-                        </div>
-
-                        {/* ADD BUTTON */}
-                        <button
-                            onClick={() => {
-                                if (!milestone.name || !milestone.date) return;
-
-                                setForm({
-                                    ...form,
-                                    milestones: [...(form.milestones || []), milestone],
-                                });
-
-                                setMilestone({ name: "", date: "", percent: "" });
-                            }}
-                            className="mb-4 px-4 py-2 bg-green-500 text-white rounded-lg text-sm"
-                        >
-                            + Add Milestone
-                        </button>
-
-                        {/* LIST */}
-                        {form.milestones?.length > 0 && (
-                            <div className="space-y-2">
-                                {form.milestones.map((m: any, i: number) => (
-                                    <div
-                                        key={i}
-                                        className="flex justify-between items-center border p-3 rounded-lg"
-                                    >
-                                        <div>
-                                            <p className="font-medium">{m.name}</p>
-                                            <p className="text-xs text-gray-500">
-                                                {m.date} • {m.percent || 0}%
-                                            </p>
-                                        </div>
-
-                                        <button
-                                            onClick={() => {
-                                                const updated = form.milestones.filter(
-                                                    (_: any, index: number) => index !== i
-                                                );
-                                                setForm({ ...form, milestones: updated });
-                                            }}
-                                            className="text-red-500 text-xs"
-                                        >
-                                            Remove
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </>
-                )}
-
-                {step === 9 && (
-                    <>
-                        <h2 className="font-semibold mb-4">Step 9: Assign Team</h2>
-
-                        <div className="space-y-5">
-
-                            {/* PROJECT MANAGER */}
-                            <div>
-                                <label className="text-sm font-medium">
-                                    Project Manager <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    value={form.projectManager || ""}
-                                    onChange={(e) =>
-                                        setForm({ ...form, projectManager: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                    placeholder="Enter project manager name"
-                                />
-                            </div>
-
-                            {/* SUPERVISOR */}
-                            <div>
-                                <label className="text-sm font-medium">Supervisor</label>
-                                <input
-                                    value={form.supervisor || ""}
-                                    onChange={(e) =>
-                                        setForm({ ...form, supervisor: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                    placeholder="Enter supervisor name"
-                                />
-                            </div>
-
-                            {/* DEPARTMENT HEAD */}
-                            <div>
-                                <label className="text-sm font-medium">Department Head</label>
-                                <input
-                                    value={form.departmentHead || ""}
-                                    onChange={(e) =>
-                                        setForm({ ...form, departmentHead: e.target.value })
-                                    }
-                                    className="w-full mt-1 p-2.5 border rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
-                                    placeholder="Enter department head name"
-                                />
-                            </div>
-                        </div>
-
-                        {/* VALIDATION */}
-                        {!form.projectManager && (
-                            <p className="text-red-500 text-sm mt-4">
-                                Project Manager is required
-                            </p>
-                        )}
-                    </>
-                )}
-
-                {step === 10 && (
-                    <>
-                        <h2 className="font-semibold mb-4">Step 10: Approval Flow</h2>
-
-                        {/* INFO */}
-                        <div className="mb-4 bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg p-3">
-                            Define the approval hierarchy for this project. The project will be sent to each level sequentially.
-                        </div>
-
-                        {/* APPROVAL LEVELS */}
-                        <div className="space-y-3">
-                            {[
-                                "Block Development Officer",
-                                "District Project Officer",
-                                "Chief Engineer",
-                                "Department Secretary",
-                            ].map((role, index) => (
-                                <div
-                                    key={index}
-                                    className="flex items-center justify-between border rounded-lg p-4"
-                                >
-                                    <div className="flex items-center gap-3">
-
-                                        {/* STEP NUMBER */}
-                                        <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-sm">
-                                            {index + 1}
-                                        </div>
-
-                                        <span className="text-sm font-medium">{role}</span>
-                                    </div>
-
-                                    {/* TOGGLE */}
-                                    <input
-                                        type="checkbox"
-                                        checked={form.approvals?.includes(role)}
-                                        onChange={(e) => {
-                                            if (e.target.checked) {
-                                                setForm({
-                                                    ...form,
-                                                    approvals: [...(form.approvals || []), role],
-                                                });
-                                            } else {
-                                                setForm({
-                                                    ...form,
-                                                    approvals: form.approvals.filter(
-                                                        (a: string) => a !== role
-                                                    ),
-                                                });
-                                            }
-                                        }}
-                                        className="w-5 h-5 accent-green-500"
-                                    />
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* VALIDATION */}
-                        {(!form.approvals || form.approvals.length === 0) && (
-                            <p className="text-red-500 text-sm mt-3">
-                                At least one approval level is required
-                            </p>
-                        )}
-                    </>
-                )}
-
-                {/* FOOTER */}
-                <div className="flex justify-between mt-8">
-                    <button className="px-4 py-2 border rounded-lg text-sm">
-                        Save as Draft
-                    </button>
-
-                    <div className="flex gap-2">
-                        {step > 1 && (
-                            <button
-                                onClick={handleBack}
-                                className="px-4 py-2 border rounded-lg text-sm"
-                            >
-                                Back
-                            </button>
-                        )}
-
-                        <button
-                            onClick={
-                                step === steps.length ? handleSubmit : handleNext
-                            }
-                            className="px-5 py-2 bg-green-500 text-white rounded-lg text-sm hover:bg-green-600"
-                        >
-                            {step === steps.length ? "Submit" : "Next →"}
-                        </button>
-                    </div>
-                </div>
-            </div>
+            Step {step} of{" "}
+            {steps.length}
+          </div>
         </div>
-    );
+
+        {/* BODY */}
+
+        <div className="p-8">
+
+          <AnimatePresence
+            mode="wait"
+          >
+
+            <motion.div
+              key={step}
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              exit={{
+                opacity: 0,
+                y: -20,
+              }}
+              transition={{
+                duration: 0.3,
+              }}
+            >
+
+              {/* STEP 1 */}
+
+              {step === 1 && (
+
+                <div className="space-y-8">
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+                    <Input
+                      label="Project Name"
+                      value={
+                        form.name
+                      }
+                      onChange={(
+                        e: any
+                      ) =>
+                        setForm({
+                          ...form,
+                          name: e
+                            .target
+                            .value,
+                        })
+                      }
+                    />
+
+                    <Select
+                      label="Category"
+                      value={
+                        form.category
+                      }
+                      onChange={(
+                        e: any
+                      ) =>
+                        setForm({
+                          ...form,
+                          category:
+                            e
+                              .target
+                              .value,
+                        })
+                      }
+                      options={[
+                        "Infrastructure",
+                        "Education",
+                        "Health",
+                      ]}
+                    />
+
+                    <Input
+                      label="Scheme Name"
+                      value={
+                        form.scheme
+                      }
+                      onChange={(
+                        e: any
+                      ) =>
+                        setForm({
+                          ...form,
+                          scheme:
+                            e
+                              .target
+                              .value,
+                        })
+                      }
+                    />
+
+                    <Select
+                      label="Project Type"
+                      value={
+                        form.type
+                      }
+                      onChange={(
+                        e: any
+                      ) =>
+                        setForm({
+                          ...form,
+                          type: e
+                            .target
+                            .value,
+                        })
+                      }
+                      options={[
+                        "New",
+                        "Upgrade",
+                      ]}
+                    />
+
+                    <Input
+                      label="Department"
+                      value={
+                        form.department
+                      }
+                      onChange={(
+                        e: any
+                      ) =>
+                        setForm({
+                          ...form,
+                          department:
+                            e
+                              .target
+                              .value,
+                        })
+                      }
+                    />
+                  </div>
+
+                  {/* PRIORITY */}
+
+                  <div>
+
+                    <label className="text-sm font-semibold text-gray-700">
+                      Priority Level
+                    </label>
+
+                    <div className="flex flex-wrap gap-4 mt-4">
+
+                      {[
+                        "Low",
+                        "Medium",
+                        "High",
+                      ].map(
+                        (
+                          p
+                        ) => (
+
+                          <button
+                            key={
+                              p
+                            }
+                            onClick={() =>
+                              setForm(
+                                {
+                                  ...form,
+                                  priority:
+                                    p,
+                                }
+                              )
+                            }
+                            className={`
+                              px-6 h-12 rounded-2xl text-sm font-medium transition-all duration-300
+                              ${
+                                form.priority ===
+                                p
+                                  ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg"
+                                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                              }
+                            `}
+                          >
+                            {p}
+                          </button>
+                        )
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* STEP 2 */}
+
+              {step === 2 && (
+
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+                  <Input
+                    label="State"
+                    value={
+                      form.state
+                    }
+                    onChange={(
+                      e: any
+                    ) =>
+                      setForm({
+                        ...form,
+                        state:
+                          e
+                            .target
+                            .value,
+                      })
+                    }
+                  />
+
+                  <Input
+                    label="District"
+                    value={
+                      form.district
+                    }
+                    onChange={(
+                      e: any
+                    ) =>
+                      setForm({
+                        ...form,
+                        district:
+                          e
+                            .target
+                            .value,
+                      })
+                    }
+                  />
+
+                  <Input
+                    label="Block"
+                    value={
+                      form.block
+                    }
+                    onChange={(
+                      e: any
+                    ) =>
+                      setForm({
+                        ...form,
+                        block:
+                          e
+                            .target
+                            .value,
+                      })
+                    }
+                  />
+
+                  <Input
+                    label="Ward"
+                    value={
+                      form.ward
+                    }
+                    onChange={(
+                      e: any
+                    ) =>
+                      setForm({
+                        ...form,
+                        ward:
+                          e
+                            .target
+                            .value,
+                      })
+                    }
+                  />
+
+                  <div className="md:col-span-2 xl:col-span-3">
+
+                    <Textarea
+                      label="Address"
+                      value={
+                        form.address
+                      }
+                      onChange={(
+                        e: any
+                      ) =>
+                        setForm({
+                          ...form,
+                          address:
+                            e
+                              .target
+                              .value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* STEP 3 */}
+
+              {step === 3 && (
+
+                <div className="space-y-7">
+
+                  <Textarea
+                    label="Project Description"
+                    value={
+                      form.description
+                    }
+                    onChange={(
+                      e: any
+                    ) =>
+                      setForm({
+                        ...form,
+                        description:
+                          e
+                            .target
+                            .value,
+                      })
+                    }
+                  />
+
+                  <Textarea
+                    label="Scope / Objectives"
+                    value={
+                      form.scope
+                    }
+                    onChange={(
+                      e: any
+                    ) =>
+                      setForm({
+                        ...form,
+                        scope:
+                          e
+                            .target
+                            .value,
+                      })
+                    }
+                  />
+
+                  {/* FILE */}
+
+                  <div>
+
+                    <label className="text-sm font-semibold text-gray-700">
+                      Upload Documents
+                    </label>
+
+                    <div className="
+                      border-2 border-dashed border-gray-200
+                      rounded-[28px]
+                      p-10
+                      text-center
+                      bg-gradient-to-br from-gray-50 to-white
+                      hover:border-emerald-400
+                      hover:bg-emerald-50/30
+                      transition-all duration-300
+                      cursor-pointer mt-3
+                    ">
+
+                      <input
+                        type="file"
+                        multiple
+                        className="hidden"
+                        id="fileUpload"
+                        onChange={(
+                          e
+                        ) =>
+                          setForm(
+                            {
+                              ...form,
+                              files:
+                                Array.from(
+                                  e
+                                    .target
+                                    .files ||
+                                    []
+                                ),
+                            }
+                          )
+                        }
+                      />
+
+                      <label
+                        htmlFor="fileUpload"
+                        className="cursor-pointer"
+                      >
+
+                        <p className="text-lg font-semibold text-gray-700">
+                          Upload DPR & Documents
+                        </p>
+
+                        <p className="text-sm text-gray-500 mt-2">
+                          Drag & drop or browse files
+                        </p>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* STEP 4 — TIMELINE */}
+
+{step === 4 && (
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <Input
+      label="Start Date"
+      type="date"
+      value={form.startDate}
+      onChange={(e: any) =>
+        setForm({
+          ...form,
+          startDate: e.target.value,
+        })
+      }
+    />
+
+    <Input
+      label="End Date"
+      type="date"
+      value={form.endDate}
+      onChange={(e: any) =>
+        setForm({
+          ...form,
+          endDate: e.target.value,
+        })
+      }
+    />
+  </div>
+)}
+
+{/* STEP 5 — BUDGET */}
+
+{step === 5 && (
+
+  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+    <Input
+      label="Estimated Budget"
+      value={form.budget}
+      onChange={(e: any) =>
+        setForm({
+          ...form,
+          budget: e.target.value,
+        })
+      }
+    />
+
+    <Input
+      label="Funding Source"
+      value={form.funding}
+      onChange={(e: any) =>
+        setForm({
+          ...form,
+          funding: e.target.value,
+        })
+      }
+    />
+
+    <Input
+      label="Current Expense"
+      value={form.expense}
+      onChange={(e: any) =>
+        setForm({
+          ...form,
+          expense: e.target.value,
+        })
+      }
+    />
+  </div>
+)}
+
+{/* STEP 6 — VENDOR */}
+
+{step === 6 && (
+
+  <div className="space-y-7">
+
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+      <Input
+        label="Vendor Name"
+        value={form.vendorName}
+        onChange={(e: any) =>
+          setForm({
+            ...form,
+            vendorName: e.target.value,
+          })
+        }
+      />
+
+      <Input
+        label="Company Name"
+        value={form.companyName}
+        onChange={(e: any) =>
+          setForm({
+            ...form,
+            companyName: e.target.value,
+          })
+        }
+      />
+
+      <Input
+        label="Contact Number"
+        value={form.contact}
+        onChange={(e: any) =>
+          setForm({
+            ...form,
+            contact: e.target.value,
+          })
+        }
+      />
+
+      <Input
+        label="Contract Value"
+        value={form.contractValue}
+        onChange={(e: any) =>
+          setForm({
+            ...form,
+            contractValue: e.target.value,
+          })
+        }
+      />
+    </div>
+
+    {/* FILE */}
+
+    <div>
+
+      <label className="text-sm font-semibold text-gray-700">
+        Vendor Agreement
+      </label>
+
+      <div className="
+        border-2 border-dashed border-gray-200
+        rounded-[28px]
+        p-10
+        text-center
+        bg-gradient-to-br from-gray-50 to-white
+        hover:border-emerald-400
+        hover:bg-emerald-50/30
+        transition-all duration-300
+        cursor-pointer mt-3
+      ">
+
+        <input
+          type="file"
+          className="hidden"
+          id="vendorFile"
+          onChange={(e: any) =>
+            setForm({
+              ...form,
+              vendorFile: e.target.files?.[0],
+            })
+          }
+        />
+
+        <label
+          htmlFor="vendorFile"
+          className="cursor-pointer"
+        >
+
+          <p className="text-lg font-semibold text-gray-700">
+            Upload Vendor Agreement
+          </p>
+
+          <p className="text-sm text-gray-500 mt-2">
+            PDF / DOC supported
+          </p>
+        </label>
+      </div>
+    </div>
+  </div>
+)}
+
+{/* STEP 7 — ASSETS */}
+
+{step === 7 && (
+
+  <div className="space-y-6">
+
+    <Textarea
+      label="Asset Details"
+      value={form.assets.join(", ")}
+      onChange={(e: any) =>
+        setForm({
+          ...form,
+          assets: e.target.value
+            .split(",")
+            .map((a: string) =>
+              a.trim()
+            ),
+        })
+      }
+    />
+
+    <div className="flex flex-wrap gap-3">
+
+      {form.assets.map(
+        (
+          asset: string,
+          i: number
+        ) => (
+
+          <div
+            key={i}
+            className="px-4 py-2 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-medium"
+          >
+            {asset}
+          </div>
+        )
+      )}
+    </div>
+  </div>
+)}
+
+{/* STEP 8 — MILESTONES */}
+
+{step === 8 && (
+
+  <div className="space-y-7">
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      <Input
+        label="Milestone Name"
+        value={milestone.name}
+        onChange={(e: any) =>
+          setMilestone({
+            ...milestone,
+            name: e.target.value,
+          })
+        }
+      />
+
+      <Input
+        label="Target Date"
+        type="date"
+        value={milestone.date}
+        onChange={(e: any) =>
+          setMilestone({
+            ...milestone,
+            date: e.target.value,
+          })
+        }
+      />
+
+      <Input
+        label="Completion %"
+        value={milestone.percent}
+        onChange={(e: any) =>
+          setMilestone({
+            ...milestone,
+            percent: e.target.value,
+          })
+        }
+      />
+    </div>
+
+    <button
+      onClick={() => {
+
+        if (!milestone.name)
+          return
+
+        setForm({
+          ...form,
+          milestones: [
+            ...form.milestones,
+            milestone,
+          ],
+        })
+
+        setMilestone({
+          name: "",
+          date: "",
+          percent: "",
+        })
+      }}
+      className="
+        h-12 px-6 rounded-2xl
+        bg-gradient-to-r
+        from-emerald-600
+        to-green-600
+        text-white font-medium
+      "
+    >
+      Add Milestone
+    </button>
+
+    <div className="space-y-4">
+
+      {form.milestones.map(
+        (
+          item: any,
+          i: number
+        ) => (
+
+          <div
+            key={i}
+            className="p-5 rounded-2xl border border-gray-100 bg-gray-50"
+          >
+
+            <div className="flex items-center justify-between">
+
+              <div>
+
+                <h3 className="font-semibold text-gray-800">
+                  {item.name}
+                </h3>
+
+                <p className="text-sm text-gray-500 mt-1">
+                  {item.date}
+                </p>
+              </div>
+
+              <div className="text-sm font-bold text-emerald-600">
+                {item.percent}%
+              </div>
+            </div>
+          </div>
+        )
+      )}
+    </div>
+  </div>
+)}
+
+{/* STEP 9 — ASSIGN TEAM */}
+
+{step === 9 && (
+
+  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+    <Input
+      label="Project Manager"
+      value={form.projectManager}
+      onChange={(e: any) =>
+        setForm({
+          ...form,
+          projectManager: e.target.value,
+        })
+      }
+    />
+
+    <Input
+      label="Supervisor"
+      value={form.supervisor}
+      onChange={(e: any) =>
+        setForm({
+          ...form,
+          supervisor: e.target.value,
+        })
+      }
+    />
+
+    <Input
+      label="Department Head"
+      value={form.departmentHead}
+      onChange={(e: any) =>
+        setForm({
+          ...form,
+          departmentHead: e.target.value,
+        })
+      }
+    />
+  </div>
+)}
+
+{/* STEP 10 — APPROVAL */}
+
+{step === 10 && (
+
+  <div className="space-y-6">
+
+    <Textarea
+      label="Approval Workflow Notes"
+      value={form.approvals.join("\n")}
+      onChange={(e: any) =>
+        setForm({
+          ...form,
+          approvals:
+            e.target.value.split("\n"),
+        })
+      }
+    />
+
+    <div className="space-y-3">
+
+      {form.approvals.map(
+        (
+          item: string,
+          i: number
+        ) => (
+
+          <div
+            key={i}
+            className="flex items-center gap-3 p-4 rounded-2xl bg-emerald-50 text-emerald-700"
+          >
+
+            <Check className="w-5 h-5" />
+
+            <span className="text-sm font-medium">
+              {item}
+            </span>
+          </div>
+        )
+      )}
+    </div>
+  </div>
+)}
+
+              {/* OTHER STEPS PLACEHOLDER */}
+
+              {step > 3 && (
+
+                <div className="min-h-[350px] flex items-center justify-center">
+
+                  <div className="text-center">
+
+                    <div className="w-24 h-24 rounded-[30px] bg-gradient-to-r from-emerald-500 to-green-600 text-white flex items-center justify-center mx-auto shadow-2xl">
+
+                      <Building2 className="w-12 h-12" />
+                    </div>
+
+                    <h3 className="text-3xl font-bold text-gray-800 mt-8">
+                      {
+                        steps[
+                          step - 1
+                        ]
+                      }
+                    </h3>
+
+                    <p className="text-gray-500 mt-3 max-w-lg leading-7">
+                      Continue building the remaining workflow sections with the same premium UI pattern.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+
+          {/* FOOTER */}
+
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-10 pt-8 border-t border-gray-100">
+
+            <button
+              className="
+                h-14 px-7
+                rounded-2xl
+                border border-gray-200
+                bg-white
+                hover:bg-gray-100
+                transition-all duration-300
+                text-sm font-medium
+              "
+            >
+              Save Draft
+            </button>
+
+            <div className="flex gap-3">
+
+              {step > 1 && (
+
+                <button
+                  onClick={
+                    handleBack
+                  }
+                  className="
+                    h-14 px-7
+                    rounded-2xl
+                    border border-gray-200
+                    bg-white
+                    hover:bg-gray-100
+                    transition-all duration-300
+                    text-sm font-medium
+                  "
+                >
+                  Back
+                </button>
+              )}
+
+              <button
+                onClick={
+                  step ===
+                  steps.length
+                    ? handleSubmit
+                    : handleNext
+                }
+                className="
+                  h-14 px-8
+                  rounded-2xl
+                  bg-gradient-to-r
+                  from-emerald-600
+                  to-green-600
+                  hover:from-emerald-700
+                  hover:to-green-700
+                  text-white
+                  font-medium
+                  shadow-xl shadow-emerald-500/20
+                  transition-all duration-300
+                  hover:scale-[1.02]
+                  active:scale-[0.98]
+                  flex items-center gap-2
+                "
+              >
+
+                {step ===
+                steps.length
+                  ? "Submit Project"
+                  : "Continue"}
+
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ---------------- MINI CARD ---------------- */
+
+function MiniCard({
+  title,
+  value,
+}: any) {
+
+  return (
+    <motion.div
+      whileHover={{
+        y: -4,
+        scale: 1.02,
+      }}
+      className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10"
+    >
+
+      <p className="text-sm text-green-50">
+        {title}
+      </p>
+
+      <h3 className="text-3xl font-bold mt-2 text-white">
+        {value}
+      </h3>
+    </motion.div>
+  );
+}
+
+/* ---------------- INPUT ---------------- */
+
+function Input({
+  label,
+  ...props
+}: any) {
+
+  return (
+    <div>
+
+      <label className="text-sm font-semibold text-gray-700">
+        {label}
+      </label>
+
+      <input
+        {...props}
+        className="
+          w-full h-14 mt-2
+          rounded-2xl
+          border border-gray-200
+          bg-gray-50
+          px-5
+          text-sm
+          outline-none
+          transition-all duration-300
+          focus:border-emerald-500
+          focus:bg-white
+          focus:ring-4
+          focus:ring-emerald-100
+        "
+      />
+    </div>
+  );
+}
+
+/* ---------------- SELECT ---------------- */
+
+function Select({
+  label,
+  options,
+  ...props
+}: any) {
+
+  return (
+    <div>
+
+      <label className="text-sm font-semibold text-gray-700">
+        {label}
+      </label>
+
+      <select
+        {...props}
+        className="
+          w-full h-14 mt-2
+          rounded-2xl
+          border border-gray-200
+          bg-gray-50
+          px-5
+          text-sm
+          outline-none
+          transition-all duration-300
+          focus:border-emerald-500
+          focus:bg-white
+          focus:ring-4
+          focus:ring-emerald-100
+        "
+      >
+
+        <option>
+          Select Option
+        </option>
+
+        {options.map(
+          (
+            item: any
+          ) => (
+
+            <option
+              key={item}
+            >
+              {item}
+            </option>
+          )
+        )}
+      </select>
+    </div>
+  );
+}
+
+/* ---------------- TEXTAREA ---------------- */
+
+function Textarea({
+  label,
+  ...props
+}: any) {
+
+  return (
+    <div>
+
+      <label className="text-sm font-semibold text-gray-700">
+        {label}
+      </label>
+
+      <textarea
+        {...props}
+        rows={5}
+        className="
+          w-full mt-2 p-5
+          border border-gray-200
+          rounded-2xl
+          bg-gray-50
+          outline-none
+          transition-all duration-300
+          focus:border-emerald-500
+          focus:bg-white
+          focus:ring-4
+          focus:ring-emerald-100
+        "
+      />
+    </div>
+  );
 }

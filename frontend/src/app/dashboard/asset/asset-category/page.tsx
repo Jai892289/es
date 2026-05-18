@@ -14,6 +14,11 @@ import {
   Car,
   Trees,
   X,
+  Plus,
+  ArrowUpRight,
+  Layers3,
+  Wallet,
+  Package2,
 } from "lucide-react";
 
 import {
@@ -34,7 +39,17 @@ const iconMap: any = {
   Trees,
 };
 
+const gradientList = [
+  "from-blue-500 to-cyan-500",
+  "from-green-500 to-emerald-500",
+  "from-orange-500 to-amber-500",
+  "from-purple-500 to-pink-500",
+  "from-rose-500 to-red-500",
+  "from-indigo-500 to-blue-500",
+];
+
 export default function AssetCategoryPage() {
+
   const [categories, setCategories] = useState<any[]>([]);
 
   const [openModal, setOpenModal] = useState(false);
@@ -46,13 +61,18 @@ export default function AssetCategoryPage() {
     description: "",
   });
 
-  // GET CATEGORY
+  /* ---------------- FETCH ---------------- */
+
   const fetchCategories = async () => {
+
     try {
+
       const res: any = await getCategoryApi();
 
       setCategories(res?.data || []);
+
     } catch (error) {
+
       console.log(error);
     }
   };
@@ -61,11 +81,14 @@ export default function AssetCategoryPage() {
     fetchCategories();
   }, []);
 
-  // CREATE CATEGORY
+  /* ---------------- CREATE ---------------- */
+
   const handleSubmit = async (e: any) => {
+
     e.preventDefault();
 
     try {
+
       setLoading(true);
 
       await createCategoryApi(formData);
@@ -78,12 +101,18 @@ export default function AssetCategoryPage() {
       setOpenModal(false);
 
       fetchCategories();
+
     } catch (error) {
+
       console.log(error);
+
     } finally {
+
       setLoading(false);
     }
   };
+
+  /* ---------------- STATS ---------------- */
 
   const totalAssets = categories.reduce(
     (sum, item) => sum + (item.totalAssets || 0),
@@ -99,118 +128,133 @@ export default function AssetCategoryPage() {
     {
       label: "Total Categories",
       value: categories.length,
+      icon: Layers3,
+      color: "bg-blue-100 text-blue-600",
     },
+
     {
       label: "Total Assets",
       value: totalAssets,
-      highlight: true,
+      icon: Package2,
+      color: "bg-green-100 text-green-600",
     },
+
     {
       label: "Total Value",
       value: `₹${totalAmount.toLocaleString()}`,
-      green: true,
+      icon: Wallet,
+      color: "bg-orange-100 text-orange-600",
     },
   ];
 
   return (
-    <div className="space-y-6">
-      {/* HEADER */}
-      <div className="bg-white rounded-xl shadow-sm p-6 flex justify-between items-center">
-        <div>
-          <h2 className="text-xl font-semibold text-gray-800">
-            Asset Category Management
-          </h2>
+    <div className="space-y-7">
 
-          <p className="text-sm text-gray-500">
-            View and manage assets organized by categories
-          </p>
-        </div>
+      {/* ---------------- HERO ---------------- */}
 
-        <button
-          onClick={() => setOpenModal(true)}
-          className="bg-green-600 hover:bg-green-700 text-white text-sm font-medium cursor-pointer px-5 py-3 rounded-xl transition"
-        >
-          + Add Category
-        </button>
-      </div>
+      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-[32px] p-8 text-white shadow-lg">
 
-      {/* STATS */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {stats.map((s, i) => (
-          <div
-            key={i}
-            className="bg-white rounded-xl shadow-sm p-5"
-          >
-            <div className="text-sm text-gray-500">
-              {s.label}
+        <div className="flex items-center justify-between">
+
+          <div>
+
+            <div className="flex items-center gap-4">
+
+              <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur flex items-center justify-center">
+
+                <Layers3 className="w-8 h-8" />
+              </div>
+
+              <div>
+
+                <h1 className="text-3xl font-bold">
+                  Asset Categories
+                </h1>
+
+                <p className="text-green-50 text-sm mt-1">
+                  Organize and manage inventory assets efficiently
+                </p>
+              </div>
             </div>
 
-            <div
-              className={`text-3xl font-bold mt-1
-              ${
-                s.green
-                  ? "text-green-600"
-                  : s.highlight
-                  ? "text-blue-600"
-                  : "text-gray-800"
-              }`}
-            >
-              {s.value}
+            <div className="flex items-center gap-10 mt-7">
+
+              <div>
+
+                <p className="text-3xl font-bold">
+                  {categories.length}
+                </p>
+
+                <p className="text-sm text-green-100">
+                  Categories
+                </p>
+              </div>
+
+              <div>
+
+                <p className="text-3xl font-bold">
+                  {totalAssets}
+                </p>
+
+                <p className="text-sm text-green-100">
+                  Total Assets
+                </p>
+              </div>
+
+              <div>
+
+                <p className="text-3xl font-bold">
+                  ₹{totalAmount.toLocaleString()}
+                </p>
+
+                <p className="text-sm text-green-100">
+                  Asset Value
+                </p>
+              </div>
             </div>
           </div>
-        ))}
+
+          <button
+            onClick={() => setOpenModal(true)}
+            className="px-6 py-3 rounded-2xl bg-white text-green-600 hover:bg-green-50 transition text-sm font-semibold shadow-md flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Add Category
+          </button>
+        </div>
       </div>
 
-      {/* CATEGORY GRID */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {categories.map((c, i) => {
-          const Icon =
-            Object.values(iconMap)[
-              i % Object.values(iconMap).length
-            ];
+      {/* ---------------- STATS ---------------- */}
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+        {stats.map((s, i) => {
+
+          const Icon = s.icon;
 
           return (
             <div
-              key={c.id}
-              className="bg-white rounded-xl shadow-sm p-6"
+              key={i}
+              className="bg-white border border-gray-100 rounded-[28px] p-6 shadow-sm hover:shadow-md transition"
             >
-              {/* TOP */}
-              <div className="flex items-start justify-between">
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-blue-100 text-blue-600">
-                  {/* <Icon className="w-5 h-5" /> */}
+
+              <div className="flex items-center justify-between">
+
+                <div>
+
+                  <p className="text-sm text-gray-500">
+                    {s.label}
+                  </p>
+
+                  <h3 className="text-3xl font-bold text-gray-800 mt-2">
+                    {s.value}
+                  </h3>
                 </div>
 
-                <button className="text-blue-600 text-sm hover:underline">
-                  View All
-                </button>
-              </div>
-
-              {/* CONTENT */}
-              <div className="mt-4">
-                <div className="font-semibold text-gray-800">
-                  {c.name}
-                </div>
-
-                <div className="mt-3 space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">
-                      Total Assets:
-                    </span>
-
-                    <span className="font-medium">
-                      {c.totalAssets}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">
-                      Total Value:
-                    </span>
-
-                    <span className="font-medium">
-                      ₹{c.totalAmount?.toLocaleString()}
-                    </span>
-                  </div>
+                <div
+                  className={`w-14 h-14 rounded-2xl flex items-center justify-center ${s.color}`}
+                >
+                  <Icon className="w-6 h-6" />
                 </div>
               </div>
             </div>
@@ -218,33 +262,166 @@ export default function AssetCategoryPage() {
         })}
       </div>
 
-      {/* MODAL */}
+      {/* ---------------- CATEGORY GRID ---------------- */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+        {categories.map((c, i) => {
+
+          const Icon =
+            Object.values(iconMap)[
+              i % Object.values(iconMap).length
+            ];
+
+          const gradient =
+            gradientList[
+              i % gradientList.length
+            ];
+
+          return (
+            <div
+              key={c.id}
+              className="group bg-white border border-gray-100 rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+            >
+
+              {/* TOP */}
+
+              <div
+                className={`bg-gradient-to-r ${gradient} p-6 text-white relative overflow-hidden`}
+              >
+
+                <div className="absolute right-0 top-0 w-28 h-28 bg-white/10 rounded-full blur-2xl" />
+
+                <div className="flex items-start justify-between relative z-10">
+
+                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
+                <Layers3 className="w-8 h-8" />
+
+                    {/* <Icon className="w-6 h-6" /> */}
+                  </div>
+
+                  {/* <button className="flex items-center gap-1 text-sm font-medium hover:underline">
+                    View
+
+                    <ArrowUpRight className="w-4 h-4" />
+                  </button> */}
+                </div>
+
+                <div className="mt-7 relative z-10">
+
+                  <h3 className="text-2xl font-bold">
+                    {c.name}
+                  </h3>
+
+                  <p className="text-sm text-white/80 mt-2 line-clamp-2">
+                    {c.description ||
+                      "No description available"}
+                  </p>
+                </div>
+              </div>
+
+              {/* CONTENT */}
+
+              <div className="p-6">
+
+                <div className="grid grid-cols-2 gap-4">
+
+                  <div className="bg-gray-50 rounded-2xl p-4">
+
+                    <p className="text-xs uppercase tracking-wide text-gray-500">
+                      Total Assets
+                    </p>
+
+                    <h4 className="text-2xl font-bold text-gray-800 mt-2">
+                      {c.totalAssets || 0}
+                    </h4>
+                  </div>
+
+                  <div className="bg-gray-50 rounded-2xl p-4">
+
+                    <p className="text-xs uppercase tracking-wide text-gray-500">
+                      Total Value
+                    </p>
+
+                    <h4 className="text-2xl font-bold text-green-600 mt-2">
+                      ₹
+                      {(
+                        c.totalAmount || 0
+                      ).toLocaleString()}
+                    </h4>
+                  </div>
+                </div>
+
+                {/* FOOTER */}
+
+                <div className="flex items-center justify-between mt-6 pt-5 border-t border-gray-100">
+
+                  
+
+                    <p className="text-xs text-gray-500">
+                      Category ID
+                    </p>
+
+                    <p className="text-sm font-medium text-gray-700 truncate max-w-[180px]">
+                      {c.id}
+                    </p>
+                  
+
+              
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ---------------- MODAL ---------------- */}
+
       {openModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md p-6 relative">
+
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+
+          <div className="bg-white rounded-[32px] w-full max-w-lg p-8 relative shadow-2xl">
+
             {/* CLOSE */}
+
             <button
               onClick={() => setOpenModal(false)}
-              className="absolute right-4 top-4"
+              className="absolute right-5 top-5 w-10 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5 text-gray-600" />
             </button>
 
-            <h2 className="text-xl font-semibold mb-1">
-              Add Category
-            </h2>
+            {/* HEADER */}
 
-            <p className="text-sm text-gray-500 mb-6">
-              Create new asset category
-            </p>
+            <div>
+
+              <div className="w-16 h-16 rounded-3xl bg-green-100 flex items-center justify-center mb-5">
+
+                <Plus className="w-8 h-8 text-green-600" />
+              </div>
+
+              <h2 className="text-3xl font-bold text-gray-800">
+                Create Category
+              </h2>
+
+              <p className="text-sm text-gray-500 mt-2">
+                Add a new asset category to organize inventory
+              </p>
+            </div>
+
+            {/* FORM */}
 
             <form
               onSubmit={handleSubmit}
-              className="space-y-4"
+              className="space-y-5 mt-8"
             >
+
               {/* NAME */}
+
               <div>
-                <label className="text-sm font-medium text-gray-700">
+
+                <label className="text-sm font-semibold text-gray-700">
                   Category Name
                 </label>
 
@@ -258,19 +435,21 @@ export default function AssetCategoryPage() {
                       name: e.target.value,
                     })
                   }
-                  className="w-full mt-1 border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full h-14 mt-2 rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none focus:border-green-500 focus:bg-white transition"
                   placeholder="Enter category name"
                 />
               </div>
 
               {/* DESCRIPTION */}
+
               <div>
-                <label className="text-sm font-medium text-gray-700">
+
+                <label className="text-sm font-semibold text-gray-700">
                   Description
                 </label>
 
                 <textarea
-                  rows={4}
+                  rows={5}
                   value={formData.description}
                   onChange={(e) =>
                     setFormData({
@@ -278,19 +457,20 @@ export default function AssetCategoryPage() {
                       description: e.target.value,
                     })
                   }
-                  className="w-full mt-1 border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full mt-2 rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 text-sm outline-none focus:border-green-500 focus:bg-white transition resize-none"
                   placeholder="Enter description"
                 />
               </div>
 
               {/* BUTTON */}
+
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-medium transition"
+                className="w-full h-14 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 hover:opacity-95 text-white font-semibold text-sm transition shadow-lg"
               >
                 {loading
-                  ? "Creating..."
+                  ? "Creating Category..."
                   : "Create Category"}
               </button>
             </form>

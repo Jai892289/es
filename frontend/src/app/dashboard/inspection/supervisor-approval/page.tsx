@@ -9,23 +9,28 @@ import {
   MapPin,
   ImageIcon,
   VideoIcon,
+  ShieldCheck,
+  Activity,
+  ClipboardCheck,
+  ArrowUpRight,
 } from "lucide-react"
 
 import { getInspectionApprovalApi } from "@/lib/inspection.api"
 
 export default function SupervisorApprovalPage() {
+
   const [loading, setLoading] =
     useState(true)
 
-  const [stats, setStats] = useState({
-    pending: 0,
-    approved: 0,
-    rejected: 0,
-  })
+  const [stats, setStats] =
+    useState({
+      pending: 0,
+      approved: 0,
+      rejected: 0,
+    })
 
-  const [reports, setReports] = useState<any[]>(
-    []
-  )
+  const [reports, setReports] =
+    useState<any[]>([])
 
   useEffect(() => {
     fetchApprovalReports()
@@ -33,160 +38,303 @@ export default function SupervisorApprovalPage() {
 
   const fetchApprovalReports =
     async () => {
+
       try {
+
         setLoading(true)
 
         const response =
           await getInspectionApprovalApi()
 
-        console.log(
-          "Approval Reports",
-          response
+        setStats(
+          response.data.stats
         )
 
-        setStats(response.data.stats)
+        setReports(
+          response.data.reports
+        )
 
-        setReports(response.data.reports)
       } catch (error) {
+
         console.log(
           "Approval Fetch Error",
           error
         )
+
       } finally {
+
         setLoading(false)
       }
     }
 
   if (loading) {
+
     return (
-      <div className="p-10 text-center">
-        Loading approval reports...
+      <div className="min-h-[60vh] flex items-center justify-center">
+
+        <div className="space-y-4 text-center">
+
+          <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
+
+          <p className="text-gray-500">
+            Loading approval reports...
+          </p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-8">
-      {/* HEADER */}
-      <div className="bg-white border rounded-xl p-6">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Supervisor Approval
-        </h2>
+    <div className="space-y-7">
 
-        <p className="text-sm text-gray-500 mt-1">
-          Review and approve inspection
-          reports submitted by inspectors
-        </p>
+      {/* HERO */}
+
+      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 text-white shadow-xl">
+
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
+
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+
+          {/* LEFT */}
+
+          <div>
+
+            <div className="flex items-center gap-5">
+
+              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+
+                <ClipboardCheck className="w-10 h-10" />
+              </div>
+
+              <div>
+
+                <h1 className="text-4xl font-bold tracking-tight">
+                  Supervisor Approval
+                </h1>
+
+                <p className="text-green-50 mt-2 text-sm">
+                  Review, verify & approve submitted inspection reports
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-10 mt-10">
+
+              <div>
+
+                <h2 className="text-5xl font-bold">
+                  {reports.length}
+                </h2>
+
+                <p className="text-green-100 text-sm mt-1">
+                  Total Reports
+                </p>
+              </div>
+
+              <div>
+
+                <h2 className="text-5xl font-bold">
+                  {stats.approved}
+                </h2>
+
+                <p className="text-green-100 text-sm mt-1">
+                  Approved Reports
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT */}
+
+          <div className="grid grid-cols-1 gap-4 min-w-[320px]">
+
+            <MiniCard
+              icon={ShieldCheck}
+              title="Approval Accuracy"
+              value="98%"
+            />
+
+            <MiniCard
+              icon={Activity}
+              title="Pending Reviews"
+              value={stats.pending}
+            />
+
+            <MiniCard
+              icon={CheckCircle}
+              title="Verified Reports"
+              value={stats.approved}
+            />
+          </div>
+        </div>
       </div>
 
-      {/* SUMMARY CARDS */}
+      {/* OVERVIEW */}
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <SummaryCard
+
+        <OverviewCard
           title="Pending Review"
           value={stats.pending}
-          icon={
-            <Clock className="text-orange-600" />
-          }
+          icon={Clock}
+          gradient="from-orange-500 to-amber-500"
         />
 
-        <SummaryCard
+        <OverviewCard
           title="Approved"
           value={stats.approved}
-          valueColor="text-green-600"
-          icon={
-            <CheckCircle className="text-green-600" />
-          }
+          icon={CheckCircle}
+          gradient="from-emerald-500 to-green-600"
         />
 
-        <SummaryCard
+        <OverviewCard
           title="Rejected"
           value={stats.rejected}
-          valueColor="text-red-600"
-          icon={
-            <XCircle className="text-red-600" />
-          }
+          icon={XCircle}
+          gradient="from-red-500 to-rose-500"
         />
       </div>
 
       {/* REPORTS */}
+
       <div className="space-y-6">
-        {reports.map((report) => (
-          <ApprovalCard
-            key={report.id}
-            id={
-              report.inspection
-                ?.inspectionId
-            }
-            status={
-              report.supervisorStatus
-            }
-            result={
-              report.inspectionResult
-            }
-            title={
-              report.inspection?.title
-            }
-            inspector={
-              report.inspection
-                ?.inspectorName
-            }
-            date={new Date(
-              report.createdAt
-            ).toLocaleDateString()}
-            location={report.address}
-            coords={`${report.latitude}° , ${report.longitude}°`}
-            photos={
-              report.photoUrls?.length ||
-              0
-            }
-            videos={
-              report.videoUrls?.length ||
-              0
-            }
-            observation={
-              report.observation
-            }
-            recommendation={
-              report.recommendation
-            }
-            complianceStatus={
-              report.complianceStatus
-            }
-          />
-        ))}
+
+        {reports.map(
+          (report) => (
+
+            <ApprovalCard
+              key={report.id}
+              id={
+                report.inspection
+                  ?.inspectionId
+              }
+              status={
+                report.supervisorStatus
+              }
+              result={
+                report.inspectionResult
+              }
+              title={
+                report.inspection
+                  ?.title
+              }
+              inspector={
+                report.inspection
+                  ?.inspectorName
+              }
+              date={new Date(
+                report.createdAt
+              ).toLocaleDateString()}
+              location={
+                report.address
+              }
+              coords={`${report.latitude}° , ${report.longitude}°`}
+              photos={
+                report.photoUrls
+                  ?.length || 0
+              }
+              videos={
+                report.videoUrls
+                  ?.length || 0
+              }
+              observation={
+                report.observation
+              }
+              recommendation={
+                report.recommendation
+              }
+              complianceStatus={
+                report.complianceStatus
+              }
+            />
+          )
+        )}
       </div>
     </div>
   )
 }
 
-/* ---------- SUMMARY CARD ---------- */
+/* ---------------- MINI CARD ---------------- */
 
-function SummaryCard({
+function MiniCard({
+  icon: Icon,
   title,
   value,
-  icon,
-  valueColor = "text-gray-800",
 }: any) {
+
   return (
-    <div className="bg-white border rounded-xl p-6 flex justify-between items-center">
-      <div>
-        <p className="text-sm text-gray-500">
-          {title}
-        </p>
+    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10">
 
-        <p
-          className={`text-2xl font-semibold mt-2 ${valueColor}`}
-        >
-          {value}
-        </p>
+      <div className="flex items-center gap-4">
+
+        <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center shadow-lg">
+
+          <Icon className="w-6 h-6 text-white" />
+        </div>
+
+        <div>
+
+          <p className="text-sm text-green-50">
+            {title}
+          </p>
+
+          <h3 className="text-2xl font-bold mt-1 text-white">
+            {value}
+          </h3>
+        </div>
       </div>
-
-      <div>{icon}</div>
     </div>
   )
 }
 
-/* ---------- APPROVAL CARD ---------- */
+/* ---------------- OVERVIEW CARD ---------------- */
+
+function OverviewCard({
+  title,
+  value,
+  icon: Icon,
+  gradient,
+}: any) {
+
+  return (
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+
+      <div
+        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+      />
+
+      <div className="relative z-10">
+
+        <div className="flex items-center justify-between">
+
+          <div
+            className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
+          >
+
+            <Icon className="w-8 h-8" />
+          </div>
+
+          <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
+        </div>
+
+        <div className="mt-8">
+
+          <p className="text-sm text-gray-500">
+            {title}
+          </p>
+
+          <h2 className="text-5xl font-bold text-gray-900 mt-3">
+            {value}
+          </h2>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ---------------- APPROVAL CARD ---------------- */
 
 function ApprovalCard({
   id,
@@ -203,6 +351,7 @@ function ApprovalCard({
   recommendation,
   complianceStatus,
 }: any) {
+
   const statusBadge =
     status === "APPROVED"
       ? "bg-green-100 text-green-700"
@@ -218,119 +367,197 @@ function ApprovalCard({
       : "bg-orange-100 text-orange-700"
 
   return (
-    <div className="bg-white border rounded-xl p-6 space-y-5">
+    <div className="group bg-white border border-gray-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl transition-all duration-300">
+
       {/* HEADER */}
-      <div className="flex justify-between items-start">
-        <div className="space-y-1">
-          <div className="flex items-center gap-3">
-            <span className="font-semibold text-gray-800">
+
+      <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6">
+
+        <div className="space-y-4">
+
+          <div className="flex flex-wrap items-center gap-3">
+
+            <span className="font-semibold text-gray-800 text-lg">
               {id}
             </span>
 
             <span
-              className={`px-3 py-0.5 rounded-full text-xs ${statusBadge}`}
+              className={`px-4 py-2 rounded-2xl text-xs font-medium ${statusBadge}`}
             >
               {status}
             </span>
           </div>
 
-          <h3 className="font-semibold text-gray-800 mt-2">
-            {title}
-          </h3>
+          <div>
 
-          <p className="text-sm text-gray-500">
-            Inspector: {inspector} •{" "}
-            {date}
-          </p>
+            <h3 className="text-2xl font-bold text-gray-800">
+              {title}
+            </h3>
+
+            <p className="text-sm text-gray-500 mt-2">
+              Inspector:
+              {" "}
+              {inspector}
+              {" • "}
+              {date}
+            </p>
+          </div>
         </div>
 
         <span
-          className={`px-3 py-1 rounded-full text-xs ${resultBadge}`}
+          className={`px-5 py-3 rounded-2xl text-sm font-medium h-fit ${resultBadge}`}
         >
           {result || "N/A"}
         </span>
       </div>
 
       {/* DETAILS */}
-      <div className="bg-gray-50 rounded-lg p-4 flex flex-wrap justify-between gap-4 text-sm">
-        <div>
-          <p className="text-xs text-gray-500 mb-1">
-            Location
-          </p>
 
-          <p className="font-medium text-gray-800 flex items-center gap-1">
-            <MapPin className="w-4 h-4 text-gray-500" />
-            {location}
-          </p>
+      <div className="mt-7 grid grid-cols-1 md:grid-cols-2 gap-5">
 
-          <p className="text-xs text-gray-500">
-            {coords}
-          </p>
+        {/* LOCATION */}
+
+        <div className="bg-gray-50 rounded-[24px] p-5 border border-gray-100">
+
+          <div className="flex gap-4">
+
+            <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+
+              <MapPin className="w-5 h-5 text-gray-600" />
+            </div>
+
+            <div>
+
+              <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+                Location
+              </p>
+
+              <p className="font-semibold text-gray-800 mt-2">
+                {location}
+              </p>
+
+              <p className="text-xs text-gray-500 mt-1">
+                {coords}
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <p className="text-xs text-gray-500 mb-1">
-            Media Uploads
-          </p>
+        {/* MEDIA */}
 
-          <div className="flex gap-4 text-blue-600">
-            <span className="flex items-center gap-1">
-              <ImageIcon className="w-4 h-4" />
-              {photos} Photos
-            </span>
+        <div className="bg-gray-50 rounded-[24px] p-5 border border-gray-100">
 
-            <span className="flex items-center gap-1">
-              <VideoIcon className="w-4 h-4" />
-              {videos} Videos
-            </span>
+          <div className="flex gap-4">
+
+            <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+
+              <ImageIcon className="w-5 h-5 text-gray-600" />
+            </div>
+
+            <div>
+
+              <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+                Media Uploads
+              </p>
+
+              <div className="flex gap-5 mt-2">
+
+                <div className="flex items-center gap-2 text-blue-600 text-sm font-medium">
+
+                  <ImageIcon className="w-4 h-4" />
+
+                  {photos} Photos
+                </div>
+
+                <div className="flex items-center gap-2 text-purple-600 text-sm font-medium">
+
+                  <VideoIcon className="w-4 h-4" />
+
+                  {videos} Videos
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* OBSERVATION */}
-      <div className="space-y-3 text-sm">
-        <div>
-          <p className="text-gray-500">
-            Observation
-          </p>
+      {/* CONTENT */}
 
-          <p className="text-gray-700">
-            {observation || "N/A"}
-          </p>
-        </div>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 mt-7">
 
-        <div>
-          <p className="text-gray-500">
-            Recommendation
-          </p>
+        <InfoBox
+          title="Observation"
+          value={
+            observation || "N/A"
+          }
+        />
 
-          <p className="text-gray-700">
-            {recommendation || "N/A"}
-          </p>
-        </div>
+        <InfoBox
+          title="Recommendation"
+          value={
+            recommendation ||
+            "N/A"
+          }
+        />
 
-        <div>
-          <p className="text-gray-500">
-            Compliance Status
-          </p>
-
-          <p className="text-gray-700 font-medium">
-            {complianceStatus ||
-              "N/A"}
-          </p>
-        </div>
+        <InfoBox
+          title="Compliance Status"
+          value={
+            complianceStatus ||
+            "N/A"
+          }
+          highlight
+        />
       </div>
 
       {/* ACTIONS */}
-      <div className="flex gap-3 pt-2">
-        <button className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg text-sm">
-          Approve
+
+      <div className="flex flex-col md:flex-row gap-4 mt-8">
+
+        <button className="flex-1 h-12 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 transition text-white text-sm font-medium shadow-lg">
+
+          Approve Report
         </button>
 
-        <button className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg text-sm">
-          Reject
+        <button className="flex-1 h-12 rounded-2xl bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 transition text-white text-sm font-medium shadow-lg">
+
+          Reject Report
         </button>
       </div>
+    </div>
+  )
+}
+
+/* ---------------- INFO BOX ---------------- */
+
+function InfoBox({
+  title,
+  value,
+  highlight,
+}: any) {
+
+  return (
+    <div
+      className={`rounded-[24px] p-5 border ${
+        highlight
+          ? "bg-emerald-50 border-emerald-100"
+          : "bg-gray-50 border-gray-100"
+      }`}
+    >
+
+      <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+        {title}
+      </p>
+
+      <p
+        className={`mt-3 text-sm leading-7 ${
+          highlight
+            ? "text-emerald-700 font-semibold"
+            : "text-gray-700"
+        }`}
+      >
+        {value}
+      </p>
     </div>
   )
 }
