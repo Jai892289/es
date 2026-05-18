@@ -20,3 +20,38 @@ export const getInventoryByIdApi = (id: string) => {
     method: "GET",
   });
 };
+
+// GET ASSET STATUS ANALYTICS
+export const getAssetStatusApi = () => {
+  return apiFetch("/inventory/asset-status", {
+    method: "GET",
+  });
+};
+
+// GET ASSET TRANSFERS
+export const getAssetTransfersApi = () => {
+  return apiFetch("/inventory/transfers", {
+    method: "GET",
+  });
+};
+
+// USER-WISE ASSET MAPPINGS
+export const getUserWiseAssetMappingsApi = () => {
+  return apiFetch("/inventory/mappings/users", {
+    method: "GET",
+  });
+};
+
+// DEPARTMENT-WISE ASSET MAPPINGS
+export const getDepartmentWiseAssetMappingsApi = () => {
+  return apiFetch("/inventory/mappings/departments", {
+    method: "GET",
+  });
+};
+
+// GET ASSET REPLACEMENTS
+export const getAssetReplacementsApi = () => {
+  return apiFetch("/inventory/replacements", {
+    method: "GET",
+  });
+};

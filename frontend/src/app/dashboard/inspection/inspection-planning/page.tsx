@@ -1,5 +1,7 @@
 "use client"
 
+import { useEffect, useState } from "react"
+
 import {
   Bell,
   Calendar,
@@ -8,18 +10,49 @@ import {
   Plus,
 } from "lucide-react"
 
+import { getInspectionsApi } from "@/lib/inspection.api"
+
 export default function InspectionPage() {
+  const [inspections, setInspections] =
+    useState<any[]>([])
+
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchInspections()
+  }, [])
+
+  const fetchInspections = async () => {
+    try {
+      setLoading(true)
+
+      const response = await getInspectionsApi()
+
+      setInspections(response?.data || [])
+    } catch (error) {
+      console.log("Inspection Error", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // UPCOMING REMINDERS
+  const reminders = inspections.filter(
+    (item: any) => item.status === "SCHEDULED"
+  )
+
   return (
     <div className="space-y-8">
-
       {/* HEADER */}
       <div className="bg-white border rounded-xl p-6 flex justify-between items-start">
         <div>
           <h2 className="text-xl font-semibold text-gray-800">
             Inspection Planning & Scheduling
           </h2>
+
           <p className="text-sm text-gray-500 mt-1">
-            Schedule and manage inspections for projects, assets, and work phases
+            Schedule and manage inspections
+            for projects, assets, and work phases
           </p>
         </div>
 
@@ -35,6 +68,7 @@ export default function InspectionPage() {
           <button className="bg-blue-600 text-white px-4 py-1.5 rounded-md text-sm">
             List View
           </button>
+
           <button className="border px-4 py-1.5 rounded-md text-sm">
             Calendar View
           </button>
@@ -44,6 +78,7 @@ export default function InspectionPage() {
           <select className="border rounded-md px-3 py-1.5 text-sm">
             <option>All Types</option>
           </select>
+
           <select className="border rounded-md px-3 py-1.5 text-sm">
             <option>All Status</option>
           </select>
@@ -57,78 +92,92 @@ export default function InspectionPage() {
           Upcoming Reminders
         </div>
 
-        <Reminder
-          title="Road Construction Quality Check"
-          id="INS-2026-003"
-          due="Due in 2 hours"
-        />
-
-        <Reminder
-          title="Building Safety Inspection - Ward 5"
-          id="INS-2026-001"
-          due="Due in 2 days"
-        />
+        {reminders.length === 0 ? (
+          <p className="text-sm text-gray-600">
+            No upcoming reminders
+          </p>
+        ) : (
+          reminders.map((item: any) => (
+            <Reminder
+              key={item.id}
+              title={item.title}
+              id={item.inspectionId}
+              due={`Scheduled on ${new Date(
+                item.scheduledDate
+              ).toLocaleDateString("en-GB")}`}
+            />
+          ))
+        )}
       </div>
 
       {/* INSPECTION LIST */}
-      <InspectionCard
-        id="INS-2026-001"
-        status="Scheduled"
-        priority="High"
-        title="Building Safety Inspection - Ward 5"
-        type="Project"
-        subtitle="Municipal Building Construction"
-        date="25 Jan 2026"
-        time="10:00 AM"
-        location="Ward 5, Municipal Building Site"
-        phase="Foundation Work"
-        assignee="Priya Sharma"
-        role="Internal Staff"
-      />
-
-      <InspectionCard
-        id="INS-2026-002"
-        status="Scheduled"
-        priority="Medium"
-        title="Asset Verification - IT Equipment"
-        type="Asset"
-        subtitle="Desktop Computers (50 units)"
-        date="26 Jan 2026"
-        time="02:00 PM"
-        location="IT Department, Main Office"
-        phase="Physical Verification"
-        assignee="External Audit Agency"
-        role="External Agency"
-      />
-
-      <InspectionCard
-        id="INS-2026-003"
-        status="In Progress"
-        priority="High"
-        title="Road Construction Quality Check"
-        type="Project"
-        subtitle="Road Development Phase 2"
-        date="24 Jan 2026"
-        time="09:00 AM"
-        location="MG Road Extension"
-        phase="Surface Laying"
-        assignee="Amit Patel"
-        role="Internal Staff"
-      />
+      {loading ? (
+        <div className="bg-white border rounded-xl p-8 text-center text-gray-500">
+          Loading...
+        </div>
+      ) : inspections.length === 0 ? (
+        <div className="bg-white border rounded-xl p-8 text-center text-gray-500">
+          No inspections found
+        </div>
+      ) : (
+        inspections.map((item: any) => (
+          <InspectionCard
+            key={item.id}
+            id={item.inspectionId}
+            status={item.status}
+            priority={item.priority}
+            title={item.title}
+            type={item.type}
+            subtitle={item.notes || "Inspection"}
+            date={new Date(
+              item.scheduledDate
+            ).toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            })}
+            time={new Date(
+              item.scheduledDate
+            ).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+            location={item.location}
+            phase={item.type}
+            assignee={item.inspectorName}
+            role={
+              item.project
+                ? "Project Inspection"
+                : item.product
+                ? "Asset Inspection"
+                : "General Inspection"
+            }
+          />
+        ))
+      )}
     </div>
   )
 }
 
 /* ---------- REMINDER ---------- */
-function Reminder({ title, id, due }: any) {
+
+function Reminder({
+  title,
+  id,
+  due,
+}: any) {
   return (
     <div className="bg-white border border-orange-200 rounded-lg p-4 flex justify-between items-center">
       <div>
-        <p className="font-medium text-gray-800">{title}</p>
+        <p className="font-medium text-gray-800">
+          {title}
+        </p>
+
         <p className="text-xs text-gray-500">
           Inspection ID: {id}
         </p>
       </div>
+
       <span className="text-xs bg-orange-100 text-orange-700 px-3 py-1 rounded-full">
         {due}
       </span>
@@ -137,6 +186,7 @@ function Reminder({ title, id, due }: any) {
 }
 
 /* ---------- INSPECTION CARD ---------- */
+
 function InspectionCard({
   id,
   status,
@@ -152,32 +202,44 @@ function InspectionCard({
   role,
 }: any) {
   const statusColor =
-    status === "In Progress"
+    status === "IN_PROGRESS"
       ? "bg-orange-100 text-orange-700"
       : "bg-blue-100 text-blue-700"
 
   const priorityColor =
-    priority === "High"
+    priority === "HIGH"
       ? "bg-red-100 text-red-700"
-      : "bg-yellow-100 text-yellow-700"
+      : priority === "MEDIUM"
+      ? "bg-yellow-100 text-yellow-700"
+      : "bg-green-100 text-green-700"
 
   return (
     <div className="bg-white border rounded-xl p-6 space-y-4">
-
       {/* HEADER */}
       <div className="flex flex-wrap gap-3 items-center">
-        <span className="font-semibold text-gray-800">{id}</span>
-        <span className={`px-3 py-0.5 rounded-full text-xs ${statusColor}`}>
+        <span className="font-semibold text-gray-800">
+          {id}
+        </span>
+
+        <span
+          className={`px-3 py-0.5 rounded-full text-xs ${statusColor}`}
+        >
           {status}
         </span>
-        <span className={`px-3 py-0.5 rounded-full text-xs ${priorityColor}`}>
+
+        <span
+          className={`px-3 py-0.5 rounded-full text-xs ${priorityColor}`}
+        >
           {priority} Priority
         </span>
       </div>
 
       {/* TITLE */}
       <div>
-        <h3 className="font-semibold text-gray-800">{title}</h3>
+        <h3 className="font-semibold text-gray-800">
+          {title}
+        </h3>
+
         <p className="text-sm text-gray-500">
           {type} • {subtitle}
         </p>
@@ -185,15 +247,22 @@ function InspectionCard({
 
       {/* DETAILS */}
       <div className="bg-gray-50 rounded-lg p-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-        <Detail icon={<Calendar />} label="Date & Time">
+        <Detail
+          icon={<Calendar />}
+          label="Date & Time"
+        >
           {date}
           <br />
           {time}
         </Detail>
 
-        <Detail icon={<MapPin />} label="Location">
+        <Detail
+          icon={<MapPin />}
+          label="Location"
+        >
           {location}
           <br />
+
           <span className="text-xs text-gray-500">
             Phase: {phase}
           </span>
@@ -202,7 +271,10 @@ function InspectionCard({
         <Detail icon={<User />} label="Assigned To">
           {assignee}
           <br />
-          <span className="text-xs text-gray-500">{role}</span>
+
+          <span className="text-xs text-gray-500">
+            {role}
+          </span>
         </Detail>
       </div>
 
@@ -211,6 +283,7 @@ function InspectionCard({
         <button className="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg text-sm">
           Edit Schedule
         </button>
+
         <button className="bg-orange-50 text-orange-600 px-4 py-2 rounded-lg text-sm">
           Send Reminder
         </button>
@@ -220,13 +293,26 @@ function InspectionCard({
 }
 
 /* ---------- DETAIL BLOCK ---------- */
-function Detail({ icon, label, children }: any) {
+
+function Detail({
+  icon,
+  label,
+  children,
+}: any) {
   return (
     <div className="flex gap-2">
-      <div className="text-gray-500 mt-0.5">{icon}</div>
+      <div className="text-gray-500 mt-0.5">
+        {icon}
+      </div>
+
       <div>
-        <p className="text-xs text-gray-500">{label}</p>
-        <p className="text-gray-800">{children}</p>
+        <p className="text-xs text-gray-500">
+          {label}
+        </p>
+
+        <p className="text-gray-800">
+          {children}
+        </p>
       </div>
     </div>
   )

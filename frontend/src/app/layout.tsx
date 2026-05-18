@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} font-sans min-h-screen overflow-x-hidden`}>
+      <body className={`${poppins.variable} font-sans min-h-screen overflow-x-hidden mx-2`}>
         <AuthProvider>{children}
 
                   <Toaster position="top-right" />

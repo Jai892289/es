@@ -29,7 +29,7 @@ fetchInventory()
 
 if (loading) return <p>Loading inventory...</p>
 
-return ( <div className="space-y-6">
+return ( <div className="space-y-6 ">
 
 
   {/* FILTERS */}
@@ -92,14 +92,14 @@ return ( <div className="space-y-6">
             </td>
 
             <td className="px-4 py-3 border-r border-gray-200 font-medium">
-              <p>{item.productName}</p>
+              <p>{item?.productName}</p>
               <p className="text-xs text-gray-500">
-                {item.category}
-              </p>
+  {item?.category?.name || ""}
+             </p>
             </td>
 
             <td className="px-4 py-3 border-r border-gray-200">
-              {item.category}
+  {item?.category?.name || ""}
             </td>
 
             <td className="px-4 py-3 border-r border-gray-200">
