@@ -110,7 +110,7 @@ export default function LoginPage() {
         </div>
 
         {/* ================= RIGHT SIDE ================= */}
-      <div className="flex items-center justify-center px-6 py-10">
+      <div className="flex items-center justify-center px-6 py-2">
 
   <div
     className="
@@ -155,27 +155,24 @@ export default function LoginPage() {
         <Image
           src="/eccentriclogo.png"
           alt="logo"
-          width={110}
+          width={100}
           height={60}
           className="object-contain"
         />
       </div>
 
-      <h2 className="text-4xl font-black text-white mt-7 tracking-tight">
+      <h2 className="text-4xl font-black text-white mt-4 tracking-tight">
         Welcome Back
       </h2>
 
-      <p className="text-white/70 text-sm leading-7 mt-4 max-w-sm mx-auto">
-        Login now to access real-time insights,
-        monitor operations & manage your smart infrastructure system.
-      </p>
+   
     </div>
 
     {/* FORM */}
 
     <form
       onSubmit={handleLogin}
-      className="relative z-10 mt-10 space-y-5"
+      className="relative z-10 mt-5 space-y-5"
     >
 
       {/* USERNAME */}

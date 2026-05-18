@@ -1,6 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import {
+  useEffect,
+  useState,
+} from "react"
 
 import {
   Pencil,
@@ -16,6 +19,11 @@ import {
   UserPlus,
   Building2,
 } from "lucide-react"
+
+import {
+  createUserApi,
+  getUsersApi,
+} from "@/lib/user.api"
 
 const permissionMatrix = [
   {
@@ -69,67 +77,6 @@ const permissionMatrix = [
   },
 ]
 
-const usersData = [
-  {
-    id: 1,
-    name: "Rajesh Kumar",
-    email:
-      "rajesh.kumar@gsampada.gov.in",
-    phone: "+91 9876543210",
-    department: "IT",
-    designation:
-      "Senior Officer",
-    role: "Admin",
-    status: "Active",
-    lastLogin:
-      "22 Jan 2026, 10:30 AM",
-  },
-  {
-    id: 2,
-    name: "Priya Sharma",
-    email:
-      "priya.sharma@gsampada.gov.in",
-    phone: "+91 9876543211",
-    department:
-      "Building / Nirman",
-    designation: "Inspector",
-    role:
-      "Inspection Officer",
-    status: "Active",
-    lastLogin:
-      "22 Jan 2026, 09:15 AM",
-  },
-  {
-    id: 3,
-    name: "Amit Patel",
-    email:
-      "amit.patel@gsampada.gov.in",
-    phone: "+91 9876543212",
-    department: "Finance",
-    designation:
-      "Junior Officer",
-    role:
-      "Inspection Officer",
-    status: "Active",
-    lastLogin:
-      "21 Jan 2026, 04:20 PM",
-  },
-  {
-    id: 4,
-    name: "Sunita Verma",
-    email:
-      "sunita.verma@gsampada.gov.in",
-    phone: "+91 9876543213",
-    department: "Revenue",
-    designation:
-      "Department Head",
-    role: "Admin",
-    status: "Inactive",
-    lastLogin:
-      "18 Jan 2026, 11:45 AM",
-  },
-]
-
 export default function UserManagementPage() {
 
   const [search, setSearch] =
@@ -143,6 +90,100 @@ export default function UserManagementPage() {
 
   const [openAddUser, setOpenAddUser] =
     useState(false)
+
+  const [usersData, setUsersData] =
+    useState<any[]>([])
+
+  const [loading, setLoading] =
+    useState(true)
+
+  const [creating, setCreating] =
+    useState(false)
+
+  const [userForm, setUserForm] =
+    useState({
+      name: "",
+      email: "",
+      password: "",
+      mobileNumber: "",
+      designation: "",
+      role: "",
+      departmentId: "",
+    })
+
+  /* ---------------- FETCH USERS ---------------- */
+
+  const fetchUsers = async () => {
+
+    try {
+
+      setLoading(true)
+
+      const response =
+        await getUsersApi()
+
+      setUsersData(
+        response?.data || []
+      )
+
+    } catch (error) {
+
+      console.log(
+        "GET USERS ERROR",
+        error
+      )
+
+    } finally {
+
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+
+    fetchUsers()
+
+  }, [])
+
+  /* ---------------- CREATE USER ---------------- */
+
+  const handleCreateUser =
+    async () => {
+
+      try {
+
+        setCreating(true)
+
+        await createUserApi(
+          userForm
+        )
+
+        setOpenAddUser(false)
+
+        setUserForm({
+          name: "",
+          email: "",
+          password: "",
+          mobileNumber: "",
+          designation: "",
+          role: "",
+          departmentId: "",
+        })
+
+        await fetchUsers()
+
+      } catch (error) {
+
+        console.log(
+          "CREATE USER ERROR",
+          error
+        )
+
+      } finally {
+
+        setCreating(false)
+      }
+    }
 
   return (
     <div className="space-y-7">
@@ -215,13 +256,21 @@ export default function UserManagementPage() {
             <MiniCard
               icon={ShieldCheck}
               title="Admins"
-              value="12"
+              value={
+                usersData.filter(
+                  (u: any) =>
+                    u.role ===
+                    "Admin"
+                ).length
+              }
             />
 
             <MiniCard
               icon={Activity}
               title="Active Users"
-              value="84"
+              value={
+                usersData.length
+              }
             />
 
             <MiniCard
@@ -239,21 +288,39 @@ export default function UserManagementPage() {
 
         <OverviewCard
           title="Total Users"
-          value={usersData.length}
+          value={
+            usersData.length
+          }
           icon={Users}
           gradient="from-emerald-500 to-green-600"
         />
 
         <OverviewCard
           title="Admins"
-          value="12"
+          value={
+            usersData.filter(
+              (u: any) =>
+                u.role ===
+                "Admin"
+            ).length
+          }
           icon={ShieldCheck}
           gradient="from-blue-500 to-cyan-500"
         />
 
         <OverviewCard
           title="Departments"
-          value="8"
+          value={
+            new Set(
+              usersData.map(
+                (
+                  u: any
+                ) =>
+                  u.department
+                    ?.name
+              )
+            ).size
+          }
           icon={Building2}
           gradient="from-orange-500 to-amber-500"
         />
@@ -294,12 +361,13 @@ export default function UserManagementPage() {
             }
             className="h-12 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none"
           >
+
             <option>
               All Roles
             </option>
 
             <option>
-              Admin
+              ADMIN
             </option>
 
             <option>
@@ -316,6 +384,7 @@ export default function UserManagementPage() {
             }
             className="h-12 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none"
           >
+
             <option>
               All Departments
             </option>
@@ -371,167 +440,173 @@ export default function UserManagementPage() {
 
         <div className="overflow-x-auto">
 
-          <table className="w-full min-w-[1200px]">
+          {loading ? (
 
-            <thead className="bg-gray-50 border-b border-gray-100">
+            <div className="py-20 text-center text-gray-500">
+              Loading users...
+            </div>
 
-              <tr>
+          ) : (
 
-                {[
-                  "User",
-                  "Department",
-                  "Role",
-                  "Status",
-                  "Last Login",
-                  "Actions",
-                ].map((h) => (
+            <table className="w-full min-w-[1200px]">
 
-                  <th
-                    key={h}
-                    className="px-8 py-5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
+              <thead className="bg-gray-50 border-b border-gray-100">
 
-            <tbody>
+                <tr>
 
-              {usersData.map(
-                (user) => (
+                  {[
+                    "User",
+                    "Department",
+                    "Role",
+                    "Status",
+                    "Created",
+                    "Actions",
+                  ].map((h) => (
 
-                  <tr
-                    key={user.id}
-                    className="border-b border-gray-100 hover:bg-gray-50 transition"
-                  >
+                    <th
+                      key={h}
+                      className="px-8 py-5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
 
-                    {/* USER */}
+              <tbody>
 
-                    <td className="px-8 py-6">
+                {usersData.map(
+                  (
+                    user: any
+                  ) => (
 
-                      <div className="flex items-center gap-4">
+                    <tr
+                      key={user.id}
+                      className="border-b border-gray-100 hover:bg-gray-50 transition"
+                    >
 
-                        <div className="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-lg">
+                      {/* USER */}
 
+                      <td className="px-8 py-6">
+
+                        <div className="flex items-center gap-4">
+
+                          <div className="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-lg">
+
+                            {
+                              user.name?.[0]
+                            }
+                          </div>
+
+                          <div>
+
+                            <h3 className="font-semibold text-gray-800">
+                              {
+                                user.name
+                              }
+                            </h3>
+
+                            <p className="text-xs text-gray-500 mt-1">
+                              {
+                                user.email
+                              }
+                            </p>
+
+                            <p className="text-xs text-gray-400 mt-1">
+                              {
+                                user.mobileNumber
+                              }
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* DEPARTMENT */}
+
+                      <td className="px-8 py-6">
+
+                        <div className="font-medium text-gray-800">
                           {
-                            user.name[0]
+                            user
+                              .department
+                              ?.name || "-"
                           }
                         </div>
 
-                        <div>
-
-                          <h3 className="font-semibold text-gray-800">
-                            {
-                              user.name
-                            }
-                          </h3>
-
-                          <p className="text-xs text-gray-500 mt-1">
-                            {
-                              user.email
-                            }
-                          </p>
-
-                          <p className="text-xs text-gray-400 mt-1">
-                            {
-                              user.phone
-                            }
-                          </p>
+                        <div className="text-xs text-gray-500 mt-1">
+                          {
+                            user.designation
+                          }
                         </div>
-                      </div>
-                    </td>
+                      </td>
 
-                    {/* DEPARTMENT */}
+                      {/* ROLE */}
 
-                    <td className="px-8 py-6">
+                      <td className="px-8 py-6">
 
-                      <div className="font-medium text-gray-800">
-                        {
-                          user.department
-                        }
-                      </div>
+                        <span
+                          className={`px-4 py-2 rounded-2xl text-xs font-medium
+                          ${
+                            user.role ===
+                            "Admin"
+                              ? "bg-red-100 text-red-700"
+                              : "bg-blue-100 text-blue-700"
+                          }`}
+                        >
 
-                      <div className="text-xs text-gray-500 mt-1">
-                        {
-                          user.designation
-                        }
-                      </div>
-                    </td>
+                          {
+                            user.role
+                          }
+                        </span>
+                      </td>
 
-                    {/* ROLE */}
+                      {/* STATUS */}
 
-                    <td className="px-8 py-6">
+                      <td className="px-8 py-6">
 
-                      <span
-                        className={`px-4 py-2 rounded-2xl text-xs font-medium
-                        ${
-                          user.role ===
-                          "Admin"
-                            ? "bg-red-100 text-red-700"
-                            : "bg-blue-100 text-blue-700"
-                        }`}
-                      >
-                        {
-                          user.role
-                        }
-                      </span>
-                    </td>
+                        <span className="px-4 py-2 rounded-2xl text-xs font-medium bg-green-100 text-green-700">
 
-                    {/* STATUS */}
+                          Active
+                        </span>
+                      </td>
 
-                    <td className="px-8 py-6">
+                      {/* CREATED */}
 
-                      <span
-                        className={`px-4 py-2 rounded-2xl text-xs font-medium
-                        ${
-                          user.status ===
-                          "Active"
-                            ? "bg-green-100 text-green-700"
-                            : "bg-gray-100 text-gray-700"
-                        }`}
-                      >
-                        {
-                          user.status
-                        }
-                      </span>
-                    </td>
+                      <td className="px-8 py-6 text-gray-600 text-sm">
 
-                    {/* LOGIN */}
+                        {new Date(
+                          user.createdAt
+                        ).toLocaleString()}
+                      </td>
 
-                    <td className="px-8 py-6 text-gray-600 text-sm">
-                      {
-                        user.lastLogin
-                      }
-                    </td>
+                      {/* ACTION */}
 
-                    {/* ACTION */}
+                      <td className="px-8 py-6">
 
-                    <td className="px-8 py-6">
+                        <div className="flex items-center gap-3">
 
-                      <div className="flex items-center gap-3">
+                          <button className="w-11 h-11 rounded-2xl bg-blue-50 hover:bg-blue-100 transition flex items-center justify-center text-blue-600">
 
-                        <button className="w-11 h-11 rounded-2xl bg-blue-50 hover:bg-blue-100 transition flex items-center justify-center text-blue-600">
+                            <Pencil className="w-4 h-4" />
+                          </button>
 
-                          <Pencil className="w-4 h-4" />
-                        </button>
+                          <button className="w-11 h-11 rounded-2xl bg-red-50 hover:bg-red-100 transition flex items-center justify-center text-red-600">
 
-                        <button className="w-11 h-11 rounded-2xl bg-red-50 hover:bg-red-100 transition flex items-center justify-center text-red-600">
-
-                          <UserX className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
+                            <UserX className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
       {/* PERMISSION MATRIX */}
-
+{/* 
       <div className="bg-white border border-gray-100 rounded-[32px] shadow-sm overflow-hidden">
 
         <div className="px-8 py-6 border-b border-gray-100">
@@ -622,7 +697,7 @@ export default function UserManagementPage() {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
 
       {/* MODAL */}
 
@@ -678,37 +753,101 @@ export default function UserManagementPage() {
               <InputField
                 label="Full Name"
                 placeholder="Enter full name"
+                value={userForm.name}
+                onChange={(e: any) =>
+                  setUserForm({
+                    ...userForm,
+                    name:
+                      e.target.value,
+                  })
+                }
               />
 
               <InputField
                 label="Email"
                 placeholder="Enter email"
                 type="email"
+                value={userForm.email}
+                onChange={(e: any) =>
+                  setUserForm({
+                    ...userForm,
+                    email:
+                      e.target.value,
+                  })
+                }
+              />
+
+              <InputField
+                label="Password"
+                placeholder="Enter password"
+                type="password"
+                value={userForm.password}
+                onChange={(e: any) =>
+                  setUserForm({
+                    ...userForm,
+                    password:
+                      e.target.value,
+                  })
+                }
               />
 
               <InputField
                 label="Mobile Number"
                 placeholder="Enter mobile number"
+                value={
+                  userForm.mobileNumber
+                }
+                onChange={(e: any) =>
+                  setUserForm({
+                    ...userForm,
+                    mobileNumber:
+                      e.target.value,
+                  })
+                }
               />
 
               <InputField
                 label="Designation"
                 placeholder="Enter designation"
+                value={
+                  userForm.designation
+                }
+                onChange={(e: any) =>
+                  setUserForm({
+                    ...userForm,
+                    designation:
+                      e.target.value,
+                  })
+                }
               />
 
-              <SelectField
-                label="Department"
-                options={[
-                  "IT",
-                  "Finance",
-                  "Revenue",
-                ]}
+              <InputField
+                label="Department ID"
+                placeholder="Enter department id"
+                value={
+                  userForm.departmentId
+                }
+                onChange={(e: any) =>
+                  setUserForm({
+                    ...userForm,
+                    departmentId:
+                      e.target.value,
+                  })
+                }
               />
 
               <SelectField
                 label="Role"
+                value={userForm.role}
+                onChange={(e: any) =>
+                  setUserForm({
+                    ...userForm,
+                    role:
+                      e.target.value,
+                  })
+                }
                 options={[
-                  "Admin",
+                  "ADMIN",
                   "Inspection Officer",
                 ]}
               />
@@ -729,9 +868,17 @@ export default function UserManagementPage() {
                 Cancel
               </button>
 
-              <button className="h-12 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 transition text-white text-sm font-medium shadow-lg">
+              <button
+                onClick={
+                  handleCreateUser
+                }
+                disabled={creating}
+                className="h-12 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 transition text-white text-sm font-medium shadow-lg disabled:opacity-50"
+              >
 
-                Add User
+                {creating
+                  ? "Creating..."
+                  : "Add User"}
               </button>
             </div>
           </div>
@@ -846,6 +993,7 @@ function InputField({
 function SelectField({
   label,
   options,
+  ...props
 }: any) {
 
   return (
@@ -855,7 +1003,10 @@ function SelectField({
         {label}
       </label>
 
-      <select className="mt-2 w-full h-14 rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100">
+      <select
+        {...props}
+        className="mt-2 w-full h-14 rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+      >
 
         <option>
           Select {label}
