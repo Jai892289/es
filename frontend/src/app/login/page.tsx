@@ -110,30 +110,28 @@ export default function LoginPage() {
         </div>
 
         {/* ================= RIGHT SIDE ================= */}
-      <div className="flex items-center justify-center px-6 py-2">
+     {/* ================= RIGHT SIDE ================= */}
+
+<div className="flex items-center justify-center px-4 py-4">
 
   <div
     className="
       relative overflow-hidden
-      w-full max-w-2xl
-      rounded-[36px]
+      w-full max-w-md
+      rounded-[24px]
       border border-white/10
       bg-white/10
       backdrop-blur-2xl
-      shadow-[0_20px_80px_rgba(16,185,129,0.25)]
-      p-8 md:p-10
+      shadow-[0_10px_40px_rgba(16,185,129,0.18)]
+      p-5 md:p-6
     "
   >
 
     {/* GLOW EFFECTS */}
 
-    <div className="absolute -top-20 -right-20 w-60 h-60 bg-emerald-400/20 rounded-full blur-3xl" />
+    <div className="absolute -top-20 -right-20 w-44 h-44 bg-emerald-400/20 rounded-full blur-3xl" />
 
-    <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-green-500/20 rounded-full blur-3xl" />
-
-    {/* TOP BADGE */}
-
-
+    <div className="absolute -bottom-20 -left-20 w-44 h-44 bg-green-500/20 rounded-full blur-3xl" />
 
     {/* LOGO */}
 
@@ -141,38 +139,36 @@ export default function LoginPage() {
 
       <div
         className="
-          w-28 h-28
-          rounded-[30px]
+          w-20 h-20
+          rounded-[20px]
           bg-white/10
           border border-white/10
           backdrop-blur
           flex items-center justify-center
           mx-auto
-          shadow-2xl
+          shadow-xl
         "
       >
 
         <Image
           src="/eccentriclogo.png"
           alt="logo"
-          width={100}
-          height={60}
+          width={75}
+          height={45}
           className="object-contain"
         />
       </div>
 
-      <h2 className="text-4xl font-black text-white mt-4 tracking-tight">
+      <h2 className="text-3xl font-black text-white mt-3 tracking-tight">
         Welcome Back
       </h2>
-
-   
     </div>
 
     {/* FORM */}
 
     <form
       onSubmit={handleLogin}
-      className="relative z-10 mt-5 space-y-5"
+      className="relative z-10 mt-5 space-y-4"
     >
 
       {/* USERNAME */}
@@ -187,15 +183,15 @@ export default function LoginPage() {
 
           <div
             className="
-              absolute left-4 top-1/2 -translate-y-1/2
-              w-10 h-10 rounded-xl
+              absolute left-3 top-1/2 -translate-y-1/2
+              w-9 h-9 rounded-lg
               bg-emerald-500/10
               border border-emerald-400/10
               flex items-center justify-center
             "
           >
 
-            <User className="h-5 w-5 text-emerald-200" />
+            <User className="h-4 w-4 text-emerald-200" />
           </div>
 
           <input
@@ -203,17 +199,16 @@ export default function LoginPage() {
             placeholder="Enter your email"
             value={username}
             onChange={(e) =>
-              setUsername(
-                e.target.value
-              )
+              setUsername(e.target.value)
             }
             className="
-              w-full h-16
-              rounded-2xl
+              w-full h-12
+              rounded-xl
               border border-white/10
               bg-white/10
               backdrop-blur-xl
-              pl-16 pr-5
+              pl-14 pr-4
+              text-sm
               text-white
               placeholder:text-white/40
               outline-none
@@ -239,15 +234,15 @@ export default function LoginPage() {
 
           <div
             className="
-              absolute left-4 top-1/2 -translate-y-1/2
-              w-10 h-10 rounded-xl
+              absolute left-3 top-1/2 -translate-y-1/2
+              w-9 h-9 rounded-lg
               bg-emerald-500/10
               border border-emerald-400/10
               flex items-center justify-center
             "
           >
 
-            <Lock className="h-5 w-5 text-emerald-200" />
+            <Lock className="h-4 w-4 text-emerald-200" />
           </div>
 
           <input
@@ -255,17 +250,16 @@ export default function LoginPage() {
             placeholder="Enter your password"
             value={password}
             onChange={(e) =>
-              setPassword(
-                e.target.value
-              )
+              setPassword(e.target.value)
             }
             className="
-              w-full h-16
-              rounded-2xl
+              w-full h-12
+              rounded-xl
               border border-white/10
               bg-white/10
               backdrop-blur-xl
-              pl-16 pr-5
+              pl-14 pr-4
+              text-sm
               text-white
               placeholder:text-white/40
               outline-none
@@ -283,7 +277,7 @@ export default function LoginPage() {
 
       <div className="flex items-center justify-between pt-1">
 
-        <label className="flex items-center gap-3 text-sm text-white/80 cursor-pointer">
+        <label className="flex items-center gap-2 text-sm text-white/80 cursor-pointer">
 
           <div className="relative">
 
@@ -297,7 +291,7 @@ export default function LoginPage() {
               }
               className="
                 peer appearance-none
-                w-5 h-5 rounded-md
+                w-4 h-4 rounded
                 border border-white/20
                 bg-white/10
                 checked:bg-emerald-500
@@ -309,7 +303,7 @@ export default function LoginPage() {
             <svg
               className="
                 absolute inset-0 m-auto
-                w-3 h-3 text-white
+                w-2.5 h-2.5 text-white
                 hidden peer-checked:block
               "
               fill="none"
@@ -331,7 +325,7 @@ export default function LoginPage() {
 
         <button
           type="button"
-          className="text-sm text-emerald-200 hover:text-white transition-all hover:underline"
+          className="text-xs text-emerald-200 hover:text-white transition-all hover:underline"
         >
           Forgot Password?
         </button>
@@ -343,10 +337,10 @@ export default function LoginPage() {
 
         <div
           className="
-            rounded-2xl
+            rounded-xl
             border border-red-400/20
             bg-red-500/10
-            px-4 py-4
+            px-3 py-3
             text-sm text-red-100
             backdrop-blur
           "
@@ -361,20 +355,22 @@ export default function LoginPage() {
         type="submit"
         className="
           group relative overflow-hidden
-          w-full h-16
-          rounded-2xl
+          w-full h-12
+          rounded-xl
           bg-gradient-to-r
           from-white
           to-emerald-50
           hover:from-emerald-50
           hover:to-white
           text-emerald-700
+          text-sm
           font-bold
-          shadow-2xl
+          shadow-xl
+          cursor-pointer
           transition-all duration-300
-          hover:scale-[1.02]
+          hover:scale-[1.01]
           active:scale-[0.98]
-          flex items-center justify-center gap-3
+          flex items-center justify-center gap-2
         "
       >
 
@@ -384,16 +380,16 @@ export default function LoginPage() {
           Login to Dashboard
         </span>
 
-        <ArrowRight className="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
+        <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
       </button>
 
       {/* DIVIDER */}
 
-      <div className="flex items-center gap-4 py-2">
+      <div className="flex items-center gap-3 py-1">
 
         <div className="flex-1 h-px bg-white/10" />
 
-        <span className="text-xs text-white/40 uppercase tracking-[3px]">
+        <span className="text-[10px] text-white/40 uppercase tracking-[2px]">
           Continue
         </span>
 

@@ -565,7 +565,7 @@ export default function Sidebar({
 
           {!collapsed && (
 
-            <div className="p-3 border-t border-white/[0.08]">
+            <div className="p-2 border-t border-white/[0.08]">
 
               <div className="rounded-[20px] bg-gradient-to-r from-emerald-500 to-green-600 p-4 shadow-xl shadow-emerald-500/20">
 
@@ -573,11 +573,11 @@ export default function Sidebar({
                   System Health
                 </h3>
 
-                <p className="text-green-50 text-[11px] mt-1 leading-relaxed">
+                {/* <p className="text-green-50 text-[11px] mt-1 leading-relaxed">
                   All assets & services are operating normally
-                </p>
+                </p> */}
 
-                <div className="mt-4">
+                <div className="mt-2">
 
                   <div className="flex items-center justify-between text-[11px] text-white/90 mb-2">
 

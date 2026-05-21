@@ -410,241 +410,229 @@ export default function AssetTransferPage() {
 
       {/* ---------------- MODAL ---------------- */}
 
-      {openModal && (
+{openModal && (
 
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
 
-          <div className="relative overflow-hidden w-full max-w-2xl rounded-[36px] bg-white shadow-2xl border border-gray-100">
+    <div className="relative overflow-hidden w-full max-w-xl rounded-[24px] bg-white shadow-2xl border border-gray-100">
 
-            {/* TOP */}
+      {/* TOP */}
 
-            <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 text-white">
+      <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-5 text-white">
 
-              <div className="absolute top-0 right-0 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
 
-              <div className="relative z-10 flex items-center gap-5">
+        <div className="relative z-10 flex items-center gap-4">
 
-                <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-xl">
+          <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
 
-                  <ArrowLeftRight className="w-10 h-10" />
-                </div>
+            <ArrowLeftRight className="w-7 h-7" />
+          </div>
 
-                <div>
+          <div>
 
-                  <h2 className="text-3xl font-bold tracking-tight">
-                    Create Asset Transfer
-                  </h2>
+            <h2 className="text-2xl font-bold tracking-tight">
+              Create Asset Transfer
+            </h2>
 
-                  <p className="text-green-50 mt-2 text-sm">
-                    Transfer assets between departments securely
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* BODY */}
-
-            <div className="p-8 space-y-6">
-
-              {/* PRODUCT */}
-
-              <div>
-
-                <label className="text-sm font-semibold text-gray-700">
-                  Product ID
-                </label>
-
-                <input
-                  value={
-                    transferForm.productId
-                  }
-                  onChange={(e) =>
-                    setTransferForm({
-                      ...transferForm,
-                      productId:
-                        e.target.value,
-                    })
-                  }
-                  placeholder="Enter Product ID"
-                  className="
-                    w-full h-14 mt-2
-                    rounded-2xl
-                    border border-gray-200
-                    bg-gray-50
-                    px-5
-                    text-sm
-                    outline-none
-                    transition-all duration-300
-                    focus:border-emerald-500
-                    focus:bg-white
-                    focus:ring-4
-                    focus:ring-emerald-100
-                  "
-                />
-              </div>
-
-              {/* DEPARTMENT */}
-
-              <div>
-
-                <label className="text-sm font-semibold text-gray-700">
-                  To Department ID
-                </label>
-
-                <input
-                  value={
-                    transferForm.toDepartmentId
-                  }
-                  onChange={(e) =>
-                    setTransferForm({
-                      ...transferForm,
-                      toDepartmentId:
-                        e.target.value,
-                    })
-                  }
-                  placeholder="Enter Department ID"
-                  className="
-                    w-full h-14 mt-2
-                    rounded-2xl
-                    border border-gray-200
-                    bg-gray-50
-                    px-5
-                    text-sm
-                    outline-none
-                    transition-all duration-300
-                    focus:border-emerald-500
-                    focus:bg-white
-                    focus:ring-4
-                    focus:ring-emerald-100
-                  "
-                />
-              </div>
-
-              {/* TRANSFERRED BY */}
-
-              <div>
-
-                <label className="text-sm font-semibold text-gray-700">
-                  Transferred By
-                </label>
-
-                <input
-                  value={
-                    transferForm.transferredBy
-                  }
-                  onChange={(e) =>
-                    setTransferForm({
-                      ...transferForm,
-                      transferredBy:
-                        e.target.value,
-                    })
-                  }
-                  placeholder="Enter Employee Name"
-                  className="
-                    w-full h-14 mt-2
-                    rounded-2xl
-                    border border-gray-200
-                    bg-gray-50
-                    px-5
-                    text-sm
-                    outline-none
-                    transition-all duration-300
-                    focus:border-emerald-500
-                    focus:bg-white
-                    focus:ring-4
-                    focus:ring-emerald-100
-                  "
-                />
-              </div>
-
-              {/* REASON */}
-
-              <div>
-
-                <label className="text-sm font-semibold text-gray-700">
-                  Transfer Reason
-                </label>
-
-                <textarea
-                  rows={5}
-                  value={
-                    transferForm.reason
-                  }
-                  onChange={(e) =>
-                    setTransferForm({
-                      ...transferForm,
-                      reason:
-                        e.target.value,
-                    })
-                  }
-                  placeholder="Enter transfer reason..."
-                  className="
-                    w-full mt-2 p-5
-                    border border-gray-200
-                    rounded-2xl
-                    bg-gray-50
-                    outline-none
-                    transition-all duration-300
-                    focus:border-emerald-500
-                    focus:bg-white
-                    focus:ring-4
-                    focus:ring-emerald-100
-                  "
-                />
-              </div>
-
-              {/* FOOTER */}
-
-              <div className="flex items-center justify-end gap-4 pt-4 border-t border-gray-100">
-
-                <button
-                  onClick={() =>
-                    setOpenModal(false)
-                  }
-                  className="
-                    h-14 px-7
-                    rounded-2xl
-                    border border-gray-200
-                    bg-white
-                    hover:bg-gray-100
-                    transition-all duration-300
-                    text-sm font-medium
-                  "
-                >
-                  Cancel
-                </button>
-
-                <button
-                  onClick={
-                    handleCreateTransfer
-                  }
-                  disabled={submitting}
-                  className="
-                    h-14 px-8
-                    rounded-2xl
-                    bg-gradient-to-r
-                    from-emerald-600
-                    to-green-600
-                    hover:from-emerald-700
-                    hover:to-green-700
-                    text-white
-                    font-medium
-                    shadow-xl shadow-emerald-500/20
-                    transition-all duration-300
-                    hover:scale-[1.02]
-                    active:scale-[0.98]
-                    disabled:opacity-50
-                  "
-                >
-                  {submitting
-                    ? "Creating..."
-                    : "Create Transfer"}
-                </button>
-              </div>
-            </div>
+            <p className="text-green-50 mt-1 text-sm">
+              Transfer assets between departments securely
+            </p>
           </div>
         </div>
-      )}
+      </div>
+
+      {/* BODY */}
+
+      <div className="p-5 space-y-4">
+
+        {/* PRODUCT */}
+
+        <div>
+
+          <label className="text-sm font-semibold text-gray-700">
+            Product ID
+          </label>
+
+          <input
+            value={transferForm.productId}
+            onChange={(e) =>
+              setTransferForm({
+                ...transferForm,
+                productId: e.target.value,
+              })
+            }
+            placeholder="Enter Product ID"
+            className="
+              w-full h-11 mt-2
+              rounded-xl
+              border border-gray-200
+              bg-gray-50
+              px-4
+              text-sm
+              outline-none
+              transition-all duration-300
+              focus:border-emerald-500
+              focus:bg-white
+              focus:ring-4
+              focus:ring-emerald-100
+            "
+          />
+        </div>
+
+        {/* DEPARTMENT */}
+
+        <div>
+
+          <label className="text-sm font-semibold text-gray-700">
+            To Department ID
+          </label>
+
+          <input
+            value={transferForm.toDepartmentId}
+            onChange={(e) =>
+              setTransferForm({
+                ...transferForm,
+                toDepartmentId: e.target.value,
+              })
+            }
+            placeholder="Enter Department ID"
+            className="
+              w-full h-11 mt-2
+              rounded-xl
+              border border-gray-200
+              bg-gray-50
+              px-4
+              text-sm
+              outline-none
+              transition-all duration-300
+              focus:border-emerald-500
+              focus:bg-white
+              focus:ring-4
+              focus:ring-emerald-100
+            "
+          />
+        </div>
+
+        {/* TRANSFERRED BY */}
+
+        <div>
+
+          <label className="text-sm font-semibold text-gray-700">
+            Transferred By
+          </label>
+
+          <input
+            value={transferForm.transferredBy}
+            onChange={(e) =>
+              setTransferForm({
+                ...transferForm,
+                transferredBy: e.target.value,
+              })
+            }
+            placeholder="Enter Employee Name"
+            className="
+              w-full h-11 mt-2
+              rounded-xl
+              border border-gray-200
+              bg-gray-50
+              px-4
+              text-sm
+              outline-none
+              transition-all duration-300
+              focus:border-emerald-500
+              focus:bg-white
+              focus:ring-4
+              focus:ring-emerald-100
+            "
+          />
+        </div>
+
+        {/* REASON */}
+
+        <div>
+
+          <label className="text-sm font-semibold text-gray-700">
+            Transfer Reason
+          </label>
+
+          <textarea
+            rows={3}
+            value={transferForm.reason}
+            onChange={(e) =>
+              setTransferForm({
+                ...transferForm,
+                reason: e.target.value,
+              })
+            }
+            placeholder="Enter transfer reason..."
+            className="
+              w-full mt-2 p-4
+              border border-gray-200
+              rounded-xl
+              bg-gray-50
+              text-sm
+              outline-none
+              transition-all duration-300
+              focus:border-emerald-500
+              focus:bg-white
+              focus:ring-4
+              focus:ring-emerald-100
+            "
+          />
+        </div>
+
+        {/* FOOTER */}
+
+        <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-100">
+
+          <button
+            onClick={() =>
+              setOpenModal(false)
+            }
+            className="
+              h-11 px-5
+              rounded-xl
+              border border-gray-200
+              bg-white
+              hover:bg-gray-100
+              transition-all duration-300
+              text-sm font-medium
+            "
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={handleCreateTransfer}
+            disabled={submitting}
+            className="
+              h-11 px-6
+              rounded-xl
+              bg-gradient-to-r
+              from-emerald-600
+              to-green-600
+              hover:from-emerald-700
+              hover:to-green-700
+              text-white
+              text-sm
+              font-medium
+              shadow-lg shadow-emerald-500/20
+              transition-all duration-300
+              hover:scale-[1.02]
+              active:scale-[0.98]
+              disabled:opacity-50
+            "
+          >
+            {submitting
+              ? "Creating..."
+              : "Create Transfer"}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   )
 }
