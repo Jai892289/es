@@ -189,7 +189,7 @@ export default function DepartmentManagementPage() {
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
 
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
 
@@ -286,11 +286,7 @@ export default function DepartmentManagementPage() {
               }
             />
 
-            <MiniCard
-              icon={Activity}
-              title="System Health"
-              value="Stable"
-            />
+          
           </div>
         </div>
       </div>

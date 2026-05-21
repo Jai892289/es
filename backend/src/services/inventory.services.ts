@@ -1,84 +1,265 @@
 import prisma from "../config/prisma";
 
+
 export const createInventory = async (data: any) => {
-    const { department, vendor, product } = data
+  const { department, vendor, product } = data;
+
+  try {
     return await prisma.$transaction(async (tx) => {
-        let departmentRecord = await tx.department.findFirst({
-            where: {
-                name: department.name
-            }
-        })
 
-        if (!departmentRecord) {
-            departmentRecord = await tx.department.create({
-                data: {
-                    name: department.name,
-                    purpose: department.purpose,
-                    location: department.location,
-                    city: department.city,
-                    state: department.state,
-                    pincode: department.pincode,
-                }
-            })
-        }
+      /* ---------------- DEPARTMENT ---------------- */
 
-        let vendorRecord = await tx.vendor.findFirst({
-            where: {
-                companyName: vendor.companyName
-            }
-        })
+      let departmentRecord = await tx.department.findFirst({
+        where: {
+          name: department.name,
+        },
+      });
 
-        if (!vendorRecord) {
-            vendorRecord = await tx.vendor.create({
-                data: {
-                    companyName: vendor.companyName,
-                    contactNumber: vendor.contactNumber,
-                    whatsappNumber: vendor.whatsappNumber,
-                    email: vendor.email,
-                    website: vendor.website,
-                }
-            })
-        }
-
-        const productRecord = await tx.product.create({
-            data: {
-                productName: product.productName,
-                category: product.category,
-                quantity: Number(product.quantity),
-                serialNumber: product.serialNumber,
-                categoryId:product.categoryId,
-
-                procurementDate: new Date(product.procurementDate),
-                warrantyExpiryDate: product.warrantyExpiryDate
-                    ? new Date(product.warrantyExpiryDate)
-                    : null,
-
-                amcAvailable: product.amcAvailable === "Yes",
-                invoiceNumber: product.invoiceNumber,
-
-                departmentId: departmentRecord.id,
-                vendorId: vendorRecord.id,
-            },
+      if (!departmentRecord) {
+        departmentRecord = await tx.department.create({
+          data: {
+            name: department.name,
+            purpose: department.purpose,
+            location: department.location,
+            city: department.city,
+            state: department.state,
+            pincode: department.pincode,
+          },
         });
+      }
 
-        return productRecord;
+      /* ---------------- VENDOR ---------------- */
+
+      let vendorRecord = await tx.vendor.findFirst({
+        where: {
+          companyName: vendor.companyName,
+        },
+      });
+
+      if (!vendorRecord) {
+        vendorRecord = await tx.vendor.create({
+          data: {
+            companyName: vendor.companyName,
+            contactNumber: vendor.contactNumber,
+            whatsappNumber: vendor.whatsappNumber,
+            email: vendor.email,
+            website: vendor.website,
+          },
+        });
+      }
+
+      /* ---------------- CATEGORY ---------------- */
+
+      let categoryRecord = await tx.category.findFirst({
+        where: {
+          name: product.category,
+        },
+      });
+
+      if (!categoryRecord) {
+        categoryRecord = await tx.category.create({
+          data: {
+            name: product.category,
+          },
+        });
+      }
+
+      /* ---------------- PRODUCT ---------------- */
+
+      const productRecord = await tx.product.create({
+        data: {
+          productName: product.productName,
+
+          quantity: Number(product.quantity),
+
+          serialNumber: product.serialNumber,
+
+          procurementDate: new Date(product.procurementDate),
+
+          warrantyExpiryDate: product.warrantyExpiryDate
+            ? new Date(product.warrantyExpiryDate)
+            : null,
+
+          amcAvailable: product.amcAvailable === "Yes",
+
+          invoiceNumber: product.invoiceNumber,
+
+          /* relations */
+          departmentId: departmentRecord.id,
+
+          vendorId: vendorRecord.id,
+
+          categoryId: categoryRecord.id,
+        },
+      });
+
+      return productRecord;
     });
-}
+  } catch (error: any) {
+    console.log("CREATE INVENTORY ERROR =>", error);
 
-export const getInventory = async () => {
+    throw new Error(error.message || "Failed to create inventory");
+  }
+};
+
+export const getInventory = async (query: any) => {
+
+  const {
+    search,
+    department,
+    category,
+    vendor,
+    amc,
+  } = query
+
   const data = await prisma.product.findMany({
+
+    where: {
+
+      ...(search && {
+        OR: [
+          {
+            productName: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+          {
+            serialNumber: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        ],
+      }),
+
+      ...(department && {
+        department: {
+          name: {
+            contains: department,
+            mode: "insensitive",
+          },
+        },
+      }),
+
+      ...(category && {
+        category: {
+          name: {
+            contains: category,
+            mode: "insensitive",
+          },
+        },
+      }),
+
+      ...(vendor && {
+        vendor: {
+          companyName: {
+            contains: vendor,
+            mode: "insensitive",
+          },
+        },
+      }),
+
+      ...(amc && {
+        amcAvailable: amc === "true",
+      }),
+    },
+
     include: {
       department: true,
       vendor: true,
-      category:true
+      category: true,
     },
+
     orderBy: {
       createdAt: "desc",
     },
-  });
+  })
 
-  return data;
-};
+  return data
+}
+
+// export const createInventory = async (data: any) => {
+//     const { department, vendor, product } = data
+//     return await prisma.$transaction(async (tx) => {
+//         let departmentRecord = await tx.department.findFirst({
+//             where: {
+//                 name: department.name
+//             }
+//         })
+
+//         if (!departmentRecord) {
+//             departmentRecord = await tx.department.create({
+//                 data: {
+//                     name: department.name,
+//                     purpose: department.purpose,
+//                     location: department.location,
+//                     city: department.city,
+//                     state: department.state,
+//                     pincode: department.pincode,
+//                 }
+//             })
+//         }
+
+//         let vendorRecord = await tx.vendor.findFirst({
+//             where: {
+//                 companyName: vendor.companyName
+//             }
+//         })
+
+//         if (!vendorRecord) {
+//             vendorRecord = await tx.vendor.create({
+//                 data: {
+//                     companyName: vendor.companyName,
+//                     contactNumber: vendor.contactNumber,
+//                     whatsappNumber: vendor.whatsappNumber,
+//                     email: vendor.email,
+//                     website: vendor.website,
+//                 }
+//             })
+//         }
+
+//         const productRecord = await tx.product.create({
+//             data: {
+//                 productName: product.productName,
+//                 category: product.category,
+//                 quantity: Number(product.quantity),
+//                 serialNumber: product.serialNumber,
+//                 categoryId:product.categoryId,
+
+//                 procurementDate: new Date(product.procurementDate),
+//                 warrantyExpiryDate: product.warrantyExpiryDate
+//                     ? new Date(product.warrantyExpiryDate)
+//                     : null,
+
+//                 amcAvailable: product.amcAvailable === "Yes",
+//                 invoiceNumber: product.invoiceNumber,
+
+//                 departmentId: departmentRecord.id,
+//                 vendorId: vendorRecord.id,
+//             },
+//         });
+
+//         console.log("productRecord", productRecord)
+
+//         return productRecord;
+//     });
+// }
+
+// export const getInventory = async () => {
+//   const data = await prisma.product.findMany({
+//     include: {
+//       department: true,
+//       vendor: true,
+//       category:true
+//     },
+//     orderBy: {
+//       createdAt: "desc",
+//     },
+//   });
+
+//   return data;
+// };
 
 export const getInventorybyId = async (id:string) => {
   const data = await prisma.product.findUnique({

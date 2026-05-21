@@ -17,6 +17,8 @@ export const createUser = async (data: any) => {
     },
   });
 
+  console.log("user", user)
+
   return user;
 };
 

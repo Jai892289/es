@@ -16,7 +16,7 @@ export const createInventoryController = async (req:Request, res:Response) => {
 
 export const getInventoryController = async (req: Request, res: Response) => {
   try {
-    const data = await getInventory();
+    const data = await getInventory(req.query);
 
     res.json({
       message: "Inventory fetched",

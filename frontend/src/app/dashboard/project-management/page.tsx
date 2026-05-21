@@ -93,97 +93,97 @@ export default function ProductTable() {
   }, [search]);
 
   return (
-    <div className="space-y-6 w-full overflow-hidden">
+    <div className="space-y-4 w-full overflow-hidden max-w-[1400px] mx-auto">
 
       {/* HERO */}
-      <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 md:p-8 shadow-xl">
+      <div className="relative overflow-hidden rounded-[24px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 md:p-5 shadow-lg">
 
-  <div className="absolute right-0 top-0 w-[320px] h-[320px] bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute right-0 top-0 w-[250px] h-[250px] bg-white/10 rounded-full blur-3xl" />
 
-  <div className="relative z-10 flex flex-col xl:flex-row xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:justify-between gap-5">
 
-    {/* LEFT */}
-    <div className="flex-1">
+          {/* LEFT */}
+          <div className="flex-1">
 
-      {/* TITLE SECTION */}
-      <div className="flex items-center gap-4">
+            {/* TITLE */}
+            <div className="flex items-center gap-3">
 
-        <div className="w-16 h-16 rounded-3xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-lg">
+              <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-lg">
 
-          <Building2 className="w-8 h-8 text-white" />
-        </div>
+                <Building2 className="w-7 h-7 text-white" />
+              </div>
 
-        <div>
+              <div>
 
-          <h1 className="text-3xl md:text-5xl font-black text-white tracking-tight">
-            Project Management
-          </h1>
+                <h1 className="text-2xl md:text-4xl font-black text-white tracking-tight">
+                  Project Management
+                </h1>
 
-          <p className="text-white/80 mt-2 max-w-2xl leading-7">
-            Monitor infrastructure projects, track execution &
-            manage progress seamlessly.
-          </p>
+                <p className="text-white/80 mt-1 max-w-xl leading-6 text-sm">
+                  Monitor infrastructure projects, track execution &
+                  manage progress seamlessly.
+                </p>
+              </div>
+            </div>
+
+            {/* STATS */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5 max-w-3xl">
+
+              <MiniCard
+                title="Completed"
+                value="1"
+                color="from-emerald-500 to-green-500"
+              />
+
+              <MiniCard
+                title="Ongoing"
+                value="2"
+                color="from-blue-500 to-cyan-500"
+              />
+
+              <MiniCard
+                title="Delayed"
+                value="1"
+                color="from-rose-500 to-pink-500"
+              />
+            </div>
+          </div>
+
+          {/* RIGHT */}
+          <div className="hidden xl:flex items-end">
+
+            <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[22px] p-5 w-[220px] shadow-xl">
+
+              <p className="text-sm text-white/70">
+                Active Progress
+              </p>
+
+              <h2 className="text-4xl font-black text-white mt-2">
+                78%
+              </h2>
+
+              <div className="mt-4 w-full h-2.5 bg-white/15 rounded-full overflow-hidden">
+
+                <div className="w-[78%] h-full rounded-full bg-white" />
+              </div>
+
+              <p className="text-xs text-white/70 mt-2">
+                Infrastructure execution performance
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* STATS CARDS BELOW TITLE */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 max-w-4xl">
-
-        <MiniCard
-          title="Completed"
-          value="1"
-          color="from-emerald-500 to-green-500"
-        />
-
-        <MiniCard
-          title="Ongoing"
-          value="2"
-          color="from-blue-500 to-cyan-500"
-        />
-
-        <MiniCard
-          title="Delayed"
-          value="1"
-          color="from-rose-500 to-pink-500"
-        />
-      </div>
-    </div>
-
-    {/* OPTIONAL RIGHT SIDE */}
-    <div className="hidden xl:flex items-end">
-
-      <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[28px] p-6 min-w-[260px] shadow-2xl">
-
-        <p className="text-sm text-white/70">
-          Active Progress
-        </p>
-
-        <h2 className="text-5xl font-black text-white mt-3">
-          78%
-        </h2>
-
-        <div className="mt-5 w-full h-3 bg-white/15 rounded-full overflow-hidden">
-
-          <div className="w-[78%] h-full rounded-full bg-white" />
-        </div>
-
-        <p className="text-xs text-white/70 mt-3">
-          Infrastructure execution performance
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
 
       {/* TOOLBAR */}
-      <div className="bg-white rounded-[28px] border border-gray-100 shadow-sm p-4 md:p-5">
+      <div className="bg-white rounded-[20px] border border-gray-100 shadow-sm p-3 md:p-4">
 
-        <div className="flex flex-col xl:flex-row gap-4 xl:items-center xl:justify-between">
+        <div className="flex flex-col xl:flex-row gap-3 xl:items-center xl:justify-between">
 
           {/* SEARCH */}
-          <div className="relative w-full xl:max-w-[420px]">
+          <div className="relative w-full xl:max-w-[380px]">
 
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
 
             <input
               type="text"
@@ -191,29 +191,29 @@ export default function ProductTable() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="
-              w-full h-14 rounded-2xl border border-gray-200
-              bg-[#f8fafc]
-              pl-12 pr-4
-              text-sm
-              outline-none
-              transition-all
-              focus:ring-4 focus:ring-emerald-100
-              focus:border-emerald-500
-            "
+                w-full h-11 rounded-xl border border-gray-200
+                bg-[#f8fafc]
+                pl-11 pr-4
+                text-sm
+                outline-none
+                transition-all
+                focus:ring-4 focus:ring-emerald-100
+                focus:border-emerald-500
+              "
             />
           </div>
 
           {/* BUTTONS */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2">
 
             <button
               className="
-              h-12 px-5 rounded-2xl border border-gray-200
-              bg-white text-gray-700 text-sm font-medium
-              hover:border-emerald-500 hover:text-emerald-600
-              transition-all duration-300
-              flex items-center gap-2
-            "
+                h-11 px-4 rounded-xl border border-gray-200
+                bg-white text-gray-700 text-sm font-medium
+                hover:border-emerald-500 hover:text-emerald-600
+                transition-all duration-300
+                flex items-center gap-2
+              "
             >
               <Filter className="w-4 h-4" />
               Filters
@@ -224,32 +224,34 @@ export default function ProductTable() {
                 router.push("/dashboard/project-management/new")
               }
               className="
-              h-12 px-5 rounded-2xl
-              bg-gradient-to-r from-emerald-500 to-green-500
-              text-white text-sm font-semibold
-              shadow-lg shadow-emerald-100
-              hover:scale-[1.02]
-              transition-all duration-300
-              flex items-center gap-2
-            "
+                h-11 px-4 rounded-xl
+                bg-gradient-to-r from-emerald-500 to-green-500
+                text-white text-sm font-semibold
+                shadow-lg shadow-emerald-100
+                hover:scale-[1.02]
+                transition-all duration-300
+                flex items-center gap-2
+                cursor-pointer
+              "
             >
               <Plus className="w-4 h-4" />
-              Add New Project
+              Add Project
             </button>
           </div>
         </div>
       </div>
 
       {/* TABLE */}
-      <div className="bg-white rounded-[32px] border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-[22px] border border-gray-100 shadow-sm overflow-hidden">
 
         {/* HEADER */}
-        <div className="px-6 md:px-8 pt-8 pb-6 border-b border-gray-100">
-          <h2 className="text-3xl font-black text-gray-900">
+        <div className="px-4 md:px-5 pt-5 pb-4 border-b border-gray-100">
+
+          <h2 className="text-2xl font-black text-gray-900">
             Project Directory
           </h2>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-gray-500 mt-1 text-sm">
             Track project execution, status & timelines.
           </p>
         </div>
@@ -257,45 +259,45 @@ export default function ProductTable() {
         {/* TABLE */}
         <div className="overflow-x-auto">
 
-          <table className="w-full min-w-[1100px]">
+          <table className="w-full min-w-[900px] xl:min-w-full">
 
             <thead className="bg-[#fafbfc] border-b border-gray-100">
 
               <tr className="text-left text-xs uppercase tracking-wider text-gray-500">
 
-                <th className="px-6 py-5 font-semibold">
+                <th className="px-4 py-4 font-semibold">
                   Project
                 </th>
 
-                <th className="px-6 py-5 font-semibold">
+                <th className="px-4 py-4 font-semibold">
                   Category
                 </th>
 
-                <th className="px-6 py-5 font-semibold">
+                <th className="px-4 py-4 font-semibold">
                   Department
                 </th>
 
-                <th className="px-6 py-5 font-semibold">
+                {/* <th className="px-4 py-4 font-semibold">
                   Location
-                </th>
+                </th> */}
 
-                <th className="px-6 py-5 font-semibold">
+                <th className="px-4 py-4 font-semibold">
                   Timeline
                 </th>
 
-                <th className="px-6 py-5 font-semibold">
+                <th className="px-4 py-4 font-semibold">
                   Status
                 </th>
 
-                <th className="px-6 py-5 font-semibold">
+                <th className="px-4 py-4 font-semibold">
                   Budget
                 </th>
 
-                <th className="px-6 py-5 font-semibold">
+                <th className="px-4 py-4 font-semibold">
                   Progress
                 </th>
 
-                <th className="px-6 py-5 font-semibold text-right">
+                <th className="px-4 py-4 font-semibold text-right">
                   Action
                 </th>
               </tr>
@@ -308,30 +310,30 @@ export default function ProductTable() {
                 <tr
                   key={i}
                   className="
-                  border-b border-gray-100
-                  hover:bg-emerald-50/40
-                  transition-all duration-300
-                "
+                    border-b border-gray-100
+                    hover:bg-emerald-50/40
+                    transition-all duration-300
+                  "
                 >
 
                   {/* PROJECT */}
-                  <td className="px-6 py-5">
+                  <td className="px-4 py-4">
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
 
                       <div
                         className="
-                        w-14 h-14 rounded-2xl
-                        bg-gradient-to-br from-emerald-500 to-green-500
-                        flex items-center justify-center
-                        shadow-lg shadow-emerald-100
-                      "
+                          w-11 h-11 rounded-xl
+                          bg-gradient-to-br from-emerald-500 to-green-500
+                          flex items-center justify-center
+                          shadow-lg shadow-emerald-100
+                        "
                       >
-                        <Building2 className="w-6 h-6 text-white" />
+                        <Building2 className="w-5 h-5 text-white" />
                       </div>
 
                       <div>
-                        <h3 className="font-semibold text-gray-800 max-w-[220px] truncate">
+                        <h3 className="font-semibold text-gray-800 max-w-[220px] truncate text-sm">
                           {item.name}
                         </h3>
 
@@ -352,42 +354,44 @@ export default function ProductTable() {
                   </td>
 
                   {/* CATEGORY */}
-                  <td className="px-6 py-5">
+                  <td className="px-4 py-4">
 
                     <span
                       className="
-                      px-4 py-2 rounded-full
-                      bg-blue-50 text-blue-600
-                      text-xs font-semibold
-                    "
+                        px-3 py-1.5 rounded-full
+                        bg-blue-50 text-blue-600
+                        text-xs font-semibold
+                      "
                     >
                       {item.category}
                     </span>
                   </td>
 
                   {/* DEPARTMENT */}
-                  <td className="px-6 py-5">
-                    <div>
-                      <p className="font-medium text-gray-800">
-                        {item.department}
-                      </p>
-                    </div>
-                  </td>
+                  <td className="px-4 py-4">
 
-                  {/* LOCATION */}
-                  <td className="px-6 py-5">
-                    <p className="text-gray-700">
-                      {item.location}
+                    <p className="font-medium text-gray-800 text-sm">
+                      {item.department}
                     </p>
                   </td>
 
+                  {/* LOCATION */}
+                  {/* <td className="px-4 py-4">
+
+                    <p className="text-gray-700 text-sm">
+                      {item.location}
+                    </p>
+                  </td> */}
+
                   {/* TIMELINE */}
-                  <td className="px-6 py-5">
+                  <td className="px-4 py-4">
 
                     <div className="space-y-1 text-sm">
 
                       <div className="flex items-center gap-2 text-gray-700">
+
                         <CalendarDays className="w-4 h-4 text-emerald-500" />
+
                         {item.start}
                       </div>
 
@@ -398,25 +402,26 @@ export default function ProductTable() {
                   </td>
 
                   {/* STATUS */}
-                  <td className="px-6 py-5">
+                  <td className="px-4 py-4">
 
                     <StatusBadge status={item.status} />
                   </td>
 
                   {/* BUDGET */}
-                  <td className="px-6 py-5">
+                  <td className="px-4 py-4">
 
-                    <span className="font-semibold text-gray-800">
+                    <span className="font-semibold text-gray-800 text-sm">
                       {item.budget}
                     </span>
                   </td>
 
                   {/* PROGRESS */}
-                  <td className="px-6 py-5 min-w-[180px]">
+                  <td className="px-4 py-4 min-w-[160px]">
 
                     <div className="space-y-2">
 
                       <div className="flex items-center justify-between text-xs">
+
                         <span className="text-gray-500">
                           Completion
                         </span>
@@ -426,13 +431,13 @@ export default function ProductTable() {
                         </span>
                       </div>
 
-                      <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
 
                         <div
                           className="
-                          h-full rounded-full
-                          bg-gradient-to-r from-emerald-500 to-green-500
-                        "
+                            h-full rounded-full
+                            bg-gradient-to-r from-emerald-500 to-green-500
+                          "
                           style={{
                             width: `${item.progress}%`,
                           }}
@@ -442,16 +447,16 @@ export default function ProductTable() {
                   </td>
 
                   {/* ACTION */}
-                  <td className="px-6 py-5 text-right">
+                  <td className="px-4 py-4 text-right">
 
                     <button
                       className="
-                      inline-flex items-center gap-2
-                      px-5 h-11 rounded-2xl
-                      bg-gray-900 text-white text-sm font-medium
-                      hover:bg-emerald-600
-                      transition-all duration-300
-                    "
+                        inline-flex items-center gap-2
+                        px-4 h-10 rounded-xl
+                        bg-gray-900 text-white text-sm font-medium
+                        hover:bg-emerald-600
+                        transition-all duration-300
+                      "
                     >
                       View
                       <ArrowRight className="w-4 h-4" />
@@ -464,32 +469,32 @@ export default function ProductTable() {
         </div>
 
         {/* FOOTER */}
-        <div className="px-6 md:px-8 py-5 flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between border-t border-gray-100">
+        <div className="px-4 md:px-5 py-4 flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between border-t border-gray-100">
 
           <p className="text-sm text-gray-500">
             Showing {filtered.length} projects
           </p>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
 
             <button
               className="
-              h-11 px-5 rounded-2xl border border-gray-200
-              text-sm font-medium text-gray-700
-              hover:border-emerald-500 hover:text-emerald-600
-              transition-all
-            "
+                h-10 px-4 rounded-xl border border-gray-200
+                text-sm font-medium text-gray-700
+                hover:border-emerald-500 hover:text-emerald-600
+                transition-all
+              "
             >
               Previous
             </button>
 
             <button
               className="
-              h-11 px-5 rounded-2xl
-              bg-gradient-to-r from-emerald-500 to-green-500
-              text-white text-sm font-semibold
-              shadow-lg shadow-emerald-100
-            "
+                h-10 px-4 rounded-xl
+                bg-gradient-to-r from-emerald-500 to-green-500
+                text-white text-sm font-semibold
+                shadow-lg shadow-emerald-100
+              "
             >
               Next
             </button>
@@ -516,10 +521,10 @@ function StatusBadge({ status }: { status: string }) {
   return (
     <span
       className={`
-      px-4 py-2 rounded-full
-      text-xs font-bold
-      ${styles}
-    `}
+        px-3 py-1.5 rounded-full
+        text-xs font-bold
+        ${styles}
+      `}
     >
       {status}
     </span>
@@ -540,36 +545,36 @@ function MiniCard({
   return (
     <div
       className="
-      bg-white/10 backdrop-blur-md
-      border border-white/10
-      rounded-3xl
-      p-5
-      shadow-lg
-    "
+        bg-white/10 backdrop-blur-md
+        border border-white/10
+        rounded-2xl
+        p-4
+        shadow-lg
+      "
     >
       <div className="flex items-start justify-between">
 
         <div
           className={`
-          w-14 h-14 rounded-2xl
-          bg-gradient-to-br ${color}
-          flex items-center justify-center
-          shadow-lg
-        `}
+            w-11 h-11 rounded-xl
+            bg-gradient-to-br ${color}
+            flex items-center justify-center
+            shadow-lg
+          `}
         >
-          <Building2 className="w-6 h-6 text-white" />
+          <Building2 className="w-5 h-5 text-white" />
         </div>
 
-        <ArrowRight className="w-5 h-5 text-white/60" />
+        <ArrowRight className="w-4 h-4 text-white/60" />
       </div>
 
-      <div className="mt-6">
+      <div className="mt-4">
 
         <p className="text-white/80 text-sm">
           {title}
         </p>
 
-        <h2 className="text-5xl font-black text-white mt-2">
+        <h2 className="text-3xl font-black text-white mt-1">
           {value}
         </h2>
       </div>

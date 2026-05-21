@@ -200,7 +200,7 @@ export default function CategoryWiseSummary() {
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
 
         {/* GLOW */}
 
@@ -281,11 +281,11 @@ export default function CategoryWiseSummary() {
               value="Stable"
             />
 
-            <MiniCard
+            {/* <MiniCard
               icon={Activity}
               title="System Status"
               value="Active"
-            />
+            /> */}
           </div>
         </div>
       </div>
@@ -437,7 +437,7 @@ export default function CategoryWiseSummary() {
                       {selectedCategory}
                     </span>
 
-                    <span className="text-6xl font-bold text-emerald-600 mt-2">
+                    <span className="text-5xl font-bold text-emerald-600 mt-2">
                       {selectedValue}
                     </span>
 
@@ -552,9 +552,9 @@ export default function CategoryWiseSummary() {
                   />
                 </div>
 
-                <div className="mt-10">
+                <div className="mt-8">
 
-                  <h2 className="text-6xl font-bold text-emerald-600">
+                  <h2 className="text-4xl font-bold text-emerald-600">
                     ₹
                     {
                       selectedYearValue
@@ -672,7 +672,7 @@ function OverviewCard({
 }: any) {
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
 
       <div
         className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
@@ -698,7 +698,7 @@ function OverviewCard({
             {title}
           </p>
 
-          <h2 className="text-5xl font-bold text-gray-900 mt-3">
+          <h2 className="text-3xl font-bold text-gray-900 mt-3">
             {value}
           </h2>
         </div>

@@ -109,7 +109,7 @@ export default function DashboardPage() {
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-[32px] p-8 text-white shadow-lg overflow-hidden relative">
+      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-[32px] p-4 text-white shadow-lg overflow-hidden relative">
 
         <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
 
@@ -206,18 +206,18 @@ export default function DashboardPage() {
                 </span>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-3">
 
-                <h3 className="text-4xl font-bold text-gray-800">
+                <h3 className="text-3xl font-bold text-gray-800">
                   {item.value}
                 </h3>
 
-                <p className="text-sm text-gray-500 mt-2">
+                <p className="text-sm text-gray-500 mt-1">
                   {item.label}
                 </p>
               </div>
 
-              <div className="mt-5">
+              <div className="mt-3">
 
                 <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
 
@@ -236,7 +236,7 @@ export default function DashboardPage() {
 
       {/* ---------------- STATUS DISTRIBUTION ---------------- */}
 
-      <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
+      <div className="bg-white border border-gray-100 rounded-[32px] p-4 shadow-sm">
 
         <div className="flex items-center justify-between mb-8">
 

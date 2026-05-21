@@ -268,7 +268,7 @@ export default function DashboardPage() {
         transition={{
           duration: 0.6,
         }}
-        className="max-w-[1800px] mx-auto space-y-7"
+        className="max-w-[1600px] mx-auto space-y-7"
       >
 
         {/* HERO */}
@@ -285,7 +285,7 @@ export default function DashboardPage() {
           transition={{
             duration: 0.6,
           }}
-          className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 rounded-[36px] p-8 shadow-xl text-white"
+          className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 rounded-[36px] p-4 shadow-xl text-white"
         >
 
           {/* FLOATING BLOBS */}
@@ -337,7 +337,7 @@ export default function DashboardPage() {
 
                 <div>
 
-                  <h1 className="text-4xl font-bold tracking-tight">
+                  <h1 className="text-3xl font-bold tracking-tight">
                     Asset Intelligence Dashboard
                   </h1>
 
@@ -508,17 +508,13 @@ export default function DashboardPage() {
                       <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
                     </div>
 
-                    <div className="mt-6">
+                    <div className="mt-3">
 
                       <h3 className="text-lg font-semibold text-gray-800">
                         {cat.name}
                       </h3>
 
-                      <p className="text-sm text-gray-500 mt-1">
-                        Active inventory assets
-                      </p>
-
-                      <div className="mt-5 flex items-end justify-between">
+                      <div className="mt-3 flex items-end justify-between">
 
                         <h2 className="text-4xl font-bold text-gray-900">
                           {String(
@@ -540,7 +536,7 @@ export default function DashboardPage() {
 
         {/* OVERVIEW */}
 
-        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-2">
 
           {overviewCards.map(
             (item, index) => {
@@ -593,7 +589,7 @@ export default function DashboardPage() {
                       </span>
                     </div>
 
-                    <div className="mt-8">
+                    <div className="mt-4">
 
                       <p className="text-sm text-gray-500">
                         {item.label}

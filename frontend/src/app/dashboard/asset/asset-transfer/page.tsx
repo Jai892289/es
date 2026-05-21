@@ -163,7 +163,7 @@ export default function AssetTransferPage() {
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-xl">
 
         {/* GLOW */}
 
@@ -241,6 +241,7 @@ export default function AssetTransferPage() {
                 bg-white text-emerald-600
                 hover:bg-green-50
                 transition
+                cursor-pointer
                 font-semibold text-sm
                 flex items-center justify-center gap-3
                 shadow-xl
@@ -703,22 +704,22 @@ function SummaryCard({
         <div className="flex items-center justify-between">
 
           <div
-            className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
+            className={`w-8 h-8 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
           >
 
-            <Icon className="w-8 h-8" />
+            <Icon className="w-4 h-4" />
           </div>
 
           <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-4">
 
           <p className="text-sm text-gray-500">
             {title}
           </p>
 
-          <h2 className="text-5xl font-bold text-gray-900 mt-3">
+          <h2 className="text-4xl font-bold text-gray-900 mt-2">
             {value}
           </h2>
 

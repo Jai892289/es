@@ -81,7 +81,7 @@ export default function AssetReplacementPage() {
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
 
         {/* GLOW */}
 
@@ -169,11 +169,11 @@ export default function AssetReplacementPage() {
               value="Active"
             />
 
-            <MiniCard
+            {/* <MiniCard
               icon={Activity}
               title="Asset Health"
               value="Stable"
-            />
+            /> */}
           </div>
         </div>
       </div>

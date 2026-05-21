@@ -93,7 +93,7 @@ export default function Topbar({
           className="group w-12 h-12 rounded-2xl bg-gray-50 hover:bg-emerald-50 border border-gray-100 hover:border-emerald-200 transition-all duration-300 flex items-center justify-center shadow-sm"
         >
 
-          <Menu className="w-5 h-5 text-gray-700 group-hover:text-emerald-600 transition" />
+          <Menu className="w-5 h-5 cursor-pointer text-gray-700 group-hover:text-emerald-600 transition" />
         </button>
 
         {/* PAGE TITLE */}
@@ -113,7 +113,7 @@ export default function Topbar({
 
       {/* SEARCH */}
 
-      <div className="hidden md:flex flex-1 justify-center px-4">
+      {/* <div className="hidden md:flex flex-1 justify-center px-4">
 
         <div className="relative w-full max-w-2xl">
 
@@ -137,7 +137,7 @@ export default function Topbar({
             "
           />
         </div>
-      </div>
+      </div> */}
 
       {/* RIGHT */}
 
@@ -202,7 +202,7 @@ export default function Topbar({
               bg-gray-50 hover:bg-emerald-50
               border border-gray-100 hover:border-emerald-200
               rounded-2xl
-              pl-2 pr-4 py-2
+              pl-2 pr-2 py-2
               transition-all duration-300
               shadow-sm
             "

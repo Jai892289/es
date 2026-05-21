@@ -27,7 +27,7 @@ export default function DashboardLayout({
       {/* RIGHT CONTENT */}
       <div
         className={`flex-1 flex flex-col transition-all duration-300 ${
-          collapsed ? "ml-20" : "ml-68"
+          collapsed ? "ml-20" : "ml-54"
         }`}
       >
         <Topbar

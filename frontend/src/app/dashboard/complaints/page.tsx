@@ -242,7 +242,7 @@ export default function RaiseComplaintPage() {
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
 
         {/* GLOW */}
 
@@ -281,7 +281,7 @@ export default function RaiseComplaintPage() {
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-4xl font-bold">
                   24/7
                 </h2>
 
@@ -292,7 +292,7 @@ export default function RaiseComplaintPage() {
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-4xl font-bold">
                   SLA
                 </h2>
 
@@ -319,11 +319,7 @@ export default function RaiseComplaintPage() {
               value="Active"
             />
 
-            <MiniCard
-              icon={Package2}
-              title="Asset Tracking"
-              value="Enabled"
-            />
+         
           </div>
         </div>
       </div>

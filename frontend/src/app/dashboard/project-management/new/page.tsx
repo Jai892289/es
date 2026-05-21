@@ -171,12 +171,12 @@ export default function NewProjectPage() {
       transition={{
         duration: 0.45,
       }}
-      className="min-h-screen bg-[#f4f7fb] p-4 md:p-7 space-y-7"
+      className="min-h-screen bg-[#f4f7fb] space-y-7"
     >
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[36px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 md:p-10 shadow-2xl text-white">
+      <div className="relative overflow-hidden rounded-[36px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 shadow-2xl text-white">
 
         {/* BLOBS */}
 
@@ -228,7 +228,7 @@ export default function NewProjectPage() {
                   Smart Workflow
                 </div>
 
-                <h1 className="text-4xl md:text-5xl font-black tracking-tight mt-4">
+                <h1 className="text-4xl  font-black tracking-tight mt-4">
                   Create New Project
                 </h1>
 

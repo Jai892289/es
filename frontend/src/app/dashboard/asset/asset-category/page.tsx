@@ -216,7 +216,7 @@ export default function AssetCategoryPage() {
 
           <button
             onClick={() => setOpenModal(true)}
-            className="px-6 py-3 rounded-2xl bg-white text-green-600 hover:bg-green-50 transition text-sm font-semibold shadow-md flex items-center gap-2"
+            className="px-6 py-3 rounded-2xl cursor-pointer bg-white text-green-600 hover:bg-green-50 transition text-sm font-semibold shadow-md flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Add Category
@@ -307,22 +307,22 @@ export default function AssetCategoryPage() {
                   </button> */}
                 </div>
 
-                <div className="mt-7 relative z-10">
+                <div className="mt-2 relative z-10">
 
                   <h3 className="text-2xl font-bold">
                     {c.name}
                   </h3>
 
-                  <p className="text-sm text-white/80 mt-2 line-clamp-2">
+                  {/* <p className="text-sm text-white/80 mt-2 line-clamp-2">
                     {c.description ||
                       "No description available"}
-                  </p>
+                  </p> */}
                 </div>
               </div>
 
               {/* CONTENT */}
 
-              <div className="p-6">
+              <div className="p-2">
 
                 <div className="grid grid-cols-2 gap-4">
 
@@ -337,7 +337,7 @@ export default function AssetCategoryPage() {
                     </h4>
                   </div>
 
-                  <div className="bg-gray-50 rounded-2xl p-4">
+                  <div className="bg-gray-50 rounded-2xl p-2">
 
                     <p className="text-xs uppercase tracking-wide text-gray-500">
                       Total Value
@@ -354,7 +354,7 @@ export default function AssetCategoryPage() {
 
                 {/* FOOTER */}
 
-                <div className="flex items-center justify-between mt-6 pt-5 border-t border-gray-100">
+                <div className="flex items-center justify-between mt-3 pt-2 px-3 border-t border-gray-100">
 
                   
 
