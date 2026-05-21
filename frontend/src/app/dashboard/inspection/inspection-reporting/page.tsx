@@ -288,62 +288,62 @@ export default function InspectionReportingPage() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-7"
+      className="space-y-4 overflow-x-hidden"
     >
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-sm shrink-0">
 
-                <ClipboardCheck className="w-10 h-10" />
+                <ClipboardCheck className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-4xl font-bold tracking-tight">
+                <h1 className="text-xl md:text-2xl font-bold break-words">
                   Inspection Reporting
                 </h1>
 
-                <p className="text-green-50 mt-2 text-sm">
+                <p className="text-green-50 mt-1 text-xs leading-5 break-words">
                   Submit geo-tagged inspection reports with media evidence
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-10 mt-10">
+            <div className="flex flex-wrap gap-4 mt-4">
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold">
                   24
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[11px] mt-1">
                   Reports Submitted
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold">
                   98%
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[11px] mt-1">
                   Compliance Accuracy
                 </p>
               </div>
@@ -352,69 +352,67 @@ export default function InspectionReportingPage() {
 
           {/* RIGHT */}
 
-          <div className="grid grid-cols-1 gap-4 min-w-[320px]">
+          <div className="grid grid-cols-2 gap-3 w-full xl:w-[220px]">
 
             <MiniCard
-              title="Live Tracking"
-              value="Enabled"
+              title="Tracking"
+              value="Live"
             />
 
             <MiniCard
-              title="Media Upload"
+              title="Upload"
               value="Ready"
             />
-
-        
           </div>
         </div>
       </div>
 
       {/* FORM */}
 
-      <div className="bg-white border border-gray-100 rounded-[34px] shadow-sm overflow-hidden">
+      <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
 
         {/* TOP BAR */}
 
-        <div className="px-8 py-6 border-b border-gray-100 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+        <div className="px-4 py-4 border-b border-gray-100 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-3">
 
-          <div>
+          <div className="min-w-0">
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg font-semibold text-black break-words">
               Inspection Report Form
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
-              Fill all mandatory details before submitting
+            <p className="text-xs text-black mt-1">
+              Fill mandatory details before submitting
             </p>
           </div>
 
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
 
             <button
               type="button"
               onClick={
                 getCurrentLocation
               }
-              className="h-12 px-5 rounded-2xl bg-blue-50 hover:bg-blue-100 transition text-blue-600 text-sm font-medium"
+              className="h-10 px-4 rounded-xl bg-blue-50 hover:bg-blue-100 transition text-blue-700 text-sm font-medium whitespace-nowrap"
             >
-              Auto Detect Location
+              Detect Location
             </button>
 
             <button
               type="submit"
               disabled={loading}
-              className="h-12 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 transition text-white text-sm font-medium shadow-lg disabled:opacity-50"
+              className="h-10 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:opacity-95 transition text-white text-sm font-medium shadow-sm disabled:opacity-50 whitespace-nowrap"
             >
               {loading
                 ? "Submitting..."
-                : "Submit Report"}
+                : "Submit"}
             </button>
           </div>
         </div>
 
         {/* BODY */}
 
-        <div className="p-8 space-y-10">
+        <div className="p-4 space-y-5 overflow-hidden">
 
           {/* BASIC INFO */}
 
@@ -441,7 +439,7 @@ export default function InspectionReportingPage() {
 
             <Textarea
               label="Observation *"
-              placeholder="Enter detailed observations"
+              placeholder="Enter observations"
               value={
                 formData.observation
               }
@@ -551,7 +549,7 @@ export default function InspectionReportingPage() {
 
           <Section title="Geo Location">
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 
               <InputField
                 label="Latitude *"
@@ -614,20 +612,20 @@ export default function InspectionReportingPage() {
             {formData.latitude &&
               formData.longitude && (
 
-                <div className="bg-green-50 border border-green-200 rounded-[24px] p-5 flex items-center gap-4">
+                <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-center gap-3 overflow-hidden">
 
-                  <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-sm">
+                  <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center shadow-sm shrink-0">
 
-                    <MapPin className="text-green-600 w-7 h-7" />
+                    <MapPin className="text-green-600 w-5 h-5" />
                   </div>
 
-                  <div>
+                  <div className="min-w-0">
 
-                    <p className="font-semibold text-green-800">
-                      Location Captured Successfully
+                    <p className="font-semibold text-green-800 text-sm break-words">
+                      Location Captured
                     </p>
 
-                    <p className="text-sm text-green-700 mt-1">
+                    <p className="text-xs text-green-700 mt-1 break-all">
                       {
                         formData.latitude
                       }
@@ -648,7 +646,7 @@ export default function InspectionReportingPage() {
 
             <UploadBox
               title="Upload Photos *"
-              subtitle="Upload site images & evidence"
+              subtitle="Upload site images"
               accept="image/*"
               multiple
               onChange={(
@@ -678,7 +676,7 @@ export default function InspectionReportingPage() {
 
             <UploadBox
               title="Upload Signature *"
-              subtitle="Authorized inspector signature"
+              subtitle="Inspector signature"
               accept="image/*"
               onChange={(
                 e: any
@@ -717,15 +715,15 @@ function Section({
 }: any) {
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 overflow-hidden">
 
       <div>
 
-        <h3 className="text-xl font-bold text-gray-800">
+        <h3 className="text-base font-semibold text-black break-words">
           {title}
         </h3>
 
-        <div className="w-20 h-1 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 mt-3" />
+        <div className="w-14 h-1 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 mt-2" />
       </div>
 
       {children}
@@ -741,13 +739,13 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10">
+    <div className="bg-white/10 backdrop-blur rounded-xl px-3 py-3 border border-white/10 overflow-hidden">
 
-      <p className="text-sm text-green-50">
+      <p className="text-[11px] text-green-50 break-words">
         {title}
       </p>
 
-      <h3 className="text-2xl font-bold mt-2 text-white">
+      <h3 className="text-lg font-bold mt-1 text-white break-words">
         {value}
       </h3>
     </div>
@@ -763,20 +761,33 @@ function InputField({
 }: any) {
 
   return (
-    <div>
+    <div className="min-w-0">
 
-      <label className="text-sm font-medium text-gray-700">
+      <label className="text-sm font-medium text-black">
         {label}
       </label>
 
       <input
         {...props}
-        className="mt-2 w-full h-14 rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+        className="
+          mt-2 w-full h-10
+          rounded-xl
+          border border-gray-200
+          bg-gray-50
+          px-3
+          text-sm text-black
+          outline-none
+          transition
+          focus:border-emerald-500
+          focus:bg-white
+          focus:ring-2
+          focus:ring-emerald-100
+        "
       />
 
       {error && (
 
-        <p className="text-red-500 text-xs mt-2">
+        <p className="text-red-500 text-xs mt-2 break-words">
           {error}
         </p>
       )}
@@ -794,18 +805,32 @@ function Textarea({
 }: any) {
 
   return (
-    <div>
+    <div className="min-w-0">
 
-      <label className="text-sm font-medium text-gray-700">
+      <label className="text-sm font-medium text-black">
         {label}
       </label>
 
       <textarea
-        rows={5}
+        rows={4}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="mt-2 w-full rounded-2xl border border-gray-200 bg-gray-50 p-5 text-sm outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+        className="
+          mt-2 w-full
+          rounded-xl
+          border border-gray-200
+          bg-gray-50
+          p-3
+          text-sm text-black
+          outline-none
+          resize-none
+          transition
+          focus:border-emerald-500
+          focus:bg-white
+          focus:ring-2
+          focus:ring-emerald-100
+        "
       />
     </div>
   )
@@ -821,13 +846,13 @@ function RadioGroup({
 }: any) {
 
   return (
-    <div>
+    <div className="overflow-hidden">
 
-      <label className="text-sm font-medium text-gray-700">
+      <label className="text-sm font-medium text-black">
         {label}
       </label>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3">
 
         {options.map(
           (o: any) => (
@@ -839,35 +864,43 @@ function RadioGroup({
                   o.label
                 )
               }
-              className={`group border rounded-[24px] p-5 flex items-center gap-4 cursor-pointer transition-all duration-300
-              ${
-                value ===
-                o.label
-                  ? "border-emerald-500 bg-emerald-50 shadow-lg"
-                  : "border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/40"
-              }`}
-            >
-
-              <div
-                className={`w-14 h-14 rounded-2xl flex items-center justify-center
+              className={`
+                border rounded-xl p-4
+                flex items-center gap-3
+                cursor-pointer transition-all
+                overflow-hidden
                 ${
                   value ===
                   o.label
-                    ? "bg-emerald-100 text-emerald-600"
-                    : "bg-gray-100 text-gray-500"
-                }`}
+                    ? "border-emerald-500 bg-emerald-50"
+                    : "border-gray-200 hover:border-emerald-300 hover:bg-emerald-50/40"
+                }
+              `}
+            >
+
+              <div
+                className={`
+                  w-10 h-10 rounded-xl
+                  flex items-center justify-center shrink-0
+                  ${
+                    value ===
+                    o.label
+                      ? "bg-emerald-100 text-emerald-600"
+                      : "bg-gray-100 text-black"
+                  }
+                `}
               >
                 {o.icon}
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <p className="font-semibold text-gray-800">
+                <p className="font-semibold text-sm text-black break-words">
                   {o.label}
                 </p>
 
-                <p className="text-xs text-gray-500 mt-1">
-                  Select status
+                <p className="text-[11px] text-black mt-1">
+                  Select option
                 </p>
               </div>
             </div>
@@ -889,18 +922,18 @@ function UploadBox({
 }: any) {
 
   return (
-    <label className="group border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-[28px] p-10 flex flex-col items-center justify-center text-center cursor-pointer transition bg-gray-50 hover:bg-emerald-50">
+    <label className="group border-2 border-dashed border-gray-200 hover:border-emerald-400 rounded-xl p-5 flex flex-col items-center justify-center text-center cursor-pointer transition bg-gray-50 hover:bg-emerald-50 overflow-hidden">
 
-      <div className="w-20 h-20 rounded-[28px] bg-white shadow-sm flex items-center justify-center group-hover:scale-110 transition">
+      <div className="w-14 h-14 rounded-xl bg-white shadow-sm flex items-center justify-center group-hover:scale-105 transition shrink-0">
 
-        <Upload className="w-10 h-10 text-emerald-600" />
+        <Upload className="w-6 h-6 text-emerald-600" />
       </div>
 
-      <h3 className="text-lg font-semibold text-gray-800 mt-5">
+      <h3 className="text-sm font-semibold text-black mt-4 break-words">
         {title}
       </h3>
 
-      <p className="text-sm text-gray-500 mt-2">
+      <p className="text-xs text-black mt-1 break-words">
         {subtitle}
       </p>
 

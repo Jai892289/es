@@ -126,13 +126,13 @@ export default function ReportsPage() {
   if (loading) {
 
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="min-h-[45vh] flex items-center justify-center overflow-x-hidden">
 
-        <div className="space-y-4 text-center">
+        <div className="space-y-3 text-center">
 
-          <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-12 h-12 border-[3px] border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
 
-          <p className="text-gray-500">
+          <p className="text-sm text-black">
             Loading Reports...
           </p>
         </div>
@@ -141,58 +141,55 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-x-hidden">
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <h1 className="text-4xl font-bold tracking-tight">
+            <h1 className="text-xl md:text-2xl font-bold break-words">
               Reports & Analytics
             </h1>
 
-            <p className="text-green-50 mt-3 text-sm max-w-xl">
-              Comprehensive insights,
-              asset tracking,
-              analytics &
-              AMC monitoring dashboard
+            <p className="text-white/90 mt-2 text-xs leading-5 max-w-xl break-words">
+              Asset tracking, analytics & AMC monitoring dashboard
             </p>
 
-            <div className="flex flex-wrap gap-10 mt-10">
+            <div className="flex flex-wrap gap-4 mt-4">
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold break-words">
                   {
                     cards.totalAssets
                   }
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[11px] mt-1">
                   Total Assets
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold break-words">
                   ₹
                   {
                     cards.totalValue
                   }
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[11px] mt-1">
                   Asset Value
                 </p>
               </div>
@@ -201,7 +198,7 @@ export default function ReportsPage() {
 
           {/* RIGHT */}
 
-          <div className="grid grid-cols-1 gap-4 min-w-[320px]">
+          <div className="grid grid-cols-2 gap-3 w-full xl:w-[230px]">
 
             <MiniCard
               title="New Assets"
@@ -212,29 +209,28 @@ export default function ReportsPage() {
             />
 
             <MiniCard
-              title="Expiring Soon"
+              title="Expiring"
               value={
                 cards.expiringSoon ||
                 0
               }
             />
-
           </div>
         </div>
       </div>
 
       {/* ACTIONS */}
 
-      <div className="flex flex-wrap items-center justify-end gap-3">
+      <div className="flex flex-wrap items-center justify-end gap-2 overflow-hidden">
 
-        <button className="h-12 px-5 rounded-2xl bg-red-600 hover:bg-red-700 transition text-white text-sm font-medium flex items-center gap-2 shadow-lg">
+        <button className="h-10 px-4 rounded-xl bg-red-600 hover:bg-red-700 transition text-white text-sm font-medium flex items-center gap-2 shadow-sm whitespace-nowrap">
 
           <FileDown className="w-4 h-4" />
 
           PDF
         </button>
 
-        <button className="h-12 px-5 rounded-2xl bg-green-600 hover:bg-green-700 transition text-white text-sm font-medium flex items-center gap-2 shadow-lg">
+        <button className="h-10 px-4 rounded-xl bg-green-600 hover:bg-green-700 transition text-white text-sm font-medium flex items-center gap-2 shadow-sm whitespace-nowrap">
 
           <FileCode className="w-4 h-4" />
 
@@ -244,7 +240,7 @@ export default function ReportsPage() {
 
       {/* KPI */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
 
         <PremiumKpi
           title="Total Assets"
@@ -280,22 +276,22 @@ export default function ReportsPage() {
 
       {/* TREND */}
 
-      <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
+      <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm overflow-hidden">
 
-        <div className="mb-8">
+        <div className="mb-4">
 
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-lg font-semibold text-black break-words">
             Asset Insertion Trend
           </h2>
 
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs text-black mt-1">
             Monthly asset analytics
           </p>
         </div>
 
         <ResponsiveContainer
           width="100%"
-          height={350}
+          height={220}
         >
 
           <LineChart
@@ -304,9 +300,18 @@ export default function ReportsPage() {
 
             <CartesianGrid strokeDasharray="3 3" />
 
-            <XAxis dataKey="month" />
+            <XAxis
+              dataKey="month"
+              tick={{
+                fontSize: 11,
+              }}
+            />
 
-            <YAxis />
+            <YAxis
+              tick={{
+                fontSize: 11,
+              }}
+            />
 
             <Tooltip />
 
@@ -314,7 +319,7 @@ export default function ReportsPage() {
               type="monotone"
               dataKey="value"
               stroke="#10b981"
-              strokeWidth={3}
+              strokeWidth={2}
             />
           </LineChart>
         </ResponsiveContainer>
@@ -322,13 +327,13 @@ export default function ReportsPage() {
 
       {/* CHARTS */}
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
 
-        <ChartCard title="Department-wise Distribution">
+        <ChartCard title="Department Distribution">
 
           <ResponsiveContainer
             width="100%"
-            height={320}
+            height={240}
           >
 
             <PieChart>
@@ -337,7 +342,7 @@ export default function ReportsPage() {
                 data={deptData}
                 dataKey="value"
                 nameKey="name"
-                outerRadius={110}
+                outerRadius={80}
                 label
               >
 
@@ -360,11 +365,11 @@ export default function ReportsPage() {
           </ResponsiveContainer>
         </ChartCard>
 
-        <ChartCard title="Asset Status Overview">
+        <ChartCard title="Asset Status">
 
           <ResponsiveContainer
             width="100%"
-            height={320}
+            height={240}
           >
 
             <BarChart
@@ -373,9 +378,18 @@ export default function ReportsPage() {
 
               <CartesianGrid strokeDasharray="3 3" />
 
-              <XAxis dataKey="name" />
+              <XAxis
+                dataKey="name"
+                tick={{
+                  fontSize: 11,
+                }}
+              />
 
-              <YAxis />
+              <YAxis
+                tick={{
+                  fontSize: 11,
+                }}
+              />
 
               <Tooltip />
 
@@ -383,8 +397,8 @@ export default function ReportsPage() {
                 dataKey="count"
                 fill="#10b981"
                 radius={[
-                  8,
-                  8,
+                  6,
+                  6,
                   0,
                   0,
                 ]}
@@ -396,26 +410,25 @@ export default function ReportsPage() {
 
       {/* AMC TABLE */}
 
-      <div className="bg-white border border-gray-100 rounded-[32px] shadow-sm overflow-hidden">
+      <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
 
-        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
+        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 gap-3">
 
-          <div>
+          <div className="min-w-0">
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg font-semibold text-black break-words">
               AMC Renewal Alerts
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
-              Upcoming warranty &
-              AMC renewals
+            <p className="text-xs text-black mt-1">
+              Upcoming warranty & AMC renewals
             </p>
           </div>
         </div>
 
         <div className="overflow-x-auto">
 
-          <table className="w-full min-w-[1000px]">
+          <table className="w-full min-w-[760px]">
 
             <thead className="bg-gray-50 border-b border-gray-100">
 
@@ -424,7 +437,7 @@ export default function ReportsPage() {
                 {[
                   "Asset",
                   "Vendor",
-                  "Expiry Date",
+                  "Expiry",
                   "Status",
                   "Value",
                   "Action",
@@ -432,7 +445,7 @@ export default function ReportsPage() {
 
                   <th
                     key={head}
-                    className="px-8 py-5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
+                    className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-black whitespace-nowrap"
                   >
                     {head}
                   </th>
@@ -449,11 +462,12 @@ export default function ReportsPage() {
 
                   <td
                     colSpan={6}
-                    className="text-center py-10 text-gray-500"
+                    className="text-center py-8 text-sm text-black"
                   >
                     No AMC alerts found
                   </td>
                 </tr>
+
               ) : (
 
                 amcAlerts.map(
@@ -468,20 +482,21 @@ export default function ReportsPage() {
                       className="hover:bg-gray-50 transition"
                     >
 
-                      <td className="px-8 py-6 font-medium text-gray-800">
+                      <td className="px-4 py-4 font-medium text-sm text-black whitespace-nowrap">
                         {
                           item.productName
                         }
                       </td>
 
-                      <td className="px-8 py-6 text-gray-600">
+                      <td className="px-4 py-4 text-sm text-black whitespace-nowrap">
                         {item
                           .vendor
                           ?.companyName ||
                           "N/A"}
                       </td>
 
-                      <td className="px-8 py-6 text-gray-600">
+                      <td className="px-4 py-4 text-sm text-black whitespace-nowrap">
+
                         {new Date(
                           item.warrantyExpiryDate
                         ).toLocaleDateString(
@@ -489,27 +504,27 @@ export default function ReportsPage() {
                         )}
                       </td>
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4 whitespace-nowrap">
 
-                        <span className="px-4 py-2 rounded-2xl bg-orange-50 text-orange-700 text-sm font-medium">
+                        <span className="px-3 py-1 rounded-xl bg-orange-50 text-orange-700 text-xs font-medium">
                           {
                             item.status
                           }
                         </span>
                       </td>
 
-                      <td className="px-8 py-6 font-semibold text-gray-800">
+                      <td className="px-4 py-4 font-semibold text-sm text-black whitespace-nowrap">
                         ₹
                         {
                           item.unitPrice
                         }
                       </td>
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4 whitespace-nowrap">
 
-                        <button className="h-11 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-medium">
+                        <button className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-medium">
 
-                          Renew AMC
+                          Renew
                         </button>
                       </td>
                     </tr>
@@ -532,13 +547,13 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10">
+    <div className="bg-white/10 backdrop-blur rounded-xl px-3 py-3 border border-white/10 overflow-hidden">
 
-      <p className="text-sm text-green-50">
+      <p className="text-[11px] text-green-50 break-words">
         {title}
       </p>
 
-      <h3 className="text-2xl font-bold mt-2 text-white">
+      <h3 className="text-lg font-bold mt-1 text-white break-words">
         {value}
       </h3>
     </div>
@@ -563,25 +578,25 @@ function PremiumKpi({
       : "from-emerald-500 to-green-600"
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${styles} opacity-10 rounded-full blur-3xl`}
+        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${styles} opacity-10 rounded-full blur-3xl`}
       />
 
       <div className="relative z-10">
 
         <div
-          className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${styles} shadow-lg`}
+          className={`w-10 h-10 rounded-xl bg-gradient-to-r ${styles} shadow-sm`}
         />
 
-        <div className="mt-8">
+        <div className="mt-3 min-w-0">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-black break-words">
             {title}
           </p>
 
-          <h2 className="text-4xl font-bold text-gray-900 mt-3">
+          <h2 className="text-xl font-bold text-black mt-1 break-words">
             {value}
           </h2>
         </div>
@@ -598,9 +613,9 @@ function ChartCard({
 }: any) {
 
   return (
-    <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
+    <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm overflow-hidden">
 
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+      <h2 className="text-lg font-semibold text-black mb-3 break-words">
         {title}
       </h2>
 

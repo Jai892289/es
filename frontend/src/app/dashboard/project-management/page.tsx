@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import {
   ArrowRight,
   Building2,
@@ -80,54 +81,61 @@ export const projects = [
 ];
 
 export default function ProductTable() {
+
   const router = useRouter();
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] =
+    useState("");
 
   const filtered = useMemo(() => {
+
     return projects.filter((p) =>
       `${p.name} ${p.id} ${p.location}`
         .toLowerCase()
-        .includes(search.toLowerCase())
+        .includes(
+          search.toLowerCase()
+        )
     );
+
   }, [search]);
 
   return (
-    <div className="space-y-4 w-full overflow-hidden max-w-[1400px] mx-auto">
+    <div className="space-y-4 w-full overflow-x-hidden max-w-[1280px] mx-auto">
 
       {/* HERO */}
-      <div className="relative overflow-hidden rounded-[24px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 md:p-5 shadow-lg">
 
-        <div className="absolute right-0 top-0 w-[250px] h-[250px] bg-white/10 rounded-full blur-3xl" />
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 shadow-sm">
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:justify-between gap-5">
+        <div className="absolute right-0 top-0 w-[220px] h-[220px] bg-white/10 rounded-full blur-3xl" />
+
+        <div className="relative z-10 flex flex-col xl:flex-row xl:justify-between gap-4">
 
           {/* LEFT */}
-          <div className="flex-1">
 
-            {/* TITLE */}
+          <div className="flex-1 min-w-0">
+
             <div className="flex items-center gap-3">
 
-              <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur border border-white/10 flex items-center justify-center shrink-0">
 
-                <Building2 className="w-7 h-7 text-white" />
+                <Building2 className="w-6 h-6 text-white" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-2xl md:text-4xl font-black text-white tracking-tight">
+                <h1 className="text-xl md:text-2xl font-bold text-white break-words">
                   Project Management
                 </h1>
 
-                <p className="text-white/80 mt-1 max-w-xl leading-6 text-sm">
-                  Monitor infrastructure projects, track execution &
-                  manage progress seamlessly.
+                <p className="text-white/90 mt-1 text-xs leading-5 break-words">
+                  Monitor projects & execution progress
                 </p>
               </div>
             </div>
 
             {/* STATS */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5 max-w-3xl">
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 max-w-2xl">
 
               <MiniCard
                 title="Completed"
@@ -150,25 +158,26 @@ export default function ProductTable() {
           </div>
 
           {/* RIGHT */}
+
           <div className="hidden xl:flex items-end">
 
-            <div className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[22px] p-5 w-[220px] shadow-xl">
+            <div className="bg-white/10 backdrop-blur border border-white/10 rounded-xl p-4 w-[200px] shadow-sm">
 
-              <p className="text-sm text-white/70">
+              <p className="text-xs text-white/80">
                 Active Progress
               </p>
 
-              <h2 className="text-4xl font-black text-white mt-2">
+              <h2 className="text-3xl font-bold text-white mt-2">
                 78%
               </h2>
 
-              <div className="mt-4 w-full h-2.5 bg-white/15 rounded-full overflow-hidden">
+              <div className="mt-3 w-full h-2 bg-white/15 rounded-full overflow-hidden">
 
                 <div className="w-[78%] h-full rounded-full bg-white" />
               </div>
 
-              <p className="text-xs text-white/70 mt-2">
-                Infrastructure execution performance
+              <p className="text-[11px] text-white/80 mt-2">
+                Execution performance
               </p>
             </div>
           </div>
@@ -176,65 +185,77 @@ export default function ProductTable() {
       </div>
 
       {/* TOOLBAR */}
-      <div className="bg-white rounded-[20px] border border-gray-100 shadow-sm p-3 md:p-4">
+
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-3 overflow-hidden">
 
         <div className="flex flex-col xl:flex-row gap-3 xl:items-center xl:justify-between">
 
           {/* SEARCH */}
-          <div className="relative w-full xl:max-w-[380px]">
 
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <div className="relative w-full xl:max-w-[320px]">
+
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black" />
 
             <input
               type="text"
-              placeholder="Search by Project Name / ID / Location"
+              placeholder="Search project..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setSearch(
+                  e.target.value
+                )
+              }
               className="
-                w-full h-11 rounded-xl border border-gray-200
-                bg-[#f8fafc]
-                pl-11 pr-4
-                text-sm
+                w-full h-10 rounded-xl border border-gray-200
+                bg-gray-50
+                pl-10 pr-3
+                text-sm text-black
                 outline-none
                 transition-all
-                focus:ring-4 focus:ring-emerald-100
+                focus:ring-2 focus:ring-emerald-100
                 focus:border-emerald-500
+                focus:bg-white
               "
             />
           </div>
 
           {/* BUTTONS */}
+
           <div className="flex flex-wrap items-center gap-2">
 
             <button
               className="
-                h-11 px-4 rounded-xl border border-gray-200
-                bg-white text-gray-700 text-sm font-medium
+                h-10 px-4 rounded-xl border border-gray-200
+                bg-white text-black text-sm font-medium
                 hover:border-emerald-500 hover:text-emerald-600
-                transition-all duration-300
+                transition
                 flex items-center gap-2
+                whitespace-nowrap
               "
             >
               <Filter className="w-4 h-4" />
+
               Filters
             </button>
 
             <button
               onClick={() =>
-                router.push("/dashboard/project-management/new")
+                router.push(
+                  "/dashboard/project-management/new"
+                )
               }
               className="
-                h-11 px-4 rounded-xl
+                h-10 px-4 rounded-xl
                 bg-gradient-to-r from-emerald-500 to-green-500
                 text-white text-sm font-semibold
-                shadow-lg shadow-emerald-100
-                hover:scale-[1.02]
-                transition-all duration-300
+                hover:opacity-95
+                transition
                 flex items-center gap-2
-                cursor-pointer
+                whitespace-nowrap
               "
             >
               <Plus className="w-4 h-4" />
+
               Add Project
             </button>
           </div>
@@ -242,62 +263,61 @@ export default function ProductTable() {
       </div>
 
       {/* TABLE */}
-      <div className="bg-white rounded-[22px] border border-gray-100 shadow-sm overflow-hidden">
+
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
 
         {/* HEADER */}
-        <div className="px-4 md:px-5 pt-5 pb-4 border-b border-gray-100">
 
-          <h2 className="text-2xl font-black text-gray-900">
+        <div className="px-4 py-4 border-b border-gray-100">
+
+          <h2 className="text-lg font-semibold text-black">
             Project Directory
           </h2>
 
-          <p className="text-gray-500 mt-1 text-sm">
-            Track project execution, status & timelines.
+          <p className="text-black mt-1 text-xs">
+            Track project status & timelines
           </p>
         </div>
 
         {/* TABLE */}
+
         <div className="overflow-x-auto">
 
-          <table className="w-full min-w-[900px] xl:min-w-full">
+          <table className="w-full min-w-[820px]">
 
-            <thead className="bg-[#fafbfc] border-b border-gray-100">
+            <thead className="bg-gray-50 border-b border-gray-100">
 
-              <tr className="text-left text-xs uppercase tracking-wider text-gray-500">
+              <tr className="text-left text-[11px] uppercase tracking-wide text-black">
 
-                <th className="px-4 py-4 font-semibold">
+                <th className="px-4 py-3 font-semibold">
                   Project
                 </th>
 
-                <th className="px-4 py-4 font-semibold">
+                <th className="px-4 py-3 font-semibold">
                   Category
                 </th>
 
-                <th className="px-4 py-4 font-semibold">
+                <th className="px-4 py-3 font-semibold">
                   Department
                 </th>
 
-                {/* <th className="px-4 py-4 font-semibold">
-                  Location
-                </th> */}
-
-                <th className="px-4 py-4 font-semibold">
+                <th className="px-4 py-3 font-semibold">
                   Timeline
                 </th>
 
-                <th className="px-4 py-4 font-semibold">
+                <th className="px-4 py-3 font-semibold">
                   Status
                 </th>
 
-                <th className="px-4 py-4 font-semibold">
+                <th className="px-4 py-3 font-semibold">
                   Budget
                 </th>
 
-                <th className="px-4 py-4 font-semibold">
+                <th className="px-4 py-3 font-semibold">
                   Progress
                 </th>
 
-                <th className="px-4 py-4 font-semibold text-right">
+                <th className="px-4 py-3 font-semibold text-right">
                   Action
                 </th>
               </tr>
@@ -305,184 +325,195 @@ export default function ProductTable() {
 
             <tbody>
 
-              {filtered.map((item, i) => (
+              {filtered.map(
+                (item, i) => (
 
-                <tr
-                  key={i}
-                  className="
-                    border-b border-gray-100
-                    hover:bg-emerald-50/40
-                    transition-all duration-300
-                  "
-                >
+                  <tr
+                    key={i}
+                    className="
+                      border-b border-gray-100
+                      hover:bg-emerald-50/30
+                      transition
+                    "
+                  >
 
-                  {/* PROJECT */}
-                  <td className="px-4 py-4">
+                    {/* PROJECT */}
 
-                    <div className="flex items-center gap-3">
+                    <td className="px-4 py-4">
 
-                      <div
-                        className="
-                          w-11 h-11 rounded-xl
-                          bg-gradient-to-br from-emerald-500 to-green-500
-                          flex items-center justify-center
-                          shadow-lg shadow-emerald-100
-                        "
-                      >
-                        <Building2 className="w-5 h-5 text-white" />
-                      </div>
-
-                      <div>
-                        <h3 className="font-semibold text-gray-800 max-w-[220px] truncate text-sm">
-                          {item.name}
-                        </h3>
-
-                        <div className="flex items-center gap-2 mt-1">
-
-                          <span className="text-xs text-gray-500">
-                            {item.id}
-                          </span>
-
-                          <span className="w-1 h-1 rounded-full bg-gray-300" />
-
-                          <span className="text-xs text-emerald-600 font-medium">
-                            {item.scheme}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-
-                  {/* CATEGORY */}
-                  <td className="px-4 py-4">
-
-                    <span
-                      className="
-                        px-3 py-1.5 rounded-full
-                        bg-blue-50 text-blue-600
-                        text-xs font-semibold
-                      "
-                    >
-                      {item.category}
-                    </span>
-                  </td>
-
-                  {/* DEPARTMENT */}
-                  <td className="px-4 py-4">
-
-                    <p className="font-medium text-gray-800 text-sm">
-                      {item.department}
-                    </p>
-                  </td>
-
-                  {/* LOCATION */}
-                  {/* <td className="px-4 py-4">
-
-                    <p className="text-gray-700 text-sm">
-                      {item.location}
-                    </p>
-                  </td> */}
-
-                  {/* TIMELINE */}
-                  <td className="px-4 py-4">
-
-                    <div className="space-y-1 text-sm">
-
-                      <div className="flex items-center gap-2 text-gray-700">
-
-                        <CalendarDays className="w-4 h-4 text-emerald-500" />
-
-                        {item.start}
-                      </div>
-
-                      <p className="text-gray-400 text-xs">
-                        to {item.end}
-                      </p>
-                    </div>
-                  </td>
-
-                  {/* STATUS */}
-                  <td className="px-4 py-4">
-
-                    <StatusBadge status={item.status} />
-                  </td>
-
-                  {/* BUDGET */}
-                  <td className="px-4 py-4">
-
-                    <span className="font-semibold text-gray-800 text-sm">
-                      {item.budget}
-                    </span>
-                  </td>
-
-                  {/* PROGRESS */}
-                  <td className="px-4 py-4 min-w-[160px]">
-
-                    <div className="space-y-2">
-
-                      <div className="flex items-center justify-between text-xs">
-
-                        <span className="text-gray-500">
-                          Completion
-                        </span>
-
-                        <span className="font-bold text-emerald-600">
-                          {item.progress}%
-                        </span>
-                      </div>
-
-                      <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="flex items-center gap-3 min-w-0">
 
                         <div
                           className="
-                            h-full rounded-full
-                            bg-gradient-to-r from-emerald-500 to-green-500
+                            w-10 h-10 rounded-xl
+                            bg-gradient-to-br from-emerald-500 to-green-500
+                            flex items-center justify-center
+                            shrink-0
                           "
-                          style={{
-                            width: `${item.progress}%`,
-                          }}
-                        />
+                        >
+
+                          <Building2 className="w-4 h-4 text-white" />
+                        </div>
+
+                        <div className="min-w-0">
+
+                          <h3 className="font-semibold text-black max-w-[220px] truncate text-sm">
+                            {item.name}
+                          </h3>
+
+                          <div className="flex items-center gap-2 mt-1 flex-wrap">
+
+                            <span className="text-[10px] text-black">
+                              {item.id}
+                            </span>
+
+                            <span className="w-1 h-1 rounded-full bg-gray-300" />
+
+                            <span className="text-[10px] text-emerald-600 font-medium">
+                              {item.scheme}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </td>
+                    </td>
 
-                  {/* ACTION */}
-                  <td className="px-4 py-4 text-right">
+                    {/* CATEGORY */}
 
-                    <button
-                      className="
-                        inline-flex items-center gap-2
-                        px-4 h-10 rounded-xl
-                        bg-gray-900 text-white text-sm font-medium
-                        hover:bg-emerald-600
-                        transition-all duration-300
-                      "
-                    >
-                      View
-                      <ArrowRight className="w-4 h-4" />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    <td className="px-4 py-4">
+
+                      <span
+                        className="
+                          px-3 py-1 rounded-full
+                          bg-blue-50 text-blue-700
+                          text-[11px] font-semibold
+                          whitespace-nowrap
+                        "
+                      >
+                        {item.category}
+                      </span>
+                    </td>
+
+                    {/* DEPARTMENT */}
+
+                    <td className="px-4 py-4">
+
+                      <p className="font-medium text-black text-sm whitespace-nowrap">
+                        {item.department}
+                      </p>
+                    </td>
+
+                    {/* TIMELINE */}
+
+                    <td className="px-4 py-4">
+
+                      <div className="space-y-1 text-sm">
+
+                        <div className="flex items-center gap-2 text-black whitespace-nowrap">
+
+                          <CalendarDays className="w-4 h-4 text-emerald-500 shrink-0" />
+
+                          {item.start}
+                        </div>
+
+                        <p className="text-black text-[11px] whitespace-nowrap">
+                          to {item.end}
+                        </p>
+                      </div>
+                    </td>
+
+                    {/* STATUS */}
+
+                    <td className="px-4 py-4 whitespace-nowrap">
+
+                      <StatusBadge
+                        status={
+                          item.status
+                        }
+                      />
+                    </td>
+
+                    {/* BUDGET */}
+
+                    <td className="px-4 py-4">
+
+                      <span className="font-semibold text-black text-sm whitespace-nowrap">
+                        {item.budget}
+                      </span>
+                    </td>
+
+                    {/* PROGRESS */}
+
+                    <td className="px-4 py-4 min-w-[140px]">
+
+                      <div className="space-y-2">
+
+                        <div className="flex items-center justify-between text-[11px]">
+
+                          <span className="text-black">
+                            Completion
+                          </span>
+
+                          <span className="font-bold text-emerald-600">
+                            {item.progress}%
+                          </span>
+                        </div>
+
+                        <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+
+                          <div
+                            className="
+                              h-full rounded-full
+                              bg-gradient-to-r from-emerald-500 to-green-500
+                            "
+                            style={{
+                              width: `${item.progress}%`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* ACTION */}
+
+                    <td className="px-4 py-4 text-right whitespace-nowrap">
+
+                      <button
+                        className="
+                          inline-flex items-center gap-2
+                          px-4 h-9 rounded-xl
+                          bg-gray-900 text-white text-sm font-medium
+                          hover:bg-emerald-600
+                          transition
+                        "
+                      >
+                        View
+
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
         </div>
 
         {/* FOOTER */}
-        <div className="px-4 md:px-5 py-4 flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between border-t border-gray-100">
 
-          <p className="text-sm text-gray-500">
+        <div className="px-4 py-4 flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between border-t border-gray-100 overflow-hidden">
+
+          <p className="text-sm text-black break-words">
             Showing {filtered.length} projects
           </p>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
 
             <button
               className="
-                h-10 px-4 rounded-xl border border-gray-200
-                text-sm font-medium text-gray-700
+                h-9 px-4 rounded-xl border border-gray-200
+                text-sm font-medium text-black
                 hover:border-emerald-500 hover:text-emerald-600
-                transition-all
+                transition
               "
             >
               Previous
@@ -490,10 +521,9 @@ export default function ProductTable() {
 
             <button
               className="
-                h-10 px-4 rounded-xl
+                h-9 px-4 rounded-xl
                 bg-gradient-to-r from-emerald-500 to-green-500
                 text-white text-sm font-semibold
-                shadow-lg shadow-emerald-100
               "
             >
               Next
@@ -505,24 +535,29 @@ export default function ProductTable() {
   );
 }
 
-/* STATUS BADGE */
+/* STATUS */
 
-function StatusBadge({ status }: { status: string }) {
+function StatusBadge({
+  status,
+}: {
+  status: string;
+}) {
 
   const styles =
     status === "Ongoing"
-      ? "bg-emerald-50 text-emerald-600"
+      ? "bg-emerald-50 text-emerald-700"
       : status === "Completed"
       ? "bg-green-100 text-green-700"
       : status === "Delayed"
-      ? "bg-red-100 text-red-600"
-      : "bg-gray-100 text-gray-600";
+      ? "bg-red-100 text-red-700"
+      : "bg-gray-100 text-black";
 
   return (
     <span
       className={`
-        px-3 py-1.5 rounded-full
-        text-xs font-bold
+        px-3 py-1 rounded-full
+        text-[11px] font-semibold
+        whitespace-nowrap
         ${styles}
       `}
     >
@@ -542,39 +577,43 @@ function MiniCard({
   value: string;
   color: string;
 }) {
+
   return (
     <div
       className="
-        bg-white/10 backdrop-blur-md
+        bg-white/10 backdrop-blur
         border border-white/10
-        rounded-2xl
-        p-4
-        shadow-lg
+        rounded-xl
+        p-3
+        shadow-sm
+        overflow-hidden
       "
     >
-      <div className="flex items-start justify-between">
+
+      <div className="flex items-start justify-between gap-2">
 
         <div
           className={`
-            w-11 h-11 rounded-xl
+            w-10 h-10 rounded-xl
             bg-gradient-to-br ${color}
             flex items-center justify-center
-            shadow-lg
+            shrink-0
           `}
         >
-          <Building2 className="w-5 h-5 text-white" />
+
+          <Building2 className="w-4 h-4 text-white" />
         </div>
 
-        <ArrowRight className="w-4 h-4 text-white/60" />
+        <ArrowRight className="w-4 h-4 text-white/70 shrink-0" />
       </div>
 
-      <div className="mt-4">
+      <div className="mt-3 min-w-0">
 
-        <p className="text-white/80 text-sm">
+        <p className="text-white/90 text-xs break-words">
           {title}
         </p>
 
-        <h2 className="text-3xl font-black text-white mt-1">
+        <h2 className="text-2xl font-bold text-white mt-1 break-words">
           {value}
         </h2>
       </div>

@@ -238,66 +238,62 @@ export default function RaiseComplaintPage() {
     }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-x-hidden">
 
-      {/* ---------------- HERO ---------------- */}
+      {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
 
-        {/* GLOW */}
+        <div className="absolute top-0 right-0 w-52 h-52 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
-
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow shrink-0">
 
-                <ShieldAlert className="w-10 h-10" />
+                <ShieldAlert className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-4xl font-bold tracking-tight">
+                <h1 className="text-xl font-semibold leading-tight break-words">
                   Raise Complaint
                 </h1>
 
-                <p className="text-green-50 mt-2 text-sm">
-                  Register maintenance & asset related complaints quickly
+                <p className="text-green-50 mt-1 text-xs break-words">
+                  Register maintenance & issue complaints
                 </p>
               </div>
             </div>
 
-            {/* QUICK STATS */}
-
-            <div className="flex flex-wrap items-center gap-10 mt-10">
+            <div className="flex flex-wrap items-center gap-5 mt-4">
 
               <div>
 
-                <h2 className="text-4xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   24/7
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Complaint Support
+                <p className="text-green-100 text-[10px] mt-1">
+                  Support
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-4xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   SLA
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Priority Monitoring
+                <p className="text-green-100 text-[10px] mt-1">
+                  Monitoring
                 </p>
               </div>
             </div>
@@ -305,30 +301,28 @@ export default function RaiseComplaintPage() {
 
           {/* RIGHT */}
 
-          <div className="grid grid-cols-1 gap-4 min-w-[320px]">
+          <div className="flex flex-col gap-2 w-full xl:w-[220px]">
 
             <MiniCard
               icon={CheckCircle2}
-              title="Resolution Rate"
+              title="Resolution"
               value="96%"
             />
 
             <MiniCard
               icon={AlertTriangle}
-              title="Critical Support"
+              title="Support"
               value="Active"
             />
-
-         
           </div>
         </div>
       </div>
 
-      {/* ---------------- FORM ---------------- */}
+      {/* FORM */}
 
-      <div className="space-y-7">
+      <div className="space-y-4 overflow-hidden">
 
-        {/* ---------------- DEPARTMENT ---------------- */}
+        {/* DEPARTMENT */}
 
         <Section
           title="Department Details"
@@ -349,7 +343,7 @@ export default function RaiseComplaintPage() {
             />
 
             <Select
-              label="Urgency Level"
+              label="Urgency"
               onChange={(v: any) =>
                 handleChange(
                   "urgency",
@@ -381,7 +375,7 @@ export default function RaiseComplaintPage() {
             />
 
             <Input
-              label="Contact Number"
+              label="Contact"
               icon={Phone}
               onChange={(v: any) =>
                 handleChange(
@@ -403,7 +397,7 @@ export default function RaiseComplaintPage() {
             />
 
             <Input
-              label="Department Name"
+              label="Department"
               icon={Building2}
               onChange={(v: any) =>
                 handleChange(
@@ -426,7 +420,7 @@ export default function RaiseComplaintPage() {
           </Grid>
         </Section>
 
-        {/* ---------------- VENDOR ---------------- */}
+        {/* VENDOR */}
 
         <Section
           title="Vendor Details"
@@ -436,7 +430,7 @@ export default function RaiseComplaintPage() {
           <Grid>
 
             <Input
-              label="Company Name"
+              label="Company"
               icon={Building2}
               onChange={(v: any) =>
                 handleChange(
@@ -458,7 +452,7 @@ export default function RaiseComplaintPage() {
             />
 
             <Input
-              label="Contact Number"
+              label="Contact"
               icon={Phone}
               onChange={(v: any) =>
                 handleChange(
@@ -469,7 +463,7 @@ export default function RaiseComplaintPage() {
             />
 
             <Input
-              label="WhatsApp Number"
+              label="WhatsApp"
               icon={Phone}
               onChange={(v: any) =>
                 handleChange(
@@ -503,7 +497,7 @@ export default function RaiseComplaintPage() {
           </Grid>
         </Section>
 
-        {/* ---------------- ISSUE ---------------- */}
+        {/* ISSUE */}
 
         <Section
           title="Issue Details"
@@ -523,7 +517,7 @@ export default function RaiseComplaintPage() {
             />
 
             <Input
-              label="Item / Product"
+              label="Product"
               icon={Package2}
               onChange={(v: any) =>
                 handleChange(
@@ -534,7 +528,7 @@ export default function RaiseComplaintPage() {
             />
 
             <Input
-              label="Other Products"
+              label="Other Product"
               icon={Package2}
               onChange={(v: any) =>
                 handleChange(
@@ -556,7 +550,7 @@ export default function RaiseComplaintPage() {
             />
 
             <Input
-              label="AMC Contract Number"
+              label="AMC Number"
               icon={FileText}
               onChange={(v: any) =>
                 handleChange(
@@ -568,7 +562,7 @@ export default function RaiseComplaintPage() {
 
             <Input
               type="date"
-              label="Warranty Expiry Date"
+              label="Warranty Expiry"
               icon={Calendar}
               onChange={(v: any) =>
                 handleChange(
@@ -580,7 +574,7 @@ export default function RaiseComplaintPage() {
 
             <Input
               type="date"
-              label="Issue Occurrence Date"
+              label="Issue Date"
               icon={Calendar}
               onChange={(v: any) =>
                 handleChange(
@@ -591,7 +585,7 @@ export default function RaiseComplaintPage() {
             />
           </Grid>
 
-          <div className="mt-6">
+          <div className="mt-4">
 
             <Textarea
               label="Issue Description"
@@ -605,28 +599,28 @@ export default function RaiseComplaintPage() {
           </div>
         </Section>
 
-        {/* ---------------- ATTACHMENTS ---------------- */}
+        {/* ATTACHMENT */}
 
-        <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
+        <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm overflow-hidden">
 
-          <div className="flex items-center justify-between gap-5 flex-wrap">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
-            <div>
+            <div className="min-w-0">
 
-              <h2 className="text-2xl font-bold text-gray-800">
+              <h2 className="text-lg font-semibold text-black break-words">
                 Attachments
               </h2>
 
-              <p className="text-sm text-gray-500 mt-2">
-                Upload invoices, warranty docs, screenshots or issue photos
+              <p className="text-xs text-black mt-1 break-words">
+                Upload screenshots, warranty docs or invoices
               </p>
             </div>
 
-            <label className="h-12 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-medium flex items-center gap-2 cursor-pointer shadow-lg">
+            <label className="h-10 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-medium flex items-center gap-2 cursor-pointer whitespace-nowrap shrink-0">
 
               <Upload className="w-4 h-4" />
 
-              Upload Files
+              Upload
 
               <input
                 type="file"
@@ -644,7 +638,7 @@ export default function RaiseComplaintPage() {
           {attachments.length >
             0 && (
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mt-4">
 
               {attachments.map(
                 (
@@ -654,19 +648,19 @@ export default function RaiseComplaintPage() {
 
                   <div
                     key={i}
-                    className="rounded-2xl border border-gray-100 p-5 flex items-center justify-between hover:shadow-md transition"
+                    className="rounded-xl border border-gray-100 p-3 flex items-center justify-between gap-3 hover:shadow-sm transition overflow-hidden"
                   >
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 min-w-0">
 
-                      <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
 
-                        <FileText className="w-6 h-6 text-emerald-600" />
+                        <FileText className="w-5 h-5 text-emerald-600" />
                       </div>
 
-                      <div>
+                      <div className="min-w-0">
 
-                        <h3 className="text-sm font-semibold text-gray-800 line-clamp-1">
+                        <h3 className="text-sm font-semibold text-black truncate">
                           {
                             file
                               .file
@@ -674,7 +668,7 @@ export default function RaiseComplaintPage() {
                           }
                         </h3>
 
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-[10px] text-black mt-1 truncate">
                           {
                             file
                               .fileType
@@ -683,7 +677,7 @@ export default function RaiseComplaintPage() {
                       </div>
                     </div>
 
-                    <ArrowUpRight className="w-5 h-5 text-gray-400" />
+                    <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
                   </div>
                 )
               )}
@@ -691,22 +685,22 @@ export default function RaiseComplaintPage() {
           )}
         </div>
 
-        {/* ---------------- COMMUNICATION ---------------- */}
+        {/* COMMUNICATION */}
 
-        <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 overflow-hidden">
 
-          <div>
+          <div className="min-w-0">
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg font-semibold text-black break-words">
               Vendor Communication
             </h2>
 
-            <p className="text-sm text-gray-500 mt-2">
-              Notify vendors instantly via email or WhatsApp
+            <p className="text-xs text-black mt-1">
+              Notify vendors instantly
             </p>
           </div>
 
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-6 flex-wrap">
 
             <Checkbox
               label="WhatsApp"
@@ -736,18 +730,18 @@ export default function RaiseComplaintPage() {
           </div>
         </div>
 
-        {/* ---------------- ACTION ---------------- */}
+        {/* ACTION */}
 
         <div className="flex justify-end">
 
           <button
             onClick={handleSubmit}
             className="
-              h-14 px-8 rounded-2xl
+              h-11 px-6 rounded-xl
               bg-gradient-to-r from-emerald-600 to-green-600
               hover:from-emerald-700 hover:to-green-700
-              transition text-white font-semibold
-              shadow-xl
+              transition text-white text-sm font-semibold
+              shadow-sm
             "
           >
 
@@ -761,7 +755,7 @@ export default function RaiseComplaintPage() {
   )
 }
 
-/* ---------------- SECTION ---------------- */
+/* SECTION */
 
 function Section({
   title,
@@ -770,23 +764,23 @@ function Section({
 }: any) {
 
   return (
-    <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
+    <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm overflow-hidden">
 
-      <div className="flex items-center gap-4 mb-8">
+      <div className="flex items-center gap-3 mb-5">
 
-        <div className="w-16 h-16 rounded-3xl bg-emerald-100 flex items-center justify-center">
+        <div className="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
 
-          <Icon className="w-8 h-8 text-emerald-600" />
+          <Icon className="w-5 h-5 text-emerald-600" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <h2 className="text-2xl font-bold text-gray-800">
+          <h2 className="text-lg font-semibold text-black break-words">
             {title}
           </h2>
 
-          <p className="text-sm text-gray-500 mt-1">
-            Fill all required information carefully
+          <p className="text-xs text-black mt-1">
+            Fill required information
           </p>
         </div>
       </div>
@@ -796,20 +790,20 @@ function Section({
   )
 }
 
-/* ---------------- GRID ---------------- */
+/* GRID */
 
 function Grid({
   children,
 }: any) {
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
       {children}
     </div>
   )
 }
 
-/* ---------------- INPUT ---------------- */
+/* INPUT */
 
 function Input({
   label,
@@ -819,9 +813,9 @@ function Input({
 }: any) {
 
   return (
-    <div>
+    <div className="min-w-0">
 
-      <label className="text-sm font-medium text-gray-600 mb-2 block">
+      <label className="text-xs font-medium text-black mb-2 block break-words">
         {label}
       </label>
 
@@ -829,7 +823,7 @@ function Input({
 
         {Icon && (
 
-          <Icon className="absolute left-4 top-4 w-5 h-5 text-gray-400" />
+          <Icon className="absolute left-3 top-3 w-4 h-4 text-black" />
         )}
 
         <input
@@ -840,17 +834,15 @@ function Input({
             )
           }
           className="
-            w-full h-14 rounded-2xl
+            w-full h-10 rounded-xl
             border border-gray-200
             bg-gray-50
-            px-12
-            text-sm
+            px-10
+            text-sm text-black
             outline-none
             transition
             focus:border-emerald-500
             focus:bg-white
-            focus:ring-4
-            focus:ring-emerald-100
           "
         />
       </div>
@@ -858,7 +850,7 @@ function Input({
   )
 }
 
-/* ---------------- SELECT ---------------- */
+/* SELECT */
 
 function Select({
   label,
@@ -866,9 +858,9 @@ function Select({
 }: any) {
 
   return (
-    <div>
+    <div className="min-w-0">
 
-      <label className="text-sm font-medium text-gray-600 mb-2 block">
+      <label className="text-xs font-medium text-black mb-2 block">
         {label}
       </label>
 
@@ -881,18 +873,16 @@ function Select({
             )
           }
           className="
-            w-full h-14 rounded-2xl
+            w-full h-10 rounded-xl
             border border-gray-200
             bg-gray-50
-            px-5 pr-12
-            text-sm
+            px-3 pr-10
+            text-sm text-black
             appearance-none
             outline-none
             transition
             focus:border-emerald-500
             focus:bg-white
-            focus:ring-4
-            focus:ring-emerald-100
           "
         >
 
@@ -913,13 +903,13 @@ function Select({
           </option>
         </select>
 
-        <ChevronDown className="absolute right-4 top-5 w-5 h-5 text-emerald-600" />
+        <ChevronDown className="absolute right-3 top-3 w-4 h-4 text-emerald-600" />
       </div>
     </div>
   )
 }
 
-/* ---------------- TEXTAREA ---------------- */
+/* TEXTAREA */
 
 function Textarea({
   label,
@@ -929,35 +919,34 @@ function Textarea({
   return (
     <div>
 
-      <label className="text-sm font-medium text-gray-600 mb-2 block">
+      <label className="text-xs font-medium text-black mb-2 block">
         {label}
       </label>
 
       <textarea
-        rows={6}
+        rows={4}
         onChange={(e) =>
           onChange(
             e.target.value
           )
         }
         className="
-          w-full rounded-3xl
+          w-full rounded-xl
           border border-gray-200
           bg-gray-50
-          p-5 text-sm
+          p-3 text-sm text-black
           outline-none
           transition
+          resize-none
           focus:border-emerald-500
           focus:bg-white
-          focus:ring-4
-          focus:ring-emerald-100
         "
       />
     </div>
   )
 }
 
-/* ---------------- CHECKBOX ---------------- */
+/* CHECKBOX */
 
 function Checkbox({
   label,
@@ -966,11 +955,11 @@ function Checkbox({
 }: any) {
 
   return (
-    <label className="flex items-center gap-3 cursor-pointer">
+    <label className="flex items-center gap-2 cursor-pointer">
 
       <div
         className={`
-          w-6 h-6 rounded-lg border-2 flex items-center justify-center transition
+          w-5 h-5 rounded-md border flex items-center justify-center transition
           ${
             checked
               ? "bg-emerald-600 border-emerald-600"
@@ -982,19 +971,18 @@ function Checkbox({
 
         {checked && (
 
-          <CheckCircle2 className="w-4 h-4 text-white" />
+          <CheckCircle2 className="w-3 h-3 text-white" />
         )}
       </div>
 
-      <span className="text-sm font-medium text-gray-700">
+      <span className="text-sm font-medium text-black">
         {label}
       </span>
     </label>
   )
 }
 
-
-/* ---------------- MINI CARD ---------------- */
+/* MINI CARD */
 
 function MiniCard({
   icon: Icon,
@@ -1003,22 +991,22 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10">
+    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 border border-white/10 overflow-hidden">
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
 
-        <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center shadow-lg">
+        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
 
-          <Icon className="w-6 h-6 text-white" />
+          <Icon className="w-5 h-5 text-white" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-sm text-green-50">
+          <p className="text-xs text-green-50 break-words">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1 text-white">
+          <h3 className="text-lg font-bold mt-1 text-white break-words">
             {value}
           </h3>
         </div>

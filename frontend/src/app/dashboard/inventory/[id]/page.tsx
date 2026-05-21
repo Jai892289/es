@@ -78,7 +78,7 @@ export default function InventoryProductDetailsPage() {
   if (loading) {
 
     return (
-      <div className="min-h-[70vh] flex items-center justify-center bg-[#f5f7fb]">
+      <div className="min-h-[60vh] flex items-center justify-center bg-[#f5f7fb]">
 
         <div className="text-center">
 
@@ -91,11 +91,11 @@ export default function InventoryProductDetailsPage() {
               repeat: Infinity,
               ease: "linear",
             }}
-            className="w-20 h-20 border-[6px] border-emerald-500 border-t-transparent rounded-full mx-auto"
+            className="w-14 h-14 border-[4px] border-emerald-500 border-t-transparent rounded-full mx-auto"
           />
 
-          <p className="text-gray-500 mt-6 text-sm font-medium">
-            Loading Inventory Details...
+          <p className="text-black mt-3 text-sm">
+            Loading...
           </p>
         </div>
       </div>
@@ -106,16 +106,16 @@ export default function InventoryProductDetailsPage() {
     <motion.div
       initial={{
         opacity: 0,
-        y: 20,
+        y: 10,
       }}
       animate={{
         opacity: 1,
         y: 0,
       }}
       transition={{
-        duration: 0.5,
+        duration: 0.4,
       }}
-      className="space-y-7"
+      className="space-y-4"
     >
 
       {/* BACK */}
@@ -135,85 +135,62 @@ export default function InventoryProductDetailsPage() {
       <motion.div
         initial={{
           opacity: 0,
-          scale: 0.97,
+          scale: 0.98,
         }}
         animate={{
           opacity: 1,
           scale: 1,
         }}
         transition={{
-          duration: 0.6,
+          duration: 0.5,
         }}
-        className="relative overflow-hidden rounded-[36px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-8 shadow-2xl text-white"
+        className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-5 shadow-md text-white"
       >
 
-        {/* BLOBS */}
+        {/* BG */}
 
-        <motion.div
-          animate={{
-            y: [0, -20, 0],
-            x: [0, 15, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"
-        />
+        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
 
-        <motion.div
-          animate={{
-            y: [0, 15, 0],
-            x: [0, -10, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl"
-        />
+        <div className="absolute bottom-0 left-0 w-44 h-44 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
 
           {/* LEFT */}
 
           <div>
 
-            <div className="flex items-start gap-5">
+            <div className="flex items-start gap-3">
 
               <motion.div
                 whileHover={{
-                  rotate: 6,
-                  scale: 1.05,
+                  rotate: 4,
                 }}
-                className="w-24 h-24 rounded-[30px] bg-white/15 backdrop-blur flex items-center justify-center shadow-xl"
+                className="w-16 h-16 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center"
               >
 
-                <Laptop className="w-12 h-12" />
+                <Laptop className="w-8 h-8" />
               </motion.div>
 
               <div>
 
-                <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/15 border border-white/10 backdrop-blur text-xs font-medium">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/10 text-[11px] font-medium">
 
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Sparkles className="w-3 h-3" />
 
                   Premium Asset
                 </div>
 
-                <h1 className="text-4xl font-bold tracking-tight mt-4">
+                <h1 className="text-2xl font-bold tracking-tight mt-3 leading-tight">
                   {data?.productName || "-"}
                 </h1>
 
-                <p className="text-green-50 mt-3 text-sm">
-                  Serial Number :
+                <p className="text-green-50 mt-1 text-xs">
+                  Serial :
                   {" "}
                   {data?.serialNumber || "-"}
                 </p>
 
-                <div className="flex flex-wrap gap-4 mt-6">
+                <div className="flex flex-wrap gap-2 mt-4">
 
                   <StatusBadge
                     active={
@@ -233,7 +210,7 @@ export default function InventoryProductDetailsPage() {
 
             {/* STATS */}
 
-            <div className="flex flex-wrap gap-10 mt-10">
+            <div className="flex flex-wrap gap-5 mt-5">
 
               <QuickStat
                 value={
@@ -262,7 +239,7 @@ export default function InventoryProductDetailsPage() {
 
           {/* RIGHT */}
 
-          <div className="grid grid-cols-2 gap-4 min-w-[320px]">
+          <div className="grid grid-cols-2 gap-2 w-full xl:w-[280px]">
 
             <MiniCard
               icon={ShieldCheck}
@@ -276,7 +253,7 @@ export default function InventoryProductDetailsPage() {
 
             <MiniCard
               icon={Activity}
-              title="Asset Health"
+              title="Health"
               value="94%"
             />
 
@@ -297,15 +274,15 @@ export default function InventoryProductDetailsPage() {
 
       {/* CONTENT */}
 
-      <div className="grid grid-cols-12 gap-7">
+      <div className="grid grid-cols-12 gap-4">
 
         {/* LEFT */}
 
-        <div className="col-span-12 xl:col-span-8 space-y-7">
+        <div className="col-span-12 xl:col-span-8 space-y-4">
 
           {/* INFO GRID */}
 
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-3">
 
             <InfoCard
               icon={Package2}
@@ -317,7 +294,7 @@ export default function InventoryProductDetailsPage() {
 
             <InfoCard
               icon={ShieldCheck}
-              label="Invoice Number"
+              label="Invoice"
               value={
                 data?.invoiceNumber ||
                 "-"
@@ -335,7 +312,7 @@ export default function InventoryProductDetailsPage() {
 
             <InfoCard
               icon={CalendarDays}
-              label="Procurement Date"
+              label="Procurement"
               value={
                 data?.procurementDate
                   ? new Date(
@@ -347,7 +324,7 @@ export default function InventoryProductDetailsPage() {
 
             <InfoCard
               icon={ShieldCheck}
-              label="Warranty Expiry"
+              label="Warranty"
               value={
                 data?.warrantyExpiryDate
                   ? new Date(
@@ -359,7 +336,7 @@ export default function InventoryProductDetailsPage() {
 
             <InfoCard
               icon={CalendarDays}
-              label="Created At"
+              label="Created"
               value={
                 data?.createdAt
                   ? new Date(
@@ -370,33 +347,32 @@ export default function InventoryProductDetailsPage() {
             />
           </div>
 
-          {/* RELATION DETAILS */}
+          {/* RELATION */}
 
           <motion.div
             whileHover={{
-              y: -3,
+              y: -2,
             }}
-            className="bg-white border border-gray-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl transition-all duration-300"
+            className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300"
           >
 
-            <div className="flex items-center justify-between mb-7">
+            <div className="flex items-center justify-between mb-4">
 
               <div>
 
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-lg font-semibold text-black">
                   Relation Details
                 </h2>
 
-                <p className="text-sm text-gray-500 mt-1">
-                  Linked references &
-                  mapping information
+                <p className="text-xs text-black mt-1">
+                  Linked references
                 </p>
               </div>
 
-              <ArrowUpRight className="w-5 h-5 text-gray-400" />
+              <ArrowUpRight className="w-4 h-4 text-black" />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-5">
+            <div className="grid md:grid-cols-2 gap-3">
 
               <Spec
                 label="Product ID"
@@ -429,40 +405,40 @@ export default function InventoryProductDetailsPage() {
 
         {/* RIGHT */}
 
-        <div className="col-span-12 xl:col-span-4 space-y-7">
+        <div className="col-span-12 xl:col-span-4 space-y-4">
 
-          {/* QUICK SUMMARY */}
+          {/* SUMMARY */}
 
           <motion.div
             whileHover={{
-              y: -3,
+              y: -2,
             }}
-            className="bg-white border border-gray-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl transition-all duration-300"
+            className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300"
           >
 
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
 
               <div>
 
-                <h2 className="text-2xl font-bold text-gray-800">
+                <h2 className="text-lg font-semibold text-black">
                   Quick Summary
                 </h2>
 
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-xs text-black mt-1">
                   Asset overview
                 </p>
               </div>
 
-              <div className="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
 
-                <Laptop className="w-7 h-7 text-emerald-600" />
+                <Laptop className="w-5 h-5 text-emerald-600" />
               </div>
             </div>
 
-            <div className="space-y-5">
+            <div className="space-y-3">
 
               <Info
-                label="Product Name"
+                label="Product"
                 value={
                   data?.productName ||
                   "-"
@@ -477,7 +453,7 @@ export default function InventoryProductDetailsPage() {
               />
 
               <Info
-                label="AMC Available"
+                label="AMC"
                 value={
                   data?.amcAvailable
                     ? "Yes"
@@ -486,7 +462,7 @@ export default function InventoryProductDetailsPage() {
               />
 
               <Info
-                label="Invoice Number"
+                label="Invoice"
                 value={
                   data?.invoiceNumber ||
                   "-"
@@ -499,24 +475,24 @@ export default function InventoryProductDetailsPage() {
 
           <motion.div
             whileHover={{
-              y: -3,
+              y: -2,
             }}
-            className="bg-white border border-gray-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl transition-all duration-300"
+            className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300"
           >
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg font-semibold text-black">
               Quick Actions
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1 mb-6">
-              Perform asset related operations
+            <p className="text-xs text-black mt-1 mb-4">
+              Asset operations
             </p>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
 
               <ActionButton
                 icon={
-                  <MessageCircle className="w-5 h-5" />
+                  <MessageCircle className="w-4 h-4" />
                 }
                 text="Contact Vendor"
                 className="from-emerald-500 to-green-600"
@@ -524,7 +500,7 @@ export default function InventoryProductDetailsPage() {
 
               <ActionButton
                 icon={
-                  <AlertTriangle className="w-5 h-5" />
+                  <AlertTriangle className="w-4 h-4" />
                 }
                 text="Raise Complaint"
                 className="from-orange-500 to-amber-500"
@@ -547,11 +523,11 @@ function QuickStat({
   return (
     <div>
 
-      <h2 className="text-5xl font-bold">
+      <h2 className="text-2xl font-bold leading-none">
         {value}
       </h2>
 
-      <p className="text-green-100 text-sm mt-1">
+      <p className="text-green-100 text-[11px] mt-1">
         {label}
       </p>
     </div>
@@ -569,26 +545,25 @@ function MiniCard({
   return (
     <motion.div
       whileHover={{
-        y: -4,
-        scale: 1.02,
+        y: -2,
       }}
-      className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10"
+      className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 border border-white/10"
     >
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
 
-        <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center shadow-lg">
+        <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
 
-          <Icon className="w-6 h-6 text-white" />
+          <Icon className="w-4 h-4 text-white" />
         </div>
 
         <div>
 
-          <p className="text-sm text-green-50">
+          <p className="text-[11px] text-green-50">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1 text-white">
+          <h3 className="text-sm font-semibold mt-1 text-white">
             {value}
           </h3>
         </div>
@@ -608,25 +583,25 @@ function InfoCard({
   return (
     <motion.div
       whileHover={{
-        y: -5,
+        y: -2,
       }}
-      className="group relative overflow-hidden bg-white border border-gray-100 hover:border-emerald-100 rounded-[28px] p-6 shadow-sm hover:shadow-2xl transition-all duration-300"
+      className="group relative overflow-hidden bg-white border border-gray-100 hover:border-emerald-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300"
     >
 
-      <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl" />
+      <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/5 rounded-full blur-3xl" />
 
       <div className="relative z-10">
 
-        <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center">
 
-          <Icon className="w-7 h-7 text-emerald-600" />
+          <Icon className="w-5 h-5 text-emerald-600" />
         </div>
 
-        <p className="text-sm text-gray-500 mt-5">
+        <p className="text-xs text-black mt-3">
           {label}
         </p>
 
-        <h3 className="text-lg font-bold text-gray-800 mt-2 break-words">
+        <h3 className="text-sm font-semibold text-black mt-1 break-words leading-6">
           {value}
         </h3>
       </div>
@@ -642,13 +617,13 @@ function Spec({
 }: any) {
 
   return (
-    <div className="bg-gray-50 rounded-[24px] border border-gray-100 p-5">
+    <div className="bg-gray-50 rounded-xl border border-gray-100 p-3">
 
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+      <p className="text-[11px] font-medium uppercase tracking-wide text-black">
         {label}
       </p>
 
-      <p className="mt-3 text-sm font-semibold break-all text-gray-800 leading-7">
+      <p className="mt-2 text-sm font-semibold break-all text-black leading-6">
         {value || "-"}
       </p>
     </div>
@@ -663,13 +638,13 @@ function Info({
 }: any) {
 
   return (
-    <div className="border-b border-gray-100 pb-4 last:border-none last:pb-0">
+    <div className="border-b border-gray-100 pb-3 last:border-none last:pb-0">
 
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+      <p className="text-[11px] font-medium uppercase tracking-wide text-black">
         {label}
       </p>
 
-      <p className="text-sm font-semibold text-gray-800 mt-2 break-words">
+      <p className="text-sm font-semibold text-black mt-1 break-words">
         {value}
       </p>
     </div>
@@ -687,12 +662,12 @@ function ActionButton({
   return (
     <motion.button
       whileHover={{
-        scale: 1.02,
+        scale: 1.01,
       }}
       whileTap={{
         scale: 0.98,
       }}
-      className={`w-full h-14 rounded-2xl bg-gradient-to-r ${className} text-white text-sm font-medium shadow-lg flex items-center justify-center gap-3 transition-all duration-300`}
+      className={`w-full h-11 rounded-xl bg-gradient-to-r ${className} text-white text-sm font-medium shadow-sm flex items-center justify-center gap-2 transition-all duration-300`}
     >
 
       {icon}
@@ -710,7 +685,7 @@ function StatusBadge({
 
   return (
     <span
-      className={`px-4 py-2 rounded-2xl text-sm font-medium ${
+      className={`px-3 py-1.5 rounded-xl text-xs font-medium ${
         active
           ? "bg-white text-emerald-700"
           : "bg-red-100 text-red-700"
@@ -728,7 +703,7 @@ function SoftBadge({
 }: any) {
 
   return (
-    <span className="px-4 py-2 rounded-2xl text-sm font-medium bg-white/15 border border-white/10 backdrop-blur">
+    <span className="px-3 py-1.5 rounded-xl text-xs font-medium bg-white/15 border border-white/10">
 
       {label}
     </span>

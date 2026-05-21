@@ -77,61 +77,61 @@ export default function InspectionPage() {
     ).length
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-x-hidden">
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-sm shrink-0">
 
-                <ClipboardCheck className="w-10 h-10" />
+                <ClipboardCheck className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-4xl font-bold tracking-tight">
+                <h1 className="text-xl md:text-2xl font-bold break-words">
                   Inspection Planning
                 </h1>
 
-                <p className="text-green-50 mt-2 text-sm">
-                  Schedule, monitor & manage all inspections efficiently
+                <p className="text-green-50 mt-1 text-xs leading-5 break-words">
+                  Schedule & manage inspections efficiently
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-10 mt-10">
+            <div className="flex flex-wrap gap-4 mt-4">
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold break-words">
                   {inspections.length}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[11px] mt-1">
                   Total Inspections
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold break-words">
                   {completed}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[11px] mt-1">
                   Completed
                 </p>
               </div>
@@ -140,11 +140,11 @@ export default function InspectionPage() {
 
           {/* RIGHT */}
 
-          <div className="grid grid-cols-1 gap-4 min-w-[320px]">
+          <div className="grid grid-cols-2 gap-3 w-full xl:w-[310px]">
 
             <MiniCard
               icon={ShieldCheck}
-              title="Compliance Rate"
+              title="Compliance"
               value="98%"
             />
 
@@ -153,55 +153,60 @@ export default function InspectionPage() {
               title="Pending"
               value={pending}
             />
-
-
           </div>
         </div>
       </div>
 
       {/* ACTION BAR */}
 
-      <div className="bg-white border border-gray-100 rounded-[30px] p-5 shadow-sm flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+      <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm overflow-hidden">
 
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
-          <button className="h-12 px-5 rounded-2xl bg-emerald-600 text-white text-sm font-medium shadow-lg">
-            List View
-          </button>
+          {/* LEFT */}
 
-          <button className="h-12 px-5 rounded-2xl border border-gray-200 bg-white hover:bg-gray-50 transition text-sm font-medium">
-            Calendar View
-          </button>
-        </div>
+          <div className="flex flex-wrap gap-2">
 
-        <div className="flex flex-wrap gap-3">
+            <button className="h-10 px-4 rounded-xl bg-emerald-600 text-white text-sm font-medium shadow-sm whitespace-nowrap">
+              List View
+            </button>
 
-          <select className="h-12 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none">
+            <button className="h-10 px-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition text-sm font-medium text-black whitespace-nowrap">
+              Calendar View
+            </button>
+          </div>
 
-            <option>
-              All Types
-            </option>
-          </select>
+          {/* RIGHT */}
 
-          <select className="h-12 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none">
+          <div className="flex flex-wrap gap-2">
 
-            <option>
-              All Status
-            </option>
-          </select>
+            <select className="h-10 px-3 rounded-xl border border-gray-200 bg-white text-sm text-black outline-none">
 
-          <button className="h-12 px-5 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 transition text-white text-sm font-medium flex items-center gap-2 shadow-lg">
+              <option>
+                All Types
+              </option>
+            </select>
 
-            <Plus className="w-4 h-4" />
+            <select className="h-10 px-3 rounded-xl border border-gray-200 bg-white text-sm text-black outline-none">
 
-            Schedule Inspection
-          </button>
+              <option>
+                All Status
+              </option>
+            </select>
+
+            <button className="h-10 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:opacity-95 transition text-white text-sm font-medium flex items-center gap-2 shadow-sm whitespace-nowrap">
+
+              <Plus className="w-4 h-4" />
+
+              Schedule
+            </button>
+          </div>
         </div>
       </div>
 
       {/* OVERVIEW */}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 
         <OverviewCard
           title="Total Inspections"
@@ -224,22 +229,22 @@ export default function InspectionPage() {
 
       {/* REMINDERS */}
 
-      <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-[30px] p-7 shadow-sm">
+      <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-4 shadow-sm overflow-hidden">
 
-        <div className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 mb-4">
 
-          <div className="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center">
+          <div className="w-11 h-11 rounded-xl bg-orange-100 flex items-center justify-center shrink-0">
 
-            <Bell className="w-7 h-7 text-orange-600" />
+            <Bell className="w-5 h-5 text-orange-600" />
           </div>
 
-          <div>
+          <div className="min-w-0">
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg font-semibold text-black break-words">
               Upcoming Reminders
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-xs text-black mt-1">
               Scheduled inspections requiring attention
             </p>
           </div>
@@ -248,13 +253,13 @@ export default function InspectionPage() {
         {reminders.length ===
         0 ? (
 
-          <div className="bg-white rounded-2xl p-6 text-center text-gray-500 border border-orange-100">
-
+          <div className="bg-white rounded-xl p-4 text-center text-sm text-black border border-orange-100">
             No upcoming reminders
           </div>
+
         ) : (
 
-          <div className="space-y-4">
+          <div className="space-y-3">
 
             {reminders.map(
               (item: any) => (
@@ -279,22 +284,20 @@ export default function InspectionPage() {
 
       {loading ? (
 
-        <div className="bg-white border border-gray-100 rounded-[30px] p-12 text-center text-gray-500 shadow-sm">
-
+        <div className="bg-white border border-gray-100 rounded-xl p-8 text-center text-sm text-black shadow-sm">
           Loading inspections...
         </div>
 
       ) : inspections.length ===
         0 ? (
 
-        <div className="bg-white border border-gray-100 rounded-[30px] p-12 text-center text-gray-500 shadow-sm">
-
+        <div className="bg-white border border-gray-100 rounded-xl p-8 text-center text-sm text-black shadow-sm">
           No inspections found
         </div>
 
       ) : (
 
-        <div className="space-y-6">
+        <div className="space-y-4">
 
           {inspections.map(
             (item: any) => (
@@ -362,22 +365,22 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10">
+    <div className="bg-white/10 backdrop-blur rounded-xl px-3 py-3 border border-white/10 overflow-hidden">
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
 
-        <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center shadow-lg">
+        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shadow-sm shrink-0">
 
-          <Icon className="w-6 h-6 text-white" />
+          <Icon className="w-5 h-5 text-white" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-sm text-green-50">
+          <p className="text-[11px] text-green-50 break-words">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1 text-white">
+          <h3 className="text-lg font-bold mt-1 text-white break-words">
             {value}
           </h3>
         </div>
@@ -395,23 +398,23 @@ function OverviewCard({
 }: any) {
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
       <div className="relative z-10">
 
-        <ArrowUpRight className="w-5 h-5 text-gray-400 ml-auto group-hover:text-emerald-600 transition" />
+        <ArrowUpRight className="w-4 h-4 text-black ml-auto group-hover:text-emerald-600 transition" />
 
-        <div className="mt-8">
+        <div className="mt-3 min-w-0">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-black break-words">
             {title}
           </p>
 
-          <h2 className="text-5xl font-bold text-gray-900 mt-3">
+          <h2 className="text-2xl font-bold text-black mt-1 break-words">
             {value}
           </h2>
         </div>
@@ -429,20 +432,20 @@ function Reminder({
 }: any) {
 
   return (
-    <div className="bg-white border border-orange-100 rounded-[24px] p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4 hover:shadow-md transition">
+    <div className="bg-white border border-orange-100 rounded-xl p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-3 hover:shadow-sm transition overflow-hidden">
 
-      <div>
+      <div className="min-w-0">
 
-        <p className="font-semibold text-gray-800">
+        <p className="font-semibold text-sm text-black break-words">
           {title}
         </p>
 
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-xs text-black mt-1 break-words">
           Inspection ID: {id}
         </p>
       </div>
 
-      <span className="inline-flex items-center px-4 py-2 rounded-2xl bg-orange-100 text-orange-700 text-sm font-medium">
+      <span className="inline-flex items-center px-3 py-2 rounded-xl bg-orange-100 text-orange-700 text-xs font-medium whitespace-nowrap">
         {due}
       </span>
     </div>
@@ -484,64 +487,63 @@ function InspectionCard({
       : "bg-green-100 text-green-700"
 
   return (
-    <div className="group bg-white border border-gray-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl transition-all duration-300">
+    <div className="group bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
 
       {/* TOP */}
 
-      <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6">
+      <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
 
-        <div className="space-y-4">
+        <div className="space-y-3 min-w-0">
 
-          <div className="flex flex-wrap gap-3 items-center">
+          <div className="flex flex-wrap gap-2 items-center">
 
-            <span className="font-semibold text-gray-800 text-lg">
+            <span className="font-semibold text-black text-sm break-words">
               {id}
             </span>
 
             <span
-              className={`px-4 py-2 rounded-2xl text-xs font-medium ${statusColor}`}
+              className={`px-3 py-1 rounded-xl text-[11px] font-medium ${statusColor}`}
             >
               {status}
             </span>
 
             <span
-              className={`px-4 py-2 rounded-2xl text-xs font-medium ${priorityColor}`}
+              className={`px-3 py-1 rounded-xl text-[11px] font-medium ${priorityColor}`}
             >
               {priority}
-              {" "}Priority
             </span>
           </div>
 
-          <div>
+          <div className="min-w-0">
 
-            <h3 className="text-2xl font-bold text-gray-800">
+            <h3 className="text-lg font-semibold text-black break-words">
               {title}
             </h3>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-black mt-1 text-xs break-words">
               {type} • {subtitle}
             </p>
           </div>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex gap-2 flex-wrap">
 
-          <button className="h-11 px-5 rounded-2xl bg-blue-50 hover:bg-blue-100 transition text-blue-600 text-sm font-medium">
-            Edit Schedule
+          <button className="h-9 px-4 rounded-xl bg-blue-50 hover:bg-blue-100 transition text-blue-700 text-sm font-medium whitespace-nowrap">
+            Edit
           </button>
 
-          <button className="h-11 px-5 rounded-2xl bg-orange-50 hover:bg-orange-100 transition text-orange-600 text-sm font-medium">
-            Send Reminder
+          <button className="h-9 px-4 rounded-xl bg-orange-50 hover:bg-orange-100 transition text-orange-700 text-sm font-medium whitespace-nowrap">
+            Reminder
           </button>
         </div>
       </div>
 
       {/* DETAILS */}
 
-      <div className="mt-7 grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
 
         <Detail
-          icon={<Calendar />}
+          icon={<Calendar className="w-4 h-4" />}
           label="Date & Time"
         >
           {date}
@@ -550,23 +552,23 @@ function InspectionCard({
         </Detail>
 
         <Detail
-          icon={<MapPin />}
+          icon={<MapPin className="w-4 h-4" />}
           label="Location"
         >
           {location}
 
-          <div className="text-xs text-gray-500 mt-1">
+          <div className="text-[11px] text-black mt-1 break-words">
             Phase: {phase}
           </div>
         </Detail>
 
         <Detail
-          icon={<User />}
+          icon={<User className="w-4 h-4" />}
           label="Assigned To"
         >
           {assignee}
 
-          <div className="text-xs text-gray-500 mt-1">
+          <div className="text-[11px] text-black mt-1 break-words">
             {role}
           </div>
         </Detail>
@@ -584,22 +586,22 @@ function Detail({
 }: any) {
 
   return (
-    <div className="bg-gray-50 rounded-[24px] p-5 border border-gray-100">
+    <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 overflow-hidden">
 
-      <div className="flex gap-4">
+      <div className="flex gap-3">
 
-        <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-gray-600">
+        <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-black shrink-0">
 
           {icon}
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-black break-words">
             {label}
           </p>
 
-          <div className="text-gray-800 mt-2 text-sm leading-6">
+          <div className="text-black mt-2 text-sm leading-5 break-words">
             {children}
           </div>
         </div>

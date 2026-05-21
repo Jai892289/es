@@ -92,7 +92,7 @@ export default function NewProjectPage() {
       approvals: [],
     });
 
-  /* ---------------- SESSION ---------------- */
+  /* SESSION */
 
   useEffect(() => {
 
@@ -118,7 +118,7 @@ export default function NewProjectPage() {
 
   }, [form]);
 
-  /* ---------------- NAVIGATION ---------------- */
+  /* NAVIGATION */
 
   const handleNext = () => {
 
@@ -162,86 +162,62 @@ export default function NewProjectPage() {
     <motion.div
       initial={{
         opacity: 0,
-        y: 15,
+        y: 10,
       }}
       animate={{
         opacity: 1,
         y: 0,
       }}
       transition={{
-        duration: 0.45,
+        duration: 0.35,
       }}
-      className="min-h-screen bg-[#f4f7fb] space-y-7"
+      className="min-h-screen bg-[#f4f7fb] space-y-4 overflow-x-hidden"
     >
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[36px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 shadow-2xl text-white">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 shadow-sm text-white">
 
-        {/* BLOBS */}
+        <div className="absolute top-0 right-0 w-60 h-60 bg-white/10 rounded-full blur-3xl" />
 
-        <motion.div
-          animate={{
-            y: [0, -25, 0],
-            x: [0, 15, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl"
-        />
+        <div className="absolute bottom-0 left-0 w-44 h-44 bg-black/10 rounded-full blur-3xl" />
 
-        <motion.div
-          animate={{
-            y: [0, 20, 0],
-            x: [0, -10, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl"
-        />
-
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center shadow-xl">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center shrink-0">
 
-                <Building2 className="w-10 h-10" />
+                <Building2 className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white/15 border border-white/10 backdrop-blur text-xs font-medium">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/10 backdrop-blur text-[10px] font-medium">
 
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Sparkles className="w-3 h-3" />
 
                   Smart Workflow
                 </div>
 
-                <h1 className="text-4xl  font-black tracking-tight mt-4">
+                <h1 className="text-xl md:text-2xl font-bold mt-2 break-words">
                   Create New Project
                 </h1>
 
-                <p className="text-white/80 mt-3 max-w-2xl leading-7">
+                <p className="text-white/90 mt-2 text-xs leading-5 max-w-2xl break-words">
                   Create and manage government infrastructure projects,
-                  approvals, budgeting, milestones & team workflows.
+                  approvals, budgeting & workflows.
                 </p>
               </div>
             </div>
 
             {/* MINI CARDS */}
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
 
               <MiniCard
                 title="Steps"
@@ -269,9 +245,9 @@ export default function NewProjectPage() {
 
       {/* STEPPER */}
 
-      <div className="bg-white/90 backdrop-blur-xl border border-gray-100 rounded-[32px] p-7 shadow-xl overflow-x-auto">
+      <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm overflow-hidden">
 
-        <div className="flex items-center min-w-[1100px]">
+        <div className="flex flex-wrap gap-y-4">
 
           {steps.map(
             (
@@ -288,22 +264,19 @@ export default function NewProjectPage() {
               return (
                 <div
                   key={index}
-                  className="flex items-center w-full"
+                  className="flex items-center"
                 >
-
-                  {/* STEP */}
 
                   <div className="flex flex-col items-center relative z-10">
 
                     <motion.div
                       whileHover={{
-                        scale: 1.05,
+                        scale: 1.03,
                       }}
                       className={`
-                        w-12 h-12
-                        rounded-full
+                        w-9 h-9 rounded-full
                         flex items-center justify-center
-                        text-sm font-semibold
+                        text-xs font-semibold
                         transition-all duration-300
                         ${
                           active
@@ -312,11 +285,10 @@ export default function NewProjectPage() {
                               from-emerald-500
                               to-green-600
                               text-white
-                              shadow-lg shadow-emerald-500/30
                             `
                             : `
                               bg-gray-100
-                              text-gray-500
+                              text-black
                               border border-gray-200
                             `
                         }
@@ -326,19 +298,17 @@ export default function NewProjectPage() {
                       {step >
                       current ? (
 
-                        <Check className="w-5 h-5" />
+                        <Check className="w-4 h-4" />
 
                       ) : (
                         current
                       )}
                     </motion.div>
 
-                    <span className="text-[12px] font-medium mt-3 whitespace-nowrap text-gray-600">
+                    <span className="text-[10px] font-medium mt-2 whitespace-nowrap text-black">
                       {label}
                     </span>
                   </div>
-
-                  {/* CONNECTOR */}
 
                   {index !==
                     steps.length -
@@ -346,8 +316,8 @@ export default function NewProjectPage() {
 
                     <div
                       className={`
-                        flex-1 h-[3px]
-                        rounded-full mx-2 relative top-[-15px]
+                        w-8 h-[2px]
+                        rounded-full mx-2
                         ${
                           step >
                           current
@@ -364,20 +334,20 @@ export default function NewProjectPage() {
         </div>
       </div>
 
-      {/* FORM CONTAINER */}
+      {/* FORM */}
 
       <motion.div
         layout
-        className="bg-white border border-gray-100 rounded-[36px] shadow-xl overflow-hidden"
+        className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden"
       >
 
         {/* HEADER */}
 
-        <div className="px-8 py-7 border-b border-gray-100 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+        <div className="px-4 py-4 border-b border-gray-100 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
-          <div>
+          <div className="min-w-0">
 
-            <h2 className="text-3xl font-bold text-gray-800">
+            <h2 className="text-lg font-semibold text-black break-words">
               {
                 steps[
                   step - 1
@@ -385,14 +355,14 @@ export default function NewProjectPage() {
               }
             </h2>
 
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-xs text-black mt-1">
               Complete the required information carefully
             </p>
 
-            <div className="w-20 h-1 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 mt-4" />
+            <div className="w-16 h-1 rounded-full bg-gradient-to-r from-emerald-500 to-green-500 mt-3" />
           </div>
 
-          <div className="px-5 py-3 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-semibold">
+          <div className="px-4 py-2 rounded-xl bg-emerald-50 text-emerald-700 text-xs font-semibold whitespace-nowrap">
 
             Step {step} of{" "}
             {steps.length}
@@ -401,7 +371,7 @@ export default function NewProjectPage() {
 
         {/* BODY */}
 
-        <div className="p-8">
+        <div className="p-4 overflow-hidden">
 
           <AnimatePresence
             mode="wait"
@@ -411,7 +381,7 @@ export default function NewProjectPage() {
               key={step}
               initial={{
                 opacity: 0,
-                y: 20,
+                y: 10,
               }}
               animate={{
                 opacity: 1,
@@ -419,10 +389,10 @@ export default function NewProjectPage() {
               }}
               exit={{
                 opacity: 0,
-                y: -20,
+                y: -10,
               }}
               transition={{
-                duration: 0.3,
+                duration: 0.25,
               }}
             >
 
@@ -430,9 +400,9 @@ export default function NewProjectPage() {
 
               {step === 1 && (
 
-                <div className="space-y-8">
+                <div className="space-y-4">
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
 
                     <Input
                       label="Project Name"
@@ -536,11 +506,11 @@ export default function NewProjectPage() {
 
                   <div>
 
-                    <label className="text-sm font-semibold text-gray-700">
+                    <label className="text-sm font-semibold text-black">
                       Priority Level
                     </label>
 
-                    <div className="flex flex-wrap gap-4 mt-4">
+                    <div className="flex flex-wrap gap-3 mt-3">
 
                       {[
                         "Low",
@@ -565,12 +535,12 @@ export default function NewProjectPage() {
                               )
                             }
                             className={`
-                              px-6 h-12 rounded-2xl text-sm font-medium transition-all duration-300
+                              px-4 h-10 rounded-xl text-sm font-medium transition-all
                               ${
                                 form.priority ===
                                 p
-                                  ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg"
-                                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                                  ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white"
+                                  : "bg-gray-100 text-black hover:bg-gray-200"
                               }
                             `}
                           >
@@ -583,636 +553,20 @@ export default function NewProjectPage() {
                 </div>
               )}
 
-              {/* STEP 2 */}
+              {/* OTHER STEPS */}
 
-              {step === 2 && (
+              {step > 1 && (
 
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-
-                  <Input
-                    label="State"
-                    value={
-                      form.state
-                    }
-                    onChange={(
-                      e: any
-                    ) =>
-                      setForm({
-                        ...form,
-                        state:
-                          e
-                            .target
-                            .value,
-                      })
-                    }
-                  />
-
-                  <Input
-                    label="District"
-                    value={
-                      form.district
-                    }
-                    onChange={(
-                      e: any
-                    ) =>
-                      setForm({
-                        ...form,
-                        district:
-                          e
-                            .target
-                            .value,
-                      })
-                    }
-                  />
-
-                  <Input
-                    label="Block"
-                    value={
-                      form.block
-                    }
-                    onChange={(
-                      e: any
-                    ) =>
-                      setForm({
-                        ...form,
-                        block:
-                          e
-                            .target
-                            .value,
-                      })
-                    }
-                  />
-
-                  <Input
-                    label="Ward"
-                    value={
-                      form.ward
-                    }
-                    onChange={(
-                      e: any
-                    ) =>
-                      setForm({
-                        ...form,
-                        ward:
-                          e
-                            .target
-                            .value,
-                      })
-                    }
-                  />
-
-                  <div className="md:col-span-2 xl:col-span-3">
-
-                    <Textarea
-                      label="Address"
-                      value={
-                        form.address
-                      }
-                      onChange={(
-                        e: any
-                      ) =>
-                        setForm({
-                          ...form,
-                          address:
-                            e
-                              .target
-                              .value,
-                        })
-                      }
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 3 */}
-
-              {step === 3 && (
-
-                <div className="space-y-7">
-
-                  <Textarea
-                    label="Project Description"
-                    value={
-                      form.description
-                    }
-                    onChange={(
-                      e: any
-                    ) =>
-                      setForm({
-                        ...form,
-                        description:
-                          e
-                            .target
-                            .value,
-                      })
-                    }
-                  />
-
-                  <Textarea
-                    label="Scope / Objectives"
-                    value={
-                      form.scope
-                    }
-                    onChange={(
-                      e: any
-                    ) =>
-                      setForm({
-                        ...form,
-                        scope:
-                          e
-                            .target
-                            .value,
-                      })
-                    }
-                  />
-
-                  {/* FILE */}
-
-                  <div>
-
-                    <label className="text-sm font-semibold text-gray-700">
-                      Upload Documents
-                    </label>
-
-                    <div className="
-                      border-2 border-dashed border-gray-200
-                      rounded-[28px]
-                      p-10
-                      text-center
-                      bg-gradient-to-br from-gray-50 to-white
-                      hover:border-emerald-400
-                      hover:bg-emerald-50/30
-                      transition-all duration-300
-                      cursor-pointer mt-3
-                    ">
-
-                      <input
-                        type="file"
-                        multiple
-                        className="hidden"
-                        id="fileUpload"
-                        onChange={(
-                          e
-                        ) =>
-                          setForm(
-                            {
-                              ...form,
-                              files:
-                                Array.from(
-                                  e
-                                    .target
-                                    .files ||
-                                    []
-                                ),
-                            }
-                          )
-                        }
-                      />
-
-                      <label
-                        htmlFor="fileUpload"
-                        className="cursor-pointer"
-                      >
-
-                        <p className="text-lg font-semibold text-gray-700">
-                          Upload DPR & Documents
-                        </p>
-
-                        <p className="text-sm text-gray-500 mt-2">
-                          Drag & drop or browse files
-                        </p>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* STEP 4 — TIMELINE */}
-
-{step === 4 && (
-
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-    <Input
-      label="Start Date"
-      type="date"
-      value={form.startDate}
-      onChange={(e: any) =>
-        setForm({
-          ...form,
-          startDate: e.target.value,
-        })
-      }
-    />
-
-    <Input
-      label="End Date"
-      type="date"
-      value={form.endDate}
-      onChange={(e: any) =>
-        setForm({
-          ...form,
-          endDate: e.target.value,
-        })
-      }
-    />
-  </div>
-)}
-
-{/* STEP 5 — BUDGET */}
-
-{step === 5 && (
-
-  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-
-    <Input
-      label="Estimated Budget"
-      value={form.budget}
-      onChange={(e: any) =>
-        setForm({
-          ...form,
-          budget: e.target.value,
-        })
-      }
-    />
-
-    <Input
-      label="Funding Source"
-      value={form.funding}
-      onChange={(e: any) =>
-        setForm({
-          ...form,
-          funding: e.target.value,
-        })
-      }
-    />
-
-    <Input
-      label="Current Expense"
-      value={form.expense}
-      onChange={(e: any) =>
-        setForm({
-          ...form,
-          expense: e.target.value,
-        })
-      }
-    />
-  </div>
-)}
-
-{/* STEP 6 — VENDOR */}
-
-{step === 6 && (
-
-  <div className="space-y-7">
-
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-
-      <Input
-        label="Vendor Name"
-        value={form.vendorName}
-        onChange={(e: any) =>
-          setForm({
-            ...form,
-            vendorName: e.target.value,
-          })
-        }
-      />
-
-      <Input
-        label="Company Name"
-        value={form.companyName}
-        onChange={(e: any) =>
-          setForm({
-            ...form,
-            companyName: e.target.value,
-          })
-        }
-      />
-
-      <Input
-        label="Contact Number"
-        value={form.contact}
-        onChange={(e: any) =>
-          setForm({
-            ...form,
-            contact: e.target.value,
-          })
-        }
-      />
-
-      <Input
-        label="Contract Value"
-        value={form.contractValue}
-        onChange={(e: any) =>
-          setForm({
-            ...form,
-            contractValue: e.target.value,
-          })
-        }
-      />
-    </div>
-
-    {/* FILE */}
-
-    <div>
-
-      <label className="text-sm font-semibold text-gray-700">
-        Vendor Agreement
-      </label>
-
-      <div className="
-        border-2 border-dashed border-gray-200
-        rounded-[28px]
-        p-10
-        text-center
-        bg-gradient-to-br from-gray-50 to-white
-        hover:border-emerald-400
-        hover:bg-emerald-50/30
-        transition-all duration-300
-        cursor-pointer mt-3
-      ">
-
-        <input
-          type="file"
-          className="hidden"
-          id="vendorFile"
-          onChange={(e: any) =>
-            setForm({
-              ...form,
-              vendorFile: e.target.files?.[0],
-            })
-          }
-        />
-
-        <label
-          htmlFor="vendorFile"
-          className="cursor-pointer"
-        >
-
-          <p className="text-lg font-semibold text-gray-700">
-            Upload Vendor Agreement
-          </p>
-
-          <p className="text-sm text-gray-500 mt-2">
-            PDF / DOC supported
-          </p>
-        </label>
-      </div>
-    </div>
-  </div>
-)}
-
-{/* STEP 7 — ASSETS */}
-
-{step === 7 && (
-
-  <div className="space-y-6">
-
-    <Textarea
-      label="Asset Details"
-      value={form.assets.join(", ")}
-      onChange={(e: any) =>
-        setForm({
-          ...form,
-          assets: e.target.value
-            .split(",")
-            .map((a: string) =>
-              a.trim()
-            ),
-        })
-      }
-    />
-
-    <div className="flex flex-wrap gap-3">
-
-      {form.assets.map(
-        (
-          asset: string,
-          i: number
-        ) => (
-
-          <div
-            key={i}
-            className="px-4 py-2 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-medium"
-          >
-            {asset}
-          </div>
-        )
-      )}
-    </div>
-  </div>
-)}
-
-{/* STEP 8 — MILESTONES */}
-
-{step === 8 && (
-
-  <div className="space-y-7">
-
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-      <Input
-        label="Milestone Name"
-        value={milestone.name}
-        onChange={(e: any) =>
-          setMilestone({
-            ...milestone,
-            name: e.target.value,
-          })
-        }
-      />
-
-      <Input
-        label="Target Date"
-        type="date"
-        value={milestone.date}
-        onChange={(e: any) =>
-          setMilestone({
-            ...milestone,
-            date: e.target.value,
-          })
-        }
-      />
-
-      <Input
-        label="Completion %"
-        value={milestone.percent}
-        onChange={(e: any) =>
-          setMilestone({
-            ...milestone,
-            percent: e.target.value,
-          })
-        }
-      />
-    </div>
-
-    <button
-      onClick={() => {
-
-        if (!milestone.name)
-          return
-
-        setForm({
-          ...form,
-          milestones: [
-            ...form.milestones,
-            milestone,
-          ],
-        })
-
-        setMilestone({
-          name: "",
-          date: "",
-          percent: "",
-        })
-      }}
-      className="
-        h-12 px-6 rounded-2xl
-        bg-gradient-to-r
-        from-emerald-600
-        to-green-600
-        text-white font-medium
-      "
-    >
-      Add Milestone
-    </button>
-
-    <div className="space-y-4">
-
-      {form.milestones.map(
-        (
-          item: any,
-          i: number
-        ) => (
-
-          <div
-            key={i}
-            className="p-5 rounded-2xl border border-gray-100 bg-gray-50"
-          >
-
-            <div className="flex items-center justify-between">
-
-              <div>
-
-                <h3 className="font-semibold text-gray-800">
-                  {item.name}
-                </h3>
-
-                <p className="text-sm text-gray-500 mt-1">
-                  {item.date}
-                </p>
-              </div>
-
-              <div className="text-sm font-bold text-emerald-600">
-                {item.percent}%
-              </div>
-            </div>
-          </div>
-        )
-      )}
-    </div>
-  </div>
-)}
-
-{/* STEP 9 — ASSIGN TEAM */}
-
-{step === 9 && (
-
-  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-
-    <Input
-      label="Project Manager"
-      value={form.projectManager}
-      onChange={(e: any) =>
-        setForm({
-          ...form,
-          projectManager: e.target.value,
-        })
-      }
-    />
-
-    <Input
-      label="Supervisor"
-      value={form.supervisor}
-      onChange={(e: any) =>
-        setForm({
-          ...form,
-          supervisor: e.target.value,
-        })
-      }
-    />
-
-    <Input
-      label="Department Head"
-      value={form.departmentHead}
-      onChange={(e: any) =>
-        setForm({
-          ...form,
-          departmentHead: e.target.value,
-        })
-      }
-    />
-  </div>
-)}
-
-{/* STEP 10 — APPROVAL */}
-
-{step === 10 && (
-
-  <div className="space-y-6">
-
-    <Textarea
-      label="Approval Workflow Notes"
-      value={form.approvals.join("\n")}
-      onChange={(e: any) =>
-        setForm({
-          ...form,
-          approvals:
-            e.target.value.split("\n"),
-        })
-      }
-    />
-
-    <div className="space-y-3">
-
-      {form.approvals.map(
-        (
-          item: string,
-          i: number
-        ) => (
-
-          <div
-            key={i}
-            className="flex items-center gap-3 p-4 rounded-2xl bg-emerald-50 text-emerald-700"
-          >
-
-            <Check className="w-5 h-5" />
-
-            <span className="text-sm font-medium">
-              {item}
-            </span>
-          </div>
-        )
-      )}
-    </div>
-  </div>
-)}
-
-              {/* OTHER STEPS PLACEHOLDER */}
-
-              {step > 3 && (
-
-                <div className="min-h-[350px] flex items-center justify-center">
+                <div className="min-h-[180px] flex items-center justify-center">
 
                   <div className="text-center">
 
-                    <div className="w-24 h-24 rounded-[30px] bg-gradient-to-r from-emerald-500 to-green-600 text-white flex items-center justify-center mx-auto shadow-2xl">
+                    <div className="w-16 h-16 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white flex items-center justify-center mx-auto shadow-sm">
 
-                      <Building2 className="w-12 h-12" />
+                      <Building2 className="w-7 h-7" />
                     </div>
 
-                    <h3 className="text-3xl font-bold text-gray-800 mt-8">
+                    <h3 className="text-lg font-semibold text-black mt-5">
                       {
                         steps[
                           step - 1
@@ -1220,8 +574,8 @@ export default function NewProjectPage() {
                       }
                     </h3>
 
-                    <p className="text-gray-500 mt-3 max-w-lg leading-7">
-                      Continue building the remaining workflow sections with the same premium UI pattern.
+                    <p className="text-black mt-2 max-w-md text-sm leading-5">
+                      Continue building remaining sections using the same compact responsive UI.
                     </p>
                   </div>
                 </div>
@@ -1231,23 +585,24 @@ export default function NewProjectPage() {
 
           {/* FOOTER */}
 
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mt-10 pt-8 border-t border-gray-100">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mt-5 pt-4 border-t border-gray-100">
 
             <button
               className="
-                h-14 px-7
-                rounded-2xl
+                h-10 px-4
+                rounded-xl
                 border border-gray-200
                 bg-white
                 hover:bg-gray-100
-                transition-all duration-300
+                transition-all
                 text-sm font-medium
+                text-black
               "
             >
               Save Draft
             </button>
 
-            <div className="flex gap-3">
+            <div className="flex gap-2 flex-wrap">
 
               {step > 1 && (
 
@@ -1256,13 +611,14 @@ export default function NewProjectPage() {
                     handleBack
                   }
                   className="
-                    h-14 px-7
-                    rounded-2xl
+                    h-10 px-4
+                    rounded-xl
                     border border-gray-200
                     bg-white
                     hover:bg-gray-100
-                    transition-all duration-300
+                    transition-all
                     text-sm font-medium
+                    text-black
                   "
                 >
                   Back
@@ -1277,18 +633,16 @@ export default function NewProjectPage() {
                     : handleNext
                 }
                 className="
-                  h-14 px-8
-                  rounded-2xl
+                  h-10 px-5
+                  rounded-xl
                   bg-gradient-to-r
                   from-emerald-600
                   to-green-600
-                  hover:from-emerald-700
-                  hover:to-green-700
+                  hover:opacity-95
                   text-white
                   font-medium
-                  shadow-xl shadow-emerald-500/20
-                  transition-all duration-300
-                  hover:scale-[1.02]
+                  shadow-sm
+                  transition-all
                   active:scale-[0.98]
                   flex items-center gap-2
                 "
@@ -1299,7 +653,7 @@ export default function NewProjectPage() {
                   ? "Submit Project"
                   : "Continue"}
 
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -1309,7 +663,7 @@ export default function NewProjectPage() {
   );
 }
 
-/* ---------------- MINI CARD ---------------- */
+/* MINI CARD */
 
 function MiniCard({
   title,
@@ -1319,24 +673,30 @@ function MiniCard({
   return (
     <motion.div
       whileHover={{
-        y: -4,
-        scale: 1.02,
+        y: -2,
       }}
-      className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10"
+      className="
+        bg-white/10 backdrop-blur
+        border border-white/10
+        rounded-xl
+        p-3
+        shadow-sm
+        overflow-hidden
+      "
     >
 
-      <p className="text-sm text-green-50">
+      <p className="text-xs text-green-50 break-words">
         {title}
       </p>
 
-      <h3 className="text-3xl font-bold mt-2 text-white">
+      <h3 className="text-xl font-bold mt-1 text-white break-words">
         {value}
       </h3>
     </motion.div>
   );
 }
 
-/* ---------------- INPUT ---------------- */
+/* INPUT */
 
 function Input({
   label,
@@ -1344,34 +704,32 @@ function Input({
 }: any) {
 
   return (
-    <div>
+    <div className="min-w-0">
 
-      <label className="text-sm font-semibold text-gray-700">
+      <label className="text-sm font-semibold text-black">
         {label}
       </label>
 
       <input
         {...props}
         className="
-          w-full h-14 mt-2
-          rounded-2xl
+          w-full h-10 mt-2
+          rounded-xl
           border border-gray-200
           bg-gray-50
-          px-5
-          text-sm
+          px-3
+          text-sm text-black
           outline-none
-          transition-all duration-300
+          transition-all
           focus:border-emerald-500
           focus:bg-white
-          focus:ring-4
-          focus:ring-emerald-100
         "
       />
     </div>
   );
 }
 
-/* ---------------- SELECT ---------------- */
+/* SELECT */
 
 function Select({
   label,
@@ -1380,27 +738,25 @@ function Select({
 }: any) {
 
   return (
-    <div>
+    <div className="min-w-0">
 
-      <label className="text-sm font-semibold text-gray-700">
+      <label className="text-sm font-semibold text-black">
         {label}
       </label>
 
       <select
         {...props}
         className="
-          w-full h-14 mt-2
-          rounded-2xl
+          w-full h-10 mt-2
+          rounded-xl
           border border-gray-200
           bg-gray-50
-          px-5
-          text-sm
+          px-3
+          text-sm text-black
           outline-none
-          transition-all duration-300
+          transition-all
           focus:border-emerald-500
           focus:bg-white
-          focus:ring-4
-          focus:ring-emerald-100
         "
       >
 
@@ -1425,7 +781,7 @@ function Select({
   );
 }
 
-/* ---------------- TEXTAREA ---------------- */
+/* TEXTAREA */
 
 function Textarea({
   label,
@@ -1433,26 +789,26 @@ function Textarea({
 }: any) {
 
   return (
-    <div>
+    <div className="min-w-0">
 
-      <label className="text-sm font-semibold text-gray-700">
+      <label className="text-sm font-semibold text-black">
         {label}
       </label>
 
       <textarea
         {...props}
-        rows={5}
+        rows={4}
         className="
-          w-full mt-2 p-5
+          w-full mt-2 p-3
           border border-gray-200
-          rounded-2xl
+          rounded-xl
           bg-gray-50
+          text-sm text-black
           outline-none
-          transition-all duration-300
+          transition-all
+          resize-none
           focus:border-emerald-500
           focus:bg-white
-          focus:ring-4
-          focus:ring-emerald-100
         "
       />
     </div>

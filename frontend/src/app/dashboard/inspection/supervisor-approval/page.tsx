@@ -70,13 +70,13 @@ export default function SupervisorApprovalPage() {
   if (loading) {
 
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="min-h-[45vh] flex items-center justify-center overflow-x-hidden">
 
-        <div className="space-y-4 text-center">
+        <div className="space-y-3 text-center">
 
-          <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-12 h-12 border-[3px] border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
 
-          <p className="text-gray-500">
+          <p className="text-sm text-black">
             Loading approval reports...
           </p>
         </div>
@@ -85,62 +85,62 @@ export default function SupervisorApprovalPage() {
   }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-x-hidden">
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-sm shrink-0">
 
-                <ClipboardCheck className="w-10 h-10" />
+                <ClipboardCheck className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-4xl font-bold tracking-tight">
+                <h1 className="text-xl md:text-2xl font-bold break-words">
                   Supervisor Approval
                 </h1>
 
-                <p className="text-green-50 mt-2 text-sm">
-                  Review, verify & approve submitted inspection reports
+                <p className="text-green-50 mt-1 text-xs leading-5 break-words">
+                  Review & approve inspection reports efficiently
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-10 mt-10">
+            <div className="flex flex-wrap gap-4 mt-4">
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold">
                   {reports.length}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[11px] mt-1">
                   Total Reports
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold">
                   {stats.approved}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Approved Reports
+                <p className="text-green-100 text-[11px] mt-1">
+                  Approved
                 </p>
               </div>
             </div>
@@ -148,31 +148,29 @@ export default function SupervisorApprovalPage() {
 
           {/* RIGHT */}
 
-          <div className="grid grid-cols-1 gap-4 min-w-[320px]">
+          <div className="grid grid-cols-2 gap-3 w-full xl:w-[280px]">
 
             <MiniCard
               icon={ShieldCheck}
-              title="Approval Accuracy"
+              title="Accuracy"
               value="98%"
             />
 
             <MiniCard
               icon={Activity}
-              title="Pending Reviews"
+              title="Pending"
               value={stats.pending}
             />
-
-        
           </div>
         </div>
       </div>
 
       {/* OVERVIEW */}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 
         <OverviewCard
-          title="Pending Review"
+          title="Pending"
           value={stats.pending}
           icon={Clock}
           gradient="from-orange-500 to-amber-500"
@@ -195,7 +193,7 @@ export default function SupervisorApprovalPage() {
 
       {/* REPORTS */}
 
-      <div className="space-y-6">
+      <div className="space-y-4">
 
         {reports.map(
           (report) => (
@@ -261,22 +259,22 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10">
+    <div className="bg-white/10 backdrop-blur rounded-xl px-3 py-3 border border-white/10 overflow-hidden">
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
 
-        <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center shadow-lg">
+        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shadow-sm shrink-0">
 
-          <Icon className="w-6 h-6 text-white" />
+          <Icon className="w-5 h-5 text-white" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-sm text-green-50">
+          <p className="text-[11px] text-green-50 break-words">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1 text-white">
+          <h3 className="text-lg font-bold mt-1 text-white break-words">
             {value}
           </h3>
         </div>
@@ -295,33 +293,33 @@ function OverviewCard({
 }: any) {
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
       <div className="relative z-10">
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
 
           <div
-            className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
+            className={`w-11 h-11 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-sm shrink-0`}
           >
 
-            <Icon className="w-8 h-8" />
+            <Icon className="w-5 h-5" />
           </div>
 
-          <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
+          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-3 min-w-0">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-black break-words">
             {title}
           </p>
 
-          <h2 className="text-5xl font-bold text-gray-900 mt-3">
+          <h2 className="text-2xl font-bold text-black mt-1 break-words">
             {value}
           </h2>
         </div>
@@ -363,37 +361,35 @@ function ApprovalCard({
       : "bg-orange-100 text-orange-700"
 
   return (
-    <div className="group bg-white border border-gray-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl transition-all duration-300">
+    <div className="group bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
 
       {/* HEADER */}
 
-      <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-6">
+      <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
 
-        <div className="space-y-4">
+        <div className="space-y-3 min-w-0">
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2">
 
-            <span className="font-semibold text-gray-800 text-lg">
+            <span className="font-semibold text-black text-sm break-words">
               {id}
             </span>
 
             <span
-              className={`px-4 py-2 rounded-2xl text-xs font-medium ${statusBadge}`}
+              className={`px-3 py-1 rounded-xl text-[11px] font-medium whitespace-nowrap ${statusBadge}`}
             >
               {status}
             </span>
           </div>
 
-          <div>
+          <div className="min-w-0">
 
-            <h3 className="text-2xl font-bold text-gray-800">
+            <h3 className="text-lg font-semibold text-black break-words">
               {title}
             </h3>
 
-            <p className="text-sm text-gray-500 mt-2">
-              Inspector:
-              {" "}
-              {inspector}
+            <p className="text-xs text-black mt-1 break-words">
+              Inspector: {inspector}
               {" • "}
               {date}
             </p>
@@ -401,7 +397,7 @@ function ApprovalCard({
         </div>
 
         <span
-          className={`px-5 py-3 rounded-2xl text-sm font-medium h-fit ${resultBadge}`}
+          className={`px-3 py-2 rounded-xl text-xs font-medium h-fit whitespace-nowrap ${resultBadge}`}
         >
           {result || "N/A"}
         </span>
@@ -409,30 +405,30 @@ function ApprovalCard({
 
       {/* DETAILS */}
 
-      <div className="mt-7 grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
 
         {/* LOCATION */}
 
-        <div className="bg-gray-50 rounded-[24px] p-5 border border-gray-100">
+        <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 overflow-hidden">
 
-          <div className="flex gap-4">
+          <div className="flex gap-3">
 
-            <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center shrink-0">
 
-              <MapPin className="w-5 h-5 text-gray-600" />
+              <MapPin className="w-4 h-4 text-black" />
             </div>
 
-            <div>
+            <div className="min-w-0">
 
-              <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-black break-words">
                 Location
               </p>
 
-              <p className="font-semibold text-gray-800 mt-2">
+              <p className="font-semibold text-sm text-black mt-2 break-words">
                 {location}
               </p>
 
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-[11px] text-black mt-1 break-all">
                 {coords}
               </p>
             </div>
@@ -441,31 +437,31 @@ function ApprovalCard({
 
         {/* MEDIA */}
 
-        <div className="bg-gray-50 rounded-[24px] p-5 border border-gray-100">
+        <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 overflow-hidden">
 
-          <div className="flex gap-4">
+          <div className="flex gap-3">
 
-            <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center shrink-0">
 
-              <ImageIcon className="w-5 h-5 text-gray-600" />
+              <ImageIcon className="w-4 h-4 text-black" />
             </div>
 
-            <div>
+            <div className="min-w-0">
 
-              <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+              <p className="text-[10px] font-semibold uppercase tracking-wide text-black break-words">
                 Media Uploads
               </p>
 
-              <div className="flex gap-5 mt-2">
+              <div className="flex flex-wrap gap-3 mt-2">
 
-                <div className="flex items-center gap-2 text-blue-600 text-sm font-medium">
+                <div className="flex items-center gap-2 text-blue-700 text-xs font-medium whitespace-nowrap">
 
                   <ImageIcon className="w-4 h-4" />
 
                   {photos} Photos
                 </div>
 
-                <div className="flex items-center gap-2 text-purple-600 text-sm font-medium">
+                <div className="flex items-center gap-2 text-purple-700 text-xs font-medium whitespace-nowrap">
 
                   <VideoIcon className="w-4 h-4" />
 
@@ -479,7 +475,7 @@ function ApprovalCard({
 
       {/* CONTENT */}
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-5 mt-7">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-3 mt-4">
 
         <InfoBox
           title="Observation"
@@ -497,7 +493,7 @@ function ApprovalCard({
         />
 
         <InfoBox
-          title="Compliance Status"
+          title="Compliance"
           value={
             complianceStatus ||
             "N/A"
@@ -508,14 +504,14 @@ function ApprovalCard({
 
       {/* ACTIONS */}
 
-      <div className="flex flex-col md:flex-row gap-4 mt-8">
+      <div className="flex flex-col md:flex-row gap-3 mt-4">
 
-        <button className="flex-1 h-12 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 transition text-white text-sm font-medium shadow-lg">
+        <button className="flex-1 h-10 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:opacity-95 transition text-white text-sm font-medium shadow-sm whitespace-nowrap">
 
           Approve Report
         </button>
 
-        <button className="flex-1 h-12 rounded-2xl bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 transition text-white text-sm font-medium shadow-lg">
+        <button className="flex-1 h-10 rounded-xl bg-gradient-to-r from-red-500 to-rose-500 hover:opacity-95 transition text-white text-sm font-medium shadow-sm whitespace-nowrap">
 
           Reject Report
         </button>
@@ -534,23 +530,29 @@ function InfoBox({
 
   return (
     <div
-      className={`rounded-[24px] p-5 border ${
-        highlight
-          ? "bg-emerald-50 border-emerald-100"
-          : "bg-gray-50 border-gray-100"
-      }`}
+      className={`
+        rounded-xl p-4 border overflow-hidden
+        ${
+          highlight
+            ? "bg-emerald-50 border-emerald-100"
+            : "bg-gray-50 border-gray-100"
+        }
+      `}
     >
 
-      <p className="text-xs font-medium uppercase tracking-wider text-gray-400">
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-black break-words">
         {title}
       </p>
 
       <p
-        className={`mt-3 text-sm leading-7 ${
-          highlight
-            ? "text-emerald-700 font-semibold"
-            : "text-gray-700"
-        }`}
+        className={`
+          mt-2 text-sm leading-5 break-words
+          ${
+            highlight
+              ? "text-emerald-700 font-semibold"
+              : "text-black"
+          }
+        `}
       >
         {value}
       </p>

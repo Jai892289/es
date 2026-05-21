@@ -83,7 +83,7 @@ const menu = [
   },
 
   {
-    name: "Maintenance M",
+    name: "Maintenance",
     path: "/dashboard/complaints",
     icon: AlertCircle,
   },
@@ -95,24 +95,24 @@ const menu = [
   },
 
   {
-    name: "Project Management",
+    name: "Project",
     path: "/dashboard/project-management",
     icon: Boxes,
   },
 
   {
-    name: "Reports & Analytics",
+    name: "Analytics",
     path: "/dashboard/report/reports-analytics",
     icon: LayoutDashboard,
   },
 
   {
-    name: "Inspection M",
+    name: "Inspection",
     icon: ShieldCheck,
 
     children: [
       {
-        name: "Inspection Planning",
+        name: "Planning",
         path: "/dashboard/inspection/inspection-planning",
         icon: BarChart3,
       },
@@ -138,13 +138,13 @@ const menu = [
 
     children: [
       {
-        name: "User Management",
+        name: "Users",
         path: "/dashboard/settings/user-management",
         icon: Users,
       },
 
       {
-        name: "Department M",
+        name: "Departments",
         path: "/dashboard/settings/department-management",
         icon: Users,
       },
@@ -158,10 +158,13 @@ export default function Sidebar({
   collapsed: boolean
 }) {
 
-  const pathname = usePathname()
+  const pathname =
+    usePathname()
 
   const [openMenu, setOpenMenu] =
-    useState<string | null>(null)
+    useState<string | null>(
+      null
+    )
 
   useEffect(() => {
 
@@ -169,12 +172,16 @@ export default function Sidebar({
       menu.find((item) =>
         item.children?.some(
           (sub) =>
-            pathname === sub.path
+            pathname ===
+            sub.path
         )
       )
 
     if (activeParent) {
-      setOpenMenu(activeParent.name)
+
+      setOpenMenu(
+        activeParent.name
+      )
     }
 
   }, [pathname])
@@ -184,10 +191,11 @@ export default function Sidebar({
       className={`
         fixed left-0 top-0 z-50 h-screen
         transition-all duration-300
+        overflow-hidden
         ${
           collapsed
-            ? "w-[78px]"
-            : "w-[230px]"
+            ? "w-[72px]"
+            : "w-[220px]"
         }
       `}
     >
@@ -202,55 +210,51 @@ export default function Sidebar({
           via-[#111827]
           to-[#071019]
           border-r border-white/[0.06]
-          shadow-2xl
+          shadow-xl
         "
       >
 
-        {/* BACKGROUND GLOW */}
+        {/* BG */}
 
-        <div className="absolute top-0 left-0 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-0 w-44 h-44 bg-emerald-500/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-44 h-44 bg-cyan-500/5 rounded-full blur-3xl" />
 
         {/* CONTENT */}
 
-        <div className="relative z-10 flex flex-col h-full">
+        <div className="relative z-10 flex flex-col h-full overflow-hidden">
 
           {/* LOGO */}
 
-          <div className="px-4 pt-4 pb-3 shrink-0">
+          <div className="px-3 pt-3 pb-2 shrink-0">
 
-            <div
-              className={`
-                flex items-center justify-center
-              `}
-            >
+            <div className="flex items-center justify-center">
 
               {!collapsed ? (
 
                 <div
                   className="
-                    w-full h-[78px]
-                    rounded-[22px]
+                    w-full h-[64px]
+                    rounded-xl
                     bg-white/[0.04]
                     border border-white/[0.08]
                     backdrop-blur-xl
                     flex items-center justify-center
                     overflow-hidden
-                    px-4
+                    px-3
                   "
                 >
 
                   <Image
                     src="/eccentriclogo.png"
                     alt="logo"
-                    width={160}
-                    height={60}
+                    width={140}
+                    height={48}
                     className="
                       object-contain
                       w-auto
                       h-auto
-                      max-h-[52px]
+                      max-h-[42px]
                     "
                     priority
                   />
@@ -260,10 +264,10 @@ export default function Sidebar({
 
                 <div
                   className="
-                    w-14 h-14
-                    rounded-[18px]
+                    w-12 h-12
+                    rounded-xl
                     bg-white
-                    shadow-xl
+                    shadow-sm
                     flex items-center justify-center
                     overflow-hidden
                     p-2
@@ -273,8 +277,8 @@ export default function Sidebar({
                   <Image
                     src="/eccentriclogo.png"
                     alt="logo"
-                    width={38}
-                    height={38}
+                    width={30}
+                    height={30}
                     className="object-contain"
                   />
                 </div>
@@ -282,31 +286,37 @@ export default function Sidebar({
             </div>
           </div>
 
-          {/* NAVIGATION */}
+          {/* NAV */}
 
-          <nav className="flex-1 overflow-y-auto px-3 pb-4 no-scrollbar space-y-1.5">
+          <nav className="flex-1 overflow-y-auto overflow-x-hidden px-2 pb-3 no-scrollbar space-y-1">
 
             {menu.map((item) => {
 
-              const Icon = item.icon
+              const Icon =
+                item.icon
 
               const hasChildren =
                 !!item.children
 
               const isOpen =
-                openMenu === item.name
+                openMenu ===
+                item.name
 
               const isActive =
-                pathname === item.path ||
+                pathname ===
+                  item.path ||
                 item.children?.some(
                   (sub) =>
-                    pathname === sub.path
+                    pathname ===
+                    sub.path
                 )
 
               return (
-                <div key={item.name}>
+                <div
+                  key={item.name}
+                >
 
-                  {/* MAIN MENU */}
+                  {/* MENU */}
 
                   {hasChildren ? (
 
@@ -326,8 +336,8 @@ export default function Sidebar({
                             ? "justify-center"
                             : "justify-between"
                         }
-                        px-3 py-2.5 min-h-[48px]
-                        rounded-[16px]
+                        px-2.5 py-2 min-h-[42px]
+                        rounded-xl
                         transition-all duration-300
                         overflow-hidden
                         ${
@@ -337,7 +347,7 @@ export default function Sidebar({
                               from-emerald-500
                               to-green-600
                               text-white
-                              shadow-lg shadow-emerald-500/20
+                              shadow-sm
                             `
                             : `
                               text-gray-300
@@ -348,31 +358,27 @@ export default function Sidebar({
                       `}
                     >
 
-                      {isActive && (
-                        <div className="absolute inset-0 bg-white/[0.06]" />
-                      )}
-
-                      <div className="relative z-10 flex items-center gap-3">
+                      <div className="relative z-10 flex items-center gap-2.5 min-w-0">
 
                         <div
                           className={`
-                            w-9 h-9 rounded-xl
+                            w-8 h-8 rounded-lg
                             flex items-center justify-center
-                            transition-all duration-300
+                            transition-all duration-300 shrink-0
                             ${
                               isActive
                                 ? "bg-white/20"
-                                : "bg-white/[0.05] group-hover:bg-white/[0.08]"
+                                : "bg-white/[0.05]"
                             }
                           `}
                         >
 
-                          <Icon className="w-[17px] h-[17px]" />
+                          <Icon className="w-4 h-4" />
                         </div>
 
                         {!collapsed && (
 
-                          <span className="text-[13px] font-semibold tracking-[0.2px] leading-none">
+                          <span className="text-[12px] font-medium truncate">
                             {item.name}
                           </span>
                         )}
@@ -388,12 +394,12 @@ export default function Sidebar({
                                 : 0,
                           }}
                           transition={{
-                            duration: 0.25,
+                            duration: 0.2,
                           }}
-                          className="relative z-10"
+                          className="shrink-0"
                         >
 
-                          <ChevronDown size={15} />
+                          <ChevronDown className="w-4 h-4" />
                         </motion.div>
                       )}
                     </button>
@@ -409,10 +415,10 @@ export default function Sidebar({
                           ${
                             collapsed
                               ? "justify-center"
-                              : "gap-3"
+                              : "gap-2.5"
                           }
-                          px-3 py-2.5 min-h-[48px]
-                          rounded-[16px]
+                          px-2.5 py-2 min-h-[42px]
+                          rounded-xl
                           transition-all duration-300
                           overflow-hidden
                           ${
@@ -422,9 +428,9 @@ export default function Sidebar({
                                 from-emerald-500
                                 to-green-600
                                 text-white
-                                shadow-lg shadow-emerald-500/20
+                                shadow-sm
                               `
-                            : `
+                              : `
                                 text-gray-300
                                 hover:bg-white/[0.06]
                                 hover:text-white
@@ -433,30 +439,26 @@ export default function Sidebar({
                         `}
                       >
 
-                        {isActive && (
-                          <div className="absolute inset-0 bg-white/[0.06]" />
-                        )}
-
                         <div
                           className={`
                             relative z-10
-                            w-9 h-9 rounded-xl
+                            w-8 h-8 rounded-lg
                             flex items-center justify-center
-                            transition-all duration-300
+                            transition-all duration-300 shrink-0
                             ${
                               isActive
                                 ? "bg-white/20"
-                                : "bg-white/[0.05] group-hover:bg-white/[0.08]"
+                                : "bg-white/[0.05]"
                             }
                           `}
                         >
 
-                          <Icon className="w-[17px] h-[17px]" />
+                          <Icon className="w-4 h-4" />
                         </div>
 
                         {!collapsed && (
 
-                          <span className="relative z-10 text-[13px] font-semibold tracking-[0.2px] leading-none">
+                          <span className="relative z-10 text-[12px] font-medium truncate">
                             {item.name}
                           </span>
                         )}
@@ -486,72 +488,80 @@ export default function Sidebar({
                             height: 0,
                           }}
                           transition={{
-                            duration: 0.25,
+                            duration: 0.2,
                           }}
                           className="overflow-hidden"
                         >
 
-                          <div className="ml-4 mt-2 space-y-1 border-l border-white/[0.08] pl-3">
+                          <div className="ml-3 mt-1 space-y-1 border-l border-white/[0.08] pl-2">
 
-                            {item.children.map((sub) => {
+                            {item.children.map(
+                              (sub) => {
 
-                              const SubIcon =
-                                sub.icon
+                                const SubIcon =
+                                  sub.icon
 
-                              const isSubActive =
-                                pathname === sub.path
+                                const isSubActive =
+                                  pathname ===
+                                  sub.path
 
-                              return (
-                                <Link
-                                  key={sub.path}
-                                  href={sub.path}
-                                >
-
-                                  <div
-                                    className={`
-                                      group flex items-center gap-3
-                                      px-3 py-2
-                                      rounded-xl
-                                      transition-all duration-300
-                                      ${
-                                        isSubActive
-                                          ? `
-                                            bg-white
-                                            text-gray-900
-                                            shadow-lg
-                                          `
-                                          : `
-                                            text-gray-400
-                                            hover:bg-white/[0.05]
-                                            hover:text-white
-                                          `
-                                      }
-                                    `}
+                                return (
+                                  <Link
+                                    key={
+                                      sub.path
+                                    }
+                                    href={
+                                      sub.path
+                                    }
                                   >
 
                                     <div
                                       className={`
-                                        w-8 h-8 rounded-lg
-                                        flex items-center justify-center
+                                        group flex items-center gap-2
+                                        px-2 py-2
+                                        rounded-lg
                                         transition-all duration-300
+                                        overflow-hidden
                                         ${
                                           isSubActive
-                                            ? "bg-emerald-100 text-emerald-600"
-                                            : "bg-white/[0.05]"
+                                            ? `
+                                              bg-white
+                                              text-black
+                                              shadow-sm
+                                            `
+                                            : `
+                                              text-gray-300
+                                              hover:bg-white/[0.05]
+                                              hover:text-white
+                                            `
                                         }
                                       `}
                                     >
 
-                                      <SubIcon className="w-4 h-4" />
-                                    </div>
+                                      <div
+                                        className={`
+                                          w-7 h-7 rounded-lg
+                                          flex items-center justify-center
+                                          shrink-0
+                                          ${
+                                            isSubActive
+                                              ? "bg-emerald-100 text-emerald-600"
+                                              : "bg-white/[0.05]"
+                                          }
+                                        `}
+                                      >
 
-                                    <span className="text-[12px] font-medium leading-none">
-                                      {sub.name}
-                                    </span>
-                                  </div>
-                                </Link>
-                              )
-                            })}
+                                        <SubIcon className="w-3.5 h-3.5" />
+                                      </div>
+
+                                      <span className="text-[11px] font-medium truncate">
+                                        {sub.name}
+                                      </span>
+                                    </div>
+                                  </Link>
+                                )
+                              }
+                            )}
                           </div>
                         </motion.div>
                       )}
@@ -565,21 +575,17 @@ export default function Sidebar({
 
           {!collapsed && (
 
-            <div className="p-2 border-t border-white/[0.08]">
+            <div className="p-2 border-t border-white/[0.08] shrink-0">
 
-              <div className="rounded-[20px] bg-gradient-to-r from-emerald-500 to-green-600 p-4 shadow-xl shadow-emerald-500/20">
+              <div className="rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 p-3 shadow-sm overflow-hidden">
 
-                <h3 className="text-white font-semibold text-[14px]">
+                <h3 className="text-white font-semibold text-[12px]">
                   System Health
                 </h3>
 
-                {/* <p className="text-green-50 text-[11px] mt-1 leading-relaxed">
-                  All assets & services are operating normally
-                </p> */}
-
                 <div className="mt-2">
 
-                  <div className="flex items-center justify-between text-[11px] text-white/90 mb-2">
+                  <div className="flex items-center justify-between text-[10px] text-white/90 mb-1">
 
                     <span>
                       Performance
@@ -590,9 +596,9 @@ export default function Sidebar({
                     </span>
                   </div>
 
-                  <div className="w-full h-2 bg-white/20 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-white/20 rounded-full overflow-hidden">
 
-                    <div className="w-[92%] h-2 rounded-full bg-white" />
+                    <div className="w-[92%] h-1.5 rounded-full bg-white" />
                   </div>
                 </div>
               </div>

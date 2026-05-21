@@ -9,7 +9,6 @@ import {
   ShieldCheck,
   TrendingUp,
   Package2,
-  Activity,
   ArrowRight,
   ArrowUpRight,
   Wrench,
@@ -77,77 +76,75 @@ export default function AssetReplacementPage() {
   }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-hidden">
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-5 text-white shadow-md">
 
-        {/* GLOW */}
+        <div className="absolute top-0 right-0 w-52 h-52 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
-
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow shrink-0">
 
-                <RefreshCw className="w-10 h-10" />
+                <RefreshCw className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-4xl font-bold tracking-tight">
-                  Asset Replacement Center
+                <h1 className="text-xl font-semibold leading-tight break-words">
+                  Asset Replacement
                 </h1>
 
-                <p className="text-green-50 mt-2 text-sm">
-                  Track asset lifecycle replacements and upgrades
+                <p className="text-green-50 mt-1 text-xs break-words">
+                  Track lifecycle upgrades & replacements
                 </p>
               </div>
             </div>
 
             {/* QUICK STATS */}
 
-            <div className="flex flex-wrap items-center gap-10 mt-10">
+            <div className="flex flex-wrap items-center gap-5 mt-4">
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   {stats.total}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Total Replacements
+                <p className="text-green-100 text-[11px] mt-1">
+                  Replacements
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   {stats.active}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Active Assets
+                <p className="text-green-100 text-[11px] mt-1">
+                  Active
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   {stats.retired}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Retired Assets
+                <p className="text-green-100 text-[11px] mt-1">
+                  Retired
                 </p>
               </div>
             </div>
@@ -155,35 +152,29 @@ export default function AssetReplacementPage() {
 
           {/* RIGHT */}
 
-          <div className="flex flex-col gap-4 min-w-[320px]">
+          <div className="flex flex-col gap-2 w-full lg:w-[240px]">
 
             <MiniCard
               icon={TrendingUp}
-              title="Replacement Efficiency"
+              title="Efficiency"
               value="96%"
             />
 
             <MiniCard
               icon={ShieldCheck}
-              title="Lifecycle Monitoring"
+              title="Monitoring"
               value="Active"
             />
-
-            {/* <MiniCard
-              icon={Activity}
-              title="Asset Health"
-              value="Stable"
-            /> */}
           </div>
         </div>
       </div>
 
       {/* ---------------- OVERVIEW ---------------- */}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
 
         <OverviewCard
-          title="Total Replacements"
+          title="Replacements"
           value={stats.total}
           icon={Package2}
           gradient="from-emerald-500 to-green-600"
@@ -204,26 +195,26 @@ export default function AssetReplacementPage() {
         />
       </div>
 
-      {/* ---------------- REPLACEMENT LIST ---------------- */}
+      {/* ---------------- LIST ---------------- */}
 
-      <div className="bg-white border border-gray-100 rounded-[32px] shadow-sm overflow-hidden">
+      <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
 
         {/* HEADER */}
 
-        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 py-4 border-b border-gray-100">
 
-          <div>
+          <div className="min-w-0">
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg font-semibold text-black break-words">
               Replacement History
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
-              Complete replacement records across departments
+            <p className="text-xs text-black mt-1">
+              Asset replacement records
             </p>
           </div>
 
-          <button className="px-5 h-12 rounded-2xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium">
+          <button className="px-4 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
             View Analytics
           </button>
         </div>
@@ -234,25 +225,25 @@ export default function AssetReplacementPage() {
 
           {loading ? (
 
-            <div className="p-10 text-center text-gray-500">
+            <div className="p-6 text-center text-black text-sm">
               Loading replacement history...
             </div>
 
           ) : replacements.length === 0 ? (
 
-            <div className="p-16 text-center">
+            <div className="p-8 text-center">
 
-              <div className="w-24 h-24 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-5">
+              <div className="w-16 h-16 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-3">
 
-                <RefreshCw className="w-10 h-10 text-gray-400" />
+                <RefreshCw className="w-7 h-7 text-black" />
               </div>
 
-              <h3 className="text-xl font-semibold text-gray-700">
+              <h3 className="text-base font-semibold text-black">
                 No Replacement History
               </h3>
 
-              <p className="text-sm text-gray-500 mt-2">
-                No asset replacement data available
+              <p className="text-sm text-black mt-1">
+                No replacement data available
               </p>
             </div>
 
@@ -351,22 +342,22 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4">
+    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 overflow-hidden">
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
 
-        <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center">
+        <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
 
-          <Icon className="w-5 h-5" />
+          <Icon className="w-4 h-4" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-sm text-green-50">
+          <p className="text-xs text-white break-words">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1">
+          <h3 className="text-sm font-semibold mt-1 break-words">
             {value}
           </h3>
         </div>
@@ -385,33 +376,33 @@ function OverviewCard({
 }: any) {
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
       <div className="relative z-10">
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
 
           <div
-            className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
+            className={`w-10 h-10 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow`}
           >
 
-            <Icon className="w-8 h-8" />
+            <Icon className="w-5 h-5" />
           </div>
 
-          <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
+          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-3">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-black">
             {title}
           </p>
 
-          <h2 className="text-5xl font-bold text-gray-900 mt-3">
+          <h2 className="text-2xl font-bold text-black mt-1">
             {value}
           </h2>
         </div>
@@ -437,41 +428,41 @@ function ReplacementCard({
 }: any) {
 
   return (
-    <div className="group p-8 hover:bg-gray-50 transition-all duration-300">
+    <div className="group p-4 hover:bg-gray-50 transition-all duration-300 overflow-hidden">
 
       {/* HEADER */}
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
         {/* LEFT */}
 
-        <div className="flex items-start gap-5">
+        <div className="flex items-start gap-3 min-w-0">
 
-          <div className="w-16 h-16 rounded-3xl bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center text-white shadow-lg">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center text-white shadow shrink-0">
 
-            <RefreshCw className="w-7 h-7" />
+            <RefreshCw className="w-5 h-5" />
           </div>
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap">
 
-              <h3 className="text-lg font-bold text-gray-800">
+              <h3 className="text-base font-semibold text-black break-words">
                 {id}
               </h3>
 
-              <span className="px-4 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
+              <span className="px-3 py-1 rounded-full text-[11px] font-semibold bg-green-100 text-green-700 whitespace-nowrap">
                 Completed
               </span>
             </div>
 
-            <p className="text-gray-500 mt-2">
+            <p className="text-sm text-black mt-1 break-words">
               {department}
             </p>
 
-            <div className="flex items-center gap-2 text-xs text-gray-400 mt-3">
+            <div className="flex items-center gap-2 text-[11px] text-black mt-2 flex-wrap">
 
-              <Calendar className="w-4 h-4" />
+              <Calendar className="w-3 h-3 shrink-0" />
 
               {date}
             </div>
@@ -480,46 +471,45 @@ function ReplacementCard({
 
         {/* RIGHT */}
 
-        <div className="px-5 py-3 rounded-2xl bg-gray-100 text-sm text-gray-700 font-medium">
-          Replaced By:{" "}
-          {replacedBy}
+        <div className="px-3 py-2 rounded-xl bg-gray-100 text-xs text-black font-medium break-words max-w-full">
+          Replaced By: {replacedBy}
         </div>
       </div>
 
       {/* OLD → NEW */}
 
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto_1fr] gap-6 items-center mt-8">
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_auto_1fr] gap-4 items-center mt-5">
 
         {/* OLD */}
 
-        <div className="relative overflow-hidden border border-red-200 bg-red-50 rounded-[28px] p-6">
+        <div className="relative overflow-hidden border border-red-200 bg-red-50 rounded-2xl p-4">
 
-          <div className="absolute top-0 right-0 w-32 h-32 bg-red-200/30 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-24 h-24 bg-red-200/30 rounded-full blur-3xl" />
 
-          <div className="relative z-10">
+          <div className="relative z-10 min-w-0">
 
-            <div className="flex items-center gap-2 text-red-600 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-red-600 font-semibold text-xs">
 
-              <AlertCircle className="w-5 h-5" />
+              <AlertCircle className="w-4 h-4 shrink-0" />
 
               OLD ASSET
             </div>
 
-            <h3 className="text-2xl font-bold text-gray-800 mt-5">
+            <h3 className="text-lg font-semibold text-black mt-4 break-words">
               {oldAsset}
             </h3>
 
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-xs text-black mt-2 break-all">
               Asset ID: {oldId}
             </p>
 
-            <div className="mt-6 pt-5 border-t border-red-200">
+            <div className="mt-4 pt-4 border-t border-red-200">
 
-              <p className="text-xs text-gray-500">
+              <p className="text-[11px] text-black">
                 Warranty Expired
               </p>
 
-              <p className="text-lg font-semibold text-red-600 mt-1">
+              <p className="text-sm font-semibold text-red-600 mt-1 break-words">
                 {expiry}
               </p>
             </div>
@@ -530,51 +520,51 @@ function ReplacementCard({
 
         <div className="flex items-center justify-center">
 
-          <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center shadow-md">
+          <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center shadow-sm shrink-0">
 
-            <ArrowRight className="w-7 h-7 text-emerald-600" />
+            <ArrowRight className="w-5 h-5 text-emerald-600" />
           </div>
         </div>
 
         {/* NEW */}
 
-        <div className="relative overflow-hidden border border-green-200 bg-green-50 rounded-[28px] p-6">
+        <div className="relative overflow-hidden border border-green-200 bg-green-50 rounded-2xl p-4">
 
-          <div className="absolute top-0 right-0 w-32 h-32 bg-green-200/30 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-24 h-24 bg-green-200/30 rounded-full blur-3xl" />
 
-          <div className="relative z-10">
+          <div className="relative z-10 min-w-0">
 
-            <div className="flex items-center gap-2 text-green-700 font-semibold text-sm">
+            <div className="flex items-center gap-2 text-green-700 font-semibold text-xs">
 
-              <RefreshCw className="w-5 h-5" />
+              <RefreshCw className="w-4 h-4 shrink-0" />
 
               NEW ASSET
             </div>
 
-            <h3 className="text-2xl font-bold text-gray-800 mt-5">
+            <h3 className="text-lg font-semibold text-black mt-4 break-words">
               {newAsset}
             </h3>
 
-            <p className="text-sm text-gray-600 mt-2">
+            <p className="text-xs text-black mt-2 break-all">
               Asset ID: {newId}
             </p>
 
-            <div className="mt-6 pt-5 border-t border-green-200 flex items-center justify-between">
+            <div className="mt-4 pt-4 border-t border-green-200 flex items-center justify-between gap-3">
 
-              <div>
+              <div className="min-w-0">
 
-                <p className="text-xs text-gray-500">
+                <p className="text-[11px] text-black">
                   Status
                 </p>
 
-                <p className="text-lg font-semibold text-green-700 mt-1">
+                <p className="text-sm font-semibold text-green-700 mt-1 break-words">
                   {status}
                 </p>
               </div>
 
-              <div className="w-12 h-12 rounded-2xl bg-green-100 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center shrink-0">
 
-                <ShieldCheck className="w-6 h-6 text-green-700" />
+                <ShieldCheck className="w-5 h-5 text-green-700" />
               </div>
             </div>
           </div>
@@ -583,22 +573,22 @@ function ReplacementCard({
 
       {/* REASON */}
 
-      <div className="mt-7 rounded-[24px] bg-gray-50 p-6">
+      <div className="mt-4 rounded-xl bg-gray-50 p-4 overflow-hidden">
 
-        <div className="flex items-start gap-4">
+        <div className="flex items-start gap-3">
 
-          <div className="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center">
+          <div className="w-11 h-11 rounded-xl bg-orange-100 flex items-center justify-center shrink-0">
 
-            <Wrench className="w-7 h-7 text-orange-600" />
+            <Wrench className="w-5 h-5 text-orange-600" />
           </div>
 
-          <div>
+          <div className="min-w-0">
 
-            <p className="text-xs uppercase tracking-wide text-gray-500">
+            <p className="text-[11px] uppercase tracking-wide text-black">
               Replacement Reason
             </p>
 
-            <p className="text-gray-700 mt-3 leading-relaxed">
+            <p className="text-sm text-black mt-2 leading-6 break-words">
               {reason}
             </p>
           </div>

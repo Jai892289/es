@@ -4,9 +4,6 @@ import {
   Menu,
   LogOut,
   ChevronDown,
-  Search,
-  Bell,
-  Settings2,
 } from "lucide-react"
 
 import {
@@ -19,7 +16,6 @@ import { useRouter } from "next/navigation"
 
 export default function Topbar({
   onToggle,
-  collapsed,
 }: {
   onToggle: () => void
   collapsed: boolean
@@ -80,110 +76,61 @@ export default function Topbar({
   }
 
   return (
-    <header className="sticky top-0 z-40 h-20 bg-white/80 backdrop-blur-xl border-b border-gray-100 flex items-center px-4 md:px-7 gap-4 shadow-sm">
+    <header
+      className="
+        sticky top-0 z-40
+        h-16
+        bg-white/90 backdrop-blur-xl
+        border-b border-gray-100
+        flex items-center
+        px-3 md:px-4
+        gap-3
+        shadow-sm
+      "
+    >
 
       {/* LEFT */}
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 min-w-0">
 
-        {/* SIDEBAR TOGGLE */}
+        {/* SIDEBAR BUTTON */}
 
         <button
           onClick={onToggle}
-          className="group w-12 h-12 rounded-2xl bg-gray-50 hover:bg-emerald-50 border border-gray-100 hover:border-emerald-200 transition-all duration-300 flex items-center justify-center shadow-sm"
+          className="
+            group
+            w-10 h-10
+            rounded-xl
+            bg-gray-50
+            hover:bg-emerald-50
+            border border-gray-100
+            hover:border-emerald-200
+            transition
+            flex items-center justify-center
+            shrink-0
+          "
         >
 
-          <Menu className="w-5 h-5 cursor-pointer text-gray-700 group-hover:text-emerald-600 transition" />
+          <Menu className="w-4 h-4 text-black group-hover:text-emerald-600 transition" />
         </button>
 
-        {/* PAGE TITLE */}
+        {/* TITLE */}
 
-        <div className="hidden lg:block">
+        <div className="hidden lg:block min-w-0">
 
-          <h2 className="text-lg font-bold text-gray-800">
+          <h2 className="text-base font-semibold text-black break-words">
             Dashboard
           </h2>
 
-          <p className="text-xs text-gray-500 mt-1">
-            Smart Asset &
-            Department Management
+          <p className="text-[11px] text-black mt-0.5 break-words">
+            Asset & Department Management
           </p>
         </div>
       </div>
-{/* wer */}
-      {/* SEARCH */}
-
-      {/* <div className="hidden md:flex flex-1 justify-center px-4">
-
-        <div className="relative w-full max-w-2xl">
-
-          <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-
-          <input
-            placeholder="Search users, assets, inspections..."
-            className="
-              w-full h-14
-              rounded-2xl
-              border border-gray-200
-              bg-gray-50
-              pl-14 pr-5
-              text-sm
-              outline-none
-              transition-all duration-300
-              focus:border-emerald-500
-              focus:bg-white
-              focus:ring-4
-              focus:ring-emerald-100
-            "
-          />
-        </div>
-      </div> */}
 
       {/* RIGHT */}
 
-      <div className="ml-auto flex items-center gap-3">
-
-        {/* NOTIFICATION */}
-
-        {/* <button
-          className="
-            relative
-            w-12 h-12
-            rounded-2xl
-            bg-gray-50
-            hover:bg-emerald-50
-            border border-gray-100
-            hover:border-emerald-200
-            transition-all duration-300
-            flex items-center justify-center
-            shadow-sm
-          "
-        >
-
-          <Bell className="w-5 h-5 text-gray-700" />
-
-          <span className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-red-500 border-2 border-white" />
-        </button> */}
-
-        {/* SETTINGS */}
-
-        {/* <button
-          className="
-            hidden md:flex
-            w-12 h-12
-            rounded-2xl
-            bg-gray-50
-            hover:bg-emerald-50
-            border border-gray-100
-            hover:border-emerald-200
-            transition-all duration-300
-            items-center justify-center
-            shadow-sm
-          "
-        >
-
-          <Settings2 className="w-5 h-5 text-gray-700" />
-        </button> */}
+      <div className="ml-auto flex items-center gap-2 min-w-0">
 
         {/* PROFILE */}
 
@@ -198,53 +145,53 @@ export default function Topbar({
             }
             className="
               group
-              flex items-center gap-3
+              flex items-center gap-2
               bg-gray-50 hover:bg-emerald-50
               border border-gray-100 hover:border-emerald-200
-              rounded-2xl
-              pl-2 pr-2 py-2
-              transition-all duration-300
-              shadow-sm
+              rounded-xl
+              px-2 py-1.5
+              transition
             "
           >
 
             {/* AVATAR */}
 
-            <div className="relative">
+            <div className="relative shrink-0">
 
               <div
                 className="
-                  w-12 h-12
-                  rounded-2xl
-                  bg-gradient-to-r from-emerald-500 to-green-600
+                  w-10 h-10
+                  rounded-xl
+                  bg-gradient-to-r
+                  from-emerald-500
+                  to-green-600
                   text-white
                   flex items-center justify-center
                   font-bold text-sm
-                  shadow-lg
                 "
               >
                 AD
               </div>
 
-              <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
+              <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-500 border-2 border-white" />
             </div>
 
             {/* INFO */}
 
-            <div className="hidden sm:block text-left">
+            <div className="hidden sm:block text-left min-w-0">
 
-              <h4 className="text-sm font-semibold text-gray-800">
+              <h4 className="text-sm font-semibold text-black truncate">
                 Admin
               </h4>
 
-              <p className="text-xs text-gray-500 mt-0.5">
+              <p className="text-[11px] text-black mt-0.5 truncate">
                 Super Administrator
               </p>
             </div>
 
             <ChevronDown
               className={`
-                w-4 h-4 text-gray-500 transition-transform duration-300
+                w-4 h-4 text-black shrink-0 transition-transform duration-300
                 ${
                   open
                     ? "rotate-180"
@@ -260,38 +207,38 @@ export default function Topbar({
 
             <div
               className="
-                absolute right-0 mt-3
-                w-72
-                bg-white/95 backdrop-blur-xl
+                absolute right-0 top-full mt-2
+                w-[260px]
+                bg-white
                 border border-gray-100
-                rounded-[28px]
+                rounded-2xl
                 shadow-2xl
                 overflow-hidden
+                z-[999]
                 animate-in fade-in zoom-in duration-200
-                z-50
               "
             >
 
               {/* TOP */}
 
-              <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-green-600 px-6 py-6 text-white">
+              <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-green-600 p-4 text-white">
 
-                <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
+                <div className="absolute top-0 right-0 w-28 h-28 bg-white/10 rounded-full blur-3xl" />
 
-                <div className="relative z-10 flex items-center gap-4">
+                <div className="relative z-10 flex items-center gap-3">
 
-                  <div className="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center text-xl font-bold shadow-lg">
+                  <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center text-sm font-bold shrink-0">
 
                     AD
                   </div>
 
-                  <div>
+                  <div className="min-w-0">
 
-                    <h3 className="text-lg font-bold">
+                    <h3 className="text-base font-semibold break-words">
                       Admin
                     </h3>
 
-                    <p className="text-green-50 text-sm mt-1">
+                    <p className="text-green-50 text-[11px] mt-1 break-all">
                       admin@gsampada.gov.in
                     </p>
                   </div>
@@ -300,7 +247,7 @@ export default function Topbar({
 
               {/* MENU */}
 
-              <div className="p-3">
+              <div className="p-2">
 
                 <button
                   onClick={
@@ -309,27 +256,27 @@ export default function Topbar({
                   className="
                     w-full
                     flex items-center gap-3
-                    px-4 py-4
-                    rounded-2xl
+                    px-3 py-3
+                    rounded-xl
                     text-red-600
                     hover:bg-red-50
-                    transition-all duration-300
+                    transition
                     text-sm font-medium
                   "
                 >
 
-                  <div className="w-10 h-10 rounded-2xl bg-red-100 flex items-center justify-center">
+                  <div className="w-9 h-9 rounded-xl bg-red-100 flex items-center justify-center shrink-0">
 
-                    <LogOut className="w-5 h-5" />
+                    <LogOut className="w-4 h-4" />
                   </div>
 
-                  <div className="text-left">
+                  <div className="text-left min-w-0">
 
-                    <p className="font-semibold">
+                    <p className="font-semibold break-words">
                       Logout
                     </p>
 
-                    <p className="text-xs text-red-400 mt-1">
+                    <p className="text-[11px] text-red-500 mt-0.5 break-words">
                       Sign out from dashboard
                     </p>
                   </div>

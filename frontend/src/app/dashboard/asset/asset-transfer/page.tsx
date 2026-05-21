@@ -51,77 +51,75 @@ export default function AssetTransferPage() {
     fetchTransfers()
   }, [])
 
-  const fetchTransfers = async () => {
+  const fetchTransfers =
+    async () => {
 
-    try {
+      try {
 
-      setLoading(true)
+        setLoading(true)
 
-      const response =
-        await getAssetTransfersApi()
+        const response =
+          await getAssetTransfersApi()
 
-      const data =
-        response?.data || []
+        const data =
+          response?.data || []
 
-      setTransfers(data)
+        setTransfers(data)
 
-      /* TOTAL */
+        const totalTransfers =
+          data.length
 
-      const totalTransfers =
-        data.length
+        const currentMonth =
+          new Date().getMonth()
 
-      /* THIS MONTH */
+        const currentYear =
+          new Date().getFullYear()
 
-      const currentMonth =
-        new Date().getMonth()
+        const thisMonth =
+          data.filter(
+            (item: any) => {
 
-      const currentYear =
-        new Date().getFullYear()
+              const date =
+                new Date(
+                  item.transferDate
+                )
 
-      const thisMonth =
-        data.filter((item: any) => {
+              return (
+                date.getMonth() ===
+                  currentMonth &&
+                date.getFullYear() ===
+                  currentYear
+              )
+            }
+          ).length
 
-          const date = new Date(
-            item.transferDate
-          )
+        const pendingApproval =
+          data.filter(
+            (item: any) =>
+              item.status ===
+              "PENDING"
+          ).length
 
-          return (
-            date.getMonth() ===
-              currentMonth &&
-            date.getFullYear() ===
-              currentYear
-          )
-        }).length
+        setSummary({
+          totalTransfers,
+          thisMonth,
+          pendingApproval,
+        })
 
-      /* PENDING */
+      } catch (error) {
 
-      const pendingApproval =
-        data.filter(
-          (item: any) =>
-            item.status ===
-            "PENDING"
-        ).length
+        console.log(
+          "Transfer Error",
+          error
+        )
 
-      setSummary({
-        totalTransfers,
-        thisMonth,
-        pendingApproval,
-      })
+      } finally {
 
-    } catch (error) {
-
-      console.log(
-        "Transfer Error",
-        error
-      )
-
-    } finally {
-
-      setLoading(false)
+        setLoading(false)
+      }
     }
-  }
 
-  /* ---------------- CREATE TRANSFER ---------------- */
+  /* ---------------- CREATE ---------------- */
 
   const handleCreateTransfer =
     async () => {
@@ -159,69 +157,67 @@ export default function AssetTransferPage() {
     }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-x-hidden">
 
-      {/* ---------------- HERO ---------------- */}
+      {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
 
-        {/* GLOW */}
+        <div className="absolute top-0 right-0 w-44 h-44 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
-
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+              <div className="w-11 h-11 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-sm shrink-0">
 
-                <ArrowLeftRight className="w-10 h-10" />
+                <ArrowLeftRight className="w-5 h-5" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-4xl font-bold tracking-tight">
-                  Asset Transfer Management
+                <h1 className="text-lg md:text-xl font-semibold break-words">
+                  Asset Transfer
                 </h1>
 
-                <p className="text-green-50 mt-2 text-sm">
-                  Track and manage internal asset movements
+                <p className="text-green-50 mt-1 text-[11px] leading-5 break-words">
+                  Manage asset movements efficiently
                 </p>
               </div>
             </div>
 
-            {/* QUICK STATS */}
+            {/* STATS */}
 
-            <div className="flex flex-wrap items-center gap-10 mt-10">
+            <div className="flex flex-wrap gap-4 mt-4">
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-xl font-bold">
                   {
                     summary.totalTransfers
                   }
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Total Transfers
+                <p className="text-green-100 text-[10px] mt-1">
+                  Transfers
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-xl font-bold">
                   {
                     summary.thisMonth
                   }
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[10px] mt-1">
                   This Month
                 </p>
               </div>
@@ -230,63 +226,63 @@ export default function AssetTransferPage() {
 
           {/* RIGHT */}
 
-          <div className="flex flex-col gap-4 min-w-[320px]">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2 w-full lg:w-[220px]">
 
             <button
               onClick={() =>
                 setOpenModal(true)
               }
               className="
-                h-14 px-6 rounded-2xl
+                h-10 px-4 rounded-xl
                 bg-white text-emerald-600
                 hover:bg-green-50
                 transition
-                cursor-pointer
-                font-semibold text-sm
-                flex items-center justify-center gap-3
-                shadow-xl
+                text-sm font-medium
+                flex items-center justify-center gap-2
+                shadow-sm
+                whitespace-nowrap
               "
             >
 
-              <Plus className="w-5 h-5" />
+              <Plus className="w-4 h-4" />
 
-              Add Asset Transfer
+              Add Transfer
             </button>
 
             <MiniCard
               icon={TrendingUp}
-              title="Transfer Efficiency"
+              title="Efficiency"
               value="94%"
             />
 
             <MiniCard
               icon={Activity}
-              title="Asset Movement"
+              title="Status"
               value="Active"
             />
           </div>
         </div>
       </div>
 
-      {/* ---------------- STATS ---------------- */}
+      {/* STATS */}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
 
         <SummaryCard
-          title="Total Transfers"
-          value={summary.totalTransfers.toString()}
-          subtitle="All transfers"
+          title="Transfers"
+          value={summary.totalTransfers}
+          subtitle="All records"
           icon={Package2}
           gradient="from-emerald-500 to-green-600"
         />
 
         <SummaryCard
           title="This Month"
-          value={summary.thisMonth.toString()}
+          value={summary.thisMonth}
           subtitle={new Date().toLocaleString(
             "default",
             {
-              month: "long",
+              month: "short",
               year: "numeric",
             }
           )}
@@ -295,38 +291,42 @@ export default function AssetTransferPage() {
         />
 
         <SummaryCard
-          title="Pending Approval"
-          value={summary.pendingApproval.toString()}
+          title="Pending"
+          value={
+            summary.pendingApproval
+          }
           subtitle={
-            summary.pendingApproval > 0
+            summary.pendingApproval >
+            0
               ? "Awaiting approval"
-              : "No pending transfer"
+              : "No pending"
           }
           icon={Clock}
           gradient="from-orange-500 to-amber-500"
         />
       </div>
 
-      {/* ---------------- HISTORY ---------------- */}
+      {/* HISTORY */}
 
-      <div className="bg-white border border-gray-100 rounded-[32px] shadow-sm overflow-hidden">
+      <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
 
         {/* HEADER */}
 
-        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 py-4 border-b border-gray-100">
 
-          <div>
+          <div className="min-w-0">
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-base font-semibold text-black break-words">
               Transfer History
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
-              Complete asset movement logs
+            <p className="text-[11px] text-black mt-1">
+              Asset movement logs
             </p>
           </div>
 
-          <button className="px-5 h-12 rounded-2xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium">
+          <button className="h-9 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
+
             View Analytics
           </button>
         </div>
@@ -337,25 +337,26 @@ export default function AssetTransferPage() {
 
           {loading ? (
 
-            <div className="p-10 text-center text-gray-500">
+            <div className="p-5 text-center text-black text-sm">
               Loading transfers...
             </div>
 
-          ) : transfers.length === 0 ? (
+          ) : transfers.length ===
+            0 ? (
 
-            <div className="p-16 text-center">
+            <div className="p-6 text-center overflow-hidden">
 
-              <div className="w-24 h-24 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-5">
+              <div className="w-14 h-14 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-3">
 
-                <ArrowLeftRight className="w-10 h-10 text-gray-400" />
+                <ArrowLeftRight className="w-6 h-6 text-black" />
               </div>
 
-              <h3 className="text-xl font-semibold text-gray-700">
+              <h3 className="text-base font-semibold text-black">
                 No Transfers Found
               </h3>
 
-              <p className="text-sm text-gray-500 mt-2">
-                No asset movement records available
+              <p className="text-sm text-black mt-1">
+                No transfer records available
               </p>
             </div>
 
@@ -381,7 +382,7 @@ export default function AssetTransferPage() {
                   }
                   toName={
                     item?.approvedBy ||
-                    "Pending Approval"
+                    "Pending"
                   }
                   toDept={
                     item?.toDepartment
@@ -408,231 +409,174 @@ export default function AssetTransferPage() {
         </div>
       </div>
 
-      {/* ---------------- MODAL ---------------- */}
+      {/* MODAL */}
 
-{openModal && (
+      {openModal && (
 
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-3 overflow-y-auto">
 
-    <div className="relative overflow-hidden w-full max-w-xl rounded-[24px] bg-white shadow-2xl border border-gray-100">
+          <div className="relative overflow-hidden w-full max-w-md rounded-xl bg-white shadow-xl border border-gray-100">
 
-      {/* TOP */}
+            {/* TOP */}
 
-      <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-5 text-white">
+            <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white">
 
-        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 flex items-center gap-4">
+              <div className="relative z-10 flex items-center gap-3">
 
-          <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-sm shrink-0">
 
-            <ArrowLeftRight className="w-7 h-7" />
+                  <ArrowLeftRight className="w-5 h-5" />
+                </div>
+
+                <div className="min-w-0">
+
+                  <h2 className="text-base font-semibold break-words">
+                    Create Transfer
+                  </h2>
+
+                  <p className="text-green-50 mt-1 text-[11px]">
+                    Transfer assets securely
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* FORM */}
+
+            <div className="p-4 space-y-3 overflow-hidden">
+
+              <InputField
+                label="Product ID"
+                placeholder="Enter Product ID"
+                value={
+                  transferForm.productId
+                }
+                onChange={(e: any) =>
+                  setTransferForm({
+                    ...transferForm,
+                    productId:
+                      e.target.value,
+                  })
+                }
+              />
+
+              <InputField
+                label="Department ID"
+                placeholder="Enter Department ID"
+                value={
+                  transferForm.toDepartmentId
+                }
+                onChange={(e: any) =>
+                  setTransferForm({
+                    ...transferForm,
+                    toDepartmentId:
+                      e.target.value,
+                  })
+                }
+              />
+
+              <InputField
+                label="Transferred By"
+                placeholder="Employee Name"
+                value={
+                  transferForm.transferredBy
+                }
+                onChange={(e: any) =>
+                  setTransferForm({
+                    ...transferForm,
+                    transferredBy:
+                      e.target.value,
+                  })
+                }
+              />
+
+              <div>
+
+                <label className="text-sm font-medium text-black">
+                  Reason
+                </label>
+
+                <textarea
+                  rows={3}
+                  value={
+                    transferForm.reason
+                  }
+                  onChange={(e) =>
+                    setTransferForm({
+                      ...transferForm,
+                      reason:
+                        e.target.value,
+                    })
+                  }
+                  placeholder="Enter reason..."
+                  className="
+                    w-full mt-2 p-3
+                    border border-gray-200
+                    rounded-xl
+                    bg-gray-50
+                    text-sm text-black
+                    outline-none
+                    resize-none
+                    transition
+                    focus:border-emerald-500
+                    focus:bg-white
+                  "
+                />
+              </div>
+
+              {/* FOOTER */}
+
+              <div className="flex flex-col sm:flex-row gap-2 pt-3 border-t border-gray-100">
+
+                <button
+                  onClick={() =>
+                    setOpenModal(false)
+                  }
+                  className="
+                    h-10 px-4
+                    rounded-xl
+                    border border-gray-200
+                    bg-white
+                    hover:bg-gray-100
+                    transition
+                    text-sm font-medium
+                    text-black
+                    w-full
+                  "
+                >
+                  Cancel
+                </button>
+
+                <button
+                  onClick={
+                    handleCreateTransfer
+                  }
+                  disabled={submitting}
+                  className="
+                    h-10 px-4
+                    rounded-xl
+                    bg-gradient-to-r
+                    from-emerald-600
+                    to-green-600
+                    text-white
+                    text-sm font-medium
+                    shadow-sm
+                    transition
+                    disabled:opacity-50
+                    w-full
+                  "
+                >
+                  {submitting
+                    ? "Creating..."
+                    : "Create"}
+                </button>
+              </div>
+            </div>
           </div>
-
-          <div>
-
-            <h2 className="text-2xl font-bold tracking-tight">
-              Create Asset Transfer
-            </h2>
-
-            <p className="text-green-50 mt-1 text-sm">
-              Transfer assets between departments securely
-            </p>
-          </div>
         </div>
-      </div>
-
-      {/* BODY */}
-
-      <div className="p-5 space-y-4">
-
-        {/* PRODUCT */}
-
-        <div>
-
-          <label className="text-sm font-semibold text-gray-700">
-            Product ID
-          </label>
-
-          <input
-            value={transferForm.productId}
-            onChange={(e) =>
-              setTransferForm({
-                ...transferForm,
-                productId: e.target.value,
-              })
-            }
-            placeholder="Enter Product ID"
-            className="
-              w-full h-11 mt-2
-              rounded-xl
-              border border-gray-200
-              bg-gray-50
-              px-4
-              text-sm
-              outline-none
-              transition-all duration-300
-              focus:border-emerald-500
-              focus:bg-white
-              focus:ring-4
-              focus:ring-emerald-100
-            "
-          />
-        </div>
-
-        {/* DEPARTMENT */}
-
-        <div>
-
-          <label className="text-sm font-semibold text-gray-700">
-            To Department ID
-          </label>
-
-          <input
-            value={transferForm.toDepartmentId}
-            onChange={(e) =>
-              setTransferForm({
-                ...transferForm,
-                toDepartmentId: e.target.value,
-              })
-            }
-            placeholder="Enter Department ID"
-            className="
-              w-full h-11 mt-2
-              rounded-xl
-              border border-gray-200
-              bg-gray-50
-              px-4
-              text-sm
-              outline-none
-              transition-all duration-300
-              focus:border-emerald-500
-              focus:bg-white
-              focus:ring-4
-              focus:ring-emerald-100
-            "
-          />
-        </div>
-
-        {/* TRANSFERRED BY */}
-
-        <div>
-
-          <label className="text-sm font-semibold text-gray-700">
-            Transferred By
-          </label>
-
-          <input
-            value={transferForm.transferredBy}
-            onChange={(e) =>
-              setTransferForm({
-                ...transferForm,
-                transferredBy: e.target.value,
-              })
-            }
-            placeholder="Enter Employee Name"
-            className="
-              w-full h-11 mt-2
-              rounded-xl
-              border border-gray-200
-              bg-gray-50
-              px-4
-              text-sm
-              outline-none
-              transition-all duration-300
-              focus:border-emerald-500
-              focus:bg-white
-              focus:ring-4
-              focus:ring-emerald-100
-            "
-          />
-        </div>
-
-        {/* REASON */}
-
-        <div>
-
-          <label className="text-sm font-semibold text-gray-700">
-            Transfer Reason
-          </label>
-
-          <textarea
-            rows={3}
-            value={transferForm.reason}
-            onChange={(e) =>
-              setTransferForm({
-                ...transferForm,
-                reason: e.target.value,
-              })
-            }
-            placeholder="Enter transfer reason..."
-            className="
-              w-full mt-2 p-4
-              border border-gray-200
-              rounded-xl
-              bg-gray-50
-              text-sm
-              outline-none
-              transition-all duration-300
-              focus:border-emerald-500
-              focus:bg-white
-              focus:ring-4
-              focus:ring-emerald-100
-            "
-          />
-        </div>
-
-        {/* FOOTER */}
-
-        <div className="flex items-center justify-end gap-3 pt-3 border-t border-gray-100">
-
-          <button
-            onClick={() =>
-              setOpenModal(false)
-            }
-            className="
-              h-11 px-5
-              rounded-xl
-              border border-gray-200
-              bg-white
-              hover:bg-gray-100
-              transition-all duration-300
-              text-sm font-medium
-            "
-          >
-            Cancel
-          </button>
-
-          <button
-            onClick={handleCreateTransfer}
-            disabled={submitting}
-            className="
-              h-11 px-6
-              rounded-xl
-              bg-gradient-to-r
-              from-emerald-600
-              to-green-600
-              hover:from-emerald-700
-              hover:to-green-700
-              text-white
-              text-sm
-              font-medium
-              shadow-lg shadow-emerald-500/20
-              transition-all duration-300
-              hover:scale-[1.02]
-              active:scale-[0.98]
-              disabled:opacity-50
-            "
-          >
-            {submitting
-              ? "Creating..."
-              : "Create Transfer"}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
     </div>
   )
 }
@@ -646,22 +590,22 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4">
+    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-2.5 overflow-hidden">
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
 
-        <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
 
-          <Icon className="w-5 h-5" />
+          <Icon className="w-4 h-4" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-sm text-green-50">
+          <p className="text-[10px] text-white break-words">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1">
+          <h3 className="text-sm font-semibold mt-1 break-words">
             {value}
           </h3>
         </div>
@@ -681,37 +625,37 @@ function SummaryCard({
 }: any) {
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
       <div className="relative z-10">
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
 
           <div
-            className={`w-8 h-8 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
+            className={`w-9 h-9 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-sm shrink-0`}
           >
 
             <Icon className="w-4 h-4" />
           </div>
 
-          <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
+          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
         </div>
 
-        <div className="mt-4">
+        <div className="mt-3 min-w-0">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-[11px] text-black break-words">
             {title}
           </p>
 
-          <h2 className="text-4xl font-bold text-gray-900 mt-2">
+          <h2 className="text-xl font-bold text-black mt-1 break-words">
             {value}
           </h2>
 
-          <p className="text-xs text-gray-400 mt-2">
+          <p className="text-[10px] text-black mt-1 break-words">
             {subtitle}
           </p>
         </div>
@@ -735,32 +679,32 @@ function TransferCard({
 }: any) {
 
   return (
-    <div className="group p-8 hover:bg-gray-50 transition-all duration-300">
+    <div className="p-4 hover:bg-gray-50 transition overflow-hidden">
 
       {/* TOP */}
 
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
         {/* LEFT */}
 
-        <div className="flex items-start gap-5">
+        <div className="flex items-start gap-3 min-w-0">
 
-          <div className="w-16 h-16 rounded-3xl bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center text-white shadow-lg">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center text-white shadow-sm shrink-0">
 
-            <ArrowLeftRight className="w-7 h-7" />
+            <ArrowLeftRight className="w-4 h-4" />
           </div>
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex flex-wrap items-center gap-2">
 
-              <h3 className="text-lg font-bold text-gray-800">
+              <h3 className="text-sm font-semibold text-black break-words">
                 {id}
               </h3>
 
               <span
                 className={`
-                  px-4 py-1 rounded-full text-xs font-semibold
+                  px-2.5 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap
                   ${
                     status ===
                     "PENDING"
@@ -773,13 +717,13 @@ function TransferCard({
               </span>
             </div>
 
-            <p className="text-gray-600 mt-2">
+            <p className="text-sm text-black mt-1 break-words">
               {asset}
             </p>
 
-            <div className="flex items-center gap-2 text-xs text-gray-400 mt-3">
+            <div className="flex items-center gap-2 text-[10px] text-black mt-2 flex-wrap">
 
-              <Clock className="w-4 h-4" />
+              <Clock className="w-3 h-3 shrink-0" />
 
               {date}
             </div>
@@ -788,73 +732,103 @@ function TransferCard({
 
         {/* RIGHT */}
 
-        <div className="flex items-center gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full xl:w-auto">
 
-          {/* FROM */}
+          <InfoBox
+            title="From"
+            name={fromName}
+            dept={fromDept}
+          />
 
-          <div className="bg-gray-50 rounded-3xl p-5 min-w-[220px]">
-
-            <p className="text-xs uppercase tracking-wide text-gray-400">
-              From
-            </p>
-
-            <h4 className="font-semibold text-gray-800 mt-2">
-              {fromName}
-            </h4>
-
-            <p className="text-sm text-gray-500 mt-1">
-              {fromDept}
-            </p>
-          </div>
-
-          {/* ARROW */}
-
-          <div className="w-14 h-14 rounded-full bg-emerald-100 flex items-center justify-center">
-
-            <ArrowLeftRight className="w-6 h-6 text-emerald-600" />
-          </div>
-
-          {/* TO */}
-
-          <div className="bg-gray-50 rounded-3xl p-5 min-w-[220px]">
-
-            <p className="text-xs uppercase tracking-wide text-gray-400">
-              To
-            </p>
-
-            <h4 className="font-semibold text-gray-800 mt-2">
-              {toName}
-            </h4>
-
-            <p className="text-sm text-gray-500 mt-1">
-              {toDept}
-            </p>
-          </div>
+          <InfoBox
+            title="To"
+            name={toName}
+            dept={toDept}
+          />
         </div>
       </div>
 
       {/* BOTTOM */}
 
-      <div className="mt-7 border-t border-gray-100 pt-5 flex items-start justify-between gap-6">
+      <div className="mt-4 border-t border-gray-100 pt-3 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 overflow-hidden">
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-xs uppercase tracking-wide text-gray-400">
+          <p className="text-[10px] uppercase tracking-wide text-black">
             Transfer Reason
           </p>
 
-          <p className="text-gray-700 mt-2 leading-relaxed">
+          <p className="text-sm text-black mt-1 leading-5 break-words">
             {reason}
           </p>
         </div>
 
-        <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-emerald-50 text-emerald-700 text-sm font-medium whitespace-nowrap">
+        <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 text-[11px] font-medium whitespace-nowrap shrink-0">
 
           <CheckCircle2 className="w-4 h-4" />
 
-          Approved by {toName}
+          Approved
         </div>
       </div>
+    </div>
+  )
+}
+
+/* ---------------- INFO BOX ---------------- */
+
+function InfoBox({
+  title,
+  name,
+  dept,
+}: any) {
+
+  return (
+    <div className="bg-gray-50 rounded-xl p-3 min-w-0 sm:min-w-[160px] overflow-hidden">
+
+      <p className="text-[10px] uppercase tracking-wide text-black">
+        {title}
+      </p>
+
+      <h4 className="font-semibold text-sm text-black mt-1 break-words">
+        {name}
+      </h4>
+
+      <p className="text-[11px] text-black mt-1 break-words">
+        {dept}
+      </p>
+    </div>
+  )
+}
+
+/* ---------------- INPUT ---------------- */
+
+function InputField({
+  label,
+  ...props
+}: any) {
+
+  return (
+    <div className="min-w-0">
+
+      <label className="text-sm font-medium text-black">
+        {label}
+      </label>
+
+      <input
+        {...props}
+        className="
+          w-full h-10 mt-2
+          rounded-xl
+          border border-gray-200
+          bg-gray-50
+          px-3
+          text-sm text-black
+          outline-none
+          transition
+          focus:border-emerald-500
+          focus:bg-white
+        "
+      />
     </div>
   )
 }

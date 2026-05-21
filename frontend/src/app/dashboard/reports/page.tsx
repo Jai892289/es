@@ -10,7 +10,6 @@ import {
   ShieldCheck,
   Package2,
   AlertTriangle,
-  Activity,
   ArrowUpRight,
   Wallet,
   Boxes,
@@ -128,14 +127,14 @@ export default function CategoryWiseSummary() {
           )
         }
         className={`
-          h-12 px-5 rounded-2xl
-          bg-white border text-sm font-medium
-          flex items-center gap-3
-          transition
+          h-10 px-4 rounded-xl
+          bg-white border text-sm font-medium text-black
+          flex items-center gap-2
+          transition whitespace-nowrap
           ${
             openDropdown === label
-              ? "border-emerald-500 ring-4 ring-emerald-100"
-              : "border-gray-200 hover:border-gray-300"
+              ? "border-emerald-500 ring-2 ring-emerald-100"
+              : "border-gray-200"
           }
         `}
       >
@@ -147,7 +146,7 @@ export default function CategoryWiseSummary() {
             ${
               openDropdown === label
                 ? "rotate-180 text-emerald-600"
-                : ""
+                : "text-black"
             }
           `}
         />
@@ -155,11 +154,11 @@ export default function CategoryWiseSummary() {
 
       {openDropdown === label && (
 
-        <div className="absolute left-0 mt-3 w-56 bg-white rounded-3xl shadow-2xl border border-gray-100 py-3 z-50 overflow-hidden">
+        <div className="absolute left-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 overflow-hidden">
 
-          <div className="px-5 pb-3 border-b border-gray-100">
+          <div className="px-4 pb-2 border-b border-gray-100">
 
-            <p className="text-sm font-semibold text-gray-700">
+            <p className="text-sm font-semibold text-black">
               {label}
             </p>
           </div>
@@ -178,11 +177,11 @@ export default function CategoryWiseSummary() {
                   )
                 }}
                 className={`
-                  px-5 py-3 text-sm cursor-pointer transition
+                  px-4 py-2 text-sm cursor-pointer transition
                   ${
                     value === opt
-                      ? "bg-emerald-50 text-emerald-600 font-medium"
-                      : "text-gray-700 hover:bg-gray-50"
+                      ? "bg-emerald-50 text-emerald-700 font-medium"
+                      : "text-black hover:bg-gray-50"
                   }
                 `}
               >
@@ -196,70 +195,68 @@ export default function CategoryWiseSummary() {
   )
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-x-hidden">
 
-      {/* ---------------- HERO ---------------- */}
+      {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
 
-        {/* GLOW */}
+        <div className="absolute top-0 right-0 w-52 h-52 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
-
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow shrink-0">
 
-                <Boxes className="w-10 h-10" />
+                <Boxes className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-4xl font-bold tracking-tight">
+                <h1 className="text-xl font-semibold leading-tight break-words">
                   Category Analytics
                 </h1>
 
-                <p className="text-green-50 mt-2 text-sm">
-                  Smart insights into inventory categories & stock performance
+                <p className="text-green-50 mt-1 text-xs break-words">
+                  Inventory insights & stock performance
                 </p>
               </div>
             </div>
 
             {/* QUICK STATS */}
 
-            <div className="flex flex-wrap items-center gap-10 mt-10">
+            <div className="flex flex-wrap items-center gap-5 mt-4">
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold leading-none break-words">
                   ₹
                   {overview.stockValue ||
                     0}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Total Stock Value
+                <p className="text-green-100 text-[10px] mt-1">
+                  Stock Value
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   {
                     overview.totalItems
                   }
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Total Items
+                <p className="text-green-100 text-[10px] mt-1">
+                  Items
                 </p>
               </div>
             </div>
@@ -267,43 +264,37 @@ export default function CategoryWiseSummary() {
 
           {/* RIGHT */}
 
-          <div className="flex flex-col gap-4 min-w-[320px]">
+          <div className="flex flex-col gap-2 w-full xl:w-[220px]">
 
             <MiniCard
               icon={TrendingUp}
-              title="Stock Growth"
+              title="Growth"
               value="92%"
             />
 
             <MiniCard
               icon={ShieldCheck}
-              title="Asset Health"
+              title="Health"
               value="Stable"
             />
-
-            {/* <MiniCard
-              icon={Activity}
-              title="System Status"
-              value="Active"
-            /> */}
           </div>
         </div>
       </div>
 
-      {/* ---------------- FILTERS ---------------- */}
+      {/* FILTERS */}
 
-      <div className="bg-white border border-gray-100 rounded-[30px] p-5 shadow-sm flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+      <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 overflow-hidden">
 
-        <div className="flex items-center gap-4 flex-wrap">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 flex-wrap">
 
-          <div>
+          <div className="min-w-0">
 
-            <h3 className="text-lg font-semibold text-gray-800">
+            <h3 className="text-base font-semibold text-black">
               Dashboard Filters
             </h3>
 
-            <p className="text-sm text-gray-500 mt-1">
-              Analyze inventory trends by year
+            <p className="text-xs text-black mt-1">
+              Analyze trends by year
             </p>
           </div>
 
@@ -319,36 +310,36 @@ export default function CategoryWiseSummary() {
           />
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 flex-wrap">
 
-          <button className="h-12 px-5 rounded-2xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium flex items-center gap-2">
+          <button className="h-10 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black flex items-center gap-2 whitespace-nowrap">
 
             <Download className="w-4 h-4" />
 
             Export
           </button>
 
-          <button className="h-12 px-5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-medium flex items-center gap-2 shadow-lg">
+          <button className="h-10 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-medium flex items-center gap-2 whitespace-nowrap">
 
             <Share2 className="w-4 h-4" />
 
-            Share Report
+            Share
           </button>
         </div>
       </div>
 
       {loading ? (
 
-        <div className="bg-white rounded-[30px] p-16 text-center text-gray-500 shadow-sm">
+        <div className="bg-white rounded-xl p-10 text-center text-black shadow-sm">
           Loading dashboard summary...
         </div>
 
       ) : (
 
         <>
-          {/* ---------------- OVERVIEW CARDS ---------------- */}
+          {/* OVERVIEW */}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
 
             <OverviewCard
               title="Stock Value"
@@ -374,7 +365,7 @@ export default function CategoryWiseSummary() {
             />
 
             <OverviewCard
-              title="Complaints Raised"
+              title="Complaints"
               value={
                 overview.complaintsRaised || 0
               }
@@ -383,65 +374,59 @@ export default function CategoryWiseSummary() {
             />
           </div>
 
-          {/* ---------------- MAIN GRID ---------------- */}
+          {/* MAIN */}
 
-          <div className="grid grid-cols-1 xl:grid-cols-[0.9fr_1.1fr] gap-7">
+          <div className="grid grid-cols-1 xl:grid-cols-[0.9fr_1.1fr] gap-4">
 
-            {/* ---------------- DONUT ---------------- */}
+            {/* DONUT */}
 
-            <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
+            <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm overflow-hidden">
 
-              <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center justify-between mb-5 gap-3">
 
-                <div>
+                <div className="min-w-0">
 
-                  <h2 className="text-2xl font-bold text-gray-800">
+                  <h2 className="text-lg font-semibold text-black break-words">
                     Category Summary
                   </h2>
 
-                  <p className="text-sm text-gray-500 mt-1">
-                    Asset distribution overview
+                  <p className="text-xs text-black mt-1">
+                    Asset distribution
                   </p>
                 </div>
 
-                <div className="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
 
-                  <Boxes className="w-7 h-7 text-emerald-600" />
+                  <Boxes className="w-5 h-5 text-emerald-600" />
                 </div>
               </div>
 
-              <div className="flex flex-col xl:flex-row items-center gap-10">
+              <div className="flex flex-col xl:flex-row items-center gap-5 overflow-hidden">
 
                 {/* DONUT */}
 
-                <div className="relative w-[240px] h-[240px]">
+                <div className="relative w-[180px] h-[180px] shrink-0">
 
-                  {/* OUTER */}
-
-                  <div className="absolute inset-0 rounded-full border-[18px] border-gray-100" />
-
-                  {/* ACTIVE */}
+                  <div className="absolute inset-0 rounded-full border-[14px] border-gray-100" />
 
                   <div
-                    className="absolute inset-0 rounded-full border-[18px] border-transparent border-t-emerald-500 border-r-green-400 transition-all duration-700"
+                    className="absolute inset-0 rounded-full border-[14px] border-transparent border-t-emerald-500 border-r-green-400 transition-all duration-700"
                     style={{
                       transform: `rotate(${percentage * 3.6}deg)`,
                     }}
                   />
 
-                  {/* CENTER */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center px-2">
 
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-
-                    <span className="text-sm text-gray-500">
+                    <span className="text-xs text-black text-center break-words">
                       {selectedCategory}
                     </span>
 
-                    <span className="text-5xl font-bold text-emerald-600 mt-2">
+                    <span className="text-3xl font-bold text-emerald-600 mt-1">
                       {selectedValue}
                     </span>
 
-                    <span className="text-sm text-gray-400 mt-2">
+                    <span className="text-[11px] text-black mt-1">
                       {percentage}% Share
                     </span>
                   </div>
@@ -449,7 +434,7 @@ export default function CategoryWiseSummary() {
 
                 {/* LIST */}
 
-                <div className="flex-1 space-y-4 w-full">
+                <div className="flex-1 space-y-3 w-full min-w-0">
 
                   {categorySummary.map(
                     (item: any) => {
@@ -466,46 +451,46 @@ export default function CategoryWiseSummary() {
                       return (
                         <div
                           key={item.name}
-                          className="rounded-2xl border border-gray-100 p-5 hover:shadow-md transition"
+                          className="rounded-xl border border-gray-100 p-3 hover:shadow-sm transition overflow-hidden"
                         >
 
-                          <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center justify-between gap-3 mb-3">
 
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-3 min-w-0">
 
-                              <div className="w-11 h-11 rounded-2xl bg-emerald-100 flex items-center justify-center">
+                              <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
 
-                                <Building2 className="w-5 h-5 text-emerald-600" />
+                                <Building2 className="w-4 h-4 text-emerald-600" />
                               </div>
 
-                              <div>
+                              <div className="min-w-0">
 
-                                <h3 className="font-semibold text-gray-800">
+                                <h3 className="font-semibold text-sm text-black break-words">
                                   {item.name}
                                 </h3>
 
-                                <p className="text-xs text-gray-400 mt-1">
+                                <p className="text-[10px] text-black mt-1">
                                   Category Assets
                                 </p>
                               </div>
                             </div>
 
-                            <div className="text-right">
+                            <div className="text-right shrink-0">
 
-                              <h4 className="text-2xl font-bold text-gray-900">
+                              <h4 className="text-xl font-bold text-black">
                                 {item.count}
                               </h4>
 
-                              <p className="text-xs text-gray-400">
+                              <p className="text-[10px] text-black">
                                 Assets
                               </p>
                             </div>
                           </div>
 
-                          <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
 
                             <div
-                              className="h-3 rounded-full bg-gradient-to-r from-emerald-500 to-green-600"
+                              className="h-2 rounded-full bg-gradient-to-r from-emerald-500 to-green-600"
                               style={{
                                 width: `${itemPercentage}%`,
                               }}
@@ -519,24 +504,24 @@ export default function CategoryWiseSummary() {
               </div>
             </div>
 
-            {/* ---------------- ANALYTICS ---------------- */}
+            {/* ANALYTICS */}
 
-            <div className="space-y-6">
+            <div className="space-y-4 overflow-hidden">
 
               {/* STOCK VALUE */}
 
-              <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
+              <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm overflow-hidden">
 
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 
-                  <div>
+                  <div className="min-w-0">
 
-                    <h2 className="text-2xl font-bold text-gray-800">
+                    <h2 className="text-lg font-semibold text-black break-words">
                       Stock Value
                     </h2>
 
-                    <p className="text-sm text-gray-500 mt-1">
-                      Inventory valuation overview
+                    <p className="text-xs text-black mt-1">
+                      Inventory valuation
                     </p>
                   </div>
 
@@ -552,42 +537,41 @@ export default function CategoryWiseSummary() {
                   />
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-5">
 
-                  <h2 className="text-4xl font-bold text-emerald-600">
+                  <h2 className="text-3xl font-bold text-emerald-600 break-words">
                     ₹
                     {
                       selectedYearValue
                     }
                   </h2>
 
-                  <p className="text-sm text-gray-500 mt-3">
-                    Updated valuation for{" "}
-                    {year}
+                  <p className="text-xs text-black mt-2">
+                    Updated valuation for {year}
                   </p>
                 </div>
 
                 {/* BAR */}
 
-                <div className="mt-10">
+                <div className="mt-5">
 
-                  <div className="flex items-center justify-between text-xs text-gray-400 mb-3">
+                  <div className="flex items-center justify-between text-[11px] text-black mb-2">
 
                     <span>Performance</span>
 
                     <span>85%</span>
                   </div>
 
-                  <div className="h-4 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
 
-                    <div className="h-4 w-[85%] rounded-full bg-gradient-to-r from-emerald-500 to-green-600" />
+                    <div className="h-3 w-[85%] rounded-full bg-gradient-to-r from-emerald-500 to-green-600" />
                   </div>
                 </div>
               </div>
 
-              {/* EXTRA METRICS */}
+              {/* EXTRA */}
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-3">
 
                 <MetricCard
                   label="Utilization"
@@ -597,7 +581,7 @@ export default function CategoryWiseSummary() {
                 />
 
                 <MetricCard
-                  label="Defective Stock"
+                  label="Defective"
                   value={`${overview.defectiveStock || 0}%`}
                   icon={AlertTriangle}
                   color="red"
@@ -613,7 +597,7 @@ export default function CategoryWiseSummary() {
                 />
 
                 <MetricCard
-                  label="Warranty Ending"
+                  label="Warranty"
                   value={
                     overview.warrantyEndingSoon || 0
                   }
@@ -629,7 +613,7 @@ export default function CategoryWiseSummary() {
   )
 }
 
-/* ---------------- MINI CARD ---------------- */
+/* MINI CARD */
 
 function MiniCard({
   icon: Icon,
@@ -638,22 +622,22 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4">
+    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 overflow-hidden">
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
 
-        <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center">
+        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
 
-          <Icon className="w-5 h-5" />
+          <Icon className="w-4 h-4" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-sm text-green-50">
+          <p className="text-xs text-white break-words">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1">
+          <h3 className="text-lg font-bold mt-1 break-words">
             {value}
           </h3>
         </div>
@@ -662,7 +646,7 @@ function MiniCard({
   )
 }
 
-/* ---------------- OVERVIEW CARD ---------------- */
+/* OVERVIEW CARD */
 
 function OverviewCard({
   title,
@@ -672,10 +656,10 @@ function OverviewCard({
 }: any) {
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-4 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
       <div className="relative z-10">
@@ -683,22 +667,22 @@ function OverviewCard({
         <div className="flex items-center justify-between">
 
           <div
-            className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
+            className={`w-10 h-10 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-sm`}
           >
 
-            <Icon className="w-8 h-8" />
+            <Icon className="w-4 h-4" />
           </div>
 
-          <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
+          <ArrowUpRight className="w-4 h-4 text-black" />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-4 min-w-0">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-black break-words">
             {title}
           </p>
 
-          <h2 className="text-3xl font-bold text-gray-900 mt-3">
+          <h2 className="text-xl font-bold text-black mt-1 break-words">
             {value}
           </h2>
         </div>
@@ -707,7 +691,7 @@ function OverviewCard({
   )
 }
 
-/* ---------------- METRIC CARD ---------------- */
+/* METRIC CARD */
 
 function MetricCard({
   label,
@@ -731,27 +715,27 @@ function MetricCard({
   }
 
   return (
-    <div className="bg-white border border-gray-100 rounded-[28px] p-6 shadow-sm hover:shadow-lg transition">
+    <div className="bg-white border border-gray-100 rounded-xl p-3 shadow-sm overflow-hidden">
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
 
         <div
-          className={`w-14 h-14 rounded-2xl flex items-center justify-center ${colors[color]}`}
+          className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${colors[color]}`}
         >
 
-          <Icon className="w-7 h-7" />
+          <Icon className="w-4 h-4" />
         </div>
 
-        <ArrowUpRight className="w-5 h-5 text-gray-400" />
+        <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
       </div>
 
-      <div className="mt-7">
+      <div className="mt-4 min-w-0">
 
-        <p className="text-sm text-gray-500">
+        <p className="text-xs text-black break-words">
           {label}
         </p>
 
-        <h2 className="text-4xl font-bold text-gray-900 mt-2">
+        <h2 className="text-2xl font-bold text-black mt-1 break-words">
           {value}
         </h2>
       </div>

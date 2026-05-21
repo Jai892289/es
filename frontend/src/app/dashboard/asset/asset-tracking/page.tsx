@@ -72,7 +72,7 @@ export default function DashboardPage() {
                 : item.status === "IN_REPAIR"
                 ? "bg-orange-100 text-orange-600"
                 : item.status === "RETIRED"
-                ? "bg-gray-100 text-gray-600"
+                ? "bg-gray-100 text-gray-700"
                 : item.status === "DAMAGED"
                 ? "bg-red-100 text-red-600"
                 : "bg-red-100 text-red-700",
@@ -105,74 +105,74 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-hidden">
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-[32px] p-4 text-white shadow-lg overflow-hidden relative">
+      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-2xl p-5 text-white shadow-md overflow-hidden relative">
 
-        <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 flex items-center justify-between">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
 
-              <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center shrink-0">
 
-                <Activity className="w-8 h-8" />
+                <Activity className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-3xl font-bold">
+                <h1 className="text-xl font-semibold leading-tight break-words">
                   Asset Status Dashboard
                 </h1>
 
-                <p className="text-green-50 text-sm mt-1">
-                  Monitor and manage organization assets efficiently
+                <p className="text-green-50 text-xs mt-1 break-words">
+                  Monitor organization assets
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-10 mt-8">
+            <div className="flex flex-wrap items-center gap-5 mt-4">
 
               <div>
 
-                <p className="text-4xl font-bold">
+                <p className="text-2xl font-bold leading-none">
                   {totalAssets}
                 </p>
 
-                <p className="text-sm text-green-100 mt-1">
+                <p className="text-[11px] text-green-100 mt-1">
                   Total Assets
                 </p>
               </div>
 
               <div>
 
-                <p className="text-4xl font-bold">
+                <p className="text-2xl font-bold leading-none">
                   {statusData.length}
                 </p>
 
-                <p className="text-sm text-green-100 mt-1">
+                <p className="text-[11px] text-green-100 mt-1">
                   Status Types
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="hidden lg:flex flex-col gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full lg:w-auto">
 
             <MiniCard
               icon={TrendingUp}
-              title="Operational Efficiency"
+              title="Efficiency"
               value="92%"
             />
 
             <MiniCard
               icon={ShieldCheck}
-              title="Asset Compliance"
+              title="Compliance"
               value="98%"
             />
           </div>
@@ -181,7 +181,7 @@ export default function DashboardPage() {
 
       {/* ---------------- STATS ---------------- */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
 
         {statusData.map((item) => {
 
@@ -190,39 +190,39 @@ export default function DashboardPage() {
           return (
             <div
               key={item.label}
-              className="group bg-white border border-gray-100 rounded-[28px] p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+              className="group bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
             >
 
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between gap-2">
 
                 <div
-                  className={`w-14 h-14 rounded-2xl flex items-center justify-center ${item.bg}`}
+                  className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${item.bg}`}
                 >
-                  <Icon className="w-6 h-6" />
+                  <Icon className="w-5 h-5" />
                 </div>
 
-                <span className="text-xs font-semibold text-gray-400">
+                <span className="text-[11px] font-semibold text-black shrink-0">
                   {item.percent}%
                 </span>
               </div>
 
-              <div className="mt-3">
+              <div className="mt-3 min-w-0">
 
-                <h3 className="text-3xl font-bold text-gray-800">
+                <h3 className="text-2xl font-bold text-black leading-none">
                   {item.value}
                 </h3>
 
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-xs text-black mt-1 break-words">
                   {item.label}
                 </p>
               </div>
 
               <div className="mt-3">
 
-                <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
 
                   <div
-                    className={`h-2 rounded-full bg-gradient-to-r ${item.gradient}`}
+                    className={`h-1.5 rounded-full bg-gradient-to-r ${item.gradient}`}
                     style={{
                       width: `${item.percent}%`,
                     }}
@@ -236,30 +236,30 @@ export default function DashboardPage() {
 
       {/* ---------------- STATUS DISTRIBUTION ---------------- */}
 
-      <div className="bg-white border border-gray-100 rounded-[32px] p-4 shadow-sm">
+      <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm overflow-hidden">
 
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
 
-          <div>
+          <div className="min-w-0">
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg font-semibold text-black break-words">
               Asset Distribution
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
-              Current asset health and status overview
+            <p className="text-xs text-black mt-1 break-words">
+              Asset health overview
             </p>
           </div>
 
-          <div className="w-14 h-14 rounded-2xl bg-green-100 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center shrink-0">
 
-            <Layers3 className="w-7 h-7 text-green-600" />
+            <Layers3 className="w-5 h-5 text-green-600" />
           </div>
         </div>
 
         {loading ? (
 
-          <div className="space-y-5">
+          <div className="space-y-4">
 
             {[1, 2, 3].map((i) => (
               <div
@@ -267,16 +267,16 @@ export default function DashboardPage() {
                 className="animate-pulse"
               >
 
-                <div className="h-4 w-32 bg-gray-200 rounded mb-3" />
+                <div className="h-3 w-28 bg-gray-200 rounded mb-2" />
 
-                <div className="h-3 w-full bg-gray-100 rounded-full" />
+                <div className="h-2 w-full bg-gray-100 rounded-full" />
               </div>
             ))}
           </div>
 
         ) : (
 
-          <div className="space-y-7">
+          <div className="space-y-5">
 
             {statusData.map((item) => (
 
@@ -301,22 +301,22 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 min-w-[220px]">
+    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 min-w-0 overflow-hidden">
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
 
-        <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center">
+        <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
 
-          <Icon className="w-5 h-5" />
+          <Icon className="w-4 h-4" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-sm text-green-50">
+          <p className="text-[11px] text-white break-words">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1">
+          <h3 className="text-sm font-semibold mt-1 break-words">
             {value}
           </h3>
         </div>
@@ -337,46 +337,46 @@ function StatusRow({
 }: any) {
 
   return (
-    <div className="group">
+    <div className="group overflow-hidden">
 
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between gap-3 mb-2">
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 min-w-0">
 
           <div
-            className={`w-12 h-12 rounded-2xl flex items-center justify-center ${bg}`}
+            className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${bg}`}
           >
-            <Icon className="w-5 h-5" />
+            <Icon className="w-4 h-4" />
           </div>
 
-          <div>
+          <div className="min-w-0">
 
-            <h4 className="font-semibold text-gray-800">
+            <h4 className="font-semibold text-sm text-black break-words">
               {label}
             </h4>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-xs text-black break-words">
               {value} assets
             </p>
           </div>
         </div>
 
-        <div className="text-right">
+        <div className="text-right shrink-0">
 
-          <h4 className="text-xl font-bold text-gray-800">
+          <h4 className="text-base font-bold text-black">
             {percent}%
           </h4>
 
-          <p className="text-xs text-gray-400">
+          <p className="text-[10px] text-black">
             Distribution
           </p>
         </div>
       </div>
 
-      <div className="w-full h-4 bg-gray-100 rounded-full overflow-hidden">
+      <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
 
         <div
-          className={`h-4 rounded-full bg-gradient-to-r ${gradient} transition-all duration-700`}
+          className={`h-2 rounded-full bg-gradient-to-r ${gradient} transition-all duration-700`}
           style={{
             width: `${percent}%`,
           }}

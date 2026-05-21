@@ -14,8 +14,6 @@ import {
   Activity,
   Search,
   ArrowUpRight,
-  CheckCircle2,
-  XCircle,
   UserPlus,
   Building2,
 } from "lucide-react"
@@ -24,58 +22,6 @@ import {
   createUserApi,
   getUsersApi,
 } from "@/lib/user.api"
-
-const permissionMatrix = [
-  {
-    module: "Dashboard",
-    view: true,
-    add: true,
-    edit: true,
-    delete: false,
-  },
-  {
-    module: "Asset Management",
-    view: true,
-    add: true,
-    edit: true,
-    delete: true,
-  },
-  {
-    module: "Maintenance",
-    view: true,
-    add: true,
-    edit: true,
-    delete: false,
-  },
-  {
-    module: "Inspection",
-    view: true,
-    add: true,
-    edit: true,
-    delete: false,
-  },
-  {
-    module: "Vendor Management",
-    view: true,
-    add: true,
-    edit: false,
-    delete: false,
-  },
-  {
-    module: "Reports",
-    view: true,
-    add: false,
-    edit: false,
-    delete: false,
-  },
-  {
-    module: "Settings",
-    view: true,
-    add: true,
-    edit: true,
-    delete: true,
-  },
-]
 
 export default function UserManagementPage() {
 
@@ -113,31 +59,32 @@ export default function UserManagementPage() {
 
   /* ---------------- FETCH USERS ---------------- */
 
-  const fetchUsers = async () => {
+  const fetchUsers =
+    async () => {
 
-    try {
+      try {
 
-      setLoading(true)
+        setLoading(true)
 
-      const response =
-        await getUsersApi()
+        const response =
+          await getUsersApi()
 
-      setUsersData(
-        response?.data || []
-      )
+        setUsersData(
+          response?.data || []
+        )
 
-    } catch (error) {
+      } catch (error) {
 
-      console.log(
-        "GET USERS ERROR",
-        error
-      )
+        console.log(
+          "GET USERS ERROR",
+          error
+        )
 
-    } finally {
+      } finally {
 
-      setLoading(false)
+        setLoading(false)
+      }
     }
-  }
 
   useEffect(() => {
 
@@ -186,64 +133,64 @@ export default function UserManagementPage() {
     }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-x-hidden">
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-sm shrink-0">
 
-                <Users className="w-10 h-10" />
+                <Users className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-4xl font-bold tracking-tight">
+                <h1 className="text-xl md:text-2xl font-bold break-words">
                   User Management
                 </h1>
 
-                <p className="text-green-50 mt-2 text-sm">
-                  Manage system users, permissions & organizational access
+                <p className="text-green-50 mt-1 text-xs leading-5 break-words">
+                  Manage users, roles & permissions efficiently
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-10 mt-10">
+            <div className="flex flex-wrap gap-4 mt-4">
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold">
                   {
                     usersData.length
                   }
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[11px] mt-1">
                   Total Users
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold">
                   98%
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Active System Health
+                <p className="text-green-100 text-[11px] mt-1">
+                  System Health
                 </p>
               </div>
             </div>
@@ -251,7 +198,7 @@ export default function UserManagementPage() {
 
           {/* RIGHT */}
 
-          <div className="grid grid-cols-1 gap-4 min-w-[320px]">
+          <div className="grid grid-cols-2 gap-3 w-full xl:w-[260px]">
 
             <MiniCard
               icon={ShieldCheck}
@@ -267,23 +214,21 @@ export default function UserManagementPage() {
 
             <MiniCard
               icon={Activity}
-              title="Active Users"
+              title="Active"
               value={
                 usersData.length
               }
             />
-
-         
           </div>
         </div>
       </div>
 
       {/* OVERVIEW */}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 
         <OverviewCard
-          title="Total Users"
+          title="Users"
           value={
             usersData.length
           }
@@ -324,110 +269,146 @@ export default function UserManagementPage() {
 
       {/* FILTER */}
 
-      <div className="bg-white border border-gray-100 rounded-[30px] p-5 shadow-sm flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+      <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm overflow-hidden">
 
-        {/* SEARCH */}
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
-        <div className="relative w-full xl:w-[420px]">
+          {/* SEARCH */}
 
-          <Search className="absolute left-4 top-4 w-5 h-5 text-gray-400" />
+          <div className="relative w-full xl:w-[320px] min-w-0">
 
-          <input
-            value={search}
-            onChange={(e) =>
-              setSearch(
-                e.target.value
-              )
-            }
-            placeholder="Search users..."
-            className="w-full h-14 rounded-2xl border border-gray-200 bg-gray-50 pl-12 pr-4 text-sm outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
-          />
-        </div>
+            <Search className="absolute left-3 top-3.5 w-4 h-4 text-black" />
 
-        {/* FILTERS */}
+            <input
+              value={search}
+              onChange={(e) =>
+                setSearch(
+                  e.target.value
+                )
+              }
+              placeholder="Search users..."
+              className="
+                w-full h-10 rounded-xl
+                border border-gray-200
+                bg-gray-50
+                pl-10 pr-3
+                text-sm text-black
+                outline-none
+                transition
+                focus:border-emerald-500
+                focus:bg-white
+              "
+            />
+          </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+          {/* FILTERS */}
 
-          <select
-            value={role}
-            onChange={(e) =>
-              setRole(
-                e.target.value
-              )
-            }
-            className="h-12 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none"
-          >
+          <div className="flex flex-wrap items-center gap-2">
 
-            <option>
-              All Roles
-            </option>
+            <select
+              value={role}
+              onChange={(e) =>
+                setRole(
+                  e.target.value
+                )
+              }
+              className="
+                h-10 px-3 rounded-xl
+                border border-gray-200
+                bg-white
+                text-sm text-black
+                outline-none
+              "
+            >
 
-            <option>
-              ADMIN
-            </option>
+              <option>
+                All Roles
+              </option>
 
-            <option>
-              Inspection Officer
-            </option>
-          </select>
+              <option>
+                ADMIN
+              </option>
 
-          <select
-            value={department}
-            onChange={(e) =>
-              setDepartment(
-                e.target.value
-              )
-            }
-            className="h-12 px-4 rounded-2xl border border-gray-200 bg-white text-sm outline-none"
-          >
+              <option>
+                Inspection Officer
+              </option>
+            </select>
 
-            <option>
-              All Departments
-            </option>
+            <select
+              value={department}
+              onChange={(e) =>
+                setDepartment(
+                  e.target.value
+                )
+              }
+              className="
+                h-10 px-3 rounded-xl
+                border border-gray-200
+                bg-white
+                text-sm text-black
+                outline-none
+              "
+            >
 
-            <option>
-              IT
-            </option>
+              <option>
+                All Departments
+              </option>
 
-            <option>
-              Finance
-            </option>
+              <option>
+                IT
+              </option>
 
-            <option>
-              Revenue
-            </option>
-          </select>
+              <option>
+                Finance
+              </option>
 
-          <button
-            onClick={() =>
-              setOpenAddUser(true)
-            }
-            className="h-12 px-5 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 transition text-white text-sm font-medium flex items-center gap-2 shadow-lg"
-          >
+              <option>
+                Revenue
+              </option>
+            </select>
 
-            <Plus className="w-4 h-4" />
+            <button
+              onClick={() =>
+                setOpenAddUser(true)
+              }
+              className="
+                h-10 px-4 rounded-xl
+                bg-gradient-to-r
+                from-emerald-600
+                to-green-600
+                hover:opacity-95
+                transition
+                text-white text-sm font-medium
+                flex items-center gap-2
+                shadow-sm
+                whitespace-nowrap
+              "
+            >
 
-            Add User
-          </button>
+              <Plus className="w-4 h-4" />
+
+              Add User
+            </button>
+          </div>
         </div>
       </div>
 
       {/* USER TABLE */}
 
-      <div className="bg-white border border-gray-100 rounded-[32px] shadow-sm overflow-hidden">
+      <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
 
         {/* HEADER */}
 
-        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
+        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 gap-3">
 
-          <div>
+          <div className="min-w-0">
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg font-semibold text-black break-words">
               User Directory
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
-              Manage all registered system users
+            <p className="text-xs text-black mt-1">
+              Manage registered users
             </p>
           </div>
         </div>
@@ -438,13 +419,13 @@ export default function UserManagementPage() {
 
           {loading ? (
 
-            <div className="py-20 text-center text-gray-500">
+            <div className="py-10 text-center text-sm text-black">
               Loading users...
             </div>
 
           ) : (
 
-            <table className="w-full min-w-[1200px]">
+            <table className="w-full min-w-[760px]">
 
               <thead className="bg-gray-50 border-b border-gray-100">
 
@@ -461,7 +442,7 @@ export default function UserManagementPage() {
 
                     <th
                       key={h}
-                      className="px-8 py-5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
+                      className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-black whitespace-nowrap"
                     >
                       {h}
                     </th>
@@ -483,32 +464,32 @@ export default function UserManagementPage() {
 
                       {/* USER */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4">
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3 min-w-0">
 
-                          <div className="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-lg">
+                          <div className="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-sm shrink-0">
 
                             {
                               user.name?.[0]
                             }
                           </div>
 
-                          <div>
+                          <div className="min-w-0">
 
-                            <h3 className="font-semibold text-gray-800">
+                            <h3 className="font-semibold text-sm text-black break-words">
                               {
                                 user.name
                               }
                             </h3>
 
-                            <p className="text-xs text-gray-500 mt-1">
+                            <p className="text-[11px] text-black mt-1 break-all">
                               {
                                 user.email
                               }
                             </p>
 
-                            <p className="text-xs text-gray-400 mt-1">
+                            <p className="text-[11px] text-black mt-1 break-words">
                               {
                                 user.mobileNumber
                               }
@@ -519,9 +500,9 @@ export default function UserManagementPage() {
 
                       {/* DEPARTMENT */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4">
 
-                        <div className="font-medium text-gray-800">
+                        <div className="font-medium text-sm text-black break-words">
                           {
                             user
                               .department
@@ -529,7 +510,7 @@ export default function UserManagementPage() {
                           }
                         </div>
 
-                        <div className="text-xs text-gray-500 mt-1">
+                        <div className="text-[11px] text-black mt-1 break-words">
                           {
                             user.designation
                           }
@@ -538,16 +519,19 @@ export default function UserManagementPage() {
 
                       {/* ROLE */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4 whitespace-nowrap">
 
                         <span
-                          className={`px-4 py-2 rounded-2xl text-xs font-medium
-                          ${
-                            user.role ===
-                            "Admin"
-                              ? "bg-red-100 text-red-700"
-                              : "bg-blue-100 text-blue-700"
-                          }`}
+                          className={`
+                            px-3 py-1 rounded-xl
+                            text-[11px] font-medium
+                            ${
+                              user.role ===
+                              "Admin"
+                                ? "bg-red-100 text-red-700"
+                                : "bg-blue-100 text-blue-700"
+                            }
+                          `}
                         >
 
                           {
@@ -558,9 +542,9 @@ export default function UserManagementPage() {
 
                       {/* STATUS */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4 whitespace-nowrap">
 
-                        <span className="px-4 py-2 rounded-2xl text-xs font-medium bg-green-100 text-green-700">
+                        <span className="px-3 py-1 rounded-xl text-[11px] font-medium bg-green-100 text-green-700">
 
                           Active
                         </span>
@@ -568,25 +552,25 @@ export default function UserManagementPage() {
 
                       {/* CREATED */}
 
-                      <td className="px-8 py-6 text-gray-600 text-sm">
+                      <td className="px-4 py-4 text-black text-xs whitespace-nowrap">
 
                         {new Date(
                           user.createdAt
-                        ).toLocaleString()}
+                        ).toLocaleDateString()}
                       </td>
 
                       {/* ACTION */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4">
 
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2">
 
-                          <button className="w-11 h-11 rounded-2xl bg-blue-50 hover:bg-blue-100 transition flex items-center justify-center text-blue-600">
+                          <button className="w-9 h-9 rounded-xl bg-blue-50 hover:bg-blue-100 transition flex items-center justify-center text-blue-700 shrink-0">
 
                             <Pencil className="w-4 h-4" />
                           </button>
 
-                          <button className="w-11 h-11 rounded-2xl bg-red-50 hover:bg-red-100 transition flex items-center justify-center text-red-600">
+                          <button className="w-9 h-9 rounded-xl bg-red-50 hover:bg-red-100 transition flex items-center justify-center text-red-700 shrink-0">
 
                             <UserX className="w-4 h-4" />
                           </button>
@@ -601,110 +585,16 @@ export default function UserManagementPage() {
         </div>
       </div>
 
-      {/* PERMISSION MATRIX */}
-{/* 
-      <div className="bg-white border border-gray-100 rounded-[32px] shadow-sm overflow-hidden">
-
-        <div className="px-8 py-6 border-b border-gray-100">
-
-          <h2 className="text-2xl font-bold text-gray-800">
-            Permission Matrix
-          </h2>
-
-          <p className="text-sm text-gray-500 mt-1">
-            Role based access & permissions
-          </p>
-        </div>
-
-        <div className="overflow-x-auto">
-
-          <table className="w-full min-w-[900px]">
-
-            <thead className="bg-gray-50 border-b border-gray-100">
-
-              <tr>
-
-                {[
-                  "Module",
-                  "View",
-                  "Add",
-                  "Edit",
-                  "Delete",
-                ].map((h) => (
-
-                  <th
-                    key={h}
-                    className="px-8 py-5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-
-              {permissionMatrix.map(
-                (
-                  row,
-                  i
-                ) => (
-
-                  <tr
-                    key={i}
-                    className="border-b border-gray-100 hover:bg-gray-50 transition"
-                  >
-
-                    <td className="px-8 py-6 font-semibold text-gray-800">
-                      {
-                        row.module
-                      }
-                    </td>
-
-                    {[
-                      "view",
-                      "add",
-                      "edit",
-                      "delete",
-                    ].map(
-                      (key) => (
-
-                        <td
-                          key={key}
-                          className="px-8 py-6"
-                        >
-
-                          {row[
-                            key as keyof typeof row
-                          ] ? (
-
-                            <CheckCircle2 className="w-5 h-5 text-green-600" />
-
-                          ) : (
-
-                            <XCircle className="w-5 h-5 text-gray-300" />
-                          )}
-                        </td>
-                      )
-                    )}
-                  </tr>
-                )
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div> */}
-
       {/* MODAL */}
 
       {openAddUser && (
 
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
 
           {/* BACKDROP */}
 
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={() =>
               setOpenAddUser(
                 false
@@ -714,29 +604,29 @@ export default function UserManagementPage() {
 
           {/* MODAL */}
 
-          <div className="relative bg-white w-full max-w-3xl rounded-[32px] shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+          <div className="relative bg-white w-full max-w-2xl rounded-xl shadow-xl overflow-hidden animate-in fade-in zoom-in duration-300">
 
             {/* HEADER */}
 
-            <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-green-600 px-8 py-7 text-white">
+            <div className="relative overflow-hidden bg-gradient-to-r from-emerald-600 to-green-600 px-4 py-4 text-white">
 
-              <div className="absolute top-0 right-0 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute top-0 right-0 w-44 h-44 bg-white/10 rounded-full blur-3xl" />
 
-              <div className="relative z-10 flex items-center gap-4">
+              <div className="relative z-10 flex items-center gap-3">
 
-                <div className="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shrink-0">
 
-                  <UserPlus className="w-8 h-8" />
+                  <UserPlus className="w-6 h-6" />
                 </div>
 
-                <div>
+                <div className="min-w-0">
 
-                  <h3 className="text-2xl font-bold">
+                  <h3 className="text-lg font-semibold break-words">
                     Add New User
                   </h3>
 
-                  <p className="text-green-50 text-sm mt-1">
-                    Create a new system user account
+                  <p className="text-green-50 text-xs mt-1 break-words">
+                    Create a new user account
                   </p>
                 </div>
               </div>
@@ -744,7 +634,7 @@ export default function UserManagementPage() {
 
             {/* BODY */}
 
-            <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-3 overflow-hidden">
 
               <InputField
                 label="Full Name"
@@ -851,7 +741,7 @@ export default function UserManagementPage() {
 
             {/* FOOTER */}
 
-            <div className="px-8 py-6 border-t border-gray-100 flex flex-col-reverse md:flex-row md:justify-end gap-3">
+            <div className="px-4 py-4 border-t border-gray-100 flex flex-col-reverse md:flex-row md:justify-end gap-2">
 
               <button
                 onClick={() =>
@@ -859,7 +749,14 @@ export default function UserManagementPage() {
                     false
                   )
                 }
-                className="h-12 px-6 rounded-2xl border border-gray-200 hover:bg-gray-100 transition text-sm font-medium"
+                className="
+                  h-10 px-4 rounded-xl
+                  border border-gray-200
+                  hover:bg-gray-100
+                  transition
+                  text-sm font-medium
+                  text-black
+                "
               >
                 Cancel
               </button>
@@ -869,7 +766,17 @@ export default function UserManagementPage() {
                   handleCreateUser
                 }
                 disabled={creating}
-                className="h-12 px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 transition text-white text-sm font-medium shadow-lg disabled:opacity-50"
+                className="
+                  h-10 px-4 rounded-xl
+                  bg-gradient-to-r
+                  from-emerald-600
+                  to-green-600
+                  hover:opacity-95
+                  transition
+                  text-white text-sm font-medium
+                  shadow-sm
+                  disabled:opacity-50
+                "
               >
 
                 {creating
@@ -893,22 +800,22 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10">
+    <div className="bg-white/10 backdrop-blur rounded-xl px-3 py-3 border border-white/10 overflow-hidden">
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
 
-        <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center shadow-lg">
+        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shadow-sm shrink-0">
 
-          <Icon className="w-6 h-6 text-white" />
+          <Icon className="w-5 h-5 text-white" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-sm text-green-50">
+          <p className="text-[11px] text-green-50 break-words">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1 text-white">
+          <h3 className="text-lg font-bold mt-1 text-white break-words">
             {value}
           </h3>
         </div>
@@ -927,33 +834,33 @@ function OverviewCard({
 }: any) {
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
       <div className="relative z-10">
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
 
           <div
-            className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
+            className={`w-11 h-11 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-sm shrink-0`}
           >
 
-            <Icon className="w-8 h-8" />
+            <Icon className="w-5 h-5" />
           </div>
 
-          <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
+          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-3 min-w-0">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-black break-words">
             {title}
           </p>
 
-          <h2 className="text-5xl font-bold text-gray-900 mt-3">
+          <h2 className="text-2xl font-bold text-black mt-1 break-words">
             {value}
           </h2>
         </div>
@@ -970,15 +877,26 @@ function InputField({
 }: any) {
 
   return (
-    <div>
+    <div className="min-w-0">
 
-      <label className="text-sm font-medium text-gray-700">
+      <label className="text-sm font-medium text-black">
         {label}
       </label>
 
       <input
         {...props}
-        className="mt-2 w-full h-14 rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+        className="
+          mt-2 w-full h-10
+          rounded-xl
+          border border-gray-200
+          bg-gray-50
+          px-3
+          text-sm text-black
+          outline-none
+          transition
+          focus:border-emerald-500
+          focus:bg-white
+        "
       />
     </div>
   )
@@ -993,15 +911,26 @@ function SelectField({
 }: any) {
 
   return (
-    <div>
+    <div className="min-w-0">
 
-      <label className="text-sm font-medium text-gray-700">
+      <label className="text-sm font-medium text-black">
         {label}
       </label>
 
       <select
         {...props}
-        className="mt-2 w-full h-14 rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none transition focus:border-emerald-500 focus:bg-white focus:ring-4 focus:ring-emerald-100"
+        className="
+          mt-2 w-full h-10
+          rounded-xl
+          border border-gray-200
+          bg-gray-50
+          px-3
+          text-sm text-black
+          outline-none
+          transition
+          focus:border-emerald-500
+          focus:bg-white
+        "
       >
 
         <option>

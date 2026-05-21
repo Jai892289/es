@@ -6,13 +6,13 @@ import {
   Users,
   Building2,
   ArrowUpRight,
-  Activity,
   ShieldCheck,
   Package2,
   TrendingUp,
   Boxes,
   Wrench,
   Search,
+  Activity,
 } from "lucide-react"
 
 import {
@@ -100,76 +100,74 @@ export default function AssetMappingPage() {
     departmentMappings.length
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-hidden">
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-5 text-white shadow-md">
 
-        {/* GLOW */}
+        <div className="absolute top-0 right-0 w-52 h-52 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
-
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow shrink-0">
 
-                <Boxes className="w-10 h-10" />
+                <Boxes className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-4xl font-bold tracking-tight">
-                  Asset Mapping Intelligence
+                <h1 className="text-xl font-semibold leading-tight break-words">
+                  Asset Mapping
                 </h1>
 
-                <p className="text-green-50 mt-2 text-sm">
-                  Monitor asset allocation across users & departments
+                <p className="text-green-50 mt-1 text-xs break-words">
+                  User & department asset allocation
                 </p>
               </div>
             </div>
 
             {/* QUICK STATS */}
 
-            <div className="flex flex-wrap items-center gap-10 mt-10">
+            <div className="flex flex-wrap items-center gap-5 mt-4">
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   {totalAssets}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Total Assets
+                <p className="text-green-100 text-[11px] mt-1">
+                  Assets
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   {totalUsers}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[11px] mt-1">
                   Users
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   {totalDepartments}
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
+                <p className="text-green-100 text-[11px] mt-1">
                   Departments
                 </p>
               </div>
@@ -178,32 +176,26 @@ export default function AssetMappingPage() {
 
           {/* RIGHT */}
 
-          <div className="flex flex-col gap-4 min-w-[320px]">
+          <div className="flex flex-col gap-2 w-full lg:w-[240px]">
 
             <MiniCard
               icon={TrendingUp}
-              title="Asset Efficiency"
+              title="Efficiency"
               value="96%"
             />
 
             <MiniCard
               icon={ShieldCheck}
-              title="Asset Security"
+              title="Security"
               value="98%"
             />
-
-            {/* <MiniCard
-              icon={Activity}
-              title="System Status"
-              value="Active"
-            /> */}
           </div>
         </div>
       </div>
 
       {/* ---------------- OVERVIEW ---------------- */}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
 
         <OverviewCard
           title="Mapped Users"
@@ -220,7 +212,7 @@ export default function AssetMappingPage() {
         />
 
         <OverviewCard
-          title="Mapped Assets"
+          title="Assets"
           value={totalAssets}
           icon={Package2}
           gradient="from-emerald-500 to-green-600"
@@ -229,28 +221,28 @@ export default function AssetMappingPage() {
 
       {/* ---------------- USER SECTION ---------------- */}
 
-      <div className="bg-white border border-gray-100 rounded-[32px] shadow-sm overflow-hidden">
+      <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
 
         {/* HEADER */}
 
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 px-8 py-6 border-b border-gray-100">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 px-4 py-4 border-b border-gray-100">
 
-          <div>
+          <div className="min-w-0">
 
             <div className="flex items-center gap-3">
 
-              <div className="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center">
+              <div className="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
 
-                <Users className="w-7 h-7 text-blue-600" />
+                <Users className="w-5 h-5 text-blue-600" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h2 className="text-2xl font-bold text-gray-800">
-                  User-wise Asset Mapping
+                <h2 className="text-lg font-semibold text-black break-words">
+                  User Asset Mapping
                 </h2>
 
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-xs text-black mt-1 break-words">
                   Assets assigned to employees
                 </p>
               </div>
@@ -259,9 +251,9 @@ export default function AssetMappingPage() {
 
           {/* SEARCH */}
 
-          <div className="relative w-full lg:w-[320px]">
+          <div className="relative w-full lg:w-[260px]">
 
-            <Search className="absolute left-4 top-3.5 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-3 w-4 h-4 text-black" />
 
             <input
               type="text"
@@ -272,7 +264,7 @@ export default function AssetMappingPage() {
                   e.target.value
                 )
               }
-              className="w-full h-12 rounded-2xl border border-gray-200 bg-gray-50 pl-11 pr-4 text-sm outline-none focus:border-emerald-500 focus:bg-white transition"
+              className="w-full h-10 rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-3 text-sm text-black outline-none focus:border-emerald-500 focus:bg-white transition"
             />
           </div>
         </div>
@@ -283,31 +275,31 @@ export default function AssetMappingPage() {
 
           {loading ? (
 
-            <div className="p-10 text-center text-gray-500">
+            <div className="p-6 text-center text-black text-sm">
               Loading mappings...
             </div>
 
           ) : filteredUsers.length === 0 ? (
 
-            <div className="p-16 text-center">
+            <div className="p-8 text-center">
 
-              <div className="w-24 h-24 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-5">
+              <div className="w-16 h-16 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-3">
 
-                <Users className="w-10 h-10 text-gray-400" />
+                <Users className="w-7 h-7 text-black" />
               </div>
 
-              <h3 className="text-xl font-semibold text-gray-700">
+              <h3 className="text-base font-semibold text-black">
                 No Mappings Found
               </h3>
 
-              <p className="text-sm text-gray-500 mt-2">
-                No user asset mapping available
+              <p className="text-sm text-black mt-1">
+                No user mapping available
               </p>
             </div>
 
           ) : (
 
-            <table className="w-full">
+            <table className="w-full min-w-[850px]">
 
               <thead className="bg-gray-50 border-b border-gray-100">
 
@@ -324,7 +316,7 @@ export default function AssetMappingPage() {
 
                     <th
                       key={head}
-                      className="px-8 py-5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
+                      className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-black whitespace-nowrap"
                     >
                       {head}
                     </th>
@@ -377,35 +369,35 @@ export default function AssetMappingPage() {
 
       {/* ---------------- DEPARTMENT SECTION ---------------- */}
 
-      <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm">
+      <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm overflow-hidden">
 
         {/* HEADER */}
 
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
 
-          <div>
+          <div className="min-w-0">
 
             <div className="flex items-center gap-3">
 
-              <div className="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center">
+              <div className="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
 
-                <Building2 className="w-7 h-7 text-emerald-600" />
+                <Building2 className="w-5 h-5 text-emerald-600" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h2 className="text-2xl font-bold text-gray-800">
-                  Department-wise Asset Mapping
+                <h2 className="text-lg font-semibold text-black break-words">
+                  Department Mapping
                 </h2>
 
-                <p className="text-sm text-gray-500 mt-1">
-                  Asset distribution by departments
+                <p className="text-xs text-black mt-1">
+                  Asset distribution overview
                 </p>
               </div>
             </div>
           </div>
 
-          <button className="px-5 h-12 rounded-2xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium">
+          <button className="px-4 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
             View Analytics
           </button>
         </div>
@@ -414,19 +406,19 @@ export default function AssetMappingPage() {
 
         {loading ? (
 
-          <div className="text-center text-gray-500 py-10">
+          <div className="text-center text-black py-6 text-sm">
             Loading...
           </div>
 
         ) : departmentMappings.length === 0 ? (
 
-          <div className="text-center text-gray-500 py-10">
+          <div className="text-center text-black py-6 text-sm">
             No department mappings found
           </div>
 
         ) : (
 
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-3">
 
             {departmentMappings.map(
               (
@@ -470,22 +462,22 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4">
+    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 overflow-hidden">
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
 
-        <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center">
+        <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
 
-          <Icon className="w-5 h-5" />
+          <Icon className="w-4 h-4" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-sm text-green-50">
+          <p className="text-xs text-white break-words">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1">
+          <h3 className="text-sm font-semibold mt-1 break-words">
             {value}
           </h3>
         </div>
@@ -504,33 +496,33 @@ function OverviewCard({
 }: any) {
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
       <div className="relative z-10">
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
 
           <div
-            className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
+            className={`w-10 h-10 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow`}
           >
 
-            <Icon className="w-8 h-8" />
+            <Icon className="w-5 h-5" />
           </div>
 
-          <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
+          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-3">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-black">
             {title}
           </p>
 
-          <h2 className="text-5xl font-bold text-gray-900 mt-3">
+          <h2 className="text-2xl font-bold text-black mt-1">
             {value}
           </h2>
         </div>
@@ -552,54 +544,54 @@ function UserRow({
   return (
     <tr className="border-b border-gray-100 hover:bg-gray-50 transition">
 
-      <td className="px-8 py-6">
+      <td className="px-4 py-4">
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 min-w-0">
 
-          <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center font-semibold text-blue-600">
+          <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center font-semibold text-blue-600 shrink-0">
 
             {name?.charAt(0)}
           </div>
 
-          <div>
+          <div className="min-w-0">
 
-            <h3 className="font-semibold text-gray-800">
+            <h3 className="font-semibold text-sm text-black break-words">
               {name}
             </h3>
 
-            <p className="text-xs text-gray-400 mt-1">
-              Asset Assigned User
+            <p className="text-[11px] text-black mt-1">
+              Assigned User
             </p>
           </div>
         </div>
       </td>
 
-      <td className="px-8 py-6 text-gray-700">
+      <td className="px-4 py-4 text-sm text-black whitespace-nowrap">
         {dept}
       </td>
 
-      <td className="px-8 py-6 text-gray-700">
+      <td className="px-4 py-4 text-sm text-black whitespace-nowrap">
         {role}
       </td>
 
-      <td className="px-8 py-6">
+      <td className="px-4 py-4">
 
-        <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold">
+        <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold text-sm">
           {total}
         </div>
       </td>
 
-      <td className="px-8 py-6">
+      <td className="px-4 py-4">
 
-        <p className="text-sm text-gray-600 leading-relaxed max-w-[350px]">
+        <p className="text-xs text-black leading-6 max-w-[260px] break-words">
           {categories}
         </p>
       </td>
 
-      <td className="px-8 py-6 text-right">
+      <td className="px-4 py-4 text-right whitespace-nowrap">
 
-        <button className="px-5 h-11 rounded-2xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium">
-          View Assets
+        <button className="px-4 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black">
+          View
         </button>
       </td>
     </tr>
@@ -617,61 +609,59 @@ function DepartmentCard({
 }: any) {
 
   return (
-    <div className="group relative overflow-hidden border border-gray-100 rounded-[30px] p-7 bg-white hover:shadow-xl transition-all duration-300">
+    <div className="group relative overflow-hidden border border-gray-100 rounded-xl p-4 bg-white hover:shadow-md transition-all duration-300">
 
-      {/* GLOW */}
-
-      <div className="absolute top-0 right-0 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl" />
+      <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-3xl" />
 
       <div className="relative z-10">
 
         {/* TOP */}
 
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 min-w-0">
 
-            <div className="w-16 h-16 rounded-3xl bg-emerald-100 flex items-center justify-center">
+            <div className="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
 
-              <Building2 className="w-8 h-8 text-emerald-600" />
+              <Building2 className="w-5 h-5 text-emerald-600" />
             </div>
 
-            <div>
+            <div className="min-w-0">
 
-              <h3 className="text-xl font-bold text-gray-800">
+              <h3 className="text-base font-semibold text-black break-words">
                 {name}
               </h3>
 
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-xs text-black mt-1">
                 Department Assets
               </p>
             </div>
           </div>
 
-          <button className="px-5 h-11 rounded-2xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium">
-            View Details
+          <button className="px-4 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
+            View
           </button>
         </div>
 
         {/* TOTAL */}
 
-        <div className="mt-8">
+        <div className="mt-4">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-black">
             Total Assets
           </p>
 
-          <h2 className="text-5xl font-bold text-gray-900 mt-2">
+          <h2 className="text-2xl font-bold text-black mt-1">
             {total}
           </h2>
         </div>
 
         {/* STATS */}
 
-        <div className="grid grid-cols-3 gap-4 mt-8">
+        <div className="grid grid-cols-3 gap-2 mt-4">
 
           <StatBox
-            label="In Use"
+            label="Use"
             value={inUse}
             bg="bg-green-50"
             text="text-green-700"
@@ -679,7 +669,7 @@ function DepartmentCard({
           />
 
           <StatBox
-            label="In Store"
+            label="Store"
             value={store}
             bg="bg-blue-50"
             text="text-blue-700"
@@ -711,23 +701,23 @@ function StatBox({
 
   return (
     <div
-      className={`rounded-2xl p-5 ${bg}`}
+      className={`rounded-xl p-3 overflow-hidden ${bg}`}
     >
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
 
         <Icon
-          className={`w-5 h-5 ${text}`}
+          className={`w-4 h-4 shrink-0 ${text}`}
         />
 
         <span
-          className={`text-2xl font-bold ${text}`}
+          className={`text-lg font-bold ${text}`}
         >
           {value}
         </span>
       </div>
 
-      <p className="text-xs text-gray-500 mt-4">
+      <p className="text-[11px] text-black mt-2 break-words">
         {label}
       </p>
     </div>

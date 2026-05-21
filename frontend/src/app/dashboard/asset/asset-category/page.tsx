@@ -3,41 +3,17 @@
 import { useEffect, useState } from "react";
 
 import {
-  Box,
-  Building2,
-  Book,
-  Laptop,
-  Printer,
-  Dumbbell,
-  Zap,
-  PencilRuler,
-  Car,
-  Trees,
-  X,
-  Plus,
-  ArrowUpRight,
   Layers3,
   Wallet,
   Package2,
+  X,
+  Plus,
 } from "lucide-react";
 
 import {
   createCategoryApi,
   getCategoryApi,
 } from "@/lib/category.api";
-
-const iconMap: any = {
-  Box,
-  Building2,
-  Book,
-  Laptop,
-  Printer,
-  Dumbbell,
-  Zap,
-  PencilRuler,
-  Car,
-  Trees,
-};
 
 const gradientList = [
   "from-blue-500 to-cyan-500",
@@ -126,21 +102,21 @@ export default function AssetCategoryPage() {
 
   const stats = [
     {
-      label: "Total Categories",
+      label: "Categories",
       value: categories.length,
       icon: Layers3,
       color: "bg-blue-100 text-blue-600",
     },
 
     {
-      label: "Total Assets",
+      label: "Assets",
       value: totalAssets,
       icon: Package2,
       color: "bg-green-100 text-green-600",
     },
 
     {
-      label: "Total Value",
+      label: "Value",
       value: `₹${totalAmount.toLocaleString()}`,
       icon: Wallet,
       color: "bg-orange-100 text-orange-600",
@@ -148,67 +124,67 @@ export default function AssetCategoryPage() {
   ];
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4">
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-[32px] p-8 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-2xl p-5 text-white shadow-md">
 
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
           <div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
 
-              <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur flex items-center justify-center">
+              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
 
-                <Layers3 className="w-8 h-8" />
+                <Layers3 className="w-6 h-6" />
               </div>
 
               <div>
 
-                <h1 className="text-3xl font-bold">
+                <h1 className="text-xl font-semibold leading-none">
                   Asset Categories
                 </h1>
 
-                <p className="text-green-50 text-sm mt-1">
-                  Organize and manage inventory assets efficiently
+                <p className="text-green-50 text-xs mt-1">
+                  Manage inventory categories
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-10 mt-7">
+            <div className="flex items-center gap-5 mt-4 flex-wrap">
 
               <div>
 
-                <p className="text-3xl font-bold">
+                <p className="text-2xl font-bold leading-none">
                   {categories.length}
                 </p>
 
-                <p className="text-sm text-green-100">
+                <p className="text-[11px] text-green-100 mt-1">
                   Categories
                 </p>
               </div>
 
               <div>
 
-                <p className="text-3xl font-bold">
+                <p className="text-2xl font-bold leading-none">
                   {totalAssets}
                 </p>
 
-                <p className="text-sm text-green-100">
-                  Total Assets
+                <p className="text-[11px] text-green-100 mt-1">
+                  Assets
                 </p>
               </div>
 
               <div>
 
-                <p className="text-3xl font-bold">
+                <p className="text-2xl font-bold leading-none">
                   ₹{totalAmount.toLocaleString()}
                 </p>
 
-                <p className="text-sm text-green-100">
-                  Asset Value
+                <p className="text-[11px] text-green-100 mt-1">
+                  Value
                 </p>
               </div>
             </div>
@@ -216,7 +192,7 @@ export default function AssetCategoryPage() {
 
           <button
             onClick={() => setOpenModal(true)}
-            className="px-6 py-3 rounded-2xl cursor-pointer bg-white text-green-600 hover:bg-green-50 transition text-sm font-semibold shadow-md flex items-center gap-2"
+            className="h-10 px-4 rounded-xl cursor-pointer bg-white text-green-600 hover:bg-green-50 transition text-sm font-semibold shadow-sm flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Add Category
@@ -226,7 +202,7 @@ export default function AssetCategoryPage() {
 
       {/* ---------------- STATS ---------------- */}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 
         {stats.map((s, i) => {
 
@@ -235,26 +211,26 @@ export default function AssetCategoryPage() {
           return (
             <div
               key={i}
-              className="bg-white border border-gray-100 rounded-[28px] p-6 shadow-sm hover:shadow-md transition"
+              className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition"
             >
 
               <div className="flex items-center justify-between">
 
                 <div>
 
-                  <p className="text-sm text-gray-500">
+                  <p className="text-xs text-black">
                     {s.label}
                   </p>
 
-                  <h3 className="text-3xl font-bold text-gray-800 mt-2">
+                  <h3 className="text-2xl font-bold text-black mt-1">
                     {s.value}
                   </h3>
                 </div>
 
                 <div
-                  className={`w-14 h-14 rounded-2xl flex items-center justify-center ${s.color}`}
+                  className={`w-11 h-11 rounded-xl flex items-center justify-center ${s.color}`}
                 >
-                  <Icon className="w-6 h-6" />
+                  <Icon className="w-5 h-5" />
                 </div>
               </div>
             </div>
@@ -264,14 +240,9 @@ export default function AssetCategoryPage() {
 
       {/* ---------------- CATEGORY GRID ---------------- */}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
         {categories.map((c, i) => {
-
-          const Icon =
-            Object.values(iconMap)[
-              i % Object.values(iconMap).length
-            ];
 
           const gradient =
             gradientList[
@@ -281,69 +252,57 @@ export default function AssetCategoryPage() {
           return (
             <div
               key={c.id}
-              className="group bg-white border border-gray-100 rounded-[30px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
+              className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
             >
 
               {/* TOP */}
 
               <div
-                className={`bg-gradient-to-r ${gradient} p-6 text-white relative overflow-hidden`}
+                className={`bg-gradient-to-r ${gradient} p-4 text-white relative overflow-hidden`}
               >
 
-                <div className="absolute right-0 top-0 w-28 h-28 bg-white/10 rounded-full blur-2xl" />
+                <div className="absolute right-0 top-0 w-24 h-24 bg-white/10 rounded-full blur-2xl" />
 
-                <div className="flex items-start justify-between relative z-10">
+                <div className="relative z-10">
 
-                  <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center">
-                <Layers3 className="w-8 h-8" />
+                  <div className="w-11 h-11 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
 
-                    {/* <Icon className="w-6 h-6" /> */}
+                    <Layers3 className="w-5 h-5" />
                   </div>
 
-                  {/* <button className="flex items-center gap-1 text-sm font-medium hover:underline">
-                    View
+                  <div className="mt-3">
 
-                    <ArrowUpRight className="w-4 h-4" />
-                  </button> */}
-                </div>
-
-                <div className="mt-2 relative z-10">
-
-                  <h3 className="text-2xl font-bold">
-                    {c.name}
-                  </h3>
-
-                  {/* <p className="text-sm text-white/80 mt-2 line-clamp-2">
-                    {c.description ||
-                      "No description available"}
-                  </p> */}
+                    <h3 className="text-lg font-semibold leading-tight">
+                      {c.name}
+                    </h3>
+                  </div>
                 </div>
               </div>
 
               {/* CONTENT */}
 
-              <div className="p-2">
+              <div className="p-3">
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-2">
 
-                  <div className="bg-gray-50 rounded-2xl p-4">
+                  <div className="bg-gray-50 rounded-xl p-3">
 
-                    <p className="text-xs uppercase tracking-wide text-gray-500">
-                      Total Assets
+                    <p className="text-[11px] uppercase tracking-wide text-black">
+                      Assets
                     </p>
 
-                    <h4 className="text-2xl font-bold text-gray-800 mt-2">
+                    <h4 className="text-xl font-bold text-black mt-1">
                       {c.totalAssets || 0}
                     </h4>
                   </div>
 
-                  <div className="bg-gray-50 rounded-2xl p-2">
+                  <div className="bg-gray-50 rounded-xl p-3">
 
-                    <p className="text-xs uppercase tracking-wide text-gray-500">
-                      Total Value
+                    <p className="text-[11px] uppercase tracking-wide text-black">
+                      Value
                     </p>
 
-                    <h4 className="text-2xl font-bold text-green-600 mt-2">
+                    <h4 className="text-xl font-bold text-green-600 mt-1">
                       ₹
                       {(
                         c.totalAmount || 0
@@ -354,20 +313,15 @@ export default function AssetCategoryPage() {
 
                 {/* FOOTER */}
 
-                <div className="flex items-center justify-between mt-3 pt-2 px-3 border-t border-gray-100">
+                <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
 
-                  
+                  <p className="text-[11px] text-black">
+                    Category ID
+                  </p>
 
-                    <p className="text-xs text-gray-500">
-                      Category ID
-                    </p>
-
-                    <p className="text-sm font-medium text-gray-700 truncate max-w-[180px]">
-                      {c.id}
-                    </p>
-                  
-
-              
+                  <p className="text-xs font-medium text-black truncate max-w-[140px]">
+                    {c.id}
+                  </p>
                 </div>
               </div>
             </div>
@@ -379,34 +333,34 @@ export default function AssetCategoryPage() {
 
       {openModal && (
 
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
 
-          <div className="bg-white rounded-[32px] w-full max-w-lg p-8 relative shadow-2xl">
+          <div className="bg-white rounded-2xl w-full max-w-md p-5 relative shadow-xl">
 
             {/* CLOSE */}
 
             <button
               onClick={() => setOpenModal(false)}
-              className="absolute right-5 top-5 w-10 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition"
+              className="absolute right-4 top-4 w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition"
             >
-              <X className="w-5 h-5 text-gray-600" />
+              <X className="w-4 h-4 text-black" />
             </button>
 
             {/* HEADER */}
 
             <div>
 
-              <div className="w-16 h-16 rounded-3xl bg-green-100 flex items-center justify-center mb-5">
+              <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center mb-4">
 
-                <Plus className="w-8 h-8 text-green-600" />
+                <Plus className="w-6 h-6 text-green-600" />
               </div>
 
-              <h2 className="text-3xl font-bold text-gray-800">
+              <h2 className="text-xl font-semibold text-black">
                 Create Category
               </h2>
 
-              <p className="text-sm text-gray-500 mt-2">
-                Add a new asset category to organize inventory
+              <p className="text-xs text-black mt-1">
+                Add a new asset category
               </p>
             </div>
 
@@ -414,14 +368,14 @@ export default function AssetCategoryPage() {
 
             <form
               onSubmit={handleSubmit}
-              className="space-y-5 mt-8"
+              className="space-y-4 mt-5"
             >
 
               {/* NAME */}
 
               <div>
 
-                <label className="text-sm font-semibold text-gray-700">
+                <label className="text-sm font-medium text-black">
                   Category Name
                 </label>
 
@@ -435,7 +389,7 @@ export default function AssetCategoryPage() {
                       name: e.target.value,
                     })
                   }
-                  className="w-full h-14 mt-2 rounded-2xl border border-gray-200 bg-gray-50 px-5 text-sm outline-none focus:border-green-500 focus:bg-white transition"
+                  className="w-full h-11 mt-2 rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm text-black outline-none focus:border-green-500 focus:bg-white transition"
                   placeholder="Enter category name"
                 />
               </div>
@@ -444,12 +398,12 @@ export default function AssetCategoryPage() {
 
               <div>
 
-                <label className="text-sm font-semibold text-gray-700">
+                <label className="text-sm font-medium text-black">
                   Description
                 </label>
 
                 <textarea
-                  rows={5}
+                  rows={4}
                   value={formData.description}
                   onChange={(e) =>
                     setFormData({
@@ -457,7 +411,7 @@ export default function AssetCategoryPage() {
                       description: e.target.value,
                     })
                   }
-                  className="w-full mt-2 rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 text-sm outline-none focus:border-green-500 focus:bg-white transition resize-none"
+                  className="w-full mt-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-black outline-none focus:border-green-500 focus:bg-white transition resize-none"
                   placeholder="Enter description"
                 />
               </div>
@@ -467,10 +421,10 @@ export default function AssetCategoryPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-14 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 hover:opacity-95 text-white font-semibold text-sm transition shadow-lg"
+                className="w-full h-11 rounded-xl bg-gradient-to-r from-green-600 to-emerald-500 hover:opacity-95 text-white font-semibold text-sm transition shadow-sm"
               >
                 {loading
-                  ? "Creating Category..."
+                  ? "Creating..."
                   : "Create Category"}
               </button>
             </form>

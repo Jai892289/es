@@ -11,7 +11,6 @@ import {
   TrendingUp,
   Users,
   Package2,
-  Activity,
   Eye,
 } from "lucide-react"
 
@@ -64,7 +63,7 @@ export default function VendorsPage() {
 
   }, [])
 
-  /* ---------------- FILTERED ---------------- */
+  /* FILTER */
 
   const filteredVendors =
     useMemo(() => {
@@ -79,7 +78,7 @@ export default function VendorsPage() {
       )
     }, [vendors, search])
 
-  /* ---------------- STATS ---------------- */
+  /* STATS */
 
   const totalVendors =
     vendors.length
@@ -99,16 +98,18 @@ export default function VendorsPage() {
   const topRated =
     vendors.length
 
+  /* LOADING */
+
   if (loading) {
 
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="min-h-[50vh] flex items-center justify-center overflow-x-hidden">
 
-        <div className="space-y-4 text-center">
+        <div className="space-y-3 text-center">
 
-          <div className="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-12 h-12 border-[3px] border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
 
-          <p className="text-gray-500">
+          <p className="text-sm text-black">
             Loading Vendors...
           </p>
         </div>
@@ -117,70 +118,68 @@ export default function VendorsPage() {
   }
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-4 overflow-x-hidden">
 
-      {/* ---------------- HERO ---------------- */}
+      {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[34px] bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-6 text-white shadow-xl">
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
 
-        {/* GLOW */}
+        <div className="absolute top-0 right-0 w-52 h-52 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
 
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-black/10 rounded-full blur-3xl" />
-
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-8">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
           {/* LEFT */}
 
-          <div>
+          <div className="min-w-0">
 
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-3">
 
-              <div className="w-20 h-20 rounded-[28px] bg-white/15 backdrop-blur flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shrink-0">
 
-                <Building2 className="w-10 h-10" />
+                <Building2 className="w-6 h-6" />
               </div>
 
-              <div>
+              <div className="min-w-0">
 
-                <h1 className="text-4xl font-bold tracking-tight">
+                <h1 className="text-xl font-semibold leading-tight break-words">
                   Vendor Management
                 </h1>
 
-                <p className="text-green-50 mt-2 text-sm">
-                  Track manufacturers, suppliers & vendor performance
+                <p className="text-green-50 mt-1 text-xs break-words">
+                  Manage suppliers & manufacturers
                 </p>
               </div>
             </div>
 
             {/* QUICK STATS */}
 
-            <div className="flex flex-wrap items-center gap-10 mt-10">
+            <div className="flex flex-wrap items-center gap-5 mt-4">
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   {
                     totalVendors
                   }
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Total Vendors
+                <p className="text-green-100 text-[10px] mt-1">
+                  Vendors
                 </p>
               </div>
 
               <div>
 
-                <h2 className="text-5xl font-bold">
+                <h2 className="text-2xl font-bold leading-none">
                   {
                     totalProducts
                   }
                 </h2>
 
-                <p className="text-green-100 text-sm mt-1">
-                  Products Managed
+                <p className="text-green-100 text-[10px] mt-1">
+                  Products
                 </p>
               </div>
             </div>
@@ -188,27 +187,26 @@ export default function VendorsPage() {
 
           {/* RIGHT */}
 
-          <div className="grid grid-cols-1 gap-4 min-w-[320px]">
+          <div className="flex flex-col gap-2 w-full xl:w-[220px]">
 
             <MiniCard
               icon={TrendingUp}
-              title="Vendor Growth"
+              title="Growth"
               value="92%"
             />
 
             <MiniCard
               icon={ShieldCheck}
-              title="Trusted Vendors"
+              title="Trusted"
               value="98%"
             />
-
-                  </div>
+          </div>
         </div>
       </div>
 
-      {/* ---------------- OVERVIEW ---------------- */}
+      {/* OVERVIEW */}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
 
         <OverviewCard
           title="Total Vendors"
@@ -218,7 +216,7 @@ export default function VendorsPage() {
         />
 
         <OverviewCard
-          title="Supplied Products"
+          title="Products"
           value={totalProducts}
           icon={Package2}
           gradient="from-blue-500 to-cyan-500"
@@ -232,117 +230,119 @@ export default function VendorsPage() {
         />
       </div>
 
-      {/* ---------------- FILTER BAR ---------------- */}
+      {/* FILTER */}
 
-      <div className="bg-white border border-gray-100 rounded-[30px] p-5 shadow-sm flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+      <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm overflow-hidden">
 
-        {/* LEFT */}
+        <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
 
-        <div className="flex items-center gap-3 flex-wrap">
+          {/* LEFT */}
 
-          {[
-            "By Department",
-            "By Rating",
-            "By Credibility",
-            "By Product",
-          ].map((f) => (
+          <div className="flex flex-wrap items-center gap-2">
+
+            {[
+              "Department",
+              "Rating",
+              "Credibility",
+              "Product",
+            ].map((f) => (
+
+              <button
+                key={f}
+                className="
+                  h-10 px-4 rounded-xl
+                  border border-gray-200
+                  bg-white
+                  text-sm font-medium text-black
+                  hover:bg-emerald-50
+                  hover:border-emerald-500
+                  hover:text-emerald-600
+                  transition
+                  flex items-center gap-2
+                  whitespace-nowrap
+                "
+              >
+
+                {f}
+
+                <ChevronDown className="w-4 h-4" />
+              </button>
+            ))}
 
             <button
-              key={f}
               className="
-                h-12 px-5 rounded-2xl
-                border border-gray-200
-                bg-white
-                text-sm font-medium text-gray-700
-                hover:bg-emerald-50
-                hover:border-emerald-500
-                hover:text-emerald-600
+                h-10 px-4 rounded-xl
+                bg-emerald-600
+                hover:bg-emerald-700
                 transition
-                flex items-center gap-2
+                text-white text-sm font-medium
+                whitespace-nowrap
               "
             >
-
-              {f}
-
-              <ChevronDown className="w-4 h-4" />
+              Apply
             </button>
-          ))}
+          </div>
 
-          <button
-            className="
-              h-12 px-5 rounded-2xl
-              bg-emerald-600
-              hover:bg-emerald-700
-              transition
-              text-white text-sm font-medium
-              shadow-lg
-            "
-          >
-            Apply Filter
-          </button>
-        </div>
+          {/* SEARCH */}
 
-        {/* SEARCH */}
+          <div className="relative w-full xl:w-[280px]">
 
-        <div className="relative w-full xl:w-[320px]">
+            <Search className="absolute left-3 top-3 w-4 h-4 text-black" />
 
-          <Search className="absolute left-4 top-4 w-5 h-5 text-gray-400" />
-
-          <input
-            type="text"
-            placeholder="Search vendors..."
-            value={search}
-            onChange={(e) =>
-              setSearch(
-                e.target.value
-              )
-            }
-            className="
-              w-full h-14 rounded-2xl
-              border border-gray-200
-              bg-gray-50
-              pl-12 pr-4
-              text-sm
-              outline-none
-              transition
-              focus:border-emerald-500
-              focus:bg-white
-              focus:ring-4
-              focus:ring-emerald-100
-            "
-          />
+            <input
+              type="text"
+              placeholder="Search vendors..."
+              value={search}
+              onChange={(e) =>
+                setSearch(
+                  e.target.value
+                )
+              }
+              className="
+                w-full h-10 rounded-xl
+                border border-gray-200
+                bg-gray-50
+                pl-10 pr-3
+                text-sm text-black
+                outline-none
+                transition
+                focus:border-emerald-500
+                focus:bg-white
+              "
+            />
+          </div>
         </div>
       </div>
 
-      {/* ---------------- TABLE ---------------- */}
+      {/* TABLE */}
 
-      <div className="bg-white border border-gray-100 rounded-[32px] shadow-sm overflow-hidden">
+      <div className="bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden">
 
         {/* HEADER */}
 
-        <div className="flex items-center justify-between px-8 py-6 border-b border-gray-100">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 py-4 border-b border-gray-100">
 
-          <div>
+          <div className="min-w-0">
 
-            <h2 className="text-2xl font-bold text-gray-800">
+            <h2 className="text-lg font-semibold text-black break-words">
               Vendor Directory
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
-              Complete supplier & manufacturer list
+            <p className="text-xs text-black mt-1">
+              Supplier & manufacturer list
             </p>
           </div>
 
           <Link
             href="/dashboard/vendors/add"
             className="
-              h-12 px-5 rounded-2xl
+              h-10 px-4 rounded-xl
               bg-gradient-to-r from-emerald-600 to-green-600
               hover:from-emerald-700 hover:to-green-700
               transition
               text-white text-sm font-medium
-              flex items-center gap-2
-              shadow-lg
+              flex items-center justify-center gap-2
+              whitespace-nowrap
             "
           >
 
@@ -356,7 +356,7 @@ export default function VendorsPage() {
 
         <div className="overflow-x-auto">
 
-          <table className="w-full min-w-[1100px]">
+          <table className="w-full min-w-[850px]">
 
             <thead className="bg-gray-50 border-b border-gray-100">
 
@@ -374,7 +374,7 @@ export default function VendorsPage() {
 
                   <th
                     key={head}
-                    className="px-8 py-5 text-left text-xs font-semibold uppercase tracking-wider text-gray-500"
+                    className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-black whitespace-nowrap"
                   >
                     {head}
                   </th>
@@ -400,34 +400,34 @@ export default function VendorsPage() {
 
                       {/* INDEX */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4">
 
-                        <div className="w-11 h-11 rounded-2xl bg-gray-100 flex items-center justify-center text-sm font-semibold text-gray-700">
+                        <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-sm font-semibold text-black">
                           {index + 1}
                         </div>
                       </td>
 
                       {/* VENDOR */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4">
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3 min-w-0">
 
-                          <div className="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center">
+                          <div className="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
 
-                            <Building2 className="w-7 h-7 text-emerald-600" />
+                            <Building2 className="w-5 h-5 text-emerald-600" />
                           </div>
 
-                          <div>
+                          <div className="min-w-0">
 
-                            <h3 className="font-semibold text-gray-800">
+                            <h3 className="font-semibold text-sm text-black break-words">
                               {
                                 v.companyName
                               }
                             </h3>
 
-                            <p className="text-xs text-gray-400 mt-1">
-                              Vendor / Manufacturer
+                            <p className="text-[10px] text-black mt-1">
+                              Vendor
                             </p>
                           </div>
                         </div>
@@ -435,16 +435,16 @@ export default function VendorsPage() {
 
                       {/* CITY */}
 
-                      <td className="px-8 py-6 text-gray-700">
+                      <td className="px-4 py-4 text-sm text-black whitespace-nowrap">
                         {v.city ||
                           "-"}
                       </td>
 
                       {/* PRODUCTS */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4">
 
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-blue-50 text-blue-700 font-medium text-sm">
+                        <div className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-blue-50 text-blue-700 font-medium text-xs whitespace-nowrap">
 
                           <Package2 className="w-4 h-4" />
 
@@ -456,9 +456,9 @@ export default function VendorsPage() {
 
                       {/* COMPLAINTS */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4">
 
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-red-50 text-red-700 font-medium text-sm">
+                        <div className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-red-50 text-red-700 font-medium text-xs whitespace-nowrap">
 
                           0
                         </div>
@@ -466,9 +466,9 @@ export default function VendorsPage() {
 
                       {/* RATING */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4">
 
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-1 whitespace-nowrap">
 
                           {Array.from({
                             length: 5,
@@ -480,7 +480,7 @@ export default function VendorsPage() {
 
                               <Star
                                 key={i}
-                                className={`w-5 h-5 ${
+                                className={`w-4 h-4 ${
                                   i <
                                   rating
                                     ? "text-yellow-400 fill-yellow-400"
@@ -494,18 +494,18 @@ export default function VendorsPage() {
 
                       {/* ACTION */}
 
-                      <td className="px-8 py-6">
+                      <td className="px-4 py-4 whitespace-nowrap">
 
                         <Link
                           href={`/dashboard/vendors/${v.id}`}
                           className="
                             inline-flex items-center gap-2
-                            h-11 px-5 rounded-2xl
+                            h-9 px-4 rounded-xl
                             bg-gray-100 hover:bg-emerald-600
                             hover:text-white
                             transition
                             text-sm font-medium
-                            text-gray-700
+                            text-black
                           "
                         >
 
@@ -527,31 +527,31 @@ export default function VendorsPage() {
         {filteredVendors.length ===
           0 && (
 
-          <div className="p-16 text-center">
+          <div className="p-10 text-center">
 
-            <div className="w-24 h-24 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-5">
+            <div className="w-16 h-16 mx-auto rounded-full bg-gray-100 flex items-center justify-center mb-4">
 
-              <Building2 className="w-10 h-10 text-gray-400" />
+              <Building2 className="w-7 h-7 text-black" />
             </div>
 
-            <h3 className="text-xl font-semibold text-gray-700">
+            <h3 className="text-base font-semibold text-black">
               No Vendors Found
             </h3>
 
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-black mt-1">
               No vendor matched your search
             </p>
           </div>
         )}
       </div>
 
-      {/* ---------------- FOOTER ---------------- */}
+      {/* FOOTER */}
 
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 overflow-hidden">
 
-        <div className="text-sm text-gray-500">
+        <div className="text-sm text-black break-words">
           Showing{" "}
-          <span className="font-semibold text-gray-700">
+          <span className="font-semibold">
             {
               filteredVendors.length
             }
@@ -559,17 +559,17 @@ export default function VendorsPage() {
           vendors
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 flex-wrap">
 
-          <button className="h-11 px-5 rounded-2xl border border-gray-200 bg-white hover:bg-gray-50 transition text-sm font-medium">
+          <button className="h-9 px-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition text-sm font-medium text-black">
             Previous
           </button>
 
-          <button className="h-11 px-5 rounded-2xl bg-emerald-600 text-white shadow-lg text-sm font-medium">
+          <button className="h-9 px-4 rounded-xl bg-emerald-600 text-white text-sm font-medium">
             1
           </button>
 
-          <button className="h-11 px-5 rounded-2xl border border-gray-200 bg-white hover:bg-gray-50 transition text-sm font-medium flex items-center gap-2">
+          <button className="h-9 px-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition text-sm font-medium flex items-center gap-2 text-black">
 
             Next
 
@@ -581,7 +581,7 @@ export default function VendorsPage() {
   )
 }
 
-/* ---------------- MINI CARD ---------------- */
+/* MINI CARD */
 
 function MiniCard({
   icon: Icon,
@@ -590,22 +590,22 @@ function MiniCard({
 }: any) {
 
   return (
-    <div className="bg-white/15 backdrop-blur rounded-2xl px-5 py-4 border border-white/10">
+    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 border border-white/10 overflow-hidden">
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
 
-        <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center shadow-lg">
+        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
 
-          <Icon className="w-6 h-6 text-white" />
+          <Icon className="w-5 h-5 text-white" />
         </div>
 
-        <div>
+        <div className="min-w-0">
 
-          <p className="text-sm text-green-50">
+          <p className="text-xs text-green-50 break-words">
             {title}
           </p>
 
-          <h3 className="text-2xl font-bold mt-1 text-white">
+          <h3 className="text-lg font-bold mt-1 text-white break-words">
             {value}
           </h3>
         </div>
@@ -614,7 +614,7 @@ function MiniCard({
   )
 }
 
-/* ---------------- OVERVIEW CARD ---------------- */
+/* OVERVIEW CARD */
 
 function OverviewCard({
   title,
@@ -624,33 +624,33 @@ function OverviewCard({
 }: any) {
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-[30px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
       <div className="relative z-10">
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
 
           <div
-            className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg`}
+            className={`w-10 h-10 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shrink-0`}
           >
 
-            <Icon className="w-8 h-8" />
+            <Icon className="w-5 h-5" />
           </div>
 
-          <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-emerald-600 transition" />
+          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-3 min-w-0">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-xs text-black break-words">
             {title}
           </p>
 
-          <h2 className="text-5xl font-bold text-gray-900 mt-3">
+          <h2 className="text-xl font-bold text-black mt-1 break-words">
             {value}
           </h2>
         </div>
