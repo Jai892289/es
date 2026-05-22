@@ -301,9 +301,9 @@ export default function ProductTable() {
                   Department
                 </th>
 
-                <th className="px-4 py-3 font-semibold">
+                {/* <th className="px-4 py-3 font-semibold">
                   Timeline
-                </th>
+                </th> */}
 
                 <th className="px-4 py-3 font-semibold">
                   Status
@@ -313,9 +313,9 @@ export default function ProductTable() {
                   Budget
                 </th>
 
-                <th className="px-4 py-3 font-semibold">
+                {/* <th className="px-4 py-3 font-semibold">
                   Progress
-                </th>
+                </th> */}
 
                 <th className="px-4 py-3 font-semibold text-right">
                   Action
@@ -379,7 +379,7 @@ export default function ProductTable() {
 
                     {/* CATEGORY */}
 
-                    <td className="px-4 py-4">
+                    {/* <td className="px-4 py-4">
 
                       <span
                         className="
@@ -391,7 +391,7 @@ export default function ProductTable() {
                       >
                         {item.category}
                       </span>
-                    </td>
+                    </td> */}
 
                     {/* DEPARTMENT */}
 
@@ -433,13 +433,13 @@ export default function ProductTable() {
                     </td>
 
                     {/* BUDGET */}
-
+{/* 
                     <td className="px-4 py-4">
 
                       <span className="font-semibold text-black text-sm whitespace-nowrap">
                         {item.budget}
                       </span>
-                    </td>
+                    </td> */}
 
                     {/* PROGRESS */}
 
