@@ -261,27 +261,27 @@ export default function Sidebar({
                 </div>
 
               ) : (
+<></>
+                // <div
+                //   className="
+                //     w-12 h-12
+                //     rounded-xl
+                //     bg-white
+                //     shadow-sm
+                //     flex items-center justify-center
+                //     overflow-hidden
+                //     p-2
+                //   "
+                // >
 
-                <div
-                  className="
-                    w-12 h-12
-                    rounded-xl
-                    bg-white
-                    shadow-sm
-                    flex items-center justify-center
-                    overflow-hidden
-                    p-2
-                  "
-                >
-
-                  {/* <Image
-                    src="/eccentriclogo.png"
-                    alt="logo"
-                    width={30}
-                    height={30}
-                    className="object-contain"
-                  /> */}
-                </div>
+                //   <Image
+                //     src="/eccentriclogo.png"
+                //     alt="logo"
+                //     width={30}
+                //     height={30}
+                //     className="object-contain"
+                //   />
+                // </div>
               )}
             </div>
           </div>
