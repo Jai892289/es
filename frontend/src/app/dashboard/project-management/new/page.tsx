@@ -86,7 +86,7 @@ const [selectedAsset, setSelectedAsset] =
 }, []);
 
   
- const [form, setForm] = useState({
+ const [form, setForm] = useState<any>({
 
   projectId: "",
 

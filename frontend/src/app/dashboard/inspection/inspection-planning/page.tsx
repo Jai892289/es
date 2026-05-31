@@ -465,7 +465,7 @@ const handleCreateInspection =
           value={
             inspectionForm.title
           }
-          onChange={(v) =>
+          onChange={(v:any) =>
             setInspectionForm({
               ...inspectionForm,
               title: v,
@@ -478,7 +478,7 @@ const handleCreateInspection =
           value={
             inspectionForm.inspectorName
           }
-          onChange={(v) =>
+          onChange={(v:any) =>
             setInspectionForm({
               ...inspectionForm,
               inspectorName: v,
@@ -491,7 +491,7 @@ const handleCreateInspection =
           value={
             inspectionForm.type
           }
-          onChange={(v) =>
+          onChange={(v:any) =>
             setInspectionForm({
               ...inspectionForm,
               type: v,
@@ -504,7 +504,7 @@ const handleCreateInspection =
           value={
             inspectionForm.priority
           }
-          onChange={(v) =>
+          onChange={(v:any) =>
             setInspectionForm({
               ...inspectionForm,
               priority: v,
@@ -518,7 +518,7 @@ const handleCreateInspection =
           value={
             inspectionForm.scheduledDate
           }
-          onChange={(v) =>
+          onChange={(v:any) =>
             setInspectionForm({
               ...inspectionForm,
               scheduledDate: v,
@@ -532,7 +532,7 @@ const handleCreateInspection =
           value={
             inspectionForm.reminderDate
           }
-          onChange={(v) =>
+          onChange={(v:any) =>
             setInspectionForm({
               ...inspectionForm,
               reminderDate: v,
@@ -549,7 +549,7 @@ const handleCreateInspection =
           value={
             inspectionForm.location
           }
-          onChange={(v) =>
+          onChange={(v:any) =>
             setInspectionForm({
               ...inspectionForm,
               location: v,
