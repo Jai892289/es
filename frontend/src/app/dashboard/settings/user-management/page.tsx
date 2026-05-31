@@ -21,7 +21,11 @@ import {
 import {
   createUserApi,
   getUsersApi,
+   
 } from "@/lib/user.api"
+import { activateUserApi, deactivateUserApi, updateUserApi } from "@/lib/auth.api"
+
+
 
 export default function UserManagementPage() {
 
@@ -43,6 +47,24 @@ export default function UserManagementPage() {
   const [loading, setLoading] =
     useState(true)
 
+  const [isEditMode, setIsEditMode] =
+  useState(false);
+
+const [selectedUser, setSelectedUser] =
+  useState<any>(null);
+
+const [
+  openStatusModal,
+  setOpenStatusModal,
+] = useState(false);
+
+const [
+  statusAction,
+  setStatusAction,
+] = useState<
+  "ACTIVE" | "INACTIVE"
+>("INACTIVE");
+
   const [creating, setCreating] =
     useState(false)
 
@@ -56,6 +78,116 @@ export default function UserManagementPage() {
       role: "",
       departmentId: "",
     })
+
+
+
+    const handleEditUser = (
+  user: any
+) => {
+
+  setSelectedUser(user);
+
+  setUserForm({
+    name: user.name || "",
+    email: user.email || "",
+    password: "",
+    mobileNumber:
+      user.mobileNumber || "",
+    designation:
+      user.designation || "",
+    role: user.role || "",
+    departmentId:
+      user.departmentId || "",
+  });
+
+  setIsEditMode(true);
+
+  setOpenAddUser(true);
+};
+
+
+const handleUpdateUser =
+  async () => {
+
+    try {
+
+      setCreating(true);
+
+      await updateUserApi(
+        selectedUser.id,
+        {
+          name: userForm.name,
+          email:
+            userForm.email,
+          mobileNumber:
+            userForm.mobileNumber,
+          designation:
+            userForm.designation,
+          role: userForm.role,
+          departmentId:
+            userForm.departmentId,
+        }
+      );
+
+      setOpenAddUser(false);
+
+      setIsEditMode(false);
+
+      setSelectedUser(null);
+
+      await fetchUsers();
+
+    } catch (error) {
+
+      console.log(
+        "UPDATE USER ERROR",
+        error
+      );
+
+    } finally {
+
+      setCreating(false);
+    }
+  };
+
+
+  const handleStatusChange =
+  async () => {
+
+    try {
+
+      if (
+        statusAction ===
+        "ACTIVE"
+      ) {
+
+        await activateUserApi(
+          selectedUser.id
+        );
+
+      } else {
+
+        await deactivateUserApi(
+          selectedUser.id
+        );
+      }
+
+      setOpenStatusModal(
+        false
+      );
+
+      setSelectedUser(null);
+
+      await fetchUsers();
+
+    } catch (error) {
+
+      console.log(
+        "STATUS ERROR",
+        error
+      );
+    }
+  };
 
   /* ---------------- FETCH USERS ---------------- */
 
@@ -132,6 +264,41 @@ export default function UserManagementPage() {
       }
     }
 
+
+    const filteredUsers = usersData.filter(
+  (user: any) => {
+
+    const matchesSearch =
+      !search ||
+      user.name
+        ?.toLowerCase()
+        .includes(search.toLowerCase()) ||
+      user.email
+        ?.toLowerCase()
+        .includes(search.toLowerCase()) ||
+      user.mobileNumber
+        ?.includes(search);
+
+    const matchesRole =
+      !role ||
+      role === "All Roles" ||
+      user.role === role;
+
+    const matchesDepartment =
+      !department ||
+      department ===
+        "All Departments" ||
+      user.department?.name ===
+        department;
+
+    return (
+      matchesSearch &&
+      matchesRole &&
+      matchesDepartment
+    );
+  }
+);
+
   return (
     <div className="space-y-4 overflow-x-hidden">
 
@@ -207,7 +374,7 @@ export default function UserManagementPage() {
                 usersData.filter(
                   (u: any) =>
                     u.role ===
-                    "Admin"
+                    "ADMIN"
                 ).length
               }
             />
@@ -215,9 +382,13 @@ export default function UserManagementPage() {
             <MiniCard
               icon={Activity}
               title="Active"
-              value={
-                usersData.length
-              }
+            value={
+  usersData.filter(
+    (u: any) =>
+      u.status ===
+      "ACTIVE"
+  ).length
+}
             />
           </div>
         </div>
@@ -242,7 +413,7 @@ export default function UserManagementPage() {
             usersData.filter(
               (u: any) =>
                 u.role ===
-                "Admin"
+                "ADMIN"
             ).length
           }
           icon={ShieldCheck}
@@ -321,17 +492,24 @@ export default function UserManagementPage() {
               "
             >
 
-              <option>
-                All Roles
-              </option>
+            <option>
+  All Roles
+</option>
 
-              <option>
-                ADMIN
-              </option>
-
-              <option>
-                Inspection Officer
-              </option>
+{[
+  ...new Set(
+    usersData.map(
+      (u: any) => u.role
+    )
+  ),
+].map((role) => (
+  <option
+    key={role}
+    value={role}
+  >
+    {role}
+  </option>
+))}
             </select>
 
             <select
@@ -350,27 +528,48 @@ export default function UserManagementPage() {
               "
             >
 
-              <option>
-                All Departments
-              </option>
+             <option>
+  All Departments
+</option>
 
-              <option>
-                IT
-              </option>
-
-              <option>
-                Finance
-              </option>
-
-              <option>
-                Revenue
-              </option>
+{[
+  ...new Set(
+    usersData
+      .map(
+        (u: any) =>
+          u.department?.name
+      )
+      .filter(Boolean)
+  ),
+].map((dept: any) => (
+  <option
+    key={dept}
+    value={dept}
+  >
+    {dept}
+  </option>
+))}
             </select>
 
             <button
-              onClick={() =>
-                setOpenAddUser(true)
-              }
+              onClick={() => {
+
+  setIsEditMode(false);
+
+  setSelectedUser(null);
+
+  setUserForm({
+    name: "",
+    email: "",
+    password: "",
+    mobileNumber: "",
+    designation: "",
+    role: "",
+    departmentId: "",
+  });
+
+  setOpenAddUser(true);
+}}
               className="
                 h-10 px-4 rounded-xl
                 bg-gradient-to-r
@@ -382,6 +581,7 @@ export default function UserManagementPage() {
                 flex items-center gap-2
                 shadow-sm
                 whitespace-nowrap
+                cursor-pointer
               "
             >
 
@@ -452,7 +652,7 @@ export default function UserManagementPage() {
 
               <tbody>
 
-                {usersData.map(
+                {filteredUsers.map(
                   (
                     user: any
                   ) => (
@@ -544,10 +744,15 @@ export default function UserManagementPage() {
 
                       <td className="px-4 py-4 whitespace-nowrap">
 
-                        <span className="px-3 py-1 rounded-xl text-[11px] font-medium bg-green-100 text-green-700">
-
-                          Active
-                        </span>
+                      <span
+  className={`px-3 py-1 rounded-xl text-[11px] font-medium ${
+    user.status === "ACTIVE"
+      ? "bg-green-100 text-green-700"
+      : "bg-red-100 text-red-700"
+  }`}
+>
+  {user.status}
+</span>
                       </td>
 
                       {/* CREATED */}
@@ -565,15 +770,50 @@ export default function UserManagementPage() {
 
                         <div className="flex items-center gap-2">
 
-                          <button className="w-9 h-9 rounded-xl bg-blue-50 hover:bg-blue-100 transition flex items-center justify-center text-blue-700 shrink-0">
+                          <button
+  onClick={() =>
+    handleEditUser(user)
+  }
+  className="w-9 h-9 rounded-xl bg-blue-50 hover:bg-blue-100 transition flex items-center justify-center text-blue-700"
+>
+  <Pencil className="w-4 h-4" />
+</button>
+
+                          {/* <button className="w-9 h-9 rounded-xl bg-blue-50 hover:bg-blue-100 transition flex items-center justify-center text-blue-700 shrink-0">
 
                             <Pencil className="w-4 h-4" />
-                          </button>
+                          </button> */}
 
-                          <button className="w-9 h-9 rounded-xl bg-red-50 hover:bg-red-100 transition flex items-center justify-center text-red-700 shrink-0">
+                          <button
+  onClick={() => {
+
+    setSelectedUser(user);
+
+    setStatusAction(
+      user.status ===
+        "ACTIVE"
+        ? "INACTIVE"
+        : "ACTIVE"
+    );
+
+    setOpenStatusModal(
+      true
+    );
+  }}
+  className={`w-9 h-9 rounded-xl transition flex items-center justify-center ${
+    user.status ===
+    "ACTIVE"
+      ? "bg-red-50 text-red-700 hover:bg-red-100"
+      : "bg-green-50 text-green-700 hover:bg-green-100"
+  }`}
+>
+  <UserX className="w-4 h-4" />
+</button>
+
+                          {/* <button className="w-9 h-9 rounded-xl bg-red-50 hover:bg-red-100 transition flex items-center justify-center text-red-700 shrink-0">
 
                             <UserX className="w-4 h-4" />
-                          </button>
+                          </button> */}
                         </div>
                       </td>
                     </tr>
@@ -621,13 +861,23 @@ export default function UserManagementPage() {
 
                 <div className="min-w-0">
 
-                  <h3 className="text-lg font-semibold break-words">
-                    Add New User
-                  </h3>
+                <div className="min-w-0">
+  <h3 className="text-lg font-semibold break-words">
+    {isEditMode
+      ? "Edit User"
+      : "Add New User"}
+  </h3>
 
-                  <p className="text-green-50 text-xs mt-1 break-words">
+  <p className="text-green-50 text-xs mt-1 break-words">
+    {isEditMode
+      ? "Update user details"
+      : "Create a new user account"}
+  </p>
+</div>
+
+                  {/* <p className="text-green-50 text-xs mt-1 break-words">
                     Create a new user account
-                  </p>
+                  </p> */}
                 </div>
               </div>
             </div>
@@ -663,19 +913,20 @@ export default function UserManagementPage() {
                 }
               />
 
-              <InputField
-                label="Password"
-                placeholder="Enter password"
-                type="password"
-                value={userForm.password}
-                onChange={(e: any) =>
-                  setUserForm({
-                    ...userForm,
-                    password:
-                      e.target.value,
-                  })
-                }
-              />
+            {!isEditMode && (
+  <InputField
+    label="Password"
+    placeholder="Enter password"
+    type="password"
+    value={userForm.password}
+    onChange={(e:any) =>
+      setUserForm({
+        ...userForm,
+        password: e.target.value,
+      })
+    }
+  />
+)}
 
               <InputField
                 label="Mobile Number"
@@ -734,7 +985,8 @@ export default function UserManagementPage() {
                 }
                 options={[
                   "ADMIN",
-                  "Inspection Officer",
+                  "USER",
+                  "VENDOR"
                 ]}
               />
             </div>
@@ -762,9 +1014,11 @@ export default function UserManagementPage() {
               </button>
 
               <button
-                onClick={
-                  handleCreateUser
-                }
+               onClick={
+  isEditMode
+    ? handleUpdateUser
+    : handleCreateUser
+}
                 disabled={creating}
                 className="
                   h-10 px-4 rounded-xl
@@ -780,13 +1034,71 @@ export default function UserManagementPage() {
               >
 
                 {creating
-                  ? "Creating..."
-                  : "Add User"}
+  ? isEditMode
+    ? "Updating..."
+    : "Creating..."
+  : isEditMode
+  ? "Update User"
+  : "Add User"}
               </button>
             </div>
           </div>
         </div>
       )}
+
+
+      {openStatusModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+
+    <div
+      className="absolute inset-0 bg-black/50"
+      onClick={() =>
+        setOpenStatusModal(false)
+      }
+    />
+
+    <div className="relative bg-white rounded-2xl p-6 w-full max-w-md">
+
+      <h3 className="text-lg font-semibold">
+        {statusAction === "ACTIVE"
+          ? "Activate User"
+          : "Deactivate User"}
+      </h3>
+
+      <p className="text-sm text-gray-500 mt-2">
+        Are you sure you want to{" "}
+        {statusAction === "ACTIVE"
+          ? "activate"
+          : "deactivate"}{" "}
+        {selectedUser?.name}?
+      </p>
+
+      <div className="flex justify-end gap-2 mt-6">
+
+        <button
+          onClick={() =>
+            setOpenStatusModal(false)
+          }
+          className="h-10 px-4 border rounded-xl"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleStatusChange}
+          className={`h-10 px-4 rounded-xl text-white ${
+            statusAction === "ACTIVE"
+              ? "bg-green-600"
+              : "bg-red-600"
+          }`}
+        >
+          Confirm
+        </button>
+
+      </div>
+    </div>
+  </div>
+)}
     </div>
   )
 }
@@ -832,43 +1144,35 @@ function OverviewCard({
   icon: Icon,
   gradient,
 }: any) {
-
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 hover:border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
-      <div className="relative z-10">
+      <div className="relative z-10 flex items-center justify-between">
 
-        <div className="flex items-center justify-between gap-2">
-
-          <div
-            className={`w-11 h-11 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-sm shrink-0`}
-          >
-
-            <Icon className="w-5 h-5" />
-          </div>
-
-          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
-        </div>
-
-        <div className="mt-3 min-w-0">
-
-          <p className="text-xs text-black break-words">
+        <div className="flex-1 min-w-0">
+          <p className="text-xs font-medium text-gray-500">
             {title}
           </p>
 
-          <h2 className="text-2xl font-bold text-black mt-1 break-words">
+          <h2 className="text-3xl font-bold text-black mt-2 leading-none">
             {value}
           </h2>
         </div>
+
+        <div
+          className={`w-12 h-12 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-sm shrink-0`}
+        >
+          <Icon className="w-5 h-5" />
+        </div>
+
       </div>
     </div>
-  )
+  );
 }
-
 /* ---------------- INPUT ---------------- */
 
 function InputField({

@@ -57,6 +57,8 @@ const gradients = [
 export default function DashboardPage() {
 
   const router = useRouter();
+  const [showCategoriesModal, setShowCategoriesModal] =
+  useState(false);
 
   const [dashboardData, setDashboardData] =
     useState<any>(null);
@@ -199,7 +201,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f7fb] overflow-hidden">
+    <div className="  bg-[#f5f7fb]">
 
       <motion.div
         initial={{
@@ -213,7 +215,7 @@ export default function DashboardPage() {
         transition={{
           duration: 0.5,
         }}
-        className="max-w-[1300px] mx-auto space-y-4 overflow-hidden"
+        className="w-full mx-auto space-y-4 overflow-hidden"
       >
 
         {/* HERO */}
@@ -364,9 +366,14 @@ export default function DashboardPage() {
               Product Categories
             </h2>
 
-            <button className="text-sm text-emerald-600 font-medium whitespace-nowrap">
-              View All
-            </button>
+         <button
+  onClick={() =>
+    setShowCategoriesModal(true)
+  }
+  className="text-sm text-emerald-600 cursor-pointer font-medium whitespace-nowrap hover:text-emerald-700"
+>
+  View All
+</button>
           </div>
 
           <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
@@ -403,7 +410,7 @@ export default function DashboardPage() {
                     whileHover={{
                       y: -3,
                     }}
-                    className="group min-w-[170px] bg-white border border-gray-100 hover:border-emerald-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer overflow-hidden"
+                    className="group min-w-[170px] bg-white border border-gray-100 hover:border-emerald-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
                   >
 
                     <div className="flex items-start justify-between gap-2">
@@ -415,7 +422,7 @@ export default function DashboardPage() {
                         <Icon className="w-5 h-5" />
                       </div>
 
-                      <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
+                      {/* <ArrowUpRight className="w-4 h-4 text-black shrink-0" /> */}
                     </div>
 
                     <div className="mt-3 min-w-0">
@@ -446,75 +453,134 @@ export default function DashboardPage() {
 
         {/* OVERVIEW */}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+  {overviewCards.map((item, index) => {
+    const Icon = item.icon;
 
-          {overviewCards.map(
-            (item, index) => {
+    return (
+      <motion.div
+        key={item.label}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: index * 0.05 }}
+        whileHover={{ y: -3 }}
+        className="relative overflow-hidden m-1 bg-white rounded-2xl border border-gray-100 hover:border-emerald-200 p-5 shadow-sm hover:shadow-lg transition-all"
+      >
+        <div
+          className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-r ${item.gradient} opacity-10 rounded-full blur-3xl`}
+        />
 
+        <div className="relative flex items-center justify-between">
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-medium text-gray-600">
+              {item.label}
+            </p>
+
+            <h2 className="text-4xl font-bold text-black mt-2">
+              {item.value}
+            </h2>
+          </div>
+
+          <div
+            className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${item.gradient} flex items-center justify-center text-white shadow-lg shrink-0`}
+          >
+            <Icon className="w-7 h-7" />
+          </div>
+        </div>
+      </motion.div>
+    );
+  })}
+</div>
+      </motion.div>
+
+
+      {showCategoriesModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <motion.div
+      initial={{
+        opacity: 0,
+        scale: 0.95,
+      }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+      className="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between p-5 border-b">
+        <h2 className="text-lg font-semibold text-black">
+          Product Categories 
+        </h2>
+
+        <button
+          onClick={() =>
+            setShowCategoriesModal(false)
+          }
+          className="text-gray-500 hover:text-black text-xl cursor-pointer"
+        >
+          ✕
+        </button>
+      </div>
+
+      {/* Body */}
+      <div className="max-h-[70vh] overflow-y-auto p-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {dashboardData?.categories?.map(
+            (cat: any, index: number) => {
               const Icon =
-                item.icon;
+                iconMap[cat.name] || Laptop;
+
+              const gradient =
+                gradients[
+                  index % gradients.length
+                ];
 
               return (
-                <motion.div
-                  key={item.label}
-                  initial={{
-                    opacity: 0,
-                    y: 20,
-                  }}
-                  whileInView={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  viewport={{
-                    once: true,
-                  }}
-                  transition={{
-                    delay:
-                      index * 0.05,
-                  }}
-                  whileHover={{
-                    y: -3,
-                  }}
-                  className="group relative overflow-hidden bg-white rounded-xl border border-gray-100 hover:border-emerald-100 p-4 shadow-sm hover:shadow-md transition-all duration-300"
+                <div
+                  key={cat.name}
+                  className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-emerald-300 transition"
                 >
-
-                  <div
-                    className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${item.gradient} opacity-10 rounded-full blur-3xl`}
-                  />
-
-                  <div className="relative z-10">
-
-                    <div className="flex items-center justify-between gap-2">
-
-                      <div
-                        className={`w-10 h-10 rounded-xl bg-gradient-to-r ${item.gradient} flex items-center justify-center text-white shadow shrink-0`}
-                      >
-
-                        <Icon className="w-5 h-5" />
-                      </div>
-
-                      <span className="text-[10px] font-semibold text-black whitespace-nowrap">
-                        Analytics
-                      </span>
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-11 h-11 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white`}
+                    >
+                      <Icon className="w-5 h-5" />
                     </div>
 
-                    <div className="mt-4 min-w-0">
-
-                      <p className="text-xs text-black break-words">
-                        {item.label}
+                    <div>
+                      <p className="font-semibold text-black">
+                        {cat.name}
                       </p>
 
-                      <h2 className="text-2xl font-bold text-black mt-2 break-words">
-                        {item.value}
-                      </h2>
+                      <p className="text-xs text-gray-500">
+                        Category
+                      </p>
                     </div>
                   </div>
-                </motion.div>
+
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-black">
+                      {cat.count}
+                    </p>
+
+                    <p className="text-xs text-emerald-600">
+                      Assets
+                    </p>
+                  </div>
+                </div>
               );
             }
           )}
         </div>
-      </motion.div>
+      </div>
+    </motion.div>
+  </div>
+)}
     </div>
   );
 }

@@ -202,7 +202,7 @@ export default function AssetCategoryPage() {
 
       {/* ---------------- STATS ---------------- */}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
 
         {stats.map((s, i) => {
 
@@ -236,7 +236,7 @@ export default function AssetCategoryPage() {
             </div>
           );
         })}
-      </div>
+      </div> */}
 
       {/* ---------------- CATEGORY GRID ---------------- */}
 

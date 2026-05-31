@@ -31,6 +31,9 @@ export default function DepartmentManagementPage() {
   const [openModal, setOpenModal] =
     useState(false)
 
+    const [search, setSearch] =
+  useState("");
+
   const [loading, setLoading] =
     useState(false)
 
@@ -144,6 +147,52 @@ export default function DepartmentManagementPage() {
       }
     }
 
+
+    const filteredDepartments =
+  departments.filter(
+    (dept: any) => {
+
+      if (!search)
+        return true;
+
+      const searchText =
+        search.toLowerCase();
+
+      return (
+        dept.name
+          ?.toLowerCase()
+          .includes(
+            searchText
+          ) ||
+        dept.code
+          ?.toLowerCase()
+          .includes(
+            searchText
+          ) ||
+        dept.adminName
+          ?.toLowerCase()
+          .includes(
+            searchText
+          ) ||
+        dept.city
+          ?.toLowerCase()
+          .includes(
+            searchText
+          ) ||
+        dept.state
+          ?.toLowerCase()
+          .includes(
+            searchText
+          ) ||
+        dept.description
+          ?.toLowerCase()
+          .includes(
+            searchText
+          )
+      );
+    }
+  );
+
   return (
     <div className="space-y-4 overflow-x-hidden">
 
@@ -171,7 +220,7 @@ export default function DepartmentManagementPage() {
               <div className="min-w-0">
 
                 <h1 className="text-xl md:text-2xl font-bold break-words">
-                  Department Management
+                  Department Management 
                 </h1>
 
                 <p className="text-green-50 mt-1 text-xs leading-5 break-words">
@@ -262,6 +311,10 @@ export default function DepartmentManagementPage() {
             <Search className="absolute left-3 top-3.5 w-4 h-4 text-black" />
 
             <input
+              value={search}
+  onChange={(e) =>
+    setSearch(e.target.value)
+  }
               placeholder="Search departments..."
               className="
                 w-full h-10 rounded-xl
@@ -293,7 +346,7 @@ export default function DepartmentManagementPage() {
               text-white text-sm font-medium
               flex items-center gap-2
               shadow-sm
-              whitespace-nowrap
+              whitespace-nowrap cursor-pointer
             "
           >
 
@@ -343,7 +396,7 @@ export default function DepartmentManagementPage() {
 
         ) : (
 
-          departments.map(
+          filteredDepartments.map(
             (
               d: any,
               i: number
@@ -398,7 +451,7 @@ export default function DepartmentManagementPage() {
 
                   <div className="min-w-0">
 
-                    <h2 className="text-lg font-semibold break-words">
+                    <h2 className="text-lg font-semibold break-words ">
                       Create Department
                     </h2>
 
@@ -655,7 +708,7 @@ export default function DepartmentManagementPage() {
                     hover:bg-gray-100
                     transition
                     text-sm font-medium
-                    text-black
+                    text-black cursor-pointer
                   "
                 >
                   Cancel
@@ -677,7 +730,7 @@ export default function DepartmentManagementPage() {
                     text-sm font-medium
                     shadow-sm
                     transition
-                    disabled:opacity-50
+                    disabled:opacity-50 cursor-pointer
                   "
                 >
                   {loading

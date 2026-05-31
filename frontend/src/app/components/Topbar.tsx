@@ -108,6 +108,7 @@ export default function Topbar({
             transition
             flex items-center justify-center
             shrink-0
+            cursor-pointer
           "
         >
 
@@ -178,7 +179,7 @@ export default function Topbar({
 
             {/* INFO */}
 
-            <div className="hidden sm:block text-left min-w-0">
+            <div className="hidden sm:block text-left min-w-0 cursor-pointer">
 
               <h4 className="text-sm font-semibold text-black truncate">
                 Admin
@@ -191,7 +192,7 @@ export default function Topbar({
 
             <ChevronDown
               className={`
-                w-4 h-4 text-black shrink-0 transition-transform duration-300
+                w-4 h-4 text-black shrink-0 transition-transform duration-300 
                 ${
                   open
                     ? "rotate-180"
@@ -215,7 +216,7 @@ export default function Topbar({
                 shadow-2xl
                 overflow-hidden
                 z-[999]
-                animate-in fade-in zoom-in duration-200
+                animate-in fade-in zoom-in duration-200 cursor-pointer
               "
             >
 
@@ -261,7 +262,7 @@ export default function Topbar({
                     text-red-600
                     hover:bg-red-50
                     transition
-                    text-sm font-medium
+                    text-sm font-medium cursor-pointer
                   "
                 >
 

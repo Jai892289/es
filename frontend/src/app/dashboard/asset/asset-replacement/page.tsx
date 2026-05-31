@@ -14,12 +14,15 @@ import {
   Wrench,
 } from "lucide-react"
 
-import { getAssetReplacementsApi } from "@/lib/inventory.api"
+import { createAssetReplacementApi, getAssetReplacementsApi } from "@/lib/inventory.api"
 
 export default function AssetReplacementPage() {
 
   const [replacements, setReplacements] =
     useState<any[]>([])
+
+    const [showModal, setShowModal] =
+  useState(false)
 
   const [loading, setLoading] =
     useState(true)
@@ -102,7 +105,7 @@ export default function AssetReplacementPage() {
               <div className="min-w-0">
 
                 <h1 className="text-xl font-semibold leading-tight break-words">
-                  Asset Replacement
+                  Asset Replacement 
                 </h1>
 
                 <p className="text-green-50 mt-1 text-xs break-words">
@@ -150,6 +153,8 @@ export default function AssetReplacementPage() {
             </div>
           </div>
 
+          
+
           {/* RIGHT */}
 
           <div className="flex flex-col gap-2 w-full lg:w-[240px]">
@@ -170,7 +175,27 @@ export default function AssetReplacementPage() {
       </div>
 
       {/* ---------------- OVERVIEW ---------------- */}
+<button
+  onClick={() =>
+    setShowModal(true)
+  }
+  className="px-4 h-10 rounded-xl cursor-pointer bg-gradient-to-r from-emerald-600 to-green-600 hover:opacity-95 transition text-sm font-medium text-white whitespace-nowrap"
+>
+  Apply For Replacement
+</button>
 
+
+{showModal && (
+  <ReplacementModal
+    onClose={() =>
+      setShowModal(false)
+    }
+    onSuccess={() => {
+      setShowModal(false)
+      fetchReplacements()
+    }}
+  />
+)}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
 
         <OverviewCard
@@ -214,9 +239,9 @@ export default function AssetReplacementPage() {
             </p>
           </div>
 
-          <button className="px-4 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
+          {/* <button className="px-4 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
             View Analytics
-          </button>
+          </button> */}
         </div>
 
         {/* BODY */}
@@ -333,6 +358,400 @@ export default function AssetReplacementPage() {
   )
 }
 
+import {
+  Package,
+  Building2,
+  User,
+  FileText,
+  X,
+} from "lucide-react";
+
+function ReplacementModal({
+  onClose,
+  onSuccess,
+}: any) {
+  const [loading, setLoading] =
+    useState(false);
+
+  const [form, setForm] =
+    useState({
+      oldProductId: "",
+      newProductId: "",
+      departmentId: "",
+      reason: "",
+      replacedBy: "",
+    });
+
+  const handleSubmit = async (
+    e: React.FormEvent
+  ) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+
+      await createAssetReplacementApi(
+        form
+      );
+
+      onSuccess();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+
+      <div className="w-full max-w-2xl rounded-3xl bg-white shadow-2xl overflow-hidden">
+
+        {/* HEADER */}
+
+        <div className="bg-gradient-to-r from-emerald-600 to-green-600 p-5 text-white">
+
+          <div className="flex items-center justify-between">
+
+            <div className="flex items-center gap-3">
+
+              <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+
+                <RefreshCw className="w-6 h-6" />
+              </div>
+
+              <div>
+                <h2 className="text-xl font-bold">
+                  Asset Replacement Request
+                </h2>
+
+                <p className="text-emerald-100 text-sm mt-1">
+                  Submit a replacement request for an asset
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="w-10 h-10 rounded-xl bg-white/20 hover:bg-white/30 flex items-center justify-center transition"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* FORM */}
+
+        <form
+          onSubmit={handleSubmit}
+          className="p-6 space-y-5"
+        >
+          <div className="grid md:grid-cols-2 gap-4">
+
+            {/* OLD PRODUCT */}
+
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-2 block">
+                Old Product ID
+              </label>
+
+              <div className="relative">
+                <Package className="w-4 h-4 absolute left-3 top-3.5 text-gray-400" />
+
+                <input
+                  value={form.oldProductId}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      oldProductId:
+                        e.target.value,
+                    })
+                  }
+                  placeholder="Enter old asset ID"
+                  className="w-full h-11 pl-10 pr-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none"
+                />
+              </div>
+            </div>
+
+            {/* NEW PRODUCT */}
+
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-2 block">
+                New Product ID
+              </label>
+
+              <div className="relative">
+                <Package className="w-4 h-4 absolute left-3 top-3.5 text-gray-400" />
+
+                <input
+                  value={form.newProductId}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      newProductId:
+                        e.target.value,
+                    })
+                  }
+                  placeholder="Enter new asset ID"
+                  className="w-full h-11 pl-10 pr-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none"
+                />
+              </div>
+            </div>
+
+            {/* DEPARTMENT */}
+
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-2 block">
+                Department ID
+              </label>
+
+              <div className="relative">
+                <Building2 className="w-4 h-4 absolute left-3 top-3.5 text-gray-400" />
+
+                <input
+                  value={form.departmentId}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      departmentId:
+                        e.target.value,
+                    })
+                  }
+                  placeholder="Department ID"
+                  className="w-full h-11 pl-10 pr-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none"
+                />
+              </div>
+            </div>
+
+            {/* REPLACED BY */}
+
+            <div>
+              <label className="text-sm font-medium text-gray-700 mb-2 block">
+                Replaced By
+              </label>
+
+              <div className="relative">
+                <User className="w-4 h-4 absolute left-3 top-3.5 text-gray-400" />
+
+                <input
+                  value={form.replacedBy}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      replacedBy:
+                        e.target.value,
+                    })
+                  }
+                  placeholder="Employee Name"
+                  className="w-full h-11 pl-10 pr-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* REASON */}
+
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-2 block">
+              Replacement Reason
+            </label>
+
+            <div className="relative">
+              <FileText className="w-4 h-4 absolute left-3 top-3 text-gray-400" />
+
+              <textarea
+                rows={4}
+                value={form.reason}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    reason:
+                      e.target.value,
+                  })
+                }
+                placeholder="Describe the reason for replacement..."
+                className="w-full pl-10 pr-3 py-3 rounded-xl border border-gray-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-100 outline-none resize-none"
+              />
+            </div>
+          </div>
+
+          {/* FOOTER */}
+
+          <div className="flex gap-3 pt-2">
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 h-11 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 font-medium transition"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 h-11 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:opacity-95 text-white font-medium shadow-sm transition disabled:opacity-50"
+            >
+              {loading
+                ? "Submitting..."
+                : "Submit Request"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+// function ReplacementModal({
+//   onClose,
+//   onSuccess,
+// }: any) {
+//   const [loading, setLoading] =
+//     useState(false);
+
+//   const [form, setForm] =
+//     useState({
+//       oldProductId: "",
+//       newProductId: "",
+//       departmentId: "",
+//       reason: "",
+//       replacedBy: "",
+//     });
+
+//   const handleSubmit = async (
+//     e: React.FormEvent
+//   ) => {
+//     e.preventDefault();
+
+//     try {
+//       setLoading(true);
+
+//       console.log("Payload", form);
+
+//       await createAssetReplacementApi(
+//         form
+//       );
+
+//       onSuccess();
+//     } catch (error) {
+//       console.log(error);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
+//       <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl">
+
+//         <div className="flex items-center justify-between p-4 border-b">
+//           <h2 className="font-semibold text-lg">
+//             Apply Asset Replacement
+//           </h2>
+
+//           <button
+//             onClick={onClose}
+//             className="text-xl"
+//           >
+//             ×
+//           </button>
+//         </div>
+
+//         <form
+//           onSubmit={handleSubmit}
+//           className="p-4 space-y-4"
+//         >
+//           <input
+//             placeholder="Old Product Id"
+//             className="w-full h-11 border rounded-xl px-3"
+//             value={form.oldProductId}
+//             onChange={(e) =>
+//               setForm({
+//                 ...form,
+//                 oldProductId:
+//                   e.target.value,
+//               })
+//             }
+//           />
+
+//           <input
+//             placeholder="New Product Id"
+//             className="w-full h-11 border rounded-xl px-3"
+//             value={form.newProductId}
+//             onChange={(e) =>
+//               setForm({
+//                 ...form,
+//                 newProductId:
+//                   e.target.value,
+//               })
+//             }
+//           />
+
+//           <input
+//             placeholder="Department Id"
+//             className="w-full h-11 border rounded-xl px-3"
+//             value={form.departmentId}
+//             onChange={(e) =>
+//               setForm({
+//                 ...form,
+//                 departmentId:
+//                   e.target.value,
+//               })
+//             }
+//           />
+
+//           <input
+//             placeholder="Replaced By"
+//             className="w-full h-11 border rounded-xl px-3"
+//             value={form.replacedBy}
+//             onChange={(e) =>
+//               setForm({
+//                 ...form,
+//                 replacedBy:
+//                   e.target.value,
+//               })
+//             }
+//           />
+
+//           <textarea
+//             placeholder="Replacement Reason"
+//             rows={4}
+//             className="w-full border rounded-xl p-3"
+//             value={form.reason}
+//             onChange={(e) =>
+//               setForm({
+//                 ...form,
+//                 reason:
+//                   e.target.value,
+//               })
+//             }
+//           />
+
+//           <div className="flex gap-3">
+//             <button
+//               type="button"
+//               onClick={onClose}
+//               className="flex-1 h-11 border rounded-xl"
+//             >
+//               Cancel
+//             </button>
+
+//             <button
+//               type="submit"
+//               disabled={loading}
+//               className="flex-1 h-11 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 text-white"
+//             >
+//               {loading
+//                 ? "Submitting..."
+//                 : "Submit"}
+//             </button>
+//           </div>
+//         </form>
+//       </div>
+//     </div>
+//   );
+// }
+
 /* ---------------- MINI CARD ---------------- */
 
 function MiniCard({
@@ -374,41 +793,31 @@ function OverviewCard({
   icon: Icon,
   gradient,
 }: any) {
-
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300">
-
+    <div className="group relative overflow-hidden bg-white border border-gray-100 hover:border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all duration-300">
       <div
-        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute -top-8 -right-8 w-28 h-28 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
-      <div className="relative z-10">
-
-        <div className="flex items-center justify-between gap-2">
-
-          <div
-            className={`w-10 h-10 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow`}
-          >
-
-            <Icon className="w-5 h-5" />
-          </div>
-
-          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
-        </div>
-
-        <div className="mt-3">
-
-          <p className="text-xs text-black">
+      <div className="relative z-10 flex items-center justify-between">
+        <div className="flex-1">
+          <p className="text-sm font-medium text-gray-500">
             {title}
           </p>
 
-          <h2 className="text-2xl font-bold text-black mt-1">
+          <h2 className="text-4xl font-bold text-black mt-2 leading-none">
             {value}
           </h2>
         </div>
+
+        <div
+          className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg shrink-0`}
+        >
+          <Icon className="w-7 h-7" />
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
 /* ---------------- REPLACEMENT CARD ---------------- */

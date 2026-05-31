@@ -66,6 +66,20 @@ export const getAssetReplacementsApi = () => {
 };
 
 
+// POST ASSET REPLACEMENTS
+export const createAssetReplacementApi = (
+  data: any
+) => {
+  return apiFetch(
+    "/inventory/replacements",
+    {
+      method: "POST",
+      body: JSON.stringify(data),
+    }
+  );
+};
+
+
 // CREATE ASSET TRANSFER
 export const createAssetTransferApi = (data: any) => {
   return apiFetch("/inventory/transfers", {

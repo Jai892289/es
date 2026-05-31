@@ -220,7 +220,7 @@ export default function ReportsPage() {
       </div>
 
       {/* ACTIONS */}
-
+{/* 
       <div className="flex flex-wrap items-center justify-end gap-2 overflow-hidden">
 
         <button className="h-10 px-4 rounded-xl bg-red-600 hover:bg-red-700 transition text-white text-sm font-medium flex items-center gap-2 shadow-sm whitespace-nowrap">
@@ -236,7 +236,7 @@ export default function ReportsPage() {
 
           XML
         </button>
-      </div>
+      </div> */}
 
       {/* KPI */}
 
@@ -426,114 +426,128 @@ export default function ReportsPage() {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+       <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white">
+  <div className="overflow-x-auto">
+    <table className="w-full min-w-[850px]">
+      <thead className="bg-gray-50 border-b border-gray-100">
+        <tr>
+          {[
+            "Asset",
+            "Vendor",
+            "Expiry Date",
+            "Days Left",
+            "Status",
+            "Value",
+          ].map((head) => (
+            <th
+              key={head}
+              className="px-5 py-4 text-left text-[11px] font-semibold uppercase tracking-wider text-gray-500"
+            >
+              {head}
+            </th>
+          ))}
+        </tr>
+      </thead>
 
-          <table className="w-full min-w-[760px]">
+      <tbody>
+        {amcAlerts.length === 0 ? (
+          <tr>
+            <td
+              colSpan={6}
+              className="py-12 text-center text-sm text-gray-500"
+            >
+              No AMC alerts found
+            </td>
+          </tr>
+        ) : (
+          amcAlerts.map((item: any) => {
+            const expiryDate = new Date(
+              item.warrantyExpiryDate
+            );
 
-            <thead className="bg-gray-50 border-b border-gray-100">
+            const daysLeft = Math.max(
+              0,
+              Math.ceil(
+                (expiryDate.getTime() -
+                  Date.now()) /
+                  (1000 * 60 * 60 * 24)
+              )
+            );
 
-              <tr>
+            return (
+              <tr
+                key={item.id}
+                className="border-b border-gray-100 hover:bg-gray-50 transition"
+              >
+                {/* Asset */}
+                <td className="px-5 py-4">
+                  <div>
+                    <p className="font-semibold text-black">
+                      {item.productName}
+                    </p>
 
-                {[
-                  "Asset",
-                  "Vendor",
-                  "Expiry",
-                  "Status",
-                  "Value",
-                  "Action",
-                ].map((head) => (
+                    <p className="text-xs text-gray-500 mt-1">
+                      Asset Item
+                    </p>
+                  </div>
+                </td>
 
-                  <th
-                    key={head}
-                    className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-black whitespace-nowrap"
+                {/* Vendor */}
+                <td className="px-5 py-4">
+                  <div>
+                    <p className="text-sm font-medium text-black">
+                      {item.vendor?.companyName ||
+                        "N/A"}
+                    </p>
+                  </div>
+                </td>
+
+                {/* Expiry */}
+                <td className="px-5 py-4 text-sm text-black">
+                  {expiryDate.toLocaleDateString(
+                    "en-GB"
+                  )}
+                </td>
+
+                {/* Days Left */}
+                <td className="px-5 py-4">
+                  <span
+                    className={`inline-flex px-3 py-1 rounded-xl text-xs font-medium ${
+                      daysLeft <= 30
+                        ? "bg-red-50 text-red-600"
+                        : daysLeft <= 90
+                        ? "bg-orange-50 text-orange-600"
+                        : "bg-green-50 text-green-600"
+                    }`}
                   >
-                    {head}
-                  </th>
-                ))}
+                    {daysLeft} Days
+                  </span>
+                </td>
+
+                {/* Status */}
+                <td className="px-5 py-4">
+                  <span className="inline-flex px-3 py-1 rounded-xl bg-orange-50 text-orange-700 text-xs font-medium">
+                    {item.status}
+                  </span>
+                </td>
+
+                {/* Value */}
+                <td className="px-5 py-4">
+                  <span className="font-semibold text-black">
+                    ₹
+                    {Number(
+                      item.unitPrice || 0
+                    ).toLocaleString()}
+                  </span>
+                </td>
               </tr>
-            </thead>
-
-            <tbody className="divide-y divide-gray-100">
-
-              {amcAlerts.length ===
-              0 ? (
-
-                <tr>
-
-                  <td
-                    colSpan={6}
-                    className="text-center py-8 text-sm text-black"
-                  >
-                    No AMC alerts found
-                  </td>
-                </tr>
-
-              ) : (
-
-                amcAlerts.map(
-                  (
-                    item: any
-                  ) => (
-
-                    <tr
-                      key={
-                        item.id
-                      }
-                      className="hover:bg-gray-50 transition"
-                    >
-
-                      <td className="px-4 py-4 font-medium text-sm text-black whitespace-nowrap">
-                        {
-                          item.productName
-                        }
-                      </td>
-
-                      <td className="px-4 py-4 text-sm text-black whitespace-nowrap">
-                        {item
-                          .vendor
-                          ?.companyName ||
-                          "N/A"}
-                      </td>
-
-                      <td className="px-4 py-4 text-sm text-black whitespace-nowrap">
-
-                        {new Date(
-                          item.warrantyExpiryDate
-                        ).toLocaleDateString(
-                          "en-GB"
-                        )}
-                      </td>
-
-                      <td className="px-4 py-4 whitespace-nowrap">
-
-                        <span className="px-3 py-1 rounded-xl bg-orange-50 text-orange-700 text-xs font-medium">
-                          {
-                            item.status
-                          }
-                        </span>
-                      </td>
-
-                      <td className="px-4 py-4 font-semibold text-sm text-black whitespace-nowrap">
-                        ₹
-                        {
-                          item.unitPrice
-                        }
-                      </td>
-
-                      <td className="px-4 py-4 whitespace-nowrap">
-
-                        <button className="h-9 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-medium">
-
-                          Renew
-                        </button>
-                      </td>
-                    </tr>
-                  )
-                )
-              )}
-            </tbody>
-          </table>
-        </div>
+            );
+          })
+        )}
+      </tbody>
+    </table>
+  </div>
+</div>
       </div>
     </div>
   )
@@ -575,34 +589,35 @@ function PremiumKpi({
       ? "from-orange-500 to-amber-500"
       : color === "green"
       ? "from-green-500 to-emerald-600"
-      : "from-emerald-500 to-green-600"
+      : "from-emerald-500 to-green-600";
 
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
+    <div className="group relative overflow-hidden bg-white border border-gray-100 hover:border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all duration-300">
 
       <div
-        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${styles} opacity-10 rounded-full blur-3xl`}
+        className={`absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-r ${styles} opacity-10 rounded-full blur-3xl`}
       />
 
-      <div className="relative z-10">
+      <div className="relative z-10 flex items-center justify-between">
 
-        <div
-          className={`w-10 h-10 rounded-xl bg-gradient-to-r ${styles} shadow-sm`}
-        />
+        <div className="flex-1 min-w-0">
 
-        <div className="mt-3 min-w-0">
-
-          <p className="text-xs text-black break-words">
+          <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
             {title}
           </p>
 
-          <h2 className="text-xl font-bold text-black mt-1 break-words">
+          <h2 className="text-3xl font-bold text-black mt-2 leading-none">
             {value}
           </h2>
+
         </div>
+
+        <div
+          className={`w-12 h-12 rounded-xl bg-gradient-to-r ${styles} shadow-sm shrink-0`}
+        />
       </div>
     </div>
-  )
+  );
 }
 
 /* ---------------- CHART CARD ---------------- */

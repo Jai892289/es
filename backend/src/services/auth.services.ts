@@ -1,6 +1,6 @@
 import prisma from "../config/prisma";
 import bcrypt from "bcrypt";
-import { Role } from "@prisma/client";
+import { Role, UserStatus } from "@prisma/client";
 import jwt from "jsonwebtoken";
 
 export const registerUser = async (data: {
@@ -78,4 +78,55 @@ export const loginUser = async (data: {
 };
 
 //   return { id, token };
+};
+
+
+export const updateUser = async (
+  userId: string,
+  data: {
+    name?: string;
+    email?: string;
+    mobileNumber?: string;
+    designation?: string;
+    role?: Role;
+    departmentId?: string;
+  }
+) => {
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return prisma.user.update({
+    where: { id: userId },
+    data,
+  });
+};
+
+export const deactivateUser = async (
+  userId: string
+) => {
+
+  return prisma.user.update({
+    where: { id: userId },
+    data: {
+      status: UserStatus.INACTIVE,
+    },
+  });
+};
+
+export const activateUser = async (
+  userId: string
+) => {
+
+  return prisma.user.update({
+    where: { id: userId },
+    data: {
+      status: UserStatus.ACTIVE,
+    },
+  });
 };

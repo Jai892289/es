@@ -19,13 +19,46 @@ import {
   AlertTriangle,
 } from "lucide-react"
 
-import { createComplaintApi } from "@/lib/complaint.api"
+import { createComplaintApi, getComplaintApi } from "@/lib/complaint.api"
 
 import { useRouter } from "next/navigation"
 
 export default function RaiseComplaintPage() {
 
   const router = useRouter()
+
+  const [showComplaints, setShowComplaints] =
+  useState(false);
+
+const [complaints, setComplaints] =
+  useState<any[]>([]);
+
+
+const handleViewComplaints =
+  async () => {
+
+    setShowComplaints(true);
+
+    try {
+      const response =
+        await getComplaintApi();
+
+      console.log(
+        "Complaint Response",
+        response
+      );
+
+      setComplaints(
+        response.data || []
+      );
+
+    } catch (error) {
+      console.log(
+        "Complaint Error",
+        error
+      );
+    }
+  };
 
   const [form, setForm] =
     useState<any>({
@@ -264,7 +297,7 @@ export default function RaiseComplaintPage() {
               <div className="min-w-0">
 
                 <h1 className="text-xl font-semibold leading-tight break-words">
-                  Raise Complaint
+                  Raise Complaint 
                 </h1>
 
                 <p className="text-green-50 mt-1 text-xs break-words">
@@ -320,8 +353,35 @@ export default function RaiseComplaintPage() {
 
       {/* FORM */}
 
+      <div className="flex justify-end gap-3 ">
+
+  <button
+    onClick={
+      handleViewComplaints
+    }
+    className="
+      h-11 px-6 rounded-xl
+      border border-gray-200 cursor-pointer
+      bg-green-500
+      text-white text-sm font-semibold
+    "
+  >
+    View Complaints
+  </button></div>
+
+
+ 
+
       <div className="space-y-4 overflow-hidden">
 
+ {showComplaints && (
+  <ComplaintListModal
+    complaints={complaints}
+    onClose={() =>
+      setShowComplaints(false)
+    }
+  />
+)}
         {/* DEPARTMENT */}
 
         <Section
@@ -1013,4 +1073,237 @@ function MiniCard({
       </div>
     </div>
   )
+}
+
+import {
+  User,
+  X,
+} from "lucide-react";
+
+function ComplaintListModal({
+  complaints,
+  onClose,
+}: any) {
+  return (
+    <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+
+      <div className="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden">
+
+        {/* HEADER */}
+
+        <div className="bg-gradient-to-r from-emerald-600 to-green-600 p-5 text-white">
+
+          <div className="flex items-center justify-between">
+
+            <div className="flex items-center gap-4">
+
+              <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center">
+
+                <FileText className="w-7 h-7" />
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold">
+                  Complaint History
+                </h2>
+
+                <p className="text-emerald-100 text-sm mt-1">
+                  View all submitted complaints
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="w-11 h-11 rounded-xl bg-white/20 hover:bg-white/30 flex items-center justify-center transition"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="flex gap-6 mt-5">
+
+            <div>
+              <h3 className="text-2xl font-bold">
+                {complaints.length}
+              </h3>
+
+              <p className="text-xs text-emerald-100">
+                Total Complaints
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-bold">
+                {
+                  complaints.filter(
+                    (c: any) =>
+                      c.urgency === "HIGH"
+                  ).length
+                }
+              </h3>
+
+              <p className="text-xs text-emerald-100">
+                High Priority
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* BODY */}
+
+        <div className="max-h-[75vh] overflow-y-auto p-5 bg-gray-50">
+
+          {complaints.length === 0 ? (
+
+            <div className="bg-white rounded-2xl p-12 text-center border">
+
+              <div className="w-16 h-16 mx-auto rounded-full bg-emerald-100 flex items-center justify-center">
+
+                <FileText className="w-8 h-8 text-emerald-600" />
+              </div>
+
+              <h3 className="mt-4 text-lg font-semibold">
+                No Complaints Found
+              </h3>
+
+              <p className="text-gray-500 mt-1">
+                No complaint records available.
+              </p>
+            </div>
+
+          ) : (
+
+            <div className="grid gap-4">
+
+              {complaints.map(
+                (
+                  item: any,
+                  index: number
+                ) => (
+                  <div
+                    key={item.id || index}
+                    className="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-lg transition-all duration-300"
+                  >
+
+                    {/* TOP */}
+
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+
+                      <div>
+
+                        <div className="flex items-center gap-3">
+
+                          <span className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm font-bold">
+                            {index + 1}
+                          </span>
+
+                          <div>
+                            <h3 className="text-lg font-semibold text-black">
+                              {item.title}
+                            </h3>
+
+                            <p className="text-xs text-gray-500 mt-1">
+                              Complaint ID: {item.id}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <span
+                        className={`
+                          px-4 py-2 rounded-full text-xs font-semibold w-fit
+                          ${
+                            item.urgency === "HIGH"
+                              ? "bg-red-100 text-red-700"
+                              : item.urgency === "MEDIUM"
+                              ? "bg-orange-100 text-orange-700"
+                              : "bg-green-100 text-green-700"
+                          }
+                        `}
+                      >
+                        {item.urgency}
+                      </span>
+                    </div>
+
+                    {/* INFO GRID */}
+
+                    <div className="grid md:grid-cols-3 gap-3 mt-5">
+
+                      <InfoItem
+                        icon={User}
+                        label="Raised By"
+                        value={item.fullName}
+                      />
+
+                      <InfoItem
+                        icon={Building2}
+                        label="Department"
+                        value={
+                          item.departmentName
+                        }
+                      />
+
+                      <InfoItem
+                        icon={Calendar}
+                        label="Issue Date"
+                        value={
+                          item.issueDate
+                            ? new Date(
+                                item.issueDate
+                              ).toLocaleDateString()
+                            : "-"
+                        }
+                      />
+                    </div>
+
+                    {/* DESCRIPTION */}
+
+                    <div className="mt-5 bg-gray-50 rounded-xl p-4 border border-gray-100">
+
+                      <div className="flex items-center gap-2 mb-2">
+
+                        <AlertTriangle className="w-4 h-4 text-orange-500" />
+
+                        <span className="text-sm font-semibold">
+                          Description
+                        </span>
+                      </div>
+
+                      <p className="text-sm text-gray-700 leading-6">
+                        {item.description ||
+                          "No description provided"}
+                      </p>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfoItem({
+  icon: Icon,
+  label,
+  value,
+}: any) {
+  return (
+    <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+
+      <div className="flex items-center gap-2 text-gray-500 text-xs">
+
+        <Icon className="w-4 h-4" />
+
+        {label}
+      </div>
+
+      <p className="mt-2 text-sm font-medium text-black">
+        {value || "-"}
+      </p>
+    </div>
+  );
 }

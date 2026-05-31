@@ -24,7 +24,7 @@ export default function CategoryWiseSummary() {
     useState<string | null>(null)
 
   const [year, setYear] =
-    useState("2025")
+    useState("2026")
 
   const [summaryData, setSummaryData] =
     useState<any>(null)
@@ -103,6 +103,7 @@ export default function CategoryWiseSummary() {
           "2023": "Jan",
           "2024": "Apr",
           "2025": "May",
+          "2026": "May",
         }[year]
     )?.value ||
     overview.stockValue
@@ -243,7 +244,7 @@ export default function CategoryWiseSummary() {
                 </h2>
 
                 <p className="text-green-100 text-[10px] mt-1">
-                  Stock Value
+                  Stock Value 
                 </p>
               </div>
 
@@ -298,33 +299,34 @@ export default function CategoryWiseSummary() {
             </p>
           </div>
 
-          <Dropdown
+          {/* <Dropdown
             label="Select Year"
             value={year}
             options={[
               "2023",
               "2024",
               "2025",
+              "2026",
             ]}
             onChange={setYear}
-          />
+          /> */}
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
 
-          <button className="h-10 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black flex items-center gap-2 whitespace-nowrap">
+          {/* <button className="h-10 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black flex items-center gap-2 whitespace-nowrap">
 
             <Download className="w-4 h-4" />
 
             Export
-          </button>
+          </button> */}
 
-          <button className="h-10 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-medium flex items-center gap-2 whitespace-nowrap">
+          {/* <button className="h-10 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 transition text-white text-sm font-medium flex items-center gap-2 whitespace-nowrap">
 
             <Share2 className="w-4 h-4" />
 
             Share
-          </button>
+          </button> */}
         </div>
       </div>
 
@@ -517,7 +519,7 @@ export default function CategoryWiseSummary() {
                   <div className="min-w-0">
 
                     <h2 className="text-lg font-semibold text-black break-words">
-                      Stock Value
+                      Stock Value 
                     </h2>
 
                     <p className="text-xs text-black mt-1">
@@ -529,9 +531,9 @@ export default function CategoryWiseSummary() {
                     label="Year"
                     value={year}
                     options={[
-                      "2023",
                       "2024",
                       "2025",
+                      "2026"
                     ]}
                     onChange={setYear}
                   />
@@ -559,7 +561,7 @@ export default function CategoryWiseSummary() {
 
                     <span>Performance</span>
 
-                    <span>85%</span>
+                    <span>95%</span>
                   </div>
 
                   <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
@@ -654,41 +656,31 @@ function OverviewCard({
   icon: Icon,
   gradient,
 }: any) {
-
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
-
+    <div className="group relative overflow-hidden bg-white border border-gray-100 hover:border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all duration-300">
       <div
-        className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
-      <div className="relative z-10">
-
-        <div className="flex items-center justify-between">
-
-          <div
-            className={`w-10 h-10 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-sm`}
-          >
-
-            <Icon className="w-4 h-4" />
-          </div>
-
-          <ArrowUpRight className="w-4 h-4 text-black" />
-        </div>
-
-        <div className="mt-4 min-w-0">
-
-          <p className="text-xs text-black break-words">
+      <div className="relative z-10 flex items-center justify-between">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-medium text-gray-500">
             {title}
           </p>
 
-          <h2 className="text-xl font-bold text-black mt-1 break-words">
+          <h2 className="text-3xl font-bold text-black mt-2 leading-none">
             {value}
           </h2>
         </div>
+
+        <div
+          className={`w-12 h-12 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-md shrink-0`}
+        >
+          <Icon className="w-5 h-5" />
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
 /* METRIC CARD */
@@ -699,46 +691,32 @@ function MetricCard({
   icon: Icon,
   color,
 }: any) {
-
   const colors: any = {
-    emerald:
-      "bg-emerald-100 text-emerald-600",
-
-    red:
-      "bg-red-100 text-red-600",
-
-    blue:
-      "bg-blue-100 text-blue-600",
-
-    orange:
-      "bg-orange-100 text-orange-600",
-  }
+    emerald: "bg-emerald-100 text-emerald-600",
+    red: "bg-red-100 text-red-600",
+    blue: "bg-blue-100 text-blue-600",
+    orange: "bg-orange-100 text-orange-600",
+  };
 
   return (
-    <div className="bg-white border border-gray-100 rounded-xl p-3 shadow-sm overflow-hidden">
+    <div className="bg-white border border-gray-100 hover:border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300">
+      <div className="flex items-center justify-between">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-medium text-gray-500">
+            {label}
+          </p>
 
-      <div className="flex items-center justify-between gap-2">
-
-        <div
-          className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${colors[color]}`}
-        >
-
-          <Icon className="w-4 h-4" />
+          <h2 className="text-3xl font-bold text-black mt-2 leading-none">
+            {value}
+          </h2>
         </div>
 
-        <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
-      </div>
-
-      <div className="mt-4 min-w-0">
-
-        <p className="text-xs text-black break-words">
-          {label}
-        </p>
-
-        <h2 className="text-2xl font-bold text-black mt-1 break-words">
-          {value}
-        </h2>
+        <div
+          className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${colors[color]}`}
+        >
+          <Icon className="w-5 h-5" />
+        </div>
       </div>
     </div>
-  )
+  );
 }

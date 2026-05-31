@@ -369,7 +369,7 @@ export default function InventoryProductDetailsPage() {
                 </p>
               </div>
 
-              <ArrowUpRight className="w-4 h-4 text-black" />
+              {/* <ArrowUpRight className="w-4 h-4 text-black" /> */}
             </div>
 
             <div className="grid md:grid-cols-2 gap-3">
@@ -473,7 +473,7 @@ export default function InventoryProductDetailsPage() {
 
           {/* ACTIONS */}
 
-          <motion.div
+          {/* <motion.div
             whileHover={{
               y: -2,
             }}
@@ -506,7 +506,7 @@ export default function InventoryProductDetailsPage() {
                 className="from-orange-500 to-amber-500"
               />
             </div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
     </motion.div>

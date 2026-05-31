@@ -29,11 +29,16 @@ export default function VendorsPage() {
   const [vendors, setVendors] =
     useState<any[]>([])
 
+    const [productFilter, setProductFilter] =
+  useState("all")
+
   const [loading, setLoading] =
     useState(true)
 
   const [search, setSearch] =
     useState("")
+
+    
 
   useEffect(() => {
 
@@ -65,18 +70,43 @@ export default function VendorsPage() {
 
   /* FILTER */
 
-  const filteredVendors =
-    useMemo(() => {
+  // const filteredVendors =
+  //   useMemo(() => {
 
-      return vendors.filter(
-        (v: any) =>
-          v.companyName
-            ?.toLowerCase()
-            .includes(
-              search.toLowerCase()
-            )
-      )
-    }, [vendors, search])
+  //     return vendors.filter(
+  //       (v: any) =>
+  //         v.companyName
+  //           ?.toLowerCase()
+  //           .includes(
+  //             search.toLowerCase()
+  //           )
+  //     )
+  //   }, [vendors, search])
+
+    const filteredVendors = useMemo(() => {
+  return vendors.filter((v: any) => {
+    const matchesSearch =
+      v.companyName
+        ?.toLowerCase()
+        .includes(search.toLowerCase())
+
+    const matchesProduct =
+      productFilter === "all"
+        ? true
+        : productFilter === "with-products"
+        ? (v.products?.length || 0) > 0
+        : (v.products?.length || 0) === 0
+
+    return (
+      matchesSearch &&
+      matchesProduct
+    )
+  })
+}, [
+  vendors,
+  search,
+  productFilter,
+])
 
   /* STATS */
 
@@ -144,7 +174,7 @@ export default function VendorsPage() {
               <div className="min-w-0">
 
                 <h1 className="text-xl font-semibold leading-tight break-words">
-                  Vendor Management
+                  Vendor Management 
                 </h1>
 
                 <p className="text-green-50 mt-1 text-xs break-words">
@@ -240,7 +270,27 @@ export default function VendorsPage() {
 
           <div className="flex flex-wrap items-center gap-2">
 
-            {[
+            <select
+  value={productFilter}
+  onChange={(e) =>
+    setProductFilter(e.target.value)
+  }
+  className="h-10 px-4 rounded-xl border border-gray-200 text-sm"
+>
+  <option value="all">
+    All Vendors
+  </option>
+
+  <option value="with-products">
+    With Products
+  </option>
+
+  <option value="without-products">
+    No Products
+  </option>
+</select>
+
+            {/* {[
               "Department",
               "Rating",
               "Credibility",
@@ -280,7 +330,7 @@ export default function VendorsPage() {
               "
             >
               Apply
-            </button>
+            </button> */}
           </div>
 
           {/* SEARCH */}
@@ -622,39 +672,32 @@ function OverviewCard({
   icon: Icon,
   gradient,
 }: any) {
-
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
-
+    <div className="group relative overflow-hidden bg-white border border-gray-100 hover:border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all duration-300">
+      
       <div
-        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute -top-8 -right-8 w-28 h-28 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
-      <div className="relative z-10">
-
-        <div className="flex items-center justify-between gap-2">
-
-          <div
-            className={`w-10 h-10 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shrink-0`}
-          >
-
-            <Icon className="w-5 h-5" />
-          </div>
-
-          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
-        </div>
-
-        <div className="mt-3 min-w-0">
-
-          <p className="text-xs text-black break-words">
+      <div className="relative z-10 flex items-center justify-between">
+        
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-gray-500 truncate">
             {title}
           </p>
 
-          <h2 className="text-xl font-bold text-black mt-1 break-words">
+          <h2 className="text-3xl font-bold text-black mt-2 leading-none">
             {value}
           </h2>
         </div>
+
+        <div
+          className={`w-12 h-12 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shrink-0`}
+        >
+          <Icon className="w-5 h-5" />
+        </div>
+
       </div>
     </div>
-  )
+  );
 }

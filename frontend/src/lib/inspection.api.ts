@@ -7,26 +7,46 @@ export const getInspectionsApi = () => {
   });
 };
 
-
-
 // CREATE INSPECTION REPORT
 export const createInspectionReportApi = (
   data: any
 ) => {
-  return apiFetch("/inspection/report", {
+  return apiFetch("/inspection", {
     method: "POST",
     body: JSON.stringify(data),
   });
 };
 
-
 // GET SUPERVISOR APPROVAL REPORTS
-export const getInspectionApprovalApi =
-  () => {
-    return apiFetch(
-      "/inspection/approval",
-      {
-        method: "GET",
-      }
-    )
-  }
+export const getInspectionApprovalApi = () => {
+  return apiFetch(
+    "/inspection/approval",
+    {
+      method: "GET",
+    }
+  );
+};
+
+// APPROVE REPORT
+export const approveInspectionReportApi = (
+  id: string
+) => {
+  return apiFetch(
+    `/inspection/approval/${id}/approve`,
+    {
+      method: "PUT",
+    }
+  );
+};
+
+// REJECT REPORT
+export const rejectInspectionReportApi = (
+  id: string
+) => {
+  return apiFetch(
+    `/inspection/approval/${id}/reject`,
+    {
+      method: "PUT",
+    }
+  );
+};

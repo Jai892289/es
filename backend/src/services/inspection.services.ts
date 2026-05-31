@@ -10,47 +10,38 @@ export const createInspection =
       await prisma.inspection.create({
         data: {
           inspectionId:
-            `INS-2026-00${count + 1}`,
+        `INS-2026-00${count + 1}`,
 
-          title: data.title,
+      title: data.title,
 
-          description:
-            data.description,
+      notes:
+        data.description,
 
-          type: data.type,
+      type: data.type,
 
-          priority:
-            data.priority,
+      priority:
+        data.priority,
 
-          status:
-            data.status,
+      status:
+        data.status,
 
-          scheduledDate:
-            new Date(
-              data.scheduledDate
-            ),
+      scheduledDate:
+        new Date(
+          data.scheduledDate
+        ),
 
-          reminderDate:
-            data.reminderDate
-              ? new Date(
-                  data.reminderDate
-                )
-              : null,
+      reminderDate:
+        data.reminderDate
+          ? new Date(
+              data.reminderDate
+            )
+          : null,
 
-          location:
-            data.location,
+      location:
+        data.location,
 
-          inspectorName:
-            data.inspectorName,
-
-          remarks:
-            data.remarks,
-
-          projectId:
-            data.projectId || null,
-
-          productId:
-            data.productId || null,
+      inspectorName:
+        data.inspectorName,
         },
 
         include: {

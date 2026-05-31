@@ -20,6 +20,8 @@ import {
   ChevronRight,
   Sparkles,
 } from "lucide-react";
+import { getInventoryApi } from "@/lib/inventory.api";
+  import { createProjectApi } from "@/lib/project.api";
 
 const steps = [
   "Basic Details",
@@ -41,56 +43,105 @@ export default function NewProjectPage() {
 
   const router =
     useRouter();
-
+const [selectedAsset, setSelectedAsset] =
+  useState("");
   const [milestone, setMilestone] =
-    useState({
-      name: "",
-      date: "",
-      percent: "",
-    });
+  useState({
+    milestoneName: "",
+    dueDate: "",
+    budgetPercent: "",
+  });
 
-  const [form, setForm] =
-    useState<any>({
-      name: "",
-      category: "",
-      scheme: "",
-      type: "New",
-      department: "",
-      priority: "",
+    const [approval, setApproval] =
+  useState({
+    levelName: "",
+    order: 1,
+  });
 
-      state: "",
-      district: "",
-      block: "",
-      ward: "",
-      address: "",
+  const [inventoryItems, setInventoryItems] =
+  useState<any[]>([]);
 
-      description: "",
-      scope: "",
-      files: [],
+  useEffect(() => {
 
-      startDate: "",
-      endDate: "",
+  const fetchInventory =
+    async () => {
 
-      budget: "",
-      funding: "",
-      expense: "",
+      try {
 
-      vendorName: "",
-      companyName: "",
-      contact: "",
-      contractValue: "",
-      vendorFile: null,
+        const res =
+          await getInventoryApi();
 
-      assets: [],
+        setInventoryItems(
+          res.data || []
+        );
 
-      milestones: [],
+      } catch (error) {
 
-      projectManager: "",
-      supervisor: "",
-      departmentHead: "",
+        console.error(error);
+      }
+    };
 
-      approvals: [],
-    });
+  fetchInventory();
+
+}, []);
+
+  
+ const [form, setForm] = useState({
+
+  projectId: "",
+
+  projectName: "",
+  category: "",
+  schemeName: "",
+  projectType: "New",
+  department: "",
+  priorityLevel: "",
+
+  location: {
+    state: "",
+    district: "",
+    block: "",
+    ward: "",
+    address: "",
+  },
+
+  descriptionData: {
+    description: "",
+    scope: "",
+    fileUrl: "",
+  },
+
+  timeline: {
+    startDate: "",
+    endDate: "",
+  },
+
+  budget: {
+    totalBudget: "",
+    fundingSource: "",
+    expenseBreakdown: "",
+  },
+
+  vendor: {
+    vendorName: "",
+    companyName: "",
+    contactDetails: "",
+    contractValue: "",
+    agreementFile: "",
+  },
+
+  assets: [],
+
+  milestones: [],
+
+  team: {
+    projectManager: "",
+    supervisor: "",
+    departmentHead: "",
+  },
+
+  approvals: [],
+});
 
   /* SESSION */
 
@@ -138,12 +189,18 @@ export default function NewProjectPage() {
     }
   };
 
-  const handleSubmit = () => {
+ 
 
-    console.log(
-      "FINAL DATA:",
-      form
-    );
+const [submitting, setSubmitting] =
+  useState(false);
+
+const handleSubmit = async () => {
+
+  try {
+
+    setSubmitting(true);
+
+    await createProjectApi(form);
 
     sessionStorage.removeItem(
       "projectForm"
@@ -156,7 +213,20 @@ export default function NewProjectPage() {
     router.push(
       "/dashboard/project-management"
     );
-  };
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "Failed to create project"
+    );
+
+  } finally {
+
+    setSubmitting(false);
+  }
+};
 
   return (
     <motion.div
@@ -205,7 +275,7 @@ export default function NewProjectPage() {
                 </div>
 
                 <h1 className="text-xl md:text-2xl font-bold mt-2 break-words">
-                  Create New Project
+                  Create New Project 
                 </h1>
 
                 <p className="text-white/90 mt-2 text-xs leading-5 max-w-2xl break-words">
@@ -406,19 +476,13 @@ export default function NewProjectPage() {
 
                     <Input
                       label="Project Name"
-                      value={
-                        form.name
-                      }
-                      onChange={(
-                        e: any
-                      ) =>
-                        setForm({
-                          ...form,
-                          name: e
-                            .target
-                            .value,
-                        })
-                      }
+                      value={form.projectName}
+                      onChange={(e:any) =>
+  setForm({
+    ...form,
+    projectName: e.target.value,
+  })
+}
                     />
 
                     <Select
@@ -446,15 +510,13 @@ export default function NewProjectPage() {
 
                     <Input
                       label="Scheme Name"
-                      value={
-                        form.scheme
-                      }
+                     value={form.schemeName}
                       onChange={(
                         e: any
                       ) =>
                         setForm({
                           ...form,
-                          scheme:
+                          schemeName:
                             e
                               .target
                               .value,
@@ -465,14 +527,14 @@ export default function NewProjectPage() {
                     <Select
                       label="Project Type"
                       value={
-                        form.type
+                        form.projectType
                       }
                       onChange={(
                         e: any
                       ) =>
                         setForm({
                           ...form,
-                          type: e
+                          projectType: e
                             .target
                             .value,
                         })
@@ -529,7 +591,7 @@ export default function NewProjectPage() {
                               setForm(
                                 {
                                   ...form,
-                                  priority:
+                                  priorityLevel:
                                     p,
                                 }
                               )
@@ -537,7 +599,7 @@ export default function NewProjectPage() {
                             className={`
                               px-4 h-10 rounded-xl text-sm font-medium transition-all
                               ${
-                                form.priority ===
+                                form.priorityLevel ===
                                 p
                                   ? "bg-gradient-to-r from-emerald-500 to-green-600 text-white"
                                   : "bg-gray-100 text-black hover:bg-gray-200"
@@ -555,31 +617,655 @@ export default function NewProjectPage() {
 
               {/* OTHER STEPS */}
 
-              {step > 1 && (
+             
 
-                <div className="min-h-[180px] flex items-center justify-center">
+              {step === 2 && (
 
-                  <div className="text-center">
+  <div className="space-y-4">
 
-                    <div className="w-16 h-16 rounded-xl bg-gradient-to-r from-emerald-500 to-green-600 text-white flex items-center justify-center mx-auto shadow-sm">
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
 
-                      <Building2 className="w-7 h-7" />
-                    </div>
+      <Input
+        label="State"
+        value={form.location.state}
+        onChange={(e:any) =>
+          setForm({
+            ...form,
+            location: {
+              ...form.location,
+              state: e.target.value,
+            },
+          })
+        }
+      />
 
-                    <h3 className="text-lg font-semibold text-black mt-5">
-                      {
-                        steps[
-                          step - 1
-                        ]
-                      }
-                    </h3>
+      <Input
+        label="District"
+        value={form.location.district}
+        onChange={(e:any) =>
+          setForm({
+            ...form,
+            location: {
+              ...form.location,
+              district: e.target.value,
+            },
+          })
+        }
+      />
 
-                    <p className="text-black mt-2 max-w-md text-sm leading-5">
-                      Continue building remaining sections using the same compact responsive UI.
-                    </p>
-                  </div>
-                </div>
-              )}
+      <Input
+        label="Block"
+        value={form.location.block}
+        onChange={(e:any) =>
+          setForm({
+            ...form,
+            location: {
+              ...form.location,
+              block: e.target.value,
+            },
+          })
+        }
+      />
+
+      <Input
+        label="Ward"
+        value={form.location.ward}
+        onChange={(e:any) =>
+          setForm({
+            ...form,
+            location: {
+              ...form.location,
+              ward: e.target.value,
+            },
+          })
+        }
+      />
+
+    </div>
+
+    <Textarea
+      label="Address"
+      value={form.location.address}
+      onChange={(e:any) =>
+        setForm({
+          ...form,
+          location: {
+            ...form.location,
+            address: e.target.value,
+          },
+        })
+      }
+    />
+
+  </div>
+)}
+
+{step === 3 && (
+
+  <div className="space-y-4">
+
+    <Textarea
+      label="Project Description"
+      value={
+        form.descriptionData.description
+      }
+      onChange={(e:any) =>
+        setForm({
+          ...form,
+          descriptionData: {
+            ...form.descriptionData,
+            description:
+              e.target.value,
+          },
+        })
+      }
+    />
+
+    <Textarea
+      label="Project Scope"
+      value={
+        form.descriptionData.scope
+      }
+      onChange={(e:any) =>
+        setForm({
+          ...form,
+          descriptionData: {
+            ...form.descriptionData,
+            scope:
+              e.target.value,
+          },
+        })
+      }
+    />
+
+  </div>
+)}
+
+{step === 4 && (
+
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <Input
+      type="date"
+      label="Start Date"
+      value={
+        form.timeline.startDate
+      }
+      onChange={(e:any) =>
+        setForm({
+          ...form,
+          timeline: {
+            ...form.timeline,
+            startDate:
+              e.target.value,
+          },
+        })
+      }
+    />
+
+    <Input
+      type="date"
+      label="End Date"
+      value={
+        form.timeline.endDate
+      }
+      onChange={(e:any) =>
+        setForm({
+          ...form,
+          timeline: {
+            ...form.timeline,
+            endDate:
+              e.target.value,
+          },
+        })
+      }
+    />
+
+  </div>
+)}
+
+
+{step === 5 && (
+
+  <div className="space-y-4">
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+      <Input
+        label="Total Budget"
+        type="number"
+        value={
+          form.budget.totalBudget
+        }
+        onChange={(e:any) =>
+          setForm({
+            ...form,
+            budget: {
+              ...form.budget,
+              totalBudget:
+                e.target.value,
+            },
+          })
+        }
+      />
+
+      <Input
+        label="Funding Source"
+        value={
+          form.budget.fundingSource
+        }
+        onChange={(e:any) =>
+          setForm({
+            ...form,
+            budget: {
+              ...form.budget,
+              fundingSource:
+                e.target.value,
+            },
+          })
+        }
+      />
+
+    </div>
+
+    <Textarea
+      label="Expense Breakdown"
+      value={
+        form.budget.expenseBreakdown
+      }
+      onChange={(e:any) =>
+        setForm({
+          ...form,
+          budget: {
+            ...form.budget,
+            expenseBreakdown:
+              e.target.value,
+          },
+        })
+      }
+    />
+
+  </div>
+)}
+
+
+{step === 6 && (
+
+  <div className="space-y-4">
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+      <Input
+        label="Vendor Name"
+        value={
+          form.vendor.vendorName
+        }
+        onChange={(e:any) =>
+          setForm({
+            ...form,
+            vendor: {
+              ...form.vendor,
+              vendorName:
+                e.target.value,
+            },
+          })
+        }
+      />
+
+      <Input
+        label="Company Name"
+        value={
+          form.vendor.companyName
+        }
+        onChange={(e:any) =>
+          setForm({
+            ...form,
+            vendor: {
+              ...form.vendor,
+              companyName:
+                e.target.value,
+            },
+          })
+        }
+      />
+
+      <Input
+        label="Contact Details"
+        value={
+          form.vendor.contactDetails
+        }
+        onChange={(e:any) =>
+          setForm({
+            ...form,
+            vendor: {
+              ...form.vendor,
+              contactDetails:
+                e.target.value,
+            },
+          })
+        }
+      />
+
+      <Input
+        type="number"
+        label="Contract Value"
+        value={
+          form.vendor.contractValue
+        }
+        onChange={(e:any) =>
+          setForm({
+            ...form,
+            vendor: {
+              ...form.vendor,
+              contractValue:
+                e.target.value,
+            },
+          })
+        }
+      />
+
+    </div>
+
+  </div>
+)}
+
+
+{step === 7 && (
+
+  <div className="space-y-4">
+
+    <div className="flex gap-3">
+
+      <select
+        value={selectedAsset}
+        onChange={(e) =>
+          setSelectedAsset(
+            e.target.value
+          )
+        }
+        className="flex-1 h-10 border border-gray-200 rounded-xl px-3"
+      >
+        <option value="">
+          Select Asset
+        </option>
+
+        {inventoryItems.map(
+          (item:any) => (
+            <option
+              key={item.id}
+              value={item.id}
+            >
+              {item.productName}
+            </option>
+          )
+        )}
+      </select>
+
+      <button
+        onClick={() => {
+
+          if (!selectedAsset)
+            return;
+
+          setForm({
+            ...form,
+            assets: [
+              ...form.assets,
+              {
+                productId:
+                  selectedAsset,
+              },
+            ],
+          });
+
+          setSelectedAsset("");
+        }}
+        className="h-10 px-4 rounded-xl bg-emerald-600 text-white"
+      >
+        Add
+      </button>
+
+    </div>
+
+    <div className="space-y-2">
+
+      {form.assets.map(
+        (
+          item:any,
+          index:number
+        ) => (
+
+          <div
+            key={index}
+            className="flex items-center justify-between border rounded-xl p-3"
+          >
+
+            <span>
+              {form.assets.map((item:any,index:number)=>{
+
+  const product =
+    inventoryItems.find(
+      (p:any)=>
+        p.id === item.productId
+    );
+
+  return (
+
+    <div
+      key={index}
+      className="flex items-center justify-between border rounded-xl p-3"
+    >
+
+      <div>
+
+        <p className="font-medium">
+          {product?.productName}
+        </p>
+
+        <p className="text-xs text-gray-500">
+          {product?.productId}
+        </p>
+
+      </div>
+
+      <button
+        className="text-red-600"
+      >
+        Remove
+      </button>
+
+    </div>
+  );
+})}
+              {/* {item.productId} */}
+            </span>
+
+            <button
+              onClick={() =>
+                setForm({
+                  ...form,
+                  assets:
+                    form.assets.filter(
+                      (_:any,i:number) =>
+                        i !== index
+                    ),
+                })
+              }
+              className="text-red-600"
+            >
+              Remove
+            </button>
+
+          </div>
+        )
+      )}
+
+    </div>
+
+  </div>
+)}
+
+{step === 8 && (
+
+  <div className="space-y-4">
+
+    <div className="grid md:grid-cols-3 gap-3">
+
+      <Input
+        label="Milestone Name"
+        value={
+          milestone.milestoneName
+        }
+        onChange={(e:any) =>
+          setMilestone({
+            ...milestone,
+            milestoneName:
+              e.target.value,
+          })
+        }
+      />
+
+      <Input
+        type="date"
+        label="Due Date"
+        value={
+          milestone.dueDate
+        }
+        onChange={(e:any) =>
+          setMilestone({
+            ...milestone,
+            dueDate:
+              e.target.value,
+          })
+        }
+      />
+
+      <Input
+        type="number"
+        label="Budget %"
+        value={
+          milestone.budgetPercent
+        }
+        onChange={(e:any) =>
+          setMilestone({
+            ...milestone,
+            budgetPercent:
+              e.target.value,
+          })
+        }
+      />
+
+    </div>
+
+    <button
+      onClick={() => {
+
+        setForm({
+          ...form,
+          milestones: [
+            ...form.milestones,
+            {
+              ...milestone,
+              budgetPercent:
+                Number(
+                  milestone.budgetPercent
+                ),
+            },
+          ],
+        });
+
+        setMilestone({
+          milestoneName: "",
+          dueDate: "",
+          budgetPercent: "",
+        });
+      }}
+      className="h-10 px-4 rounded-xl bg-emerald-600 text-white"
+    >
+      Add Milestone
+    </button>
+
+  </div>
+)}
+
+{step === 9 && (
+
+  <div className="grid md:grid-cols-3 gap-3">
+
+    <Input
+      label="Project Manager"
+      value={
+        form.team.projectManager
+      }
+      onChange={(e:any) =>
+        setForm({
+          ...form,
+          team: {
+            ...form.team,
+            projectManager:
+              e.target.value,
+          },
+        })
+      }
+    />
+
+    <Input
+      label="Supervisor"
+      value={
+        form.team.supervisor
+      }
+      onChange={(e:any) =>
+        setForm({
+          ...form,
+          team: {
+            ...form.team,
+            supervisor:
+              e.target.value,
+          },
+        })
+      }
+    />
+
+    <Input
+      label="Department Head"
+      value={
+        form.team.departmentHead
+      }
+      onChange={(e:any) =>
+        setForm({
+          ...form,
+          team: {
+            ...form.team,
+            departmentHead:
+              e.target.value,
+          },
+        })
+      }
+    />
+
+  </div>
+)}
+
+{step === 10 && (
+
+  <div className="space-y-4">
+
+    <div className="grid md:grid-cols-2 gap-3">
+
+      <Input
+        label="Level Name"
+        value={
+          approval.levelName
+        }
+        onChange={(e:any) =>
+          setApproval({
+            ...approval,
+            levelName:
+              e.target.value,
+          })
+        }
+      />
+
+      <Input
+        label="Order"
+        type="number"
+        value={approval.order}
+        onChange={(e:any) =>
+          setApproval({
+            ...approval,
+            order:
+              Number(
+                e.target.value
+              ),
+          })
+        }
+      />
+
+    </div>
+
+    <button
+      onClick={() => {
+
+        setForm({
+          ...form,
+          approvals: [
+            ...form.approvals,
+            approval,
+          ],
+        });
+
+        setApproval({
+          levelName: "",
+          order: 1,
+        });
+      }}
+      className="h-10 px-4 rounded-xl bg-emerald-600 text-white"
+    >
+      Add Approval
+    </button>
+
+  </div>
+)}
             </motion.div>
           </AnimatePresence>
 

@@ -236,14 +236,14 @@ export default function DashboardPage() {
 
       {/* ---------------- STATUS DISTRIBUTION ---------------- */}
 
-      <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm overflow-hidden">
+      {/* <div className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm overflow-hidden">
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
 
           <div className="min-w-0">
 
             <h2 className="text-lg font-semibold text-black break-words">
-              Asset Distribution
+              Asset Distribution 
             </h2>
 
             <p className="text-xs text-black mt-1 break-words">
@@ -287,7 +287,7 @@ export default function DashboardPage() {
             ))}
           </div>
         )}
-      </div>
+      </div> */}
     </div>
   )
 }

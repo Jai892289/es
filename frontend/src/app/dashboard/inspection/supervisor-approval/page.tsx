@@ -15,7 +15,12 @@ import {
   ArrowUpRight,
 } from "lucide-react"
 
-import { getInspectionApprovalApi } from "@/lib/inspection.api"
+import {
+  getInspectionApprovalApi,
+  approveInspectionReportApi,
+  rejectInspectionReportApi,
+} from "@/lib/inspection.api";
+
 
 export default function SupervisorApprovalPage() {
 
@@ -35,6 +40,21 @@ export default function SupervisorApprovalPage() {
   useEffect(() => {
     fetchApprovalReports()
   }, [])
+
+  const handleApprove = async (
+  id: string
+) => {
+  await approveInspectionReportApi(id);
+  fetchApprovalReports();
+};
+
+const handleReject = async (
+  id: string
+) => {
+  await rejectInspectionReportApi(id);
+  fetchApprovalReports();
+};
+
 
   const fetchApprovalReports =
     async () => {
@@ -111,7 +131,7 @@ export default function SupervisorApprovalPage() {
               <div className="min-w-0">
 
                 <h1 className="text-xl md:text-2xl font-bold break-words">
-                  Supervisor Approval
+                  Supervisor Approval 
                 </h1>
 
                 <p className="text-green-50 mt-1 text-xs leading-5 break-words">
@@ -199,50 +219,24 @@ export default function SupervisorApprovalPage() {
           (report) => (
 
             <ApprovalCard
-              key={report.id}
-              id={
-                report.inspection
-                  ?.inspectionId
-              }
-              status={
-                report.supervisorStatus
-              }
-              result={
-                report.inspectionResult
-              }
-              title={
-                report.inspection
-                  ?.title
-              }
-              inspector={
-                report.inspection
-                  ?.inspectorName
-              }
-              date={new Date(
-                report.createdAt
-              ).toLocaleDateString()}
-              location={
-                report.address
-              }
-              coords={`${report.latitude}° , ${report.longitude}°`}
-              photos={
-                report.photoUrls
-                  ?.length || 0
-              }
-              videos={
-                report.videoUrls
-                  ?.length || 0
-              }
-              observation={
-                report.observation
-              }
-              recommendation={
-                report.recommendation
-              }
-              complianceStatus={
-                report.complianceStatus
-              }
-            />
+  key={report.id}
+  reportId={report.id}
+  id={report.inspection?.inspectionId}
+  status={report.supervisorStatus}
+  result={report.inspectionResult}
+  title={report.inspection?.title}
+  inspector={report.inspection?.inspectorName}
+  date={new Date(report.createdAt).toLocaleDateString()}
+  location={report.address}
+  coords={`${report.latitude}, ${report.longitude}`}
+  photos={report.photoUrls?.length || 0}
+  videos={report.videoUrls?.length || 0}
+  observation={report.observation}
+  recommendation={report.recommendation}
+  complianceStatus={report.complianceStatus}
+  onApprove={handleApprove}
+  onReject={handleReject}
+/>
           )
         )}
       </div>
@@ -331,6 +325,7 @@ function OverviewCard({
 /* ---------------- APPROVAL CARD ---------------- */
 
 function ApprovalCard({
+  reportId,
   id,
   status,
   result,
@@ -344,180 +339,127 @@ function ApprovalCard({
   observation,
   recommendation,
   complianceStatus,
+  onApprove,
+  onReject,
 }: any) {
-
   const statusBadge =
     status === "APPROVED"
       ? "bg-green-100 text-green-700"
       : status === "REJECTED"
       ? "bg-red-100 text-red-700"
-      : "bg-orange-100 text-orange-700"
+      : "bg-orange-100 text-orange-700";
 
   const resultBadge =
     result === "PASSED"
       ? "bg-green-100 text-green-700"
       : result === "FAILED"
       ? "bg-red-100 text-red-700"
-      : "bg-orange-100 text-orange-700"
+      : "bg-orange-100 text-orange-700";
 
   return (
     <div className="group bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
 
       {/* HEADER */}
-
       <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
-
         <div className="space-y-3 min-w-0">
-
           <div className="flex flex-wrap items-center gap-2">
-
-            <span className="font-semibold text-black text-sm break-words">
+            <span className="font-semibold text-black text-sm">
               {id}
             </span>
 
             <span
-              className={`px-3 py-1 rounded-xl text-[11px] font-medium whitespace-nowrap ${statusBadge}`}
+              className={`px-3 py-1 rounded-xl text-[11px] font-medium ${statusBadge}`}
             >
               {status}
             </span>
           </div>
 
-          <div className="min-w-0">
-
-            <h3 className="text-lg font-semibold text-black break-words">
+          <div>
+            <h3 className="text-lg font-semibold text-black">
               {title}
             </h3>
 
-            <p className="text-xs text-black mt-1 break-words">
-              Inspector: {inspector}
-              {" • "}
-              {date}
+            <p className="text-xs text-gray-600 mt-1">
+              Inspector: {inspector} • {date}
             </p>
           </div>
         </div>
 
         <span
-          className={`px-3 py-2 rounded-xl text-xs font-medium h-fit whitespace-nowrap ${resultBadge}`}
+          className={`px-3 py-2 rounded-xl text-xs font-medium h-fit ${resultBadge}`}
         >
           {result || "N/A"}
         </span>
       </div>
 
       {/* DETAILS */}
-
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+        <InfoBox
+          title="Location"
+          value={`${location} (${coords})`}
+        />
 
-        {/* LOCATION */}
-
-        <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 overflow-hidden">
-
-          <div className="flex gap-3">
-
-            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center shrink-0">
-
-              <MapPin className="w-4 h-4 text-black" />
-            </div>
-
-            <div className="min-w-0">
-
-              <p className="text-[10px] font-semibold uppercase tracking-wide text-black break-words">
-                Location
-              </p>
-
-              <p className="font-semibold text-sm text-black mt-2 break-words">
-                {location}
-              </p>
-
-              <p className="text-[11px] text-black mt-1 break-all">
-                {coords}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* MEDIA */}
-
-        <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 overflow-hidden">
-
-          <div className="flex gap-3">
-
-            <div className="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center shrink-0">
-
-              <ImageIcon className="w-4 h-4 text-black" />
-            </div>
-
-            <div className="min-w-0">
-
-              <p className="text-[10px] font-semibold uppercase tracking-wide text-black break-words">
-                Media Uploads
-              </p>
-
-              <div className="flex flex-wrap gap-3 mt-2">
-
-                <div className="flex items-center gap-2 text-blue-700 text-xs font-medium whitespace-nowrap">
-
-                  <ImageIcon className="w-4 h-4" />
-
-                  {photos} Photos
-                </div>
-
-                <div className="flex items-center gap-2 text-purple-700 text-xs font-medium whitespace-nowrap">
-
-                  <VideoIcon className="w-4 h-4" />
-
-                  {videos} Videos
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <InfoBox
+          title="Media"
+          value={`${photos} Photos • ${videos} Videos`}
+        />
       </div>
 
       {/* CONTENT */}
-
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-3 mt-4">
-
         <InfoBox
           title="Observation"
-          value={
-            observation || "N/A"
-          }
+          value={observation || "N/A"}
         />
 
         <InfoBox
           title="Recommendation"
-          value={
-            recommendation ||
-            "N/A"
-          }
+          value={recommendation || "N/A"}
         />
 
         <InfoBox
           title="Compliance"
-          value={
-            complianceStatus ||
-            "N/A"
-          }
+          value={complianceStatus || "N/A"}
           highlight
         />
       </div>
 
       {/* ACTIONS */}
+      {status === "PENDING" && (
+        <div className="flex flex-col md:flex-row gap-3 mt-4">
+          <button
+            onClick={() => onApprove(reportId)}
+            className="flex-1 h-10 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:opacity-95 transition text-white text-sm font-medium shadow-sm"
+          >
+            Approve Report
+          </button>
 
-      <div className="flex flex-col md:flex-row gap-3 mt-4">
+          <button
+            onClick={() => onReject(reportId)}
+            className="flex-1 h-10 rounded-xl bg-gradient-to-r from-red-500 to-rose-500 hover:opacity-95 transition text-white text-sm font-medium shadow-sm"
+          >
+            Reject Report
+          </button>
+        </div>
+      )}
 
-        <button className="flex-1 h-10 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:opacity-95 transition text-white text-sm font-medium shadow-sm whitespace-nowrap">
+      {status === "APPROVED" && (
+        <div className="mt-4 rounded-xl bg-green-50 border border-green-100 p-3 text-center">
+          <p className="text-sm font-medium text-green-700">
+            ✓ Report Approved
+          </p>
+        </div>
+      )}
 
-          Approve Report
-        </button>
-
-        <button className="flex-1 h-10 rounded-xl bg-gradient-to-r from-red-500 to-rose-500 hover:opacity-95 transition text-white text-sm font-medium shadow-sm whitespace-nowrap">
-
-          Reject Report
-        </button>
-      </div>
+      {status === "REJECTED" && (
+        <div className="mt-4 rounded-xl bg-red-50 border border-red-100 p-3 text-center">
+          <p className="text-sm font-medium text-red-700">
+            ✕ Report Rejected
+          </p>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
 /* ---------------- INFO BOX ---------------- */

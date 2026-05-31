@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import {
@@ -12,92 +12,99 @@ import {
   Search,
 } from "lucide-react";
 
-export const projects = [
-  {
-    id: "PRJ-2026-001",
-    name: "Rural Road Construction - Phase 1",
-    category: "Infrastructure",
-    scheme: "PMGSY",
-    department: "Public Works",
-    location: "Block-A, Panchayat-1",
-    start: "2026-01-15",
-    end: "2026-12-31",
-    status: "Ongoing",
-    budget: "₹45,00,000",
-    progress: 65,
-  },
-  {
-    id: "PRJ-2026-002",
-    name: "Primary School Renovation",
-    category: "Education",
-    scheme: "SSA",
-    department: "Education",
-    location: "Ward-3, Municipality",
-    start: "2025-11-01",
-    end: "2026-03-31",
-    status: "Completed",
-    budget: "₹12,50,000",
-    progress: 100,
-  },
-  {
-    id: "PRJ-2026-003",
-    name: "Water Supply Pipeline",
-    category: "Water Supply",
-    scheme: "Jal Jeevan Mission",
-    department: "Water Resources",
-    location: "District Central",
-    start: "2026-02-01",
-    end: "2026-08-31",
-    status: "Delayed",
-    budget: "₹85,00,000",
-    progress: 35,
-  },
-  {
-    id: "PRJ-2026-004",
-    name: "Community Health Center Setup",
-    category: "Healthcare",
-    scheme: "NRHM",
-    department: "Health & Family Welfare",
-    location: "Block-B, Panchayat-5",
-    start: "2026-06-01",
-    end: "2027-05-31",
-    status: "Pending",
-    budget: "₹1,20,00,000",
-    progress: 0,
-  },
-  {
-    id: "PRJ-2026-005",
-    name: "LED Street Light Installation",
-    category: "Energy",
-    scheme: "SAUBHAGYA",
-    department: "Electricity",
-    location: "Ward-1, Municipality",
-    start: "2026-01-10",
-    end: "2026-06-30",
-    status: "Ongoing",
-    budget: "₹22,00,000",
-    progress: 78,
-  },
-];
+import { getProjectsApi } from "@/lib/project.api";
+
+
 
 export default function ProductTable() {
 
   const router = useRouter();
 
+  const [projects, setProjects] =
+  useState<any[]>([]);
+
+const [loading, setLoading] =
+  useState(true);
+
   const [search, setSearch] =
     useState("");
 
-  const filtered = useMemo(() => {
+ const filtered = useMemo(() => {
 
-    return projects.filter((p) =>
-      `${p.name} ${p.id} ${p.location}`
-        .toLowerCase()
-        .includes(
-          search.toLowerCase()
-        )
-    );
+  return projects.filter((p) =>
+    `
+      ${p.projectName}
+      ${p.category}
+      ${p.department}
+      ${p.schemeName}
+      ${p.location?.district}
+      ${p.location?.state}
+    `
+      .toLowerCase()
+      .includes(
+        search.toLowerCase()
+      )
+  );
 
-  }, [search]);
+}, [projects, search]);
+
+  useEffect(() => {
+
+  const fetchProjects =
+    async () => {
+
+      try {
+
+        const res =
+          await getProjectsApi();
+
+        setProjects(
+          res.data || []
+        );
+
+      } catch (error) {
+
+        console.log(error);
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
+
+  fetchProjects();
+
+}, []);
+
+const completedCount =
+  projects.filter(
+    (p) =>
+      p.status ===
+      "Completed"
+  ).length;
+
+const ongoingCount =
+  projects.filter(
+    (p) =>
+      p.status ===
+      "Ongoing"
+  ).length;
+
+const pendingCount =
+  projects.filter(
+    (p) =>
+      p.status ===
+      "Pending"
+  ).length;
+
+  if (loading) {
+
+  return (
+    <div className="p-6">
+      Loading projects...
+    </div>
+  );
+}
 
   return (
     <div className="space-y-4 w-full overflow-x-hidden max-w-[1280px] mx-auto">
@@ -138,22 +145,22 @@ export default function ProductTable() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 max-w-2xl">
 
               <MiniCard
-                title="Completed"
-                value="1"
-                color="from-emerald-500 to-green-500"
-              />
+  title="Completed"
+  value={String(completedCount)}
+  color="from-emerald-500 to-green-500"
+/>
 
-              <MiniCard
-                title="Ongoing"
-                value="2"
-                color="from-blue-500 to-cyan-500"
-              />
+<MiniCard
+  title="Ongoing"
+  value={String(ongoingCount)}
+  color="from-blue-500 to-cyan-500"
+/>
 
-              <MiniCard
-                title="Delayed"
-                value="1"
-                color="from-rose-500 to-pink-500"
-              />
+<MiniCard
+  title="Pending"
+  value={String(pendingCount)}
+  color="from-orange-500 to-amber-500"
+/>
             </div>
           </div>
 
@@ -223,7 +230,7 @@ export default function ProductTable() {
 
           <div className="flex flex-wrap items-center gap-2">
 
-            <button
+            {/* <button
               className="
                 h-10 px-4 rounded-xl border border-gray-200
                 bg-white text-black text-sm font-medium
@@ -236,7 +243,7 @@ export default function ProductTable() {
               <Filter className="w-4 h-4" />
 
               Filters
-            </button>
+            </button> */}
 
             <button
               onClick={() =>
@@ -251,7 +258,7 @@ export default function ProductTable() {
                 hover:opacity-95
                 transition
                 flex items-center gap-2
-                whitespace-nowrap
+                whitespace-nowrap cursor-pointer
               "
             >
               <Plus className="w-4 h-4" />
@@ -358,19 +365,20 @@ export default function ProductTable() {
                         <div className="min-w-0">
 
                           <h3 className="font-semibold text-black max-w-[220px] truncate text-sm">
-                            {item.name}
+                            {item.projectName}
                           </h3>
 
                           <div className="flex items-center gap-2 mt-1 flex-wrap">
 
                             <span className="text-[10px] text-black">
-                              {item.id}
+                              {item.projectId ||
+item.id.slice(0, 8)}
                             </span>
 
                             <span className="w-1 h-1 rounded-full bg-gray-300" />
 
                             <span className="text-[10px] text-emerald-600 font-medium">
-                              {item.scheme}
+                              {item.schemeName}
                             </span>
                           </div>
                         </div>
@@ -412,11 +420,15 @@ export default function ProductTable() {
 
                           <CalendarDays className="w-4 h-4 text-emerald-500 shrink-0" />
 
-                          {item.start}
+                          {new Date(
+  item.timeline?.startDate
+).toLocaleDateString("en-GB")}
                         </div>
 
                         <p className="text-black text-[11px] whitespace-nowrap">
-                          to {item.end}
+                          to {new Date(
+  item.timeline?.endDate
+).toLocaleDateString("en-GB")}
                         </p>
                       </div>
                     </td>
@@ -454,7 +466,7 @@ export default function ProductTable() {
                           </span>
 
                           <span className="font-bold text-emerald-600">
-                            {item.progress}%
+                            {item.progress || 0}%
                           </span>
                         </div>
 
@@ -483,8 +495,13 @@ export default function ProductTable() {
                           px-4 h-9 rounded-xl
                           bg-gray-900 text-white text-sm font-medium
                           hover:bg-emerald-600
-                          transition
+                          transition cursor-pointer
                         "
+                         onClick={() =>
+    router.push(
+      `/dashboard/project-management/${item.id}`
+    )
+  }
                       >
                         View
 
@@ -577,45 +594,39 @@ function MiniCard({
   value: string;
   color: string;
 }) {
-
   return (
     <div
       className="
         bg-white/10 backdrop-blur
         border border-white/10
-        rounded-xl
-        p-3
-        shadow-sm
+        rounded-2xl
+        p-4
         overflow-hidden
+        hover:bg-white/15
+        transition-all
       "
     >
+      <div className="flex items-center justify-between">
+        <div className="flex-1 min-w-0">
+          <p className="text-[11px] font-medium text-white/75">
+            {title}
+          </p>
 
-      <div className="flex items-start justify-between gap-2">
+          <h2 className="text-3xl font-bold text-white mt-2 leading-none">
+            {value}
+          </h2>
+        </div>
 
         <div
           className={`
-            w-10 h-10 rounded-xl
+            w-12 h-12 rounded-xl
             bg-gradient-to-br ${color}
             flex items-center justify-center
             shrink-0
           `}
         >
-
-          <Building2 className="w-4 h-4 text-white" />
+          <Building2 className="w-5 h-5 text-white" />
         </div>
-
-        <ArrowRight className="w-4 h-4 text-white/70 shrink-0" />
-      </div>
-
-      <div className="mt-3 min-w-0">
-
-        <p className="text-white/90 text-xs break-words">
-          {title}
-        </p>
-
-        <h2 className="text-2xl font-bold text-white mt-1 break-words">
-          {value}
-        </h2>
       </div>
     </div>
   );

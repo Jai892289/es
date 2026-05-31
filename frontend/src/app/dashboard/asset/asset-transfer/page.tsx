@@ -240,7 +240,7 @@ export default function AssetTransferPage() {
                 text-sm font-medium
                 flex items-center justify-center gap-2
                 shadow-sm
-                whitespace-nowrap
+                whitespace-nowrap cursor-pointer
               "
             >
 
@@ -325,10 +325,10 @@ export default function AssetTransferPage() {
             </p>
           </div>
 
-          <button className="h-9 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
+          {/* <button className="h-9 px-4 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
 
             View Analytics
-          </button>
+          </button> */}
         </div>
 
         {/* BODY */}
@@ -623,45 +623,37 @@ function SummaryCard({
   icon: Icon,
   gradient,
 }: any) {
-
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
-
+    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all duration-300">
       <div
-        className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
-      <div className="relative z-10">
-
-        <div className="flex items-center justify-between gap-2">
-
-          <div
-            className={`w-9 h-9 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-sm shrink-0`}
-          >
-
-            <Icon className="w-4 h-4" />
-          </div>
-
-          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
-        </div>
-
-        <div className="mt-3 min-w-0">
-
-          <p className="text-[11px] text-black break-words">
+      <div className="relative flex items-center justify-between gap-4">
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-gray-600 truncate">
             {title}
           </p>
 
-          <h2 className="text-xl font-bold text-black mt-1 break-words">
+          <h2 className="text-3xl font-bold text-black mt-1 leading-none">
             {value}
           </h2>
 
-          <p className="text-[10px] text-black mt-1 break-words">
+          <p className="text-xs text-gray-500 mt-2 truncate">
             {subtitle}
           </p>
         </div>
+
+        {/* Icon */}
+        <div
+          className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg shrink-0`}
+        >
+          <Icon className="w-7 h-7" />
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
 /* ---------------- TRANSFER CARD ---------------- */

@@ -3,6 +3,9 @@ import {
   Response,
 } from "express";
 
+import prisma from "../config/prisma";
+
+
 import {
   createInspection,
   getAllInspections,
@@ -297,31 +300,88 @@ export const getDashboard =
     }
   };
 
-export const approveReport =
-  async (
-    req: any,
-    res: Response
-  ) => {
+// export const approveReport =
+//   async (
+//     req: any,
+//     res: Response
+//   ) => {
 
-    try {
+//     try {
 
-      const report =
-        await approveInspectionReport(
-          req.params.id,
-          req.body
-        );
+//       const report =
+//         await approveInspectionReport(
+//           req.params.id,
+//           req.body
+//         );
 
-      res.json({
-        message:
-          "Report status updated",
+//       res.json({
+//         message:
+//           "Report status updated",
 
-        data: report,
+//         data: report,
+//       });
+
+//     } catch (error: any) {
+
+//       res.status(500).json({
+//         message: error.message,
+//       });
+//     }
+//   };
+
+
+export const approveReport = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id }:any = req.params;
+
+    const report =
+      await prisma.inspectionReport.update({
+        where: { id },
+        data: {
+          supervisorStatus: "APPROVED",
+        },
       });
 
-    } catch (error: any) {
+    return res.status(200).json({
+      success: true,
+      message: "Report approved successfully",
+      data: report,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Approval failed",
+    });
+  }
+};
 
-      res.status(500).json({
-        message: error.message,
+export const rejectReport = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const { id }:any = req.params;
+
+    const report =
+      await prisma.inspectionReport.update({
+        where: { id },
+        data: {
+          supervisorStatus: "REJECTED",
+        },
       });
-    }
-  };
+
+    return res.status(200).json({
+      success: true,
+      message: "Report rejected successfully",
+      data: report,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Rejection failed",
+    });
+  }
+};

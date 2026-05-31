@@ -126,7 +126,7 @@ export default function AssetMappingPage() {
               <div className="min-w-0">
 
                 <h1 className="text-xl font-semibold leading-tight break-words">
-                  Asset Mapping
+                  Asset Mapping 
                 </h1>
 
                 <p className="text-green-50 mt-1 text-xs break-words">
@@ -146,7 +146,7 @@ export default function AssetMappingPage() {
                 </h2>
 
                 <p className="text-green-100 text-[11px] mt-1">
-                  Assets
+                  Assets 
                 </p>
               </div>
 
@@ -396,10 +396,10 @@ export default function AssetMappingPage() {
               </div>
             </div>
           </div>
-
+{/* 
           <button className="px-4 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
             View Analytics
-          </button>
+          </button> */}
         </div>
 
         {/* BODY */}
@@ -460,30 +460,25 @@ function MiniCard({
   title,
   value,
 }: any) {
-
   return (
-    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 overflow-hidden">
-
-      <div className="flex items-center gap-2">
-
-        <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
-
-          <Icon className="w-4 h-4" />
-        </div>
-
-        <div className="min-w-0">
-
-          <p className="text-xs text-white break-words">
+    <div className="bg-white/15 backdrop-blur border border-white/10 rounded-xl p-3">
+      <div className="flex items-center justify-between">
+        <div className="flex-1 min-w-0">
+          <p className="text-[11px] text-white/80 leading-none">
             {title}
           </p>
 
-          <h3 className="text-sm font-semibold mt-1 break-words">
+          <h3 className="text-xl font-bold text-white mt-2 leading-none">
             {value}
           </h3>
         </div>
+
+        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+          <Icon className="w-5 h-5 text-white" />
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
 /* ---------------- OVERVIEW CARD ---------------- */
@@ -494,41 +489,31 @@ function OverviewCard({
   icon: Icon,
   gradient,
 }: any) {
-
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300">
-
+    <div className="group relative overflow-hidden bg-white border border-gray-100 hover:border-gray-200 rounded-2xl p-4 shadow-sm hover:shadow-lg transition-all duration-300">
       <div
-        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
       />
 
-      <div className="relative z-10">
-
-        <div className="flex items-center justify-between gap-2">
-
-          <div
-            className={`w-10 h-10 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow`}
-          >
-
-            <Icon className="w-5 h-5" />
-          </div>
-
-          <ArrowUpRight className="w-4 h-4 text-black shrink-0" />
-        </div>
-
-        <div className="mt-3">
-
-          <p className="text-xs text-black">
+      <div className="relative z-10 flex items-center justify-between">
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-gray-600 truncate">
             {title}
           </p>
 
-          <h2 className="text-2xl font-bold text-black mt-1">
+          <h2 className="text-3xl font-bold text-black mt-2 leading-none">
             {value}
           </h2>
         </div>
+
+        <div
+          className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow-lg shrink-0`}
+        >
+          <Icon className="w-7 h-7" />
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
 /* ---------------- USER ROW ---------------- */
@@ -588,12 +573,12 @@ function UserRow({
         </p>
       </td>
 
-      <td className="px-4 py-4 text-right whitespace-nowrap">
+      {/* <td className="px-4 py-4 text-right whitespace-nowrap">
 
         <button className="px-4 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black">
-          View
+          View 
         </button>
-      </td>
+      </td> */}
     </tr>
   )
 }
@@ -638,9 +623,9 @@ function DepartmentCard({
             </div>
           </div>
 
-          <button className="px-4 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
+          {/* <button className="px-4 h-9 rounded-xl bg-gray-100 hover:bg-gray-200 transition text-sm font-medium text-black whitespace-nowrap">
             View
-          </button>
+          </button> */}
         </div>
 
         {/* TOTAL */}

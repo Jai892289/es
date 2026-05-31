@@ -5,6 +5,6 @@ import { createComplaintController, getComplaintController } from "../controller
 const router = Router();
 
 router.post("/", authMiddleware, createComplaintController);
-router.post("/", authMiddleware, getComplaintController);
+router.get("/", authMiddleware, getComplaintController);
 
 export default router;

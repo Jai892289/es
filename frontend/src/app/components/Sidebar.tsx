@@ -117,11 +117,11 @@ const menu = [
         icon: BarChart3,
       },
 
-      {
-        name: "Reporting",
-        path: "/dashboard/inspection/inspection-reporting",
-        icon: BarChart3,
-      },
+      // {
+      //   name: "Reporting",
+      //   path: "/dashboard/inspection/inspection-reporting",
+      //   icon: BarChart3,
+      // },
 
       {
         name: "Approval",
@@ -195,7 +195,7 @@ export default function Sidebar({
         ${
           collapsed
             ? "w-[72px]"
-            : "w-[220px]"
+            : "w-[250px]"
         }
       `}
     >
@@ -274,13 +274,13 @@ export default function Sidebar({
                   "
                 >
 
-                  <Image
+                  {/* <Image
                     src="/eccentriclogo.png"
                     alt="logo"
                     width={30}
                     height={30}
                     className="object-contain"
-                  />
+                  /> */}
                 </div>
               )}
             </div>
@@ -302,14 +302,27 @@ export default function Sidebar({
                 openMenu ===
                 item.name
 
-              const isActive =
-                pathname ===
-                  item.path ||
-                item.children?.some(
-                  (sub) =>
-                    pathname ===
-                    sub.path
-                )
+                const isActive =
+  pathname === item.path ||
+  pathname.startsWith(
+    `${item.path}/`
+  ) ||
+  item.children?.some(
+    (sub) =>
+      pathname === sub.path ||
+      pathname.startsWith(
+        `${sub.path}/`
+      )
+  );
+
+              // const isActive =
+              //   pathname ===
+              //     item.path ||
+              //   item.children?.some(
+              //     (sub) =>
+              //       pathname ===
+              //       sub.path
+              //   )
 
               return (
                 <div
@@ -501,9 +514,15 @@ export default function Sidebar({
                                 const SubIcon =
                                   sub.icon
 
-                                const isSubActive =
-                                  pathname ===
-                                  sub.path
+                                  const isSubActive =
+  pathname === sub.path ||
+  pathname.startsWith(
+    `${sub.path}/`
+  );
+
+                                // const isSubActive =
+                                //   pathname ===
+                                //   sub.path
 
                                 return (
                                   <Link

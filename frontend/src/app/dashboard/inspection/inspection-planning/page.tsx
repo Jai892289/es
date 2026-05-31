@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import {  BarChart3 } from "lucide-react";
 
 import {
   Bell,
@@ -14,12 +15,45 @@ import {
   ArrowUpRight,
 } from "lucide-react"
 
-import { getInspectionsApi } from "@/lib/inspection.api"
+import { createInspectionReportApi, getInspectionsApi } from "@/lib/inspection.api"
 
 export default function InspectionPage() {
 
   const [inspections, setInspections] =
     useState<any[]>([])
+
+    const [openScheduleModal,
+  setOpenScheduleModal] =
+  useState(false);
+
+const [inspectionForm,
+  setInspectionForm] =
+  useState({
+
+    title: "",
+
+    description: "",
+
+    type: "GENERAL",
+
+    priority: "MEDIUM",
+
+    status: "SCHEDULED",
+
+    scheduledDate: "",
+
+    reminderDate: "",
+
+    location: "",
+
+    inspectorName: "",
+
+    remarks: "",
+
+    projectId: "",
+
+    productId: "",
+  });
 
   const [loading, setLoading] =
     useState(true)
@@ -75,6 +109,55 @@ export default function InspectionPage() {
         item.status ===
         "SCHEDULED"
     ).length
+
+
+const handleCreateInspection =
+  async () => {
+
+    try {
+
+      const res =
+        await createInspectionReportApi(
+          inspectionForm
+        );
+
+      console.log(
+        "SUCCESS",
+        res
+      );
+
+      // refresh table
+      await fetchInspections();
+
+      // close modal
+      setOpenScheduleModal(
+        false
+      );
+
+      // reset form
+      setInspectionForm({
+        title: "",
+        description: "",
+        type: "GENERAL",
+        priority: "MEDIUM",
+        status: "SCHEDULED",
+        scheduledDate: "",
+        reminderDate: "",
+        location: "",
+        inspectorName: "",
+        remarks: "",
+        projectId: "",
+        productId: "",
+      });
+
+    } catch (error) {
+
+      console.error(
+        "ERROR",
+        error
+      );
+    }
+  };
 
   return (
     <div className="space-y-4 overflow-x-hidden">
@@ -165,7 +248,7 @@ export default function InspectionPage() {
 
           {/* LEFT */}
 
-          <div className="flex flex-wrap gap-2">
+          {/* <div className="flex flex-wrap gap-2">
 
             <button className="h-10 px-4 rounded-xl bg-emerald-600 text-white text-sm font-medium shadow-sm whitespace-nowrap">
               List View
@@ -174,32 +257,29 @@ export default function InspectionPage() {
             <button className="h-10 px-4 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition text-sm font-medium text-black whitespace-nowrap">
               Calendar View
             </button>
-          </div>
+          </div> */}
 
           {/* RIGHT */}
 
           <div className="flex flex-wrap gap-2">
 
-            <select className="h-10 px-3 rounded-xl border border-gray-200 bg-white text-sm text-black outline-none">
+             <button
+  onClick={() =>
+    setOpenScheduleModal(
+      true
+    )
+  }
+  className="h-10 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:opacity-95 transition text-white text-sm cursor-pointer font-medium flex items-center gap-2 shadow-sm whitespace-nowrap"
+>
 
-              <option>
-                All Types
-              </option>
-            </select>
-
-            <select className="h-10 px-3 rounded-xl border border-gray-200 bg-white text-sm text-black outline-none">
-
-              <option>
-                All Status
-              </option>
-            </select>
-
-            <button className="h-10 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:opacity-95 transition text-white text-sm font-medium flex items-center gap-2 shadow-sm whitespace-nowrap">
+            {/* <button className="h-10 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 hover:opacity-95 transition text-white text-sm font-medium flex items-center gap-2 shadow-sm whitespace-nowrap"> */}
 
               <Plus className="w-4 h-4" />
 
-              Schedule
+              Schedule Inspection
             </button>
+
+           
           </div>
         </div>
       </div>
@@ -352,6 +432,201 @@ export default function InspectionPage() {
           )}
         </div>
       )}
+
+
+      {openScheduleModal && (
+
+  <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+
+    <div className="bg-white rounded-2xl w-full max-w-3xl p-6 max-h-[90vh] overflow-y-auto">
+
+      <div className="flex items-center justify-between mb-5">
+
+        <h2 className="text-xl font-semibold">
+          Schedule Inspection
+        </h2>
+
+        <button
+          onClick={() =>
+            setOpenScheduleModal(
+              false
+            )
+          }
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4">
+
+        <InputField
+          label="Title"
+          value={
+            inspectionForm.title
+          }
+          onChange={(v) =>
+            setInspectionForm({
+              ...inspectionForm,
+              title: v,
+            })
+          }
+        />
+
+        <InputField
+          label="Inspector"
+          value={
+            inspectionForm.inspectorName
+          }
+          onChange={(v) =>
+            setInspectionForm({
+              ...inspectionForm,
+              inspectorName: v,
+            })
+          }
+        />
+
+        <InputField
+          label="Type"
+          value={
+            inspectionForm.type
+          }
+          onChange={(v) =>
+            setInspectionForm({
+              ...inspectionForm,
+              type: v,
+            })
+          }
+        />
+
+        <InputField
+          label="Priority"
+          value={
+            inspectionForm.priority
+          }
+          onChange={(v) =>
+            setInspectionForm({
+              ...inspectionForm,
+              priority: v,
+            })
+          }
+        />
+
+        <InputField
+          type="datetime-local"
+          label="Scheduled Date"
+          value={
+            inspectionForm.scheduledDate
+          }
+          onChange={(v) =>
+            setInspectionForm({
+              ...inspectionForm,
+              scheduledDate: v,
+            })
+          }
+        />
+
+        <InputField
+          type="datetime-local"
+          label="Reminder Date"
+          value={
+            inspectionForm.reminderDate
+          }
+          onChange={(v) =>
+            setInspectionForm({
+              ...inspectionForm,
+              reminderDate: v,
+            })
+          }
+        />
+
+      </div>
+
+      <div className="mt-4">
+
+        <InputField
+          label="Location"
+          value={
+            inspectionForm.location
+          }
+          onChange={(v) =>
+            setInspectionForm({
+              ...inspectionForm,
+              location: v,
+            })
+          }
+        />
+
+      </div>
+
+      <div className="mt-4">
+
+        <textarea
+          rows={4}
+          value={
+            inspectionForm.description
+          }
+          onChange={(e) =>
+            setInspectionForm({
+              ...inspectionForm,
+              description:
+                e.target.value,
+            })
+          }
+          className="w-full border rounded-xl p-3"
+          placeholder="Description"
+        />
+
+      </div>
+
+      <div className="mt-4">
+
+        <textarea
+          rows={3}
+          value={
+            inspectionForm.remarks
+          }
+          onChange={(e) =>
+            setInspectionForm({
+              ...inspectionForm,
+              remarks:
+                e.target.value,
+            })
+          }
+          className="w-full border rounded-xl p-3"
+          placeholder="Remarks"
+        />
+
+      </div>
+
+      <div className="flex justify-end gap-3 mt-6">
+
+        <button
+          onClick={() =>
+            setOpenScheduleModal(
+              false
+            )
+          }
+          className="h-10 px-4 rounded-xl border"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={
+            handleCreateInspection
+          }
+          className="h-10 px-4 rounded-xl bg-emerald-600 text-white"
+        >
+          Schedule Inspection
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+)}
     </div>
   )
 }
@@ -391,36 +666,39 @@ function MiniCard({
 
 /* ---------------- OVERVIEW CARD ---------------- */
 
+
 function OverviewCard({
   title,
   value,
   gradient,
+  icon: Icon = BarChart3,
 }: any) {
-
   return (
-    <div className="group relative overflow-hidden bg-white border border-gray-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300">
-
+    <div className="group relative overflow-hidden rounded-xl border border-gray-100 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md">
+      
       <div
-        className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-r ${gradient} opacity-10 rounded-full blur-3xl`}
+        className={`absolute -top-6 -right-6 h-20 w-20 rounded-full bg-gradient-to-r ${gradient} opacity-10 blur-2xl`}
       />
 
-      <div className="relative z-10">
+      <div className="relative z-10 flex items-center gap-3">
+        <div
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-r ${gradient} text-white shadow-sm`}
+        >
+          <Icon size={18} />
+        </div>
 
-        <ArrowUpRight className="w-4 h-4 text-black ml-auto group-hover:text-emerald-600 transition" />
-
-        <div className="mt-3 min-w-0">
-
-          <p className="text-xs text-black break-words">
+        <div className="min-w-0 flex-1">
+          <p className="text-[11px] font-medium text-gray-500 truncate">
             {title}
           </p>
 
-          <h2 className="text-2xl font-bold text-black mt-1 break-words">
+          <h2 className="text-xl font-bold leading-tight text-gray-900">
             {value}
           </h2>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 /* ---------------- REMINDER ---------------- */
@@ -526,7 +804,7 @@ function InspectionCard({
           </div>
         </div>
 
-        <div className="flex gap-2 flex-wrap">
+        {/* <div className="flex gap-2 flex-wrap">
 
           <button className="h-9 px-4 rounded-xl bg-blue-50 hover:bg-blue-100 transition text-blue-700 text-sm font-medium whitespace-nowrap">
             Edit
@@ -535,7 +813,7 @@ function InspectionCard({
           <button className="h-9 px-4 rounded-xl bg-orange-50 hover:bg-orange-100 transition text-orange-700 text-sm font-medium whitespace-nowrap">
             Reminder
           </button>
-        </div>
+        </div> */}
       </div>
 
       {/* DETAILS */}
@@ -608,4 +886,34 @@ function Detail({
       </div>
     </div>
   )
+}
+
+
+function InputField({
+  label,
+  value,
+  onChange,
+  type = "text",
+}: any) {
+
+  return (
+    <div>
+
+      <label className="block text-sm font-medium mb-1">
+        {label}
+      </label>
+
+      <input
+        type={type}
+        value={value}
+        onChange={(e) =>
+          onChange(
+            e.target.value
+          )
+        }
+        className="w-full h-10 border border-gray-200 rounded-xl px-3"
+      />
+
+    </div>
+  );
 }
