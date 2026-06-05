@@ -37,6 +37,10 @@ export default function AssetCategoryPage() {
     description: "",
   });
 
+  const [selectedCategory, setSelectedCategory] = useState<any>(null);
+const [openProductsModal, setOpenProductsModal] = useState(false);
+
+console.log("selectedCategory", selectedCategory)
   /* ---------------- FETCH ---------------- */
 
   const fetchCategories = async () => {
@@ -123,6 +127,8 @@ export default function AssetCategoryPage() {
     },
   ];
 
+ 
+
   return (
     <div className="space-y-4">
 
@@ -200,44 +206,7 @@ export default function AssetCategoryPage() {
         </div>
       </div>
 
-      {/* ---------------- STATS ---------------- */}
-
-      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-
-        {stats.map((s, i) => {
-
-          const Icon = s.icon;
-
-          return (
-            <div
-              key={i}
-              className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition"
-            >
-
-              <div className="flex items-center justify-between">
-
-                <div>
-
-                  <p className="text-xs text-black">
-                    {s.label}
-                  </p>
-
-                  <h3 className="text-2xl font-bold text-black mt-1">
-                    {s.value}
-                  </h3>
-                </div>
-
-                <div
-                  className={`w-11 h-11 rounded-xl flex items-center justify-center ${s.color}`}
-                >
-                  <Icon className="w-5 h-5" />
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div> */}
-
+  
       {/* ---------------- CATEGORY GRID ---------------- */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -313,16 +282,24 @@ export default function AssetCategoryPage() {
 
                 {/* FOOTER */}
 
-                <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+               <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
 
-                  <p className="text-[11px] text-black">
-                    Category ID
-                  </p>
+  <p className="text-xs text-gray-500">
+    {c.products?.length || 0} Products
+  </p>
 
-                  <p className="text-xs font-medium text-black truncate max-w-[140px]">
-                    {c.id}
-                  </p>
-                </div>
+  <button
+  onClick={() => {
+  console.log("Selected:", c);
+  setSelectedCategory(c);
+  setOpenProductsModal(true);
+}}
+  className="p-2 text-xs rounded-2xl cursor-pointer bg-green-600 text-white"
+>
+  View Products
+</button>
+
+</div>
               </div>
             </div>
           );
@@ -431,6 +408,193 @@ export default function AssetCategoryPage() {
           </div>
         </div>
       )}
+
+  
+{openProductsModal && selectedCategory && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+
+    <div className="bg-white rounded-3xl w-full max-w-7xl max-h-[90vh] overflow-hidden shadow-xl">
+
+      {/* Header */}
+      <div className="sticky top-0 bg-white border-b px-6 py-5 flex items-center justify-between">
+
+        <div>
+          <h2 className="text-2xl font-bold">
+            {selectedCategory.name}
+          </h2>
+
+          <p className="text-sm text-gray-500">
+            {selectedCategory.products?.length || 0} Products
+          </p>
+        </div>
+
+        <button
+          onClick={() =>
+            setOpenProductsModal(false)
+          }
+          className="w-10 h-10 cursor-pointer rounded-xl bg-gray-100 hover:bg-gray-200"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      {/* Body */}
+      <div className="p-6 overflow-y-auto max-h-[calc(90vh-90px)]">
+
+        {selectedCategory.products?.length ? (
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+
+            {selectedCategory.products.map(
+              (product: any) => (
+                <div
+                  key={product.id}
+                  className="border border-gray-200 rounded-2xl p-5 hover:shadow-md transition-all"
+                >
+
+                  <div className="flex items-center justify-between mb-4">
+
+                    <h3 className="font-semibold text-lg">
+                      {product.productName}
+                    </h3>
+
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        product.amcAvailable
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                    >
+                      {product.amcAvailable
+                        ? "AMC"
+                        : "No AMC"}
+                    </span>
+
+                  </div>
+
+                  <div className="space-y-3">
+
+                    <ProductRow
+                      label="Quantity"
+                      value={product.quantity}
+                    />
+
+                    <ProductRow
+                      label="Serial Number"
+                      value={product.serialNumber}
+                    />
+
+                    <ProductRow
+                      label="Invoice"
+                      value={product.invoiceNumber}
+                    />
+
+                    <ProductRow
+                      label="Unit Price"
+                      value={
+                        product.unitPrice
+                          ? `₹${product.unitPrice}`
+                          : "-"
+                      }
+                    />
+
+                    <ProductRow
+                      label="Status"
+                      value={product.status}
+                    />
+
+                    <ProductRow
+                      label="Procurement Date"
+                      value={
+                        product.procurementDate
+                          ? new Date(
+                              product.procurementDate
+                            ).toLocaleDateString()
+                          : "-"
+                      }
+                    />
+
+                    <ProductRow
+                      label="Warranty Expiry"
+                      value={
+                        product.warrantyExpiryDate
+                          ? new Date(
+                              product.warrantyExpiryDate
+                            ).toLocaleDateString()
+                          : "-"
+                      }
+                    />
+
+                  </div>
+
+                </div>
+              )
+            )}
+
+          </div>
+
+        ) : (
+
+          <div className="py-20 text-center">
+
+            <h3 className="text-lg font-semibold text-gray-700">
+              No Products Found
+            </h3>
+
+            <p className="text-gray-500 mt-2">
+              This category does not contain any products.
+            </p>
+
+          </div>
+
+        )}
+
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
+
+
+const Row = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: any;
+}) => (
+  <div className="flex items-start justify-between gap-3 border-b border-gray-100 pb-2">
+
+    <span className="text-sm text-gray-500">
+      {label}
+    </span>
+
+    <span className="text-sm font-medium text-right break-all">
+      {value || "-"}
+    </span>
+
+  </div>
+);
+
+const ProductRow = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: any;
+}) => (
+  <div className="flex justify-between items-start gap-4 border-b border-gray-100 pb-2">
+
+    <span className="text-sm text-gray-500">
+      {label}
+    </span>
+
+    <span className="text-sm font-medium text-right break-all">
+      {value || "-"}
+    </span>
+
+  </div>
+);

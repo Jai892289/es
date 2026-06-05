@@ -9,6 +9,7 @@ import {
   Truck,
   Package2,
   Save,
+  File
 } from "lucide-react"
 
 import { useState } from "react"
@@ -27,6 +28,10 @@ export default function AddProductInventoryPage() {
     department: {
       name: "",
       purpose: "",
+      fullName: "",
+      designation: "",
+      contactNumber: "",
+      email: "",
       location: "",
       city: "",
       state: "",
@@ -35,25 +40,31 @@ export default function AddProductInventoryPage() {
 
     vendor: {
       companyName: "",
+      fullName: "",
       contactNumber: "",
       whatsappNumber: "",
       email: "",
-      website: "",
+      location: "",
     },
 
     product: {
-      productName: "",
       category: "",
+      productName: "",
+      otherProduct: "",
       quantity: "",
       serialNumber: "",
-      procurementDate: "",
-      warrantyExpiryDate: "",
       amcAvailable: "",
-      invoiceNumber: "",
+      amcExpiryDate: "",
+      amcNumber: "",
+      warrantyExpiryDate: "",
+      procurementDate: "",
+      productDescription: "",
     },
+    attachments: [],
   })
 
   const [loading, setLoading] = useState(false)
+  const [attachments, setAttachments] = useState<File[]>([])
 
   const router = useRouter()
 
@@ -89,9 +100,9 @@ export default function AddProductInventoryPage() {
       errors.push("Vendor company is required")
     }
 
-    if (!form.product.productName) {
-      errors.push("Product name is required")
-    }
+    // if (!form.product.productName) {
+    //   errors.push("Product name is required")
+    // }
 
     if (!form.product.quantity) {
       errors.push("Quantity is required")
@@ -156,7 +167,7 @@ export default function AddProductInventoryPage() {
 
       toast.error(
         err?.response?.data?.message ||
-          "Something went wrong"
+        "Something went wrong"
       )
 
     } finally {
@@ -238,15 +249,12 @@ export default function AddProductInventoryPage() {
 
             <div className="grid grid-cols-2 gap-5">
 
+              {/* Row 1 */}
               <Input
                 label="Department Name"
                 value={form.department.name}
                 onChange={(e: any) =>
-                  handleChange(
-                    "department",
-                    "name",
-                    e.target.value
-                  )
+                  handleChange("department", "name", e.target.value)
                 }
               />
 
@@ -254,23 +262,50 @@ export default function AddProductInventoryPage() {
                 label="Purpose"
                 value={form.department.purpose}
                 onChange={(e: any) =>
-                  handleChange(
-                    "department",
-                    "purpose",
-                    e.target.value
-                  )
+                  handleChange("department", "purpose", e.target.value)
+                }
+              />
+
+              {/* Row 2 */}
+              <Input
+                label="Full Name"
+                value={form.department.fullName}
+                onChange={(e: any) =>
+                  handleChange("department", "fullName", e.target.value)
                 }
               />
 
               <Input
+                label="Designation"
+                value={form.department.designation}
+                onChange={(e: any) =>
+                  handleChange("department", "designation", e.target.value)
+                }
+              />
+
+              {/* Row 3 */}
+              <Input
+                label="Contact Number"
+                value={form.department.contactNumber}
+                onChange={(e: any) =>
+                  handleChange("department", "contactNumber", e.target.value)
+                }
+              />
+
+              <Input
+                label="Email"
+                value={form.department.email}
+                onChange={(e: any) =>
+                  handleChange("department", "email", e.target.value)
+                }
+              />
+
+              {/* Row 4 */}
+              <Input
                 label="Location"
                 value={form.department.location}
                 onChange={(e: any) =>
-                  handleChange(
-                    "department",
-                    "location",
-                    e.target.value
-                  )
+                  handleChange("department", "location", e.target.value)
                 }
               />
 
@@ -278,23 +313,16 @@ export default function AddProductInventoryPage() {
                 label="City"
                 value={form.department.city}
                 onChange={(e: any) =>
-                  handleChange(
-                    "department",
-                    "city",
-                    e.target.value
-                  )
+                  handleChange("department", "city", e.target.value)
                 }
               />
 
+              {/* Row 5 */}
               <Input
                 label="State"
                 value={form.department.state}
                 onChange={(e: any) =>
-                  handleChange(
-                    "department",
-                    "state",
-                    e.target.value
-                  )
+                  handleChange("department", "state", e.target.value)
                 }
               />
 
@@ -302,13 +330,10 @@ export default function AddProductInventoryPage() {
                 label="Pincode"
                 value={form.department.pincode}
                 onChange={(e: any) =>
-                  handleChange(
-                    "department",
-                    "pincode",
-                    e.target.value
-                  )
+                  handleChange("department", "pincode", e.target.value)
                 }
               />
+
             </div>
           </div>
 
@@ -337,27 +362,29 @@ export default function AddProductInventoryPage() {
 
             <div className="grid grid-cols-2 gap-5">
 
-              <Input
-                label="Product Name"
-                value={form.product.productName}
-                onChange={(e: any) =>
-                  handleChange(
-                    "product",
-                    "productName",
-                    e.target.value
-                  )
-                }
-              />
-
+              {/* Row 1 */}
               <Input
                 label="Category"
                 value={form.product.category}
                 onChange={(e: any) =>
-                  handleChange(
-                    "product",
-                    "category",
-                    e.target.value
-                  )
+                  handleChange("product", "category", e.target.value)
+                }
+              />
+
+              <Input
+                label="Item / Product"
+                value={form.product.productName}
+                onChange={(e: any) =>
+                  handleChange("product", "productName", e.target.value)
+                }
+              />
+
+              {/* Row 2 */}
+              <Input
+                label="Other Product"
+                value={form.product.otherProduct}
+                onChange={(e: any) =>
+                  handleChange("product", "otherProduct", e.target.value)
                 }
               />
 
@@ -365,21 +392,54 @@ export default function AddProductInventoryPage() {
                 label="Quantity"
                 value={form.product.quantity}
                 onChange={(e: any) =>
-                  handleChange(
-                    "product",
-                    "quantity",
-                    e.target.value
-                  )
+                  handleChange("product", "quantity", e.target.value)
                 }
               />
 
+              {/* Row 3 */}
               <Input
                 label="Serial Number"
                 value={form.product.serialNumber}
                 onChange={(e: any) =>
+                  handleChange("product", "serialNumber", e.target.value)
+                }
+              />
+
+              <Select
+                label="AMC"
+                value={form.product.amcAvailable}
+                onChange={(e: any) =>
+                  handleChange("product", "amcAvailable", e.target.value)
+                }
+              />
+
+              {/* Row 4 */}
+              <Input
+                type="date"
+                label="AMC Expiry Date"
+                value={form.product.amcExpiryDate}
+                onChange={(e: any) =>
+                  handleChange("product", "amcExpiryDate", e.target.value)
+                }
+              />
+
+              <Input
+                label="AMC Number"
+                value={form.product.amcNumber}
+                onChange={(e: any) =>
+                  handleChange("product", "amcNumber", e.target.value)
+                }
+              />
+
+              {/* Row 5 */}
+              <Input
+                type="date"
+                label="Warranty Expiry Date"
+                value={form.product.warrantyExpiryDate}
+                onChange={(e: any) =>
                   handleChange(
                     "product",
-                    "serialNumber",
+                    "warrantyExpiryDate",
                     e.target.value
                   )
                 }
@@ -398,42 +458,31 @@ export default function AddProductInventoryPage() {
                 }
               />
 
-              <Input
-                type="date"
-                label="Warranty Expiry"
-                value={form.product.warrantyExpiryDate}
-                onChange={(e: any) =>
-                  handleChange(
-                    "product",
-                    "warrantyExpiryDate",
-                    e.target.value
-                  )
-                }
-              />
+              {/* Product Description */}
+              <div className="col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Product Description
+                </label>
 
-              <Select
-                label="AMC Available"
-                value={form.product.amcAvailable}
-                onChange={(e: any) =>
-                  handleChange(
-                    "product",
-                    "amcAvailable",
-                    e.target.value
-                  )
-                }
-              />
+                <textarea
+                  rows={6}
+                  maxLength={500}
+                  value={form.product.productDescription}
+                  onChange={(e: any) =>
+                    handleChange(
+                      "product",
+                      "productDescription",
+                      e.target.value
+                    )
+                  }
+                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-green-500 focus:bg-white transition resize-none"
+                />
 
-              <Input
-                label="Invoice Number"
-                value={form.product.invoiceNumber}
-                onChange={(e: any) =>
-                  handleChange(
-                    "product",
-                    "invoiceNumber",
-                    e.target.value
-                  )
-                }
-              />
+                <p className="mt-2 text-sm text-gray-500">
+                  {form.product.productDescription.length}/500
+                </p>
+              </div>
+
             </div>
           </div>
         </div>
@@ -465,8 +514,9 @@ export default function AddProductInventoryPage() {
               </div>
             </div>
 
-            <div className="space-y-5">
+            <div className="grid  gap-5">
 
+              {/* Row 1 */}
               <Input
                 label="Company Name"
                 value={form.vendor.companyName}
@@ -479,6 +529,19 @@ export default function AddProductInventoryPage() {
                 }
               />
 
+              <Input
+                label="Full Name"
+                value={form.vendor.fullName}
+                onChange={(e: any) =>
+                  handleChange(
+                    "vendor",
+                    "fullName",
+                    e.target.value
+                  )
+                }
+              />
+
+              {/* Row 2 */}
               <Input
                 label="Contact Number"
                 value={form.vendor.contactNumber}
@@ -503,6 +566,7 @@ export default function AddProductInventoryPage() {
                 }
               />
 
+              {/* Row 3 */}
               <Input
                 label="Email"
                 value={form.vendor.email}
@@ -516,18 +580,106 @@ export default function AddProductInventoryPage() {
               />
 
               <Input
-                label="Website"
-                value={form.vendor.website}
+                label="Location"
+                value={form.vendor.location}
                 onChange={(e: any) =>
                   handleChange(
                     "vendor",
-                    "website",
+                    "location",
                     e.target.value
                   )
                 }
               />
+
             </div>
           </div>
+
+
+
+          <div className="bg-white border border-gray-100 rounded-[28px] p-7 shadow-sm">
+
+            <div className="flex items-center gap-3 mb-6">
+
+              <div className="w-12 h-12 rounded-2xl bg-orange-100 flex items-center justify-center">
+
+                <File className="w-5 h-5 text-orange-600" />
+              </div>
+
+              <div>
+
+                <h2 className="text-lg font-semibold text-gray-800">
+                  Attachments
+                </h2>
+
+                <p className="text-sm text-gray-500">
+                  Upload relevant documents
+                </p>
+              </div>
+            </div>
+            <div className="mt-8">
+
+
+              <label className="inline-flex items-center gap-3 px-5 py-3 border border-amber-300 rounded-2xl cursor-pointer hover:bg-gray-50">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M21.44 11.05L12.25 20.24a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 11-2.82-2.83l8.48-8.48" />
+                </svg>
+
+                <span className="font-medium">
+                  Upload Image/File
+                </span>
+
+                <input
+                  type="file"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => {
+                    const files = Array.from(
+                      e.target.files || []
+                    )
+
+                    setAttachments(files)
+                  }}
+                />
+
+              </label>
+           {attachments.length > 0 && (
+  <div className="mt-4 space-y-2">
+    {attachments.map((file, index) => (
+      <div
+        key={index}
+        className="flex items-center justify-between p-3 border border-amber-100 rounded-xl"
+      >
+        <span className="text-xs truncate">
+          {file.name}
+        </span>
+
+        <button
+          type="button"
+          onClick={() =>
+            setAttachments((prev) =>
+              prev.filter((_, i) => i !== index)
+            )
+          }
+          className="w-6 h-6 rounded-full bg-red-100 cursor-pointer text-red-600 hover:bg-red-200 flex items-center justify-center text-xs"
+        >
+          ✕
+        </button>
+      </div>
+    ))}
+  </div>
+)}
+
+            </div>
+          </div>
+
+
 
           {/* ---------------- ACTION CARD ---------------- */}
 

@@ -157,118 +157,36 @@ export default function InventoryProductDetailsPage() {
 
           {/* LEFT */}
 
-          <div>
+          <div className="flex items-center gap-5">
 
-            <div className="flex items-start gap-3">
+            <div className="w-20 h-20 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center">
+              <Laptop className="w-10 h-10" />
+            </div>
 
-              <motion.div
-                whileHover={{
-                  rotate: 4,
-                }}
-                className="w-16 h-16 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center"
-              >
+            <div className="flex-1">
 
-                <Laptop className="w-8 h-8" />
-              </motion.div>
-
-              <div>
-
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/10 text-[11px] font-medium">
-
-                  <Sparkles className="w-3 h-3" />
-
-                  Premium Asset
-                </div>
-
-                <h1 className="text-2xl font-bold tracking-tight mt-3 leading-tight">
-                  {data?.productName || "-"}
-                </h1>
-
-                <p className="text-green-50 mt-1 text-xs">
-                  Serial :
-                  {" "}
-                  {data?.serialNumber || "-"}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mt-4">
-
-                  <StatusBadge
-                    active={
-                      data?.amcAvailable
-                    }
-                  />
-
-                  <SoftBadge
-                    label={
-                      data?.status ||
-                      "ACTIVE"
-                    }
-                  />
-                </div>
+              <div className="flex items-center gap-2 mb-2">
+                <StatusBadge active={data?.amcAvailable} />
+                <SoftBadge label={data?.status || "ACTIVE"} />
               </div>
-            </div>
 
-            {/* STATS */}
+              <h1 className="text-3xl font-bold">
+                {data?.productName}
+              </h1>
 
-            <div className="flex flex-wrap gap-5 mt-5">
+              <p className="text-green-100 mt-1">
+                Serial No: {data?.serialNumber}
+              </p>
 
-              <QuickStat
-                value={
-                  data?.quantity || 0
-                }
-                label="Quantity"
-              />
+              <p className="text-green-100 text-sm mt-2">
+                {data?.department?.name}
+                {" • "}
+                {data?.vendor?.companyName}
+              </p>
 
-              <QuickStat
-                value={
-                  data?.invoiceNumber ||
-                  "-"
-                }
-                label="Invoice"
-              />
-
-              <QuickStat
-                value={
-                  data?.status ||
-                  "N/A"
-                }
-                label="Status"
-              />
             </div>
           </div>
 
-          {/* RIGHT */}
-
-          <div className="grid grid-cols-2 gap-2 w-full xl:w-[280px]">
-
-            <MiniCard
-              icon={ShieldCheck}
-              title="AMC"
-              value={
-                data?.amcAvailable
-                  ? "Active"
-                  : "Inactive"
-              }
-            />
-
-            <MiniCard
-              icon={Activity}
-              title="Health"
-              value="94%"
-            />
-
-            <MiniCard
-              icon={Layers3}
-              title="Category"
-              value="IT Asset"
-            />
-
-            <MiniCard
-              icon={Building2}
-              title="Department"
-              value="Assigned"
-            />
-          </div>
         </div>
       </motion.div>
 
@@ -293,31 +211,13 @@ export default function InventoryProductDetailsPage() {
             />
 
             <InfoCard
-              icon={ShieldCheck}
-              label="Invoice"
-              value={
-                data?.invoiceNumber ||
-                "-"
-              }
-            />
-
-            <InfoCard
-              icon={Activity}
-              label="Status"
-              value={
-                data?.status ||
-                "-"
-              }
-            />
-
-            <InfoCard
               icon={CalendarDays}
               label="Procurement"
               value={
                 data?.procurementDate
                   ? new Date(
-                      data.procurementDate
-                    ).toLocaleDateString()
+                    data.procurementDate
+                  ).toLocaleDateString()
                   : "-"
               }
             />
@@ -328,26 +228,244 @@ export default function InventoryProductDetailsPage() {
               value={
                 data?.warrantyExpiryDate
                   ? new Date(
-                      data.warrantyExpiryDate
-                    ).toLocaleDateString()
+                    data.warrantyExpiryDate
+                  ).toLocaleDateString()
                   : "-"
               }
             />
 
-            <InfoCard
-              icon={CalendarDays}
-              label="Created"
-              value={
-                data?.createdAt
-                  ? new Date(
-                      data.createdAt
-                    ).toLocaleDateString()
-                  : "-"
-              }
-            />
           </div>
 
-          {/* RELATION */}
+          <motion.div
+            whileHover={{ y: -2 }}
+            className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm"
+          >
+            <h2 className="text-lg font-semibold mb-4">
+              Department Details
+            </h2>
+
+            <div className="grid md:grid-cols-2 gap-3">
+
+
+              <Spec
+                label="Department Name"
+                value={data?.department?.name}
+              />
+
+              <Spec
+                label="Purpose"
+                value={data?.department?.purpose}
+              />
+
+              <Spec
+                label="Location"
+                value={data?.department?.location}
+              />
+
+              <Spec
+                label="City"
+                value={data?.department?.city}
+              />
+
+              <Spec
+                label="State"
+                value={data?.department?.state}
+              />
+
+              <Spec
+                label="Pincode"
+                value={data?.department?.pincode}
+              />
+
+              <Spec
+  label="Admin Name"
+  value={data?.department?.adminName || "-"}
+/>
+
+<Spec
+  label="Department Code"
+  value={data?.department?.code || "-"}
+/>
+
+<Spec
+  label="Description"
+  value={data?.department?.description || "-"}
+/>
+
+<Spec
+  label="Total Assets"
+  value={data?.department?.totalAssets ?? 0}
+/>
+
+<Spec
+  label="Total Staff"
+  value={data?.department?.totalStaff ?? 0}
+/>
+
+<Spec
+  label="Status"
+  value={
+    data?.department?.isActive
+      ? "Active"
+      : "Inactive"
+  }
+/>
+
+            </div>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ y: -2 }}
+            className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm"
+          >
+            <h2 className="text-lg font-semibold mb-4">
+              Vendor Details
+            </h2>
+
+            <div className="grid md:grid-cols-2 gap-3">
+
+              <Spec
+                label="Company Name"
+                value={data?.vendor?.companyName}
+              />
+
+              <Spec
+                label="Contact Number"
+                value={data?.vendor?.contactNumber}
+              />
+
+              <Spec
+                label="WhatsApp Number"
+                value={data?.vendor?.whatsappNumber}
+              />
+
+              <Spec
+                label="Email"
+                value={data?.vendor?.email}
+              />
+
+              <Spec
+  label="Full Name"
+  value={data?.vendor?.fullName || "-"}
+/>
+
+<Spec
+  label="Website"
+  value={data?.vendor?.website || "-"}
+/>
+
+<Spec
+  label="GST Number"
+  value={data?.vendor?.gstNumber || "-"}
+/>
+
+<Spec
+  label="Address Line 1"
+  value={data?.vendor?.addressLine1 || "-"}
+/>
+
+<Spec
+  label="Address Line 2"
+  value={data?.vendor?.addressLine2 || "-"}
+/>
+
+<Spec
+  label="City"
+  value={data?.vendor?.city || "-"}
+/>
+
+<Spec
+  label="State"
+  value={data?.vendor?.state || "-"}
+/>
+
+<Spec
+  label="Pincode"
+  value={data?.vendor?.pincode || "-"}
+/>
+
+            </div>
+          </motion.div>
+
+        </div>
+
+        {/* RIGHT */}
+
+        <div className="col-span-12 xl:col-span-4 space-y-4">
+
+          {/* SUMMARY */}
+
+          <motion.div
+            whileHover={{
+              y: -2,
+            }}
+            className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300"
+          >
+
+            <div className="flex items-center justify-between mb-4">
+
+              <div>
+
+                <h2 className="text-lg font-semibold text-black">
+                  Quick Summary
+                </h2>
+
+                <p className="text-xs text-black mt-1">
+                  Asset overview
+                </p>
+              </div>
+
+              <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+
+                <Laptop className="w-5 h-5 text-emerald-600" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+
+  <SummaryCard
+    label="Product"
+    value={data?.productName}
+  />
+
+  <SummaryCard
+    label="Department"
+    value={data?.department?.name}
+  />
+
+  <SummaryCard
+    label="Vendor"
+    value={data?.vendor?.companyName}
+  />
+
+  <SummaryCard
+    label="Quantity"
+    value={data?.quantity}
+  />
+
+  <SummaryCard
+    label="AMC"
+    value={
+      data?.amcAvailable
+        ? "Available"
+        : "Not Available"
+    }
+  />
+
+  <SummaryCard
+    label="Warranty"
+    value={
+      data?.warrantyExpiryDate
+        ? new Date(
+            data.warrantyExpiryDate
+          ).toLocaleDateString()
+        : "-"
+    }
+  />
+
+</div>
+          </motion.div>
+
 
           <motion.div
             whileHover={{
@@ -401,174 +519,30 @@ export default function InventoryProductDetailsPage() {
               />
             </div>
           </motion.div>
-        </div>
 
-        {/* RIGHT */}
-
-        <div className="col-span-12 xl:col-span-4 space-y-4">
-
-          {/* SUMMARY */}
-
-          <motion.div
-            whileHover={{
-              y: -2,
-            }}
-            className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300"
-          >
-
-            <div className="flex items-center justify-between mb-4">
-
-              <div>
-
-                <h2 className="text-lg font-semibold text-black">
-                  Quick Summary
-                </h2>
-
-                <p className="text-xs text-black mt-1">
-                  Asset overview
-                </p>
-              </div>
-
-              <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
-
-                <Laptop className="w-5 h-5 text-emerald-600" />
-              </div>
-            </div>
-
-            <div className="space-y-3">
-
-              <Info
-                label="Product"
-                value={
-                  data?.productName ||
-                  "-"
-                }
-              />
-
-              <Info
-                label="Quantity"
-                value={String(
-                  data?.quantity || "-"
-                )}
-              />
-
-              <Info
-                label="AMC"
-                value={
-                  data?.amcAvailable
-                    ? "Yes"
-                    : "No"
-                }
-              />
-
-              <Info
-                label="Invoice"
-                value={
-                  data?.invoiceNumber ||
-                  "-"
-                }
-              />
-            </div>
-          </motion.div>
-
-          {/* ACTIONS */}
-
-          {/* <motion.div
-            whileHover={{
-              y: -2,
-            }}
-            className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-all duration-300"
-          >
-
-            <h2 className="text-lg font-semibold text-black">
-              Quick Actions
-            </h2>
-
-            <p className="text-xs text-black mt-1 mb-4">
-              Asset operations
-            </p>
-
-            <div className="space-y-3">
-
-              <ActionButton
-                icon={
-                  <MessageCircle className="w-4 h-4" />
-                }
-                text="Contact Vendor"
-                className="from-emerald-500 to-green-600"
-              />
-
-              <ActionButton
-                icon={
-                  <AlertTriangle className="w-4 h-4" />
-                }
-                text="Raise Complaint"
-                className="from-orange-500 to-amber-500"
-              />
-            </div>
-          </motion.div> */}
         </div>
       </div>
     </motion.div>
   )
 }
 
-/* ---------------- QUICK STAT ---------------- */
 
-function QuickStat({
-  value,
+function SummaryCard({
   label,
+  value,
 }: any) {
-
   return (
-    <div>
+    <div className="rounded-xl border border-gray-100 bg-gray-50 p-3">
 
-      <h2 className="text-2xl font-bold leading-none">
-        {value}
-      </h2>
-
-      <p className="text-green-100 text-[11px] mt-1">
+      <p className="text-[11px] uppercase tracking-wide text-gray-500">
         {label}
       </p>
+
+      <h3 className="mt-1 text-sm font-semibold text-gray-900 break-words">
+        {value || "-"}
+      </h3>
+
     </div>
-  )
-}
-
-/* ---------------- MINI CARD ---------------- */
-
-function MiniCard({
-  icon: Icon,
-  title,
-  value,
-}: any) {
-
-  return (
-    <motion.div
-      whileHover={{
-        y: -2,
-      }}
-      className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 border border-white/10"
-    >
-
-      <div className="flex items-center gap-3">
-
-        <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center">
-
-          <Icon className="w-4 h-4 text-white" />
-        </div>
-
-        <div>
-
-          <p className="text-[11px] text-green-50">
-            {title}
-          </p>
-
-          <h3 className="text-sm font-semibold mt-1 text-white">
-            {value}
-          </h3>
-        </div>
-      </div>
-    </motion.div>
   )
 }
 
@@ -685,11 +659,10 @@ function StatusBadge({
 
   return (
     <span
-      className={`px-3 py-1.5 rounded-xl text-xs font-medium ${
-        active
+      className={`px-3 py-1.5 rounded-xl text-xs font-medium ${active
           ? "bg-white text-emerald-700"
           : "bg-red-100 text-red-700"
-      }`}
+        }`}
     >
       {active
         ? "AMC Active"

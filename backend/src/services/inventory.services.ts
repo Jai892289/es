@@ -265,6 +265,9 @@ export const getInventorybyId = async (id:string) => {
   const data = await prisma.product.findUnique({
     where:{
         id
+    }, include:{
+      department:true,
+      vendor:true
     }
   });
 
@@ -288,7 +291,6 @@ data:{
 return category
 }
 
-
 export const getCategory = async () => {
   const categories = await prisma.category.findMany({
     include: {
@@ -303,21 +305,21 @@ export const getCategory = async () => {
     );
 
     const totalAmount = category.products.reduce(
-      (sum, product:any) =>
-        sum + (product.quantity * product?.unitPrice),
+      (sum, product: any) =>
+        sum + product.quantity * (product.unitPrice || 0),
       0
     );
 
     return {
       id: category.id,
       name: category.name,
-
+      description: category.description,
+      products: category.products,
       totalAssets,
       totalAmount,
     };
   });
 };
-
 
 export const getAssetStatusAnalytics = async () => {
   const products = await prisma.product.findMany();
