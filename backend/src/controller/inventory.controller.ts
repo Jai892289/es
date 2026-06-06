@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { approveAssetTransfer, createAssetMapping, createAssetReplacement, createAssetTransfer, createCategory, createInventory, getAssetReplacements, getAssetStatusAnalytics, getAssetTransfers, getCategory, getDepartmentWiseAssetMappings, getInventory, getInventorybyId, getUserWiseAssetMappings } from "../services/inventory.services";
+import { approveAssetTransfer, createAssetMapping, createAssetReplacement, createAssetTransfer, createCategory, createInventory, distributeAsset, getAssetDistributions, getAssetReplacements, getAssetStatusAnalytics, getAssetTransfers, getCategory, getDepartmentWiseAssetMappings, getInventory, getInventorybyId, getProductStock, getUserWiseAssetMappings } from "../services/inventory.services";
 
 export const createInventoryController = async (req:Request, res:Response) => {
   try {
@@ -307,4 +307,64 @@ export const getAssetReplacementsController =
       });
 
     }
+  };
+
+
+  export const distributeAssetController =
+  async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const data =
+        await distributeAsset(
+          req.body
+        );
+
+      return res.status(201).json({
+        message:
+          "Asset distributed successfully",
+        data,
+      });
+    } catch (error: any) {
+      return res.status(400).json({
+        message:
+          error.message,
+      });
+    }
+  };
+
+  export const getAssetDistributionsController =
+  async (
+    req: Request,
+    res: Response
+  ) => {
+
+    const data =
+      await getAssetDistributions();
+
+    return res.json({
+      message:
+        "Distributions fetched",
+      data,
+    });
+  };
+
+
+  export const getProductStockController =
+  async (
+    req: Request,
+    res: Response
+  ) => {
+
+    const data =
+      await getProductStock(
+        req.params.productId
+      );
+
+    return res.json({
+      message:
+        "Stock summary fetched",
+      data,
+    });
   };

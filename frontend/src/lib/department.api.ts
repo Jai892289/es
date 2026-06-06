@@ -11,7 +11,7 @@ export const createDepartmentApi = (data: any) => {
 
 
 // GET COMPLAINT
-export const getComplaintApi = () => {
+export const getDepartmentsApi  = () => {
   return apiFetch("/departments", {
     method: "GET",
   });

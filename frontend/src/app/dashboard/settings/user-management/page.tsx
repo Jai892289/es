@@ -24,6 +24,7 @@ import {
    
 } from "@/lib/user.api"
 import { activateUserApi, deactivateUserApi, updateUserApi } from "@/lib/auth.api"
+import { getDepartmentsApi } from "@/lib/department.api"
 
 
 
@@ -52,6 +53,8 @@ export default function UserManagementPage() {
 
 const [selectedUser, setSelectedUser] =
   useState<any>(null);
+
+  const [departments, setDepartments] = useState<any[]>([]);
 
 const [
   openStatusModal,
@@ -298,6 +301,21 @@ const handleUpdateUser =
     );
   }
 );
+
+
+useEffect(() => {
+  loadDepartments();
+}, []);
+
+const loadDepartments = async () => {
+  try {
+    const response = await getDepartmentsApi();
+
+    setDepartments(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <div className="space-y-4 overflow-x-hidden">
@@ -958,7 +976,45 @@ const handleUpdateUser =
                 }
               />
 
-              <InputField
+              <div>
+  <label className="text-sm font-medium text-black">
+    Department
+  </label>
+
+  <select
+    value={userForm.departmentId}
+    onChange={(e) =>
+      setUserForm({
+        ...userForm,
+        departmentId: e.target.value,
+      })
+    }
+    className="
+      mt-2 w-full h-10
+      rounded-xl
+      border border-gray-200
+      bg-gray-50
+      px-3
+      text-sm text-black
+      outline-none
+    "
+  >
+    <option value="">
+      Select Department
+    </option>
+
+    {departments.map((dept) => (
+      <option
+        key={dept.id}
+        value={dept.id}
+      >
+        {dept.name}
+      </option>
+    ))}
+  </select>
+</div>
+
+              {/* <InputField
                 label="Department ID"
                 placeholder="Enter department id"
                 value={
@@ -971,7 +1027,7 @@ const handleUpdateUser =
                       e.target.value,
                   })
                 }
-              />
+              /> */}
 
               <SelectField
                 label="Role"

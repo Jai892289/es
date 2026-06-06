@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import prisma from "../config/prisma";
 
 import {
   createUser,
@@ -99,3 +100,44 @@ export const deleteUserController = async (
     });
   }
 };
+
+
+
+
+export const getUsersByDepartment =
+  async (req:any, res:any) => {
+    try {
+      const { departmentId } =
+        req.params;
+
+      const users =
+        await prisma.user.findMany({
+          where: {
+            departmentId,
+            status: "ACTIVE",
+          },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            mobileNumber: true,
+            designation: true,
+          },
+        });
+
+      return res.status(200).json({
+        success: true,
+        data: users,
+      });
+
+    } catch (error) {
+
+      console.log(error);
+
+      return res.status(500).json({
+        success: false,
+        message:
+          "Failed to fetch users",
+      });
+    }
+  };

@@ -23,7 +23,7 @@ import {
 
 import {
   createDepartmentApi,
-  getComplaintApi,
+  getDepartmentsApi ,
 } from "@/lib/department.api"
 
 export default function DepartmentManagementPage() {
@@ -74,7 +74,7 @@ export default function DepartmentManagementPage() {
         setPageLoading(true)
 
         const response =
-          await getComplaintApi()
+          await getDepartmentsApi ()
 
         setDepartments(
           response?.data || []

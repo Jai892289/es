@@ -205,7 +205,7 @@ export default function InventoryPage() {
             </option>
 
             <option value="true">
-              AMC Active
+              AMC Active 
             </option>
 
             <option value="false">

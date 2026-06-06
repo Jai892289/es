@@ -236,6 +236,159 @@ export default function InventoryProductDetailsPage() {
 
           </div>
 
+<motion.div
+  whileHover={{ y: -2 }}
+  className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"
+>
+  <h2 className="text-lg font-semibold mb-4">
+    Product Details
+  </h2>
+
+  <div className="grid md:grid-cols-3 gap-4">
+
+    <Spec label="Asset Name" value={data?.assetName} />
+    <Spec label="Product Name" value={data?.productName} />
+    <Spec label="Brand Name" value={data?.brandName} />
+
+    <Spec label="Model Number" value={data?.modelNumber} />
+    <Spec label="Serial Number" value={data?.serialNumber} />
+    <Spec label="Invoice Number" value={data?.invoiceNumber} />
+
+    <Spec label="Category ID" value={data?.categoryId} />
+    <Spec label="Quantity" value={data?.quantity} />
+    <Spec label="AMC Available" value={data?.amcAvailable ? "Yes" : "No"} />
+
+    <Spec label="AMC Number" value={data?.amcNumber} />
+    <Spec label="Status" value={data?.status || "-"} />
+    <Spec label="Initial Status" value={data?.initialStatus || "-"} />
+
+  </div>
+
+  {/* Dates */}
+  <div className="mt-6">
+    <h3 className="text-sm font-semibold text-gray-700 mb-3">
+      Important Dates
+    </h3>
+
+    <div className="grid md:grid-cols-2 gap-4">
+
+      <Spec
+        label="Purchase Date"
+        value={
+          data?.purchaseDate
+            ? new Date(data.purchaseDate).toLocaleDateString()
+            : "-"
+        }
+      />
+
+      <Spec
+        label="Procurement Date"
+        value={
+          data?.procurementDate
+            ? new Date(data.procurementDate).toLocaleDateString()
+            : "-"
+        }
+      />
+
+      <Spec
+        label="Warranty Expiry"
+        value={
+          data?.warrantyExpiryDate
+            ? new Date(data.warrantyExpiryDate).toLocaleDateString()
+            : "-"
+        }
+      />
+
+      <Spec
+        label="AMC Expiry"
+        value={
+          data?.amcExpiryDate
+            ? new Date(data.amcExpiryDate).toLocaleDateString()
+            : "-"
+        }
+      />
+
+    </div>
+  </div>
+
+  {/* Stock Summary */}
+  <div className="mt-6">
+    <h3 className="text-sm font-semibold text-gray-700 mb-3">
+      Stock Distribution
+    </h3>
+
+    <div className="grid md:grid-cols-5 gap-4">
+
+      <Spec
+        label="In Stock"
+        value={data?.inStock}
+      />
+
+      <Spec
+        label="In Use"
+        value={data?.inUse}
+      />
+
+      <Spec
+        label="In Repair"
+        value={data?.inRepair}
+      />
+
+      <Spec
+        label="Damaged"
+        value={data?.damaged}
+      />
+
+      <Spec
+        label="Retired"
+        value={data?.retired}
+      />
+
+    </div>
+  </div>
+
+  {/* Description */}
+  <div className="mt-6">
+    <label className="text-sm font-semibold text-gray-700">
+      Product Description
+    </label>
+
+    <div className="mt-2 p-4 bg-gray-50 rounded-xl border text-sm text-gray-700">
+      {data?.productDescription || "-"}
+    </div>
+  </div>
+
+  {/* System Info */}
+  <div className="mt-6">
+    <h3 className="text-sm font-semibold text-gray-700 mb-3">
+      System Information
+    </h3>
+
+    <div className="grid md:grid-cols-2 gap-4">
+
+      <Spec
+        label="Created At"
+        value={
+          data?.createdAt
+            ? new Date(data.createdAt).toLocaleString()
+            : "-"
+        }
+      />
+
+      <Spec
+        label="Updated At"
+        value={
+          data?.updatedAt
+            ? new Date(data.updatedAt).toLocaleString()
+            : "-"
+        }
+      />
+
+    </div>
+  </div>
+
+</motion.div>
+
           <motion.div
             whileHover={{ y: -2 }}
             className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm"
@@ -491,6 +644,8 @@ export default function InventoryProductDetailsPage() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-3">
+
+              
 
               <Spec
                 label="Product ID"

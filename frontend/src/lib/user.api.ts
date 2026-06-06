@@ -15,3 +15,13 @@ export const getUsersApi = () => {
   });
 };
 
+export const getUsersByDepartmentApi = (
+  departmentId: string
+) => {
+  return apiFetch(
+    `/users/department/${departmentId}`,
+    {
+      method: "GET",
+    }
+  );
+};

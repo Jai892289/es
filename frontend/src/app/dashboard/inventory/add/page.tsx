@@ -12,19 +12,25 @@ import {
   File
 } from "lucide-react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getDepartmentsApi } from "@/lib/department.api";
 
 import { createInventoryApi } from "@/lib/inventory.api"
 
 import { useRouter } from "next/navigation"
 
 import toast from "react-hot-toast"
+import { getVendorsApi } from "@/lib/vendor.api";
+import { getCategoryApi } from "@/lib/category.api";
 
 export default function AddProductInventoryPage() {
 
   /* ---------------- STATE ---------------- */
 
   const [form, setForm] = useState({
+      departmentId: "",
+  vendorId: "",
+  categoryId: "",
     department: {
       name: "",
       purpose: "",
@@ -47,25 +53,42 @@ export default function AddProductInventoryPage() {
       location: "",
     },
 
-    product: {
-      category: "",
-      productName: "",
-      otherProduct: "",
-      quantity: "",
-      serialNumber: "",
-      amcAvailable: "",
-      amcExpiryDate: "",
-      amcNumber: "",
-      warrantyExpiryDate: "",
-      procurementDate: "",
-      productDescription: "",
-    },
+ product: {
+  category: "",
+  productName: "",
+  otherProduct: "",
+  quantity: "",
+
+  inStock: "",
+  inUse: "",
+  inRepair: "",
+  damaged: "",
+
+  serialNumber: "",
+
+  assetName: "",
+  invoiceNumber: "",
+  purchaseDate: "",
+  brandName: "",
+  modelNumber: "",
+
+  amcAvailable: "",
+  amcExpiryDate: "",
+  amcNumber: "",
+  warrantyExpiryDate: "",
+  procurementDate: "",
+  productDescription: "",
+},
+
     attachments: [],
   })
 
   const [loading, setLoading] = useState(false)
   const [attachments, setAttachments] = useState<File[]>([])
-
+  const [departments, setDepartments] = useState<any[]>([]);
+  const [vendors, setVendors] = useState<any[]>([]);
+const [categories, setCategories] =
+  useState<any[]>([]);
   const router = useRouter()
 
   /* ---------------- HANDLE CHANGE ---------------- */
@@ -92,8 +115,7 @@ export default function AddProductInventoryPage() {
 
     const errors = []
 
-    if (!form.department.name) {
-      errors.push("Department name is required")
+if (!form.departmentId){      errors.push("Department name is required")
     }
 
     if (!form.vendor.companyName) {
@@ -135,26 +157,45 @@ export default function AddProductInventoryPage() {
         return
       }
 
+      // const payload = {
+
+      //   department: {
+      //     ...form.department,
+      //   },
+
+      //   vendor: {
+      //     ...form.vendor,
+      //   },
+
+      //   product: {
+      //     ...form.product,
+
+      //     quantity: Number(form.product.quantity),
+
+      //     warrantyExpiryDate:
+      //       form.product.warrantyExpiryDate || null,
+      //   },
+      // }
+
       const payload = {
 
-        department: {
-          ...form.department,
-        },
+  departmentId: form.departmentId,
 
-        vendor: {
-          ...form.vendor,
-        },
+  vendorId: form.vendorId,
 
-        product: {
-          ...form.product,
+  categoryId: form.categoryId,
 
-          quantity: Number(form.product.quantity),
+  product: {
+    ...form.product,
 
-          warrantyExpiryDate:
-            form.product.warrantyExpiryDate || null,
-        },
-      }
+    quantity: Number(form.product.quantity),
 
+    warrantyExpiryDate:
+      form.product.warrantyExpiryDate || null,
+  },
+};
+
+console.log("payload", payload)
       await createInventoryApi(payload)
 
       toast.success("Inventory created successfully ✅")
@@ -175,6 +216,49 @@ export default function AddProductInventoryPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    loadDepartments();
+    loadVendors();
+    loadCategories();
+  }, []);
+
+  const loadDepartments = async () => {
+    try {
+      const response = await getDepartmentsApi();
+
+      console.log(response);
+
+      setDepartments(response.data || response);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to load departments");
+    }
+  };
+
+  const loadVendors = async () => {
+  try {
+    const response = await getVendorsApi();
+
+    setVendors(response.data || response);
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to load vendors");
+  }
+};
+
+const loadCategories = async () => {
+  try {
+    const response = await getCategoryApi();
+
+    setCategories(response.data || []);
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to load categories");
+  }
+};
+
+console.log("vendors", vendors)
 
   return (
     <div className="space-y-7">
@@ -249,14 +333,69 @@ export default function AddProductInventoryPage() {
 
             <div className="grid grid-cols-2 gap-5">
 
-              {/* Row 1 */}
-              <Input
-                label="Department Name"
-                value={form.department.name}
-                onChange={(e: any) =>
-                  handleChange("department", "name", e.target.value)
-                }
-              />
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">
+                  Select Department   </label>
+
+
+                <select
+                  value={form.department.name}
+                  onChange={(e) => {
+  const department = departments.find(
+    (d) => d.id === e.target.value
+  );
+
+  if (!department) return;
+
+  const user = department.users?.[0];
+
+ setForm((prev) => ({
+  ...prev,
+
+  departmentId: department.id,
+
+  department: {
+    ...prev.department,
+
+    name: department.name || "",
+    purpose: department.purpose || "",
+    location: department.location || "",
+    city: department.city || "",
+    state: department.state || "",
+    pincode: department.pincode || "",
+
+    fullName:
+      user?.name ||
+      department.adminName ||
+      "",
+
+    designation:
+      user?.designation || "",
+
+    contactNumber:
+      user?.mobileNumber || "",
+
+    email:
+      user?.email || "",
+  },
+}));
+}}
+                  className="w-full h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4"
+                >
+                  <option value="">
+                    Select Department
+                  </option>
+
+                  {departments.map((dept) => (
+                    <option
+                      key={dept.id}
+                      value={dept.id}
+                    >
+                      {dept.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               <Input
                 label="Purpose"
@@ -268,7 +407,7 @@ export default function AddProductInventoryPage() {
 
               {/* Row 2 */}
               <Input
-                label="Full Name"
+                label="Department Name"
                 value={form.department.fullName}
                 onChange={(e: any) =>
                   handleChange("department", "fullName", e.target.value)
@@ -363,13 +502,48 @@ export default function AddProductInventoryPage() {
             <div className="grid grid-cols-2 gap-5">
 
               {/* Row 1 */}
-              <Input
-                label="Category"
-                value={form.product.category}
-                onChange={(e: any) =>
-                  handleChange("product", "category", e.target.value)
-                }
-              />
+             <div className="space-y-2">
+  <label className="text-sm font-medium text-gray-700">
+    Category
+  </label>
+
+  <select
+    value={form.categoryId}
+    onChange={(e) => {
+      const category = categories.find(
+        (c) => c.id === e.target.value
+      );
+
+      if (!category) return;
+
+      setForm((prev) => ({
+        ...prev,
+
+        categoryId: category.id,
+
+        product: {
+          ...prev.product,
+
+          category: category.name,
+        },
+      }));
+    }}
+    className="w-full h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4"
+  >
+    <option value="">
+      Select Category
+    </option>
+
+    {categories.map((category) => (
+      <option
+        key={category.id}
+        value={category.id}
+      >
+        {category.name}
+      </option>
+    ))}
+  </select>
+</div>
 
               <Input
                 label="Item / Product"
@@ -458,6 +632,228 @@ export default function AddProductInventoryPage() {
                 }
               />
 
+              
+              {/* Asset Name */}
+<Input
+label="Asset Name"
+value={form.product.assetName}
+onChange={(e: any) =>
+handleChange(
+"product",
+"assetName",
+e.target.value
+)
+}
+/>
+
+{/* Invoice Number */}
+<Input
+label="Invoice Number"
+value={form.product.invoiceNumber}
+onChange={(e: any) =>
+handleChange(
+"product",
+"invoiceNumber",
+e.target.value
+)
+}
+/>
+
+{/* Purchase Date */}
+<Input
+type="date"
+label="Purchase Date"
+value={form.product.purchaseDate}
+onChange={(e: any) =>
+handleChange(
+"product",
+"purchaseDate",
+e.target.value
+)
+}
+/>
+
+{/* Warranty Date */}
+<Input
+type="date"
+label="Warranty Date"
+value={form.product.warrantyExpiryDate}
+onChange={(e: any) =>
+handleChange(
+"product",
+"warrantyExpiryDate",
+e.target.value
+)
+}
+/>
+
+{/* Brand / Manufacturer */}
+<Input
+label="Brand / Manufacturer Name"
+value={form.product.brandName}
+onChange={(e: any) =>
+handleChange(
+"product",
+"brandName",
+e.target.value
+)
+}
+/>
+
+{/* Model Number */}
+<Input
+label="Model Number"
+value={form.product.modelNumber}
+onChange={(e: any) =>
+handleChange(
+"product",
+"modelNumber",
+e.target.value
+)
+}
+/>
+
+{/* Initial Status */}
+
+{/* ================= STOCK DISTRIBUTION ================= */}
+
+<div className="col-span-2">
+
+  <div className="flex items-center justify-between mb-4">
+
+    <h3 className="text-base font-semibold text-gray-800">
+      Stock Distribution
+    </h3>
+
+    <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-medium">
+      Total Quantity : {form.product.quantity || 0}
+    </span>
+
+  </div>
+
+  <div className="grid grid-cols-2 gap-5">
+
+    <Input
+      label="In Stock"
+      value={form.product.inStock}
+      onChange={(e: any) =>
+        handleChange(
+          "product",
+          "inStock",
+          e.target.value
+        )
+      }
+    />
+
+    <Input
+      label="In Use"
+      value={form.product.inUse}
+      onChange={(e: any) =>
+        handleChange(
+          "product",
+          "inUse",
+          e.target.value
+        )
+      }
+    />
+
+    <Input
+      label="In Repair"
+      value={form.product.inRepair}
+      onChange={(e: any) =>
+        handleChange(
+          "product",
+          "inRepair",
+          e.target.value
+        )
+      }
+    />
+
+    <Input
+      label="Damaged"
+      value={form.product.damaged}
+      onChange={(e: any) =>
+        handleChange(
+          "product",
+          "damaged",
+          e.target.value
+        )
+      }
+    />
+
+  </div>
+
+  {/* Summary */}
+
+  <div className="mt-5 bg-gray-50 border border-gray-200 rounded-2xl p-5">
+
+    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+
+      <span className="text-sm text-gray-600">
+        Total Quantity
+      </span>
+
+      <span className="font-semibold">
+        {Number(form.product.quantity || 0)}
+      </span>
+
+    </div>
+
+    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+
+      <span className="text-sm text-gray-600">
+        Allocated
+      </span>
+
+      <span className="font-semibold">
+        {
+          Number(form.product.inStock || 0) +
+          Number(form.product.inUse || 0) +
+          Number(form.product.inRepair || 0) +
+          Number(form.product.damaged || 0)
+        }
+      </span>
+
+    </div>
+
+    <div className="flex justify-between items-center py-2">
+
+      <span className="text-sm text-gray-600">
+        Remaining
+      </span>
+
+      <span
+        className={`font-semibold ${
+          Number(form.product.quantity || 0) -
+            (
+              Number(form.product.inStock || 0) +
+              Number(form.product.inUse || 0) +
+              Number(form.product.inRepair || 0) +
+              Number(form.product.damaged || 0)
+            ) ===
+          0
+            ? "text-green-600"
+            : "text-red-600"
+        }`}
+      >
+        {
+          Number(form.product.quantity || 0) -
+          (
+            Number(form.product.inStock || 0) +
+            Number(form.product.inUse || 0) +
+            Number(form.product.inRepair || 0) +
+            Number(form.product.damaged || 0)
+          )
+        }
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
               {/* Product Description */}
               <div className="col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -482,6 +878,8 @@ export default function AddProductInventoryPage() {
                   {form.product.productDescription.length}/500
                 </p>
               </div>
+
+
 
             </div>
           </div>
@@ -516,8 +914,64 @@ export default function AddProductInventoryPage() {
 
             <div className="grid  gap-5">
 
+              <div className="space-y-2">
+  <label className="text-sm font-medium text-gray-700">
+    Select Vendor
+  </label>
+
+  <select
+    value={form.vendor.companyName}
+    onChange={(e) => {
+      const vendor = vendors.find(
+        (v) => v.id === e.target.value
+      );
+
+      if (!vendor) return;
+
+      setForm((prev) => ({
+  ...prev,
+
+  vendorId: vendor.id,
+
+  vendor: {
+    ...prev.vendor,
+
+    companyName: vendor.companyName || "",
+    fullName: vendor.fullName || "",
+    contactNumber:
+      vendor.contactNumber || "",
+
+    whatsappNumber:
+      vendor.whatsappNumber || "",
+
+    email: vendor.email || "",
+
+    location:
+      vendor.location ||
+      vendor.addressLine1 ||
+      "",
+  },
+}));
+    }}
+    className="w-full h-12 rounded-2xl border border-gray-200 bg-gray-50 px-4"
+  >
+    <option value="">
+      Select Vendor
+    </option>
+
+    {vendors.map((vendor) => (
+      <option
+        key={vendor.id}
+        value={vendor.id}
+      >
+        {vendor.companyName}
+      </option>
+    ))}
+  </select>
+</div>
+
               {/* Row 1 */}
-              <Input
+              {/* <Input
                 label="Company Name"
                 value={form.vendor.companyName}
                 onChange={(e: any) =>
@@ -527,7 +981,7 @@ export default function AddProductInventoryPage() {
                     e.target.value
                   )
                 }
-              />
+              /> */}
 
               <Input
                 label="Full Name"
@@ -649,32 +1103,32 @@ export default function AddProductInventoryPage() {
                 />
 
               </label>
-           {attachments.length > 0 && (
-  <div className="mt-4 space-y-2">
-    {attachments.map((file, index) => (
-      <div
-        key={index}
-        className="flex items-center justify-between p-3 border border-amber-100 rounded-xl"
-      >
-        <span className="text-xs truncate">
-          {file.name}
-        </span>
+              {attachments.length > 0 && (
+                <div className="mt-4 space-y-2">
+                  {attachments.map((file, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between p-3 border border-amber-100 rounded-xl"
+                    >
+                      <span className="text-xs truncate">
+                        {file.name}
+                      </span>
 
-        <button
-          type="button"
-          onClick={() =>
-            setAttachments((prev) =>
-              prev.filter((_, i) => i !== index)
-            )
-          }
-          className="w-6 h-6 rounded-full bg-red-100 cursor-pointer text-red-600 hover:bg-red-200 flex items-center justify-center text-xs"
-        >
-          ✕
-        </button>
-      </div>
-    ))}
-  </div>
-)}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setAttachments((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          )
+                        }
+                        className="w-6 h-6 rounded-full bg-red-100 cursor-pointer text-red-600 hover:bg-red-200 flex items-center justify-center text-xs"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
 
             </div>
           </div>

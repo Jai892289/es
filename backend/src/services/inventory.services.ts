@@ -1,106 +1,258 @@
 import prisma from "../config/prisma";
 
 
-export const createInventory = async (data: any) => {
-  const { department, vendor, product } = data;
+export const createInventory = async (
+  data: any
+) => {
+  const {
+    departmentId,
+    vendorId,
+    categoryId,
+    product,
+  } = data;
 
-  try {
-    return await prisma.$transaction(async (tx) => {
+  console.log("PRODUCT =>", product);
 
-      /* ---------------- DEPARTMENT ---------------- */
+const quantity = Number(product.quantity || 0);
+const inStock = Number(product.inStock || 0);
+const inUse = Number(product.inUse || 0);
+const inRepair = Number(product.inRepair || 0);
+const damaged = Number(product.damaged || 0);
+const retired = Number(product.retired || 0);
 
-      let departmentRecord = await tx.department.findFirst({
-        where: {
-          name: department.name,
-        },
-      });
+console.log({
+  quantity,
+  inStock,
+  inUse,
+  inRepair,
+  damaged,
+  retired,
+});
 
-      if (!departmentRecord) {
-        departmentRecord = await tx.department.create({
-          data: {
-            name: department.name,
-            purpose: department.purpose,
-            location: department.location,
-            city: department.city,
-            state: department.state,
-            pincode: department.pincode,
+  return prisma.$transaction(
+    async (tx) => {
+
+      const department =
+        await tx.department.findUnique({
+          where: {
+            id: departmentId,
           },
         });
+
+      if (!department) {
+        throw new Error("Department not found");
       }
 
-      /* ---------------- VENDOR ---------------- */
-
-      let vendorRecord = await tx.vendor.findFirst({
-        where: {
-          companyName: vendor.companyName,
-        },
-      });
-
-      if (!vendorRecord) {
-        vendorRecord = await tx.vendor.create({
-          data: {
-            companyName: vendor.companyName,
-            contactNumber: vendor.contactNumber,
-            whatsappNumber: vendor.whatsappNumber,
-            email: vendor.email,
-            website: vendor.website,
+      const vendor =
+        await tx.vendor.findUnique({
+          where: {
+            id: vendorId,
           },
         });
+
+      if (!vendor) {
+        throw new Error("Vendor not found");
       }
 
-      /* ---------------- CATEGORY ---------------- */
-
-      let categoryRecord = await tx.category.findFirst({
-        where: {
-          name: product.category,
-        },
-      });
-
-      if (!categoryRecord) {
-        categoryRecord = await tx.category.create({
-          data: {
-            name: product.category,
+      const category =
+        await tx.category.findUnique({
+          where: {
+            id: categoryId,
           },
         });
+
+      if (!category) {
+        throw new Error("Category not found");
       }
 
-      /* ---------------- PRODUCT ---------------- */
+    
 
-      const productRecord = await tx.product.create({
-        data: {
-          productName: product.productName,
+      const inventory =
+        await tx.product.create({
+          data: {
+            productName:
+              product.productName,
 
-          quantity: Number(product.quantity),
+            assetName:
+              product.assetName || null,
 
-          serialNumber: product.serialNumber,
+            brandName:
+              product.brandName || null,
 
-          procurementDate: new Date(product.procurementDate),
+            modelNumber:
+              product.modelNumber || null,
 
-          warrantyExpiryDate: product.warrantyExpiryDate
-            ? new Date(product.warrantyExpiryDate)
-            : null,
+            quantity,
 
-          amcAvailable: product.amcAvailable === "Yes",
+            inStock,
 
-          invoiceNumber: product.invoiceNumber,
+            inUse,
 
-          /* relations */
-          departmentId: departmentRecord.id,
+            inRepair,
 
-          vendorId: vendorRecord.id,
+            damaged,
 
-          categoryId: categoryRecord.id,
-        },
-      });
+            retired,
 
-      return productRecord;
-    });
-  } catch (error: any) {
-    console.log("CREATE INVENTORY ERROR =>", error);
+            initialStatus:
+              product.initialStatus,
 
-    throw new Error(error.message || "Failed to create inventory");
-  }
+            serialNumber:
+              product.serialNumber || null,
+
+            invoiceNumber:
+              product.invoiceNumber || null,
+
+            amcNumber:
+              product.amcNumber || null,
+
+            productDescription:
+              product.productDescription || null,
+
+            amcAvailable:
+              product.amcAvailable === "Yes",
+
+            procurementDate:
+              product.procurementDate
+                ? new Date(
+                    product.procurementDate
+                  )
+                : new Date(),
+
+            purchaseDate:
+              product.purchaseDate
+                ? new Date(
+                    product.purchaseDate
+                  )
+                : null,
+
+            warrantyExpiryDate:
+              product.warrantyExpiryDate
+                ? new Date(
+                    product.warrantyExpiryDate
+                  )
+                : null,
+
+            amcExpiryDate:
+              product.amcExpiryDate
+                ? new Date(
+                    product.amcExpiryDate
+                  )
+                : null,
+
+            departmentId,
+
+            vendorId,
+
+            categoryId,
+          },
+        });
+
+      return inventory;
+    }
+  );
 };
+
+// export const createInventory = async (data: any) => {
+//   const { department, vendor, product } = data;
+
+//   try {
+//     return await prisma.$transaction(async (tx) => {
+
+//       /* ---------------- DEPARTMENT ---------------- */
+
+//       let departmentRecord = await tx.department.findFirst({
+//         where: {
+//           name: department.name,
+//         },
+//       });
+
+//       if (!departmentRecord) {
+//         departmentRecord = await tx.department.create({
+//           data: {
+//             name: department.name,
+//             purpose: department.purpose,
+//             location: department.location,
+//             city: department.city,
+//             state: department.state,
+//             pincode: department.pincode,
+//           },
+//         });
+//       }
+
+//       /* ---------------- VENDOR ---------------- */
+
+//       let vendorRecord = await tx.vendor.findFirst({
+//         where: {
+//           companyName: vendor.companyName,
+//         },
+//       });
+
+//       if (!vendorRecord) {
+//         vendorRecord = await tx.vendor.create({
+//           data: {
+//             companyName: vendor.companyName,
+//             contactNumber: vendor.contactNumber,
+//             whatsappNumber: vendor.whatsappNumber,
+//             email: vendor.email,
+//             website: vendor.website,
+//           },
+//         });
+//       }
+
+//       /* ---------------- CATEGORY ---------------- */
+
+//       let categoryRecord = await tx.category.findFirst({
+//         where: {
+//           name: product.category,
+//         },
+//       });
+
+//       if (!categoryRecord) {
+//         categoryRecord = await tx.category.create({
+//           data: {
+//             name: product.category,
+//           },
+//         });
+//       }
+
+//       /* ---------------- PRODUCT ---------------- */
+
+//       const productRecord = await tx.product.create({
+//         data: {
+//           productName: product.productName,
+
+//           quantity: Number(product.quantity),
+
+//           serialNumber: product.serialNumber,
+
+//           procurementDate: new Date(product.procurementDate),
+
+//           warrantyExpiryDate: product.warrantyExpiryDate
+//             ? new Date(product.warrantyExpiryDate)
+//             : null,
+
+//           amcAvailable: product.amcAvailable === "Yes",
+
+//           invoiceNumber: product.invoiceNumber,
+
+//           /* relations */
+//           departmentId: departmentRecord.id,
+
+//           vendorId: vendorRecord.id,
+
+//           categoryId: categoryRecord.id,
+//         },
+//       });
+
+//       return productRecord;
+//     });
+//   } catch (error: any) {
+//     console.log("CREATE INVENTORY ERROR =>", error);
+
+//     throw new Error(error.message || "Failed to create inventory");
+//   }
+// };
 
 export const getInventory = async (query: any) => {
 
@@ -744,3 +896,148 @@ export const getAssetReplacements = async () => {
 
   return replacements;
 };
+
+
+export const distributeAsset = async (
+  data: any
+) => {
+  const {
+    productId,
+    departmentId,
+    quantity,
+    distributedBy,
+    remarks,
+  } = data;
+
+  return await prisma.$transaction(
+    async (tx) => {
+
+      const product =
+        await tx.product.findUnique({
+          where: {
+            id: productId,
+          },
+
+          include: {
+            assetDistribution: true,
+          },
+        });
+
+      if (!product) {
+        throw new Error(
+          "Product not found"
+        );
+      }
+
+      const distributedQty =
+        product.assetDistribution.reduce(
+          (sum, item) =>
+            sum + item.quantity,
+          0
+        );
+
+      const availableStock =
+        product.quantity -
+        distributedQty;
+
+      if (
+        Number(quantity) >
+        availableStock
+      ) {
+        throw new Error(
+          `Only ${availableStock} stock available`
+        );
+      }
+
+      const distribution =
+        await tx.assetDistribution.create({
+          data: {
+            productId,
+            departmentId,
+
+            quantity:
+              Number(quantity),
+
+            distributedBy,
+            remarks,
+          },
+
+          include: {
+            product: true,
+            department: true,
+          },
+        });
+
+      return distribution;
+    }
+  );
+};
+
+
+export const getAssetDistributions =
+  async () => {
+
+    return await prisma.assetDistribution.findMany({
+      include: {
+        product: true,
+        department: true,
+      },
+
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  };
+
+
+  export const getProductStock =
+  async (productId: any) => {
+
+    const product =
+      await prisma.product.findUnique({
+        where: {
+          id: productId,
+        },
+
+        include: {
+          assetDistribution: {
+            include: {
+              department: true,
+            },
+          },
+        },
+      });
+
+    if (!product) {
+      throw new Error(
+        "Product not found"
+      );
+    }
+
+    const distributedQty =
+      product.assetDistribution.reduce(
+        (sum, item) =>
+          sum + item.quantity,
+        0
+      );
+
+    return {
+      productId: product.id,
+
+      productName:
+        product.productName,
+
+      totalStock:
+        product.quantity,
+
+      distributedStock:
+        distributedQty,
+
+      availableStock:
+        product.quantity -
+        distributedQty,
+
+      allocations:
+        product.assetDistribution,
+    };
+  };

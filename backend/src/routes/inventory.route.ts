@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.middleware";
-import { approveAssetTransferController, createAssetMappingController, createAssetReplacementController, createAssetTransferController, createInventoryController, createProductCategoryController, getAssetReplacementsController, getAssetStatusAnalyticsController, getAssetTransfersController, getDepartmentWiseAssetMappingsController, getInventoryController, getInventoryControllerbyId, getProductCategoryController, getUserWiseAssetMappingsController } from "../controller/inventory.controller";
+import { approveAssetTransferController, createAssetMappingController, createAssetReplacementController, createAssetTransferController, createInventoryController, createProductCategoryController, distributeAssetController, getAssetDistributionsController, getAssetReplacementsController, getAssetStatusAnalyticsController, getAssetTransfersController, getDepartmentWiseAssetMappingsController, getInventoryController, getInventoryControllerbyId, getProductCategoryController, getProductStockController, getUserWiseAssetMappingsController } from "../controller/inventory.controller";
 
 const router = Router();
 
@@ -79,7 +79,23 @@ router.post("/", authMiddleware, createInventoryController);
 router.get("/", authMiddleware, getInventoryController);
 
 
+router.post(
+  "/distribution",
+  authMiddleware,
+  distributeAssetController
+);
 
+router.get(
+  "/distribution",
+  authMiddleware,
+  getAssetDistributionsController
+);
+
+router.get(
+  "/stock/:productId",
+  authMiddleware,
+  getProductStockController
+);
 
 
 router.get("/:id", authMiddleware, getInventoryControllerbyId);

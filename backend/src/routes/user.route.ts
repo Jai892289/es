@@ -1,5 +1,5 @@
 import express from "express";
-import { createUserController, deleteUserController, getSingleUserController, getUsersController, updateUserController } from "../controller/user.controller";
+import { createUserController, deleteUserController, getSingleUserController, getUsersByDepartment, getUsersController, updateUserController } from "../controller/user.controller";
 
 
 
@@ -8,6 +8,11 @@ const router = express.Router();
 router.post("/", createUserController);
 
 router.get("/", getUsersController);
+
+router.get(
+  "/department/:departmentId",
+  getUsersByDepartment
+);
 
 router.get("/:id", getSingleUserController);
 
