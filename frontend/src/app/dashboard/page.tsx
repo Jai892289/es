@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 
 import { getDashboardAnalyticsApi } from "@/lib/dashboard.api";
+import Link from "next/link";
 
 const iconMap: any = {
   Laptop,
@@ -639,85 +640,88 @@ const complaints =
   </div>
 
   {/* RIGHT SIDE */}
-  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
+ <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
 
   <h2 className="text-xl font-semibold text-blue-600 mb-8">
     Recent Complaints
   </h2>
 
   {complaints?.length > 0 ? (
+    <>
+      <div className="space-y-6">
 
-    <div className="space-y-8">
+        {complaints.slice(0, 5).map(
+          (item: any, index: number) => (
+            <div key={item.id || index}>
 
-      {complaints.map((item: any, index: number) => (
-        <div key={item.id || index}>
+              <div className="flex items-start justify-between gap-4">
 
-          <div className="flex items-start justify-between gap-4">
+                <div className="flex-1">
 
-            <div className="flex-1">
+                  <h3 className="text-[18px] font-medium text-[#24124d]">
+                    {item.title}
+                  </h3>
 
-              <h3 className="text-[18px] font-medium text-[#24124d] leading-tight">
-                {item.title}
-              </h3>
+                  <p className="text-gray-500 text-xs mt-2">
+                    By {item.fullName || "System"}
+                    {" | "}
+                    {new Date(
+                      item.createdAt
+                    ).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                    })}
+                  </p>
 
-              <p className="text-gray-500 text-xs mt-2">
-                By {item.createdBy || item.userName || "System"}
-                {" | "}
-                {new Date(
-                  item.createdAt
-                ).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "2-digit",
-                  year: "numeric",
-                })}
-              </p>
+                </div>
+
+                <span
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold text-white
+                  ${
+                    item.urgency === "HIGH"
+                      ? "bg-red-500"
+                      : item.urgency === "MEDIUM"
+                      ? "bg-orange-500"
+                      : "bg-blue-500"
+                  }`}
+                >
+                  {item.urgency}
+                </span>
+
+              </div>
+
+              {index !== 4 &&
+                index !== complaints.length - 1 && (
+                  <div className="border-b border-gray-100 mt-5" />
+              )}
 
             </div>
+          )
+        )}
 
-            <span
-              className={`px-4 py-2 rounded-xl text-sm font-semibold text-white
-              ${
-                item.priority === "HIGH"
-                  ? "bg-red-500"
-                  : item.priority === "MEDIUM"
-                  ? "bg-yellow-400"
-                  : "bg-blue-400"
-              }`}
-            >
-              {item.priority === "HIGH"
-                ? "High Priority"
-                : item.priority === "MEDIUM"
-                ? "Medium Priority"
-                : "Low Priority"}
-            </span>
+      </div>
 
-          </div>
+      {/* Footer */}
+      <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end">
 
-          {index !== complaints.length - 1 && (
-            <div className="border-b border-gray-100 mt-6" />
-          )}
+        <Link
+          href="/dashboard/complaints/view-complaint"
+          className="inline-flex items-center gap-2 text-emerald-600 font-medium hover:text-emerald-700 transition"
+        >
+          View All Complaints
 
-        </div>
-      ))}
+          <span className="text-lg">
+            →
+          </span>
+        </Link>
 
-      <button className="text-gray-600 text-sm font-medium flex items-center gap-2 hover:text-emerald-600 transition">
-
-        View all complaints
-
-        <span className="text-emerald-500 text-2xl">
-          ›
-        </span>
-
-      </button>
-
-    </div>
-
+      </div>
+    </>
   ) : (
-
     <div className="h-[320px] flex items-center justify-center text-gray-400">
       No Recent Complaints
     </div>
-
   )}
 
 </div>
