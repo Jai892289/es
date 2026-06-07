@@ -139,66 +139,46 @@ export default function DashboardPage() {
 
   /* ---------------- OVERVIEW ---------------- */
 
-  const overviewCards = useMemo(
-    () => [
-      {
-        label:
-          "Total Procured",
+const overviewCards = useMemo(
+  () => [
+    {
+      label: "Total Procured",
+      value:
+        dashboardData?.overview?.totalItemsProcured || 0,
+      icon: Package2,
+      gradient: "from-emerald-500 to-green-600",
+      href: "/dashboard/inventory",
+    },
 
-        value:
-          dashboardData?.overview
-            ?.totalItemsProcured || 0,
+    {
+      label: "Warranty Ending",
+      value:
+        dashboardData?.overview?.warrantyEndingSoon || 0,
+      icon: ShieldCheck,
+      gradient: "from-blue-500 to-cyan-500",
+      href: "/dashboard/inventory",
+    },
 
-        icon: Package2,
+    {
+      label: "Complaints",
+      value:
+        dashboardData?.overview?.pendingComplaints || 0,
+      icon: AlertTriangle,
+      gradient: "from-red-500 to-rose-500",
+      href: "/dashboard/complaints/view-complaint",
+    },
 
-        gradient:
-          "from-emerald-500 to-green-600",
-      },
-
-      {
-        label:
-          "Warranty Ending",
-
-        value:
-          dashboardData?.overview
-            ?.warrantyEndingSoon || 0,
-
-        icon: ShieldCheck,
-
-        gradient:
-          "from-blue-500 to-cyan-500",
-      },
-
-      {
-        label:
-          "Complaints ",
-
-        value:
-          dashboardData?.overview
-            ?.pendingComplaints || 0,
-
-        icon: AlertTriangle,
-
-        gradient:
-          "from-red-500 to-rose-500",
-      },
-
-      {
-        label:
-          "AMC Renewals",
-
-        value:
-          dashboardData?.overview
-            ?.pendingAmcRenewals || 0,
-
-        icon: Activity,
-
-        gradient:
-          "from-indigo-500 to-violet-500",
-      },
-    ],
-    [dashboardData]
-  );
+    {
+      label: "AMC Renewals",
+      value:
+        dashboardData?.overview?.pendingAmcRenewals || 0,
+      icon: Activity,
+      gradient: "from-indigo-500 to-violet-500",
+      href: "/dashboard/inventory",
+    },
+  ],
+  [dashboardData]
+);
 
   /* ---------------- LOADING ---------------- */
 
@@ -308,117 +288,127 @@ export default function DashboardPage() {
     "
   />
 
-  <div className="relative z-10 flex flex-col lg:flex-row justify-between gap-6">
+<div
+  className="
+    relative
+    overflow-hidden
+    rounded-3xl
+    bg-gradient-to-r
+    from-emerald-600
+    via-green-600
+    to-emerald-500
+    p-5
+    shadow-lg
+  "
+>
 
-    {/* LEFT */}
+  <div className="absolute inset-0 bg-black/5" />
 
-    <div className="flex-1">
+  <div className="relative z-10">
 
-      <div className="flex items-start gap-4">
+    {/* Top */}
+
+    <div className="flex items-center justify-between gap-4">
+
+      <div className="flex items-center gap-3">
 
         <div
           className="
-            w-14
-            h-14
-            rounded-2xl
+            h-11
+            w-11
+            rounded-xl
             bg-white/15
-            backdrop-blur-xl
+            backdrop-blur
             flex
             items-center
             justify-center
-            border
-            border-white/10
           "
         >
-          <Activity className="w-7 h-7" />
+          <Activity className="h-5 w-5 text-white" />
         </div>
 
         <div>
-         
 
-          <h1 className="text-2xl font-bold tracking-tight">
+          <h1 className="text-lg font-semibold text-white">
             Asset Dashboard
           </h1>
 
-          <p className="text-white/75 mt-2 max-w-lg">
-            Monitor assets, inventory,
-            complaints, warranty status.
+          <p className="text-xs text-white/70">
+            Asset monitoring, complaints & warranty tracking
           </p>
+
         </div>
+
       </div>
 
-      {/* Stats */}
-
-      <div className="flex gap-8 mt-8">
-
-        <div>
-          <h2 className="text-4xl font-bold">
-            {dashboardData?.overview?.totalItemsProcured}
-          </h2>
-
-          <p className="text-white/70 text-sm mt-1">
-            Total Assets
-          </p>
-        </div>
-
-        <div>
-          <h2 className="text-4xl font-bold">
-            {dashboardData?.categories?.length}
-          </h2>
-
-          <p className="text-white/70 text-sm mt-1">
-            Categories
-          </p>
-        </div>
+      <div
+        className="
+          hidden md:flex
+          items-center
+          gap-2
+          px-3
+          py-1.5
+          rounded-full
+          bg-white/10
+          text-xs
+          text-white
+        "
+      >
+        <div className="h-2 w-2 rounded-full bg-green-300 animate-pulse" />
+        System Active
       </div>
+
     </div>
 
-    {/* RIGHT */}
+    {/* Metrics */}
 
-    <div className="grid grid-cols-2 gap-3 lg:w-[320px]">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
 
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
-        <p className="text-xs text-white/60">
-          Health
+      <div className="bg-white/10 backdrop-blur rounded-2xl p-3">
+        <p className="text-[11px] text-white/70">
+          Total Assets
         </p>
 
-        <h3 className="text-2xl font-bold mt-1">
-          94%
-        </h3>
+        <h2 className="text-3xl font-bold text-white mt-1">
+          {dashboardData?.overview?.totalItemsProcured || 0}
+        </h2>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
-        <p className="text-xs text-white/60">
-          Operational
+      <div className="bg-white/10 backdrop-blur rounded-2xl p-3">
+        <p className="text-[11px] text-white/70">
+          Categories
         </p>
 
-        <h3 className="text-2xl font-bold mt-1">
-          89%
-        </h3>
+        <h2 className="text-3xl font-bold text-white mt-1">
+          {dashboardData?.categories?.length || 0}
+        </h2>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
-        <p className="text-xs text-white/60">
-          Complaints 
+      <div className="bg-white/10 backdrop-blur rounded-2xl p-3">
+        <p className="text-[11px] text-white/70">
+          Open Complaints
         </p>
 
-        <h3 className="text-2xl font-bold mt-1">
+        <h2 className="text-3xl font-bold text-white mt-1">
           {dashboardData?.overview?.pendingComplaints || 0}
-        </h3>
+        </h2>
       </div>
 
-      <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
-        <p className="text-xs text-white/60">
-          Warranty
+      <div className="bg-white/10 backdrop-blur rounded-2xl p-3">
+        <p className="text-[11px] text-white/70">
+          Warranty Due
         </p>
 
-        <h3 className="text-2xl font-bold mt-1">
+        <h2 className="text-3xl font-bold text-white mt-1">
           {dashboardData?.overview?.warrantyEndingSoon || 0}
-        </h3>
+        </h2>
       </div>
 
     </div>
+
   </div>
+
+</div>
 </motion.div>
         {/* CATEGORY */}
 
@@ -639,23 +629,30 @@ export default function DashboardPage() {
 
         {/* OVERVIEW */}
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-  {overviewCards.map((item, index) => {
-    const Icon = item.icon;
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-1">
+ {overviewCards.map((item, index) => {
+  const Icon = item.icon;
 
-    return (
+  return (
+    <Link
+      key={item.label}
+      href={item.href}
+      className="block"
+    >
       <motion.div
-        key={item.label}
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: index * 0.06 }}
+        transition={{ delay: index * 0.05 }}
         whileHover={{
-          y: -6,
+          y: -4,
           scale: 1.02,
         }}
+        whileTap={{
+          scale: 0.98,
+        }}
         className="
-          group
+          cursor-pointer
           relative
           overflow-hidden
           rounded-3xl
@@ -664,9 +661,8 @@ export default function DashboardPage() {
           bg-white
           p-5
           shadow-sm
-          hover:shadow-2xl
-          transition-all
-          duration-300
+          hover:shadow-xl
+          transition-all cursor-pointer
         "
       >
         {/* Glow Effect */}
@@ -753,6 +749,7 @@ export default function DashboardPage() {
 
         </div>
       </motion.div>
+      </Link>
     );
   })}
 </div>
@@ -887,7 +884,7 @@ export default function DashboardPage() {
                     mb-2
                   "
                 >
-                  {item.count}
+                   {item.count}
                 </span>
 
                 <div
@@ -940,7 +937,7 @@ export default function DashboardPage() {
       className="
         relative
         overflow-hidden
-        rounded-2xl
+        rounded-2xl mr-8
         bg-gradient-to-br
         from-emerald-600
         via-green-600
@@ -1000,7 +997,7 @@ export default function DashboardPage() {
     Total Procured
   </p>
 
-  <h2 className="text-5xl font-bold mt-2">
+  <h2 className="text-3xl font-bold mt-2">
     {selectedTotal}
   </h2>
 
