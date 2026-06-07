@@ -476,70 +476,159 @@ export const getCategory = async () => {
 export const getAssetStatusAnalytics = async () => {
   const products = await prisma.product.findMany();
 
-  // total assets
   const totalAssets = products.reduce(
     (sum, product) => sum + product.quantity,
     0
   );
 
+  const inStock = products.reduce(
+    (sum, product) => sum + product.inStock,
+    0
+  );
+
+  const inUse = products.reduce(
+    (sum, product) => sum + product.inUse,
+    0
+  );
+
+  const inRepair = products.reduce(
+    (sum, product) => sum + product.inRepair,
+    0
+  );
+
+  const damaged = products.reduce(
+    (sum, product) => sum + product.damaged,
+    0
+  );
+
+  const retired = products.reduce(
+    (sum, product) => sum + product.retired,
+    0
+  );
+
   const statuses = [
     {
-      key: "IN_USE",
+      status: "IN_STOCK",
+      label: "In Stock",
+      count: inStock,
+    },
+    {
+      status: "IN_USE",
       label: "In Use",
+      count: inUse,
     },
     {
-      key: "IN_STORE",
-      label: "In Store",
-    },
-    {
-      key: "IN_REPAIR",
+      status: "IN_REPAIR",
       label: "In Repair",
+      count: inRepair,
     },
     {
-      key: "RETIRED",
-      label: "Retired",
-    },
-    {
-      key: "DAMAGED",
+      status: "DAMAGED",
       label: "Damaged",
+      count: damaged,
     },
     {
-      key: "NON_FUNCTIONAL",
-      label: "Non-Functional",
+      status: "RETIRED",
+      label: "Retired",
+      count: retired,
     },
-  ];
-
-  const analytics = statuses.map((statusItem) => {
-    // filter products by status
-    const filteredProducts = products.filter(
-      (product) => product?.status === statusItem.key
-    );
-
-    // add quantities
-    const count = filteredProducts.reduce(
-      (sum, product) => sum + product.quantity,
-      0
-    );
-
-    // calculate percentage
-    const percentage =
+  ].map((item) => ({
+    ...item,
+    percentage:
       totalAssets > 0
-        ? Number(((count / totalAssets) * 100).toFixed(1))
-        : 0;
-
-    return {
-      status: statusItem.key,
-      label: statusItem.label,
-      count,
-      percentage,
-    };
-  });
+        ? Number(
+            (
+              (item.count / totalAssets) *
+              100
+            ).toFixed(1)
+          )
+        : 0,
+  }));
 
   return {
     totalAssets,
-    statuses: analytics,
+
+    totalInStock: inStock,
+
+    totalInUse: inUse,
+
+    totalInRepair: inRepair,
+
+    totalDamaged: damaged,
+
+    totalRetired: retired,
+
+    statuses,
   };
 };
+
+// export const getAssetStatusAnalytics = async () => {
+//   const products = await prisma.product.findMany();
+
+//   // total assets
+//   const totalAssets = products.reduce(
+//     (sum, product) => sum + product.quantity,
+//     0
+//   );
+
+//   const statuses = [
+//     {
+//       key: "IN_USE",
+//       label: "In Use",
+//     },
+//     {
+//       key: "IN_STORE",
+//       label: "In Store",
+//     },
+//     {
+//       key: "IN_REPAIR",
+//       label: "In Repair",
+//     },
+//     {
+//       key: "RETIRED",
+//       label: "Retired",
+//     },
+//     {
+//       key: "DAMAGED",
+//       label: "Damaged",
+//     },
+//     {
+//       key: "NON_FUNCTIONAL",
+//       label: "Non-Functional",
+//     },
+//   ];
+
+//   const analytics = statuses.map((statusItem) => {
+//     // filter products by status
+//     const filteredProducts = products.filter(
+//       (product) => product?.status === statusItem.key
+//     );
+
+//     // add quantities
+//     const count = filteredProducts.reduce(
+//       (sum, product) => sum + product.quantity,
+//       0
+//     );
+
+//     // calculate percentage
+//     const percentage =
+//       totalAssets > 0
+//         ? Number(((count / totalAssets) * 100).toFixed(1))
+//         : 0;
+
+//     return {
+//       status: statusItem.key,
+//       label: statusItem.label,
+//       count,
+//       percentage,
+//     };
+//   });
+
+//   return {
+//     totalAssets,
+//     statuses: analytics,
+//   };
+// };
 
 
 

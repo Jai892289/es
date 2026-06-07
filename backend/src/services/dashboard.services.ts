@@ -1,16 +1,186 @@
 import prisma from "../config/prisma";
 
+// export const getDashboardAnalytics = async () => {
+
+//   // =========================
+//   // CATEGORY COUNTS
+//   // =========================
+
+//   const products = await prisma.product.findMany({
+//     include: {
+//       category: true,
+//     },
+//   });
+
+//   const categoryMap: any = {};
+
+//   products.forEach((product) => {
+
+//     const categoryName =
+//       product.category?.name || "Others";
+
+//     if (!categoryMap[categoryName]) {
+//       categoryMap[categoryName] = 0;
+//     }
+
+//     categoryMap[categoryName] += product.quantity;
+//   });
+
+//   const categories = Object.entries(categoryMap).map(
+//     ([name, count]) => ({
+//       name,
+//       count,
+//     })
+//   );
+
+
+
+//   // =========================
+//   // TOTAL ITEMS PROCURED
+//   // =========================
+
+//   const totalItemsProcured = products.reduce(
+//     (sum, product) => sum + product.quantity,
+//     0
+//   );
+
+
+
+//   // =========================
+//   // WARRANTY ENDING SOON
+//   // =========================
+
+//   const today = new Date();
+
+//   const next30Days = new Date();
+
+//   next30Days.setDate(today.getDate() + 30);
+
+//   const warrantyEndingSoon = products.filter(
+//     (product) =>
+//       product.warrantyExpiryDate &&
+//       product.warrantyExpiryDate <= next30Days
+//   ).length;
+
+
+
+//   // =========================
+//   // PENDING COMPLAINTS
+//   // =========================
+
+//   const pendingComplaints =
+//     await prisma.complaint.count({
+//       where: {
+//         status: {
+//           not: "RESOLVED",
+//         },
+//       },
+//     });
+
+
+
+//   // =========================
+//   // PENDING AMC RENEWALS
+//   // =========================
+
+//   const pendingAmcRenewals = products.filter(
+//     (product) =>
+//       product.amcAvailable &&
+//       product.warrantyExpiryDate &&
+//       product.warrantyExpiryDate <= next30Days
+//   ).length;
+
+
+
+//   // =========================
+//   // YEARLY PROCUREMENT GRAPH
+//   // =========================
+
+//   const monthMap: any = {
+//     Jan: 0,
+//     Feb: 0,
+//     Mar: 0,
+//     Apr: 0,
+//     May: 0,
+//     Jun: 0,
+//     Jul: 0,
+//     Aug: 0,
+//     Sep: 0,
+//     Oct: 0,
+//     Nov: 0,
+//     Dec: 0,
+//   };
+
+//   products.forEach((product) => {
+
+//     const month = product.procurementDate
+//       .toLocaleString("default", {
+//         month: "short",
+//       });
+
+//     monthMap[month] += product.quantity;
+//   });
+
+//   const yearlyProcurement = Object.entries(monthMap).map(
+//     ([month, count]) => ({
+//       month,
+//       count,
+//     })
+//   );
+
+
+
+//   // =========================
+//   // RECENT COMPLAINTS
+//   // =========================
+
+//   const recentComplaints =
+//     await prisma.complaint.findMany({
+//       take: 5,
+
+//       orderBy: {
+//         createdAt: "desc",
+//       },
+
+//       select: {
+//         id: true,
+//         title: true,
+//         urgency: true,
+//         createdAt: true,
+//         fullName: true,
+//       },
+//     });
+
+
+
+//   return {
+//     categories,
+
+//     overview: {
+//       totalItemsProcured,
+//       warrantyEndingSoon,
+//       pendingComplaints,
+//       pendingAmcRenewals,
+//     },
+
+//     yearlyProcurement,
+
+//     recentComplaints,
+//   };
+// };
+
 export const getDashboardAnalytics = async () => {
 
-  // =========================
-  // CATEGORY COUNTS
-  // =========================
+  const products =
+    await prisma.product.findMany({
+      include: {
+        category: true,
+      },
+    });
 
-  const products = await prisma.product.findMany({
-    include: {
-      category: true,
-    },
-  });
+  // ==================================
+  // CATEGORY + MONTHLY PROCUREMENT
+  // ==================================
 
   const categoryMap: any = {};
 
@@ -19,54 +189,95 @@ export const getDashboardAnalytics = async () => {
     const categoryName =
       product.category?.name || "Others";
 
+    const month =
+      product.procurementDate.toLocaleString(
+        "default",
+        {
+          month: "short",
+        }
+      );
+
     if (!categoryMap[categoryName]) {
-      categoryMap[categoryName] = 0;
+
+      categoryMap[categoryName] = {
+        name: categoryName,
+
+        count: 0,
+
+        monthlyData: {
+          Jan: 0,
+          Feb: 0,
+          Mar: 0,
+          Apr: 0,
+          May: 0,
+          Jun: 0,
+          Jul: 0,
+          Aug: 0,
+          Sep: 0,
+          Oct: 0,
+          Nov: 0,
+          Dec: 0,
+        },
+      };
     }
 
-    categoryMap[categoryName] += product.quantity;
+    categoryMap[categoryName].count +=
+      product.quantity;
+
+    categoryMap[categoryName].monthlyData[
+      month
+    ] += product.quantity;
   });
 
-  const categories = Object.entries(categoryMap).map(
-    ([name, count]) => ({
-      name,
+  const categories = Object.values(
+    categoryMap
+  ).map((category: any) => ({
+    name: category.name,
+
+    count: category.count,
+
+    monthlyData: Object.entries(
+      category.monthlyData
+    ).map(([month, count]) => ({
+      month,
       count,
-    })
-  );
+    })),
+  }));
 
-
-
-  // =========================
+  // ==================================
   // TOTAL ITEMS PROCURED
-  // =========================
+  // ==================================
 
-  const totalItemsProcured = products.reduce(
-    (sum, product) => sum + product.quantity,
-    0
-  );
+  const totalItemsProcured =
+    products.reduce(
+      (sum, product) =>
+        sum + product.quantity,
+      0
+    );
 
-
-
-  // =========================
+  // ==================================
   // WARRANTY ENDING SOON
-  // =========================
+  // ==================================
 
   const today = new Date();
 
   const next30Days = new Date();
 
-  next30Days.setDate(today.getDate() + 30);
+  next30Days.setDate(
+    today.getDate() + 30
+  );
 
-  const warrantyEndingSoon = products.filter(
-    (product) =>
-      product.warrantyExpiryDate &&
-      product.warrantyExpiryDate <= next30Days
-  ).length;
+  const warrantyEndingSoon =
+    products.filter(
+      (product) =>
+        product.warrantyExpiryDate &&
+        product.warrantyExpiryDate <=
+          next30Days
+    ).length;
 
-
-
-  // =========================
+  // ==================================
   // PENDING COMPLAINTS
-  // =========================
+  // ==================================
 
   const pendingComplaints =
     await prisma.complaint.count({
@@ -77,24 +288,22 @@ export const getDashboardAnalytics = async () => {
       },
     });
 
-
-
-  // =========================
+  // ==================================
   // PENDING AMC RENEWALS
-  // =========================
+  // ==================================
 
-  const pendingAmcRenewals = products.filter(
-    (product) =>
-      product.amcAvailable &&
-      product.warrantyExpiryDate &&
-      product.warrantyExpiryDate <= next30Days
-  ).length;
+  const pendingAmcRenewals =
+    products.filter(
+      (product) =>
+        product.amcAvailable &&
+        product.amcExpiryDate &&
+        product.amcExpiryDate <=
+          next30Days
+    ).length;
 
-
-
-  // =========================
-  // YEARLY PROCUREMENT GRAPH
-  // =========================
+  // ==================================
+  // OVERALL YEARLY PROCUREMENT
+  // ==================================
 
   const monthMap: any = {
     Jan: 0,
@@ -113,26 +322,29 @@ export const getDashboardAnalytics = async () => {
 
   products.forEach((product) => {
 
-    const month = product.procurementDate
-      .toLocaleString("default", {
-        month: "short",
-      });
+    const month =
+      product.procurementDate.toLocaleString(
+        "default",
+        {
+          month: "short",
+        }
+      );
 
-    monthMap[month] += product.quantity;
+    monthMap[month] +=
+      product.quantity;
   });
 
-  const yearlyProcurement = Object.entries(monthMap).map(
-    ([month, count]) => ({
-      month,
-      count,
-    })
-  );
+  const yearlyProcurement =
+    Object.entries(monthMap).map(
+      ([month, count]) => ({
+        month,
+        count,
+      })
+    );
 
-
-
-  // =========================
+  // ==================================
   // RECENT COMPLAINTS
-  // =========================
+  // ==================================
 
   const recentComplaints =
     await prisma.complaint.findMany({
@@ -151,15 +363,18 @@ export const getDashboardAnalytics = async () => {
       },
     });
 
-
-
   return {
+
     categories,
 
     overview: {
+
       totalItemsProcured,
+
       warrantyEndingSoon,
+
       pendingComplaints,
+
       pendingAmcRenewals,
     },
 
@@ -168,7 +383,6 @@ export const getDashboardAnalytics = async () => {
     recentComplaints,
   };
 };
-
 
 export const getReportsSummary = async (query: any) => {
 
