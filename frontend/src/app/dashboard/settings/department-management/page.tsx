@@ -199,135 +199,192 @@ export default function DepartmentManagementPage() {
 
       {/* HERO */}
 
-   <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-5 text-white shadow-lg">
+<div
+  className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    bg-[#0f172a]
+    border
+    border-slate-800
+    shadow-xl
+    p-5
+  "
+>
 
-  {/* Background Glow */}
+  {/* Glow */}
 
-  <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+  <div
+    className="
+      absolute
+      top-0
+      right-0
+      h-56
+      w-56
+      rounded-full
+      bg-sky-500/10
+      blur-3xl
+    "
+  />
 
-  <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+  <div
+    className="
+      absolute
+      bottom-0
+      left-0
+      h-40
+      w-40
+      rounded-full
+      bg-blue-500/10
+      blur-3xl
+    "
+  />
 
-    {/* LEFT */}
+  <div className="relative z-10">
 
-    <div>
+    {/* Header */}
 
-      <div className="flex items-center gap-4">
+    <div className="flex items-center gap-3">
 
-        <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur border border-white/20 flex items-center justify-center">
+      <div
+        className="
+          h-11
+          w-11
+          rounded-xl
+          bg-sky-500/15
+          border
+          border-sky-500/20
+          flex
+          items-center
+          justify-center
+        "
+      >
+        <Building2 className="h-5 w-5 text-sky-400" />
+      </div>
 
-          <Building2 className="w-7 h-7 text-white" />
+      <div>
 
-        </div>
+        <div className="flex items-center gap-2">
 
-        <div>
-
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-lg font-semibold text-white">
             Department Management
           </h1>
 
-          <p className="text-emerald-100 text-sm mt-1">
-            Manage departments, staff & organizational assets
-          </p>
+          <span
+            className="
+              px-2
+              py-0.5
+              rounded-full
+              bg-sky-500/10
+              text-sky-400
+              text-[10px]
+              font-medium
+            "
+          >
+            Organization
+          </span>
 
         </div>
 
-      </div>
-
-      {/* QUICK STATS */}
-
-      <div className="flex flex-wrap gap-6 mt-5">
-
-        <div>
-
-          <h2 className="text-3xl font-bold">
-            {departments.length}
-          </h2>
-
-          <p className="text-xs text-emerald-100 mt-1">
-            Departments
-          </p>
-
-        </div>
-
-        <div>
-
-          <h2 className="text-3xl font-bold">
-            {departments.reduce(
-              (acc: number, item: any) =>
-                acc + (item.totalAssets || 0),
-              0
-            )}
-          </h2>
-
-          <p className="text-xs text-emerald-100 mt-1">
-            Assets
-          </p>
-
-        </div>
-
-        <div>
-
-          <h2 className="text-3xl font-bold">
-            {departments.reduce(
-              (acc: number, item: any) =>
-                acc + (item.totalStaff || 0),
-              0
-            )}
-          </h2>
-
-          <p className="text-xs text-emerald-100 mt-1">
-            Staff
-          </p>
-
-        </div>
+        <p className="text-sm text-slate-400 mt-1">
+          Manage departments, staff and organizational assets
+        </p>
 
       </div>
 
     </div>
 
-    {/* RIGHT */}
+    {/* Stats */}
 
-    <div className="grid grid-cols-2 gap-3 xl:w-[280px]">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
 
-      <MiniCard
-        icon={Building2}
-        title="Departments"
-        value={departments.length}
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Departments
+        </p>
 
-      <MiniCard
-        icon={ShieldCheck}
-        title="Active"
-        value={
-          departments.filter(
-            (d: any) => d.isActive
-          ).length
-        }
-      />
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {departments.length}
+        </h3>
+      </div>
 
-      <MiniCard
-        icon={Users}
-        title="Staff"
-        value={
-          departments.reduce(
-            (acc: number, item: any) =>
-              acc + (item.totalStaff || 0),
-            0
-          )
-        }
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Active
+        </p>
 
-      <MiniCard
-        icon={Package2}
-        title="Assets"
-        value={
-          departments.reduce(
-            (acc: number, item: any) =>
-              acc + (item.totalAssets || 0),
-            0
-          )
-        }
-      />
+        <h3 className="text-2xl font-bold text-emerald-400 mt-2">
+          {
+            departments.filter(
+              (d: any) => d.isActive
+            ).length
+          }
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Staff
+        </p>
+
+        <h3 className="text-2xl font-bold text-sky-400 mt-2">
+          {
+            departments.reduce(
+              (acc: number, item: any) =>
+                acc + (item.totalStaff || 0),
+              0
+            )
+          }
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Assets
+        </p>
+
+        <h3 className="text-2xl font-bold text-blue-400 mt-2">
+          {
+            departments.reduce(
+              (acc: number, item: any) =>
+                acc + (item.totalAssets || 0),
+              0
+            )
+          }
+        </h3>
+      </div>
 
     </div>
 

@@ -90,124 +90,193 @@ const [selectedDate, setSelectedDate] =
     <div className="space-y-4">
 
       {/* ---------------- HERO ---------------- */}
-<div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-  {/* Background Decoration */}
-  <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/10" />
-  <div className="absolute right-10 bottom-0 h-32 w-32 rounded-full bg-white/5" />
+<div
+  className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    bg-[#0f172a]
+    border
+    border-slate-800
+    shadow-xl
+    p-5
+  "
+>
 
-  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+  {/* Glow Effects */}
 
-    {/* Left Section */}
-    <div>
+  <div
+    className="
+      absolute
+      top-0
+      right-0
+      h-48
+      w-48
+      rounded-full
+      bg-emerald-500/10
+      blur-3xl
+    "
+  />
 
-      <div className="flex items-center gap-4">
+  <div
+    className="
+      absolute
+      bottom-0
+      left-0
+      h-32
+      w-32
+      rounded-full
+      bg-cyan-500/5
+      blur-3xl
+    "
+  />
 
-        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
+  <div className="relative z-10">
 
-          <Package2 className="w-8 h-8 text-white" />
+    {/* Header */}
 
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+
+      <div className="flex items-center gap-3">
+
+        <div
+          className="
+            h-11
+            w-11
+            rounded-xl
+            bg-emerald-500/15
+            border
+            border-emerald-500/20
+            flex
+            items-center
+            justify-center
+          "
+        >
+          <Package2 className="h-5 w-5 text-emerald-400" />
         </div>
 
         <div>
 
-          <h1 className="text-2xl font-bold text-white">
-            Inventory Management
-          </h1>
+          <div className="flex items-center gap-2">
 
-          <p className="text-emerald-100 mt-1">
-            Manage Assets, Inventory, AMC & Warranty Lifecycle
+            <h1 className="text-lg font-semibold text-white">
+              Inventory Management
+            </h1>
+
+            <span
+              className="
+                px-2
+                py-0.5
+                rounded-full
+                bg-emerald-500/10
+                text-emerald-400
+                text-[10px]
+                font-medium
+              "
+            >
+              Active
+            </span>
+
+          </div>
+
+          <p className="text-sm text-slate-400 mt-1">
+            Manage assets, inventory, AMC and warranty lifecycle
           </p>
 
         </div>
 
       </div>
-
-      {/* Stats */}
-      <div className="flex flex-wrap gap-4 mt-6">
-
-        <div className="bg-white/15 backdrop-blur-md rounded-2xl px-5 py-4 border border-white/10">
-
-          <p className="text-3xl font-bold text-white">
-            {inventoryData.length}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Total Assets
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md rounded-2xl px-5 py-4 border border-white/10">
-
-          <p className="text-3xl font-bold text-white">
-            {
-              inventoryData.filter(
-                (i) => i.amcAvailable
-              ).length
-            }
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            AMC Active
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md rounded-2xl px-5 py-4 border border-white/10">
-
-          <p className="text-3xl font-bold text-white">
-            {
-              inventoryData.reduce(
-                (sum, item) =>
-                  sum + (item.quantity || 0),
-                0
-              )
-            }
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Total Stock
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    {/* Right Section */}
-    <div className="flex flex-col gap-3">
 
       <Link
         href="/dashboard/inventory/add"
         className="
-          h-12
-          px-6
-          rounded-2xl
+          h-10
+          px-4
+          rounded-xl
           bg-white
-          text-emerald-600
-          font-semibold
-          shadow-lg
-          hover:scale-105
+          text-slate-900
+          text-sm
+          font-medium
+          flex
+          items-center
+          gap-2
+          hover:bg-slate-100
           transition-all
-          flex items-center justify-center gap-2
         "
       >
-        <Package2 className="w-4 h-4" />
+        <Package2 className="h-4 w-4" />
         Add Inventory
       </Link>
 
-      <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 text-center">
+    </div>
 
-        <p className="text-xs uppercase text-emerald-100">
-          Inventory Health
+    {/* Stats */}
+
+    <div className="grid grid-cols-3 gap-3 mt-5">
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Total Assets
         </p>
 
-        <h3 className="text-2xl font-bold text-white mt-1">
-          Excellent
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {inventoryData.length}
         </h3>
+      </div>
 
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          AMC Active
+        </p>
+
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {
+            inventoryData.filter(
+              (i) => i.amcAvailable
+            ).length
+          }
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Total Stock
+        </p>
+
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {
+            inventoryData.reduce(
+              (sum, item) =>
+                sum + (item.quantity || 0),
+              0
+            )
+          }
+        </h3>
       </div>
 
     </div>
@@ -215,6 +284,8 @@ const [selectedDate, setSelectedDate] =
   </div>
 
 </div>
+
+
       {/* ---------------- FILTERS ---------------- */}
 
      <div className="bg-[#f8f9fb] rounded-3xl border border-gray-200 p-6 shadow-sm">

@@ -324,144 +324,198 @@ const loadDepartments = async () => {
 
       {/* HERO */}
 
-<div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-5 text-white shadow-lg">
+<div
+  className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    bg-[#0f172a]
+    border
+    border-slate-800
+    shadow-xl
+    p-5
+  "
+>
 
-  {/* Background Effects */}
+  {/* Glow */}
 
-  <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+  <div
+    className="
+      absolute
+      top-0
+      right-0
+      h-56
+      w-56
+      rounded-full
+      bg-blue-500/10
+      blur-3xl
+    "
+  />
 
-  <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
+  <div
+    className="
+      absolute
+      bottom-0
+      left-0
+      h-40
+      w-40
+      rounded-full
+      bg-indigo-500/10
+      blur-3xl
+    "
+  />
 
-    {/* LEFT */}
+  <div className="relative z-10">
 
-    <div>
+    {/* Header */}
 
-      <div className="flex items-center gap-4">
+    <div className="flex items-center gap-3">
 
-        <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur border border-white/20 flex items-center justify-center">
+      <div
+        className="
+          h-11
+          w-11
+          rounded-xl
+          bg-blue-500/15
+          border
+          border-blue-500/20
+          flex
+          items-center
+          justify-center
+        "
+      >
+        <Users className="h-5 w-5 text-blue-400" />
+      </div>
 
-          <Users className="w-7 h-7 text-white" />
+      <div>
 
-        </div>
+        <div className="flex items-center gap-2">
 
-        <div>
-
-          <h1 className="text-2xl font-bold text-white">
+          <h1 className="text-lg font-semibold text-white">
             User Management
           </h1>
 
-          <p className="text-emerald-100 text-sm mt-1">
-            Manage users, roles & permissions
-          </p>
+          <span
+            className="
+              px-2
+              py-0.5
+              rounded-full
+              bg-blue-500/10
+              text-blue-400
+              text-[10px]
+              font-medium
+            "
+          >
+            Access Control
+          </span>
 
         </div>
 
-      </div>
-
-      {/* STATS */}
-
-      <div className="flex flex-wrap gap-6 mt-5">
-
-        <div>
-
-          <h2 className="text-3xl font-bold">
-            {usersData.length}
-          </h2>
-
-          <p className="text-xs text-emerald-100 mt-1">
-            Total Users
-          </p>
-
-        </div>
-
-        <div>
-
-          <h2 className="text-3xl font-bold">
-            {
-              usersData.filter(
-                (u: any) =>
-                  u.status === "ACTIVE"
-              ).length
-            }
-          </h2>
-
-          <p className="text-xs text-emerald-100 mt-1">
-            Active Users
-          </p>
-
-        </div>
-
-        <div>
-
-          <h2 className="text-3xl font-bold">
-            {
-              usersData.filter(
-                (u: any) =>
-                  u.role === "ADMIN"
-              ).length
-            }
-          </h2>
-
-          <p className="text-xs text-emerald-100 mt-1">
-            Admins
-          </p>
-
-        </div>
+        <p className="text-sm text-slate-400 mt-1">
+          Manage users, roles and permission assignments
+        </p>
 
       </div>
 
     </div>
 
-    {/* RIGHT */}
+    {/* Stats */}
 
-    <div className="grid grid-cols-2 gap-3 xl:w-[260px]">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
 
-      <MiniCard
-        icon={ShieldCheck}
-        title="Admins"
-        value={
-          usersData.filter(
-            (u: any) =>
-              u.role === "ADMIN"
-          ).length
-        }
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Total Users
+        </p>
 
-      <MiniCard
-        icon={Activity}
-        title="Active"
-        value={
-          usersData.filter(
-            (u: any) =>
-              u.status === "ACTIVE"
-          ).length
-        }
-      />
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {usersData.length}
+        </h3>
+      </div>
 
-      <MiniCard
-        icon={UserCheck}
-        title="Roles"
-        value={
-          new Set(
-            usersData.map(
-              (u: any) => u.role
-            )
-          ).size
-        }
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Active Users
+        </p>
 
-      <MiniCard
-        icon={Shield}
-        title="Health"
-        value="98%"
-      />
+        <h3 className="text-2xl font-bold text-emerald-400 mt-2">
+          {
+            usersData.filter(
+              (u: any) =>
+                u.status === "ACTIVE"
+            ).length
+          }
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Administrators
+        </p>
+
+        <h3 className="text-2xl font-bold text-blue-400 mt-2">
+          {
+            usersData.filter(
+              (u: any) =>
+                u.role === "ADMIN"
+            ).length
+          }
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Roles
+        </p>
+
+        <h3 className="text-2xl font-bold text-indigo-400 mt-2">
+          {
+            new Set(
+              usersData.map(
+                (u: any) => u.role
+              )
+            ).size
+          }
+        </h3>
+      </div>
 
     </div>
 
   </div>
 
 </div>
-
       {/* OVERVIEW */}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">

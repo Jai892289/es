@@ -229,112 +229,72 @@ const overviewCards = useMemo(
 
         {/* HERO */}
 <motion.div
-  initial={{ opacity: 0, y: 20 }}
+  initial={{ opacity: 0, y: 15 }}
   animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5 }}
+  transition={{ duration: 0.4 }}
   className="
     relative
     overflow-hidden
-    rounded-3xl
-    bg-gradient-to-br
-    from-emerald-600
-    via-green-600
-    to-teal-600
-    p-6
+    rounded-[28px]
+    bg-[#0f172a]
+    border
+    border-white/[0.06]
     shadow-xl
-    text-white
-    border border-white/10
-  "
->
-  {/* Background Glow */}
-
-  <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-
-  <motion.div
-    animate={{ y: [0, -20, 0] }}
-    transition={{
-      duration: 10,
-      repeat: Infinity,
-      ease: "easeInOut",
-    }}
-    className="
-      absolute
-      -top-20
-      -right-20
-      w-72
-      h-72
-      bg-white/10
-      rounded-full
-      blur-3xl
-    "
-  />
-
-  <motion.div
-    animate={{ y: [0, 20, 0] }}
-    transition={{
-      duration: 12,
-      repeat: Infinity,
-      ease: "easeInOut",
-    }}
-    className="
-      absolute
-      -bottom-20
-      -left-20
-      w-72
-      h-72
-      bg-black/10
-      rounded-full
-      blur-3xl
-    "
-  />
-
-<div
-  className="
-    relative
-    overflow-hidden
-    rounded-3xl
-    bg-gradient-to-r
-    from-emerald-600
-    via-green-600
-    to-emerald-500
     p-5
-    shadow-lg
+    text-white
   "
 >
 
-  <div className="absolute inset-0 bg-black/5" />
+  {/* Glow */}
+
+  <div className="absolute top-0 right-0 h-52 w-52 bg-emerald-500/10 rounded-full blur-3xl" />
+  <div className="absolute bottom-0 left-0 h-40 w-40 bg-cyan-500/10 rounded-full blur-3xl" />
 
   <div className="relative z-10">
 
-    {/* Top */}
+    {/* Header */}
 
-    <div className="flex items-center justify-between gap-4">
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
       <div className="flex items-center gap-3">
 
         <div
           className="
-            h-11
-            w-11
+            h-11 w-11
             rounded-xl
-            bg-white/15
-            backdrop-blur
-            flex
-            items-center
-            justify-center
+            bg-emerald-500/15
+            border border-emerald-500/20
+            flex items-center justify-center
           "
         >
-          <Activity className="h-5 w-5 text-white" />
+          <Activity className="h-5 w-5 text-emerald-400" />
         </div>
 
         <div>
 
-          <h1 className="text-lg font-semibold text-white">
-            Asset Dashboard
-          </h1>
+          <div className="flex items-center gap-2">
 
-          <p className="text-xs text-white/70">
-            Asset monitoring, complaints & warranty tracking
+            <h1 className="text-lg font-semibold">
+              Asset Dashboard
+            </h1>
+
+            <span
+              className="
+                px-2 py-0.5
+                rounded-full
+                bg-emerald-500/10
+                text-emerald-400
+                text-[10px]
+                font-medium
+              "
+            >
+              LIVE
+            </span>
+
+          </div>
+
+          <p className="text-sm text-slate-400 mt-1">
+            Assets, complaints & warranty overview
           </p>
 
         </div>
@@ -343,76 +303,85 @@ const overviewCards = useMemo(
 
       <div
         className="
-          hidden md:flex
-          items-center
-          gap-2
-          px-3
-          py-1.5
-          rounded-full
-          bg-white/10
-          text-xs
-          text-white
+          px-3 py-2
+          rounded-xl
+          bg-white/[0.03]
+          border border-white/[0.06]
         "
       >
-        <div className="h-2 w-2 rounded-full bg-green-300 animate-pulse" />
-        System Active
+        <div className="flex items-center gap-2">
+
+          <div className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+
+          <span className="text-xs text-slate-300">
+            System Operational
+          </span>
+
+        </div>
       </div>
 
     </div>
 
-    {/* Metrics */}
+    {/* KPI Cards */}
 
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
 
-      <div className="bg-white/10 backdrop-blur rounded-2xl p-3">
-        <p className="text-[11px] text-white/70">
-          Total Assets
+      <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-3">
+
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Assets
         </p>
 
-        <h2 className="text-3xl font-bold text-white mt-1">
+        <h2 className="text-2xl font-bold mt-2">
           {dashboardData?.overview?.totalItemsProcured || 0}
         </h2>
+
       </div>
 
-      <div className="bg-white/10 backdrop-blur rounded-2xl p-3">
-        <p className="text-[11px] text-white/70">
+      <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-3">
+
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
           Categories
         </p>
 
-        <h2 className="text-3xl font-bold text-white mt-1">
+        <h2 className="text-2xl font-bold text-cyan-400 mt-2">
           {dashboardData?.categories?.length || 0}
         </h2>
+
       </div>
 
-      <div className="bg-white/10 backdrop-blur rounded-2xl p-3">
-        <p className="text-[11px] text-white/70">
-          Open Complaints
+      <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-3">
+
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Complaints
         </p>
 
-        <h2 className="text-3xl font-bold text-white mt-1">
+        <h2 className="text-2xl font-bold text-amber-400 mt-2">
           {dashboardData?.overview?.pendingComplaints || 0}
         </h2>
+
       </div>
 
-      <div className="bg-white/10 backdrop-blur rounded-2xl p-3">
-        <p className="text-[11px] text-white/70">
+      <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-3">
+
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
           Warranty Due
         </p>
 
-        <h2 className="text-3xl font-bold text-white mt-1">
+        <h2 className="text-2xl font-bold text-rose-400 mt-2">
           {dashboardData?.overview?.warrantyEndingSoon || 0}
         </h2>
+
       </div>
 
     </div>
 
   </div>
 
-</div>
 </motion.div>
         {/* CATEGORY */}
 
-<div className="space-y-3">
+<div className="space-y-3 ml-2">
 
   {/* Header */}
 

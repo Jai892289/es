@@ -110,78 +110,98 @@ export default function DashboardPage() {
 
       {/* ---------------- HERO ---------------- */}
 
- <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-  {/* Decorative Elements */}
-  <div className="absolute -top-16 -right-16 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
-  <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full" />
+<div
+  className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    bg-[#0f172a]
+    border
+    border-slate-800
+    shadow-xl
+    p-5
+  "
+>
 
-  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+  {/* Glow */}
 
-    {/* Left Side */}
-    <div>
+  <div
+    className="
+      absolute
+      top-0
+      right-0
+      h-48
+      w-48
+      rounded-full
+      bg-cyan-500/10
+      blur-3xl
+    "
+  />
 
-      <div className="flex items-center gap-4">
+  <div
+    className="
+      absolute
+      bottom-0
+      left-0
+      h-32
+      w-32
+      rounded-full
+      bg-emerald-500/5
+      blur-3xl
+    "
+  />
 
-        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
+  <div className="relative z-10">
 
-          <Activity className="w-8 h-8 text-white" />
+    {/* Header */}
 
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+
+      <div className="flex items-center gap-3">
+
+        <div
+          className="
+            h-11
+            w-11
+            rounded-xl
+            bg-cyan-500/15
+            border
+            border-cyan-500/20
+            flex
+            items-center
+            justify-center
+          "
+        >
+          <Activity className="h-5 w-5 text-cyan-400" />
         </div>
 
         <div>
 
-          <h1 className="text-2xl font-bold text-white">
-            Asset Status Dashboard
-          </h1>
+          <div className="flex items-center gap-2">
 
-          <p className="text-emerald-100 mt-1">
-            Real-time monitoring of inventory health & asset lifecycle
-          </p>
+            <h1 className="text-lg font-semibold text-white">
+              Asset Status Dashboard
+            </h1>
 
-        </div>
+            <span
+              className="
+                px-2
+                py-0.5
+                rounded-full
+                bg-cyan-500/10
+                text-cyan-400
+                text-[10px]
+                font-medium
+              "
+            >
+              Live
+            </span>
 
-      </div>
+          </div>
 
-      {/* KPI Cards */}
-      <div className="flex flex-wrap gap-4 mt-6">
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
-
-          <p className="text-3xl font-bold text-white">
-            {totalAssets}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Total Assets
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
-
-          <p className="text-3xl font-bold text-white">
-            {statusData.length}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Status Types
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
-
-          <p className="text-3xl font-bold text-white">
-            {
-              statusData.find(
-                (s) => s.status === "IN_USE"
-              )?.count || 0
-            }
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Active Assets
+          <p className="text-sm text-slate-400 mt-1">
+            Real-time monitoring of asset lifecycle and utilization
           </p>
 
         </div>
@@ -190,41 +210,97 @@ export default function DashboardPage() {
 
     </div>
 
-    {/* Right Side Metrics */}
-    <div className="grid grid-cols-2 gap-3 lg:min-w-[320px]">
+    {/* Stats */}
 
-      <MiniCard
-        icon={TrendingUp}
-        title="Efficiency"
-        value="92%"
-      />
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
 
-      <MiniCard
-        icon={ShieldCheck}
-        title="Compliance"
-        value="98%"
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Total Assets
+        </p>
 
-      <MiniCard
-        icon={CheckCircle2}
-        title="Operational"
-        value={`${statusData.find(
-          (s) => s.status === "IN_USE"
-        )?.count || 0}`}
-      />
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {totalAssets}
+        </h3>
+      </div>
 
-      <MiniCard
-        icon={AlertTriangle}
-        title="Repair Queue"
-        value={`${statusData.find(
-          (s) => s.status === "IN_REPAIR"
-        )?.count || 0}`}
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Status Types
+        </p>
+
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {statusData.length}
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          In Use
+        </p>
+
+        <h3 className="text-2xl font-bold text-emerald-400 mt-2">
+          {
+            statusData.find(
+              (s) => s.status === "IN_USE"
+            )?.count || 0
+          }
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          In Repair
+        </p>
+
+        <h3 className="text-2xl font-bold text-amber-400 mt-2">
+          {
+            statusData.find(
+              (s) => s.status === "IN_REPAIR"
+            )?.count || 0
+          }
+        </h3>
+      </div>
 
     </div>
 
   </div>
+
 </div>
+
+
 
       {/* ---------------- STATS ---------------- */}
 

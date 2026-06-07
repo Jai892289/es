@@ -84,77 +84,98 @@ export default function AssetReplacementPage() {
 
       {/* ---------------- HERO ---------------- */}
 
-<div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-  {/* Decorative Elements */}
-  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
-  <div className="absolute top-12 right-24 h-24 w-24 rounded-full border border-white/10" />
+<div
+  className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    bg-[#0f172a]
+    border
+    border-slate-800
+    shadow-xl
+    p-5
+  "
+>
 
-  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+  {/* Glow Effects */}
 
-    {/* LEFT SECTION */}
+  <div
+    className="
+      absolute
+      top-0
+      right-0
+      h-48
+      w-48
+      rounded-full
+      bg-amber-500/10
+      blur-3xl
+    "
+  />
 
-    <div>
+  <div
+    className="
+      absolute
+      bottom-0
+      left-0
+      h-32
+      w-32
+      rounded-full
+      bg-orange-500/10
+      blur-3xl
+    "
+  />
 
-      <div className="flex items-center gap-4">
+  <div className="relative z-10">
 
-        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
+    {/* Header */}
 
-          <RefreshCw className="w-8 h-8 text-white" />
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
+      <div className="flex items-center gap-3">
+
+        <div
+          className="
+            h-11
+            w-11
+            rounded-xl
+            bg-amber-500/15
+            border
+            border-amber-500/20
+            flex
+            items-center
+            justify-center
+          "
+        >
+          <RefreshCw className="h-5 w-5 text-amber-400" />
         </div>
 
         <div>
 
-          <h1 className="text-2xl font-bold text-white">
-            Asset Replacement
-          </h1>
+          <div className="flex items-center gap-2">
 
-          <p className="text-emerald-100 mt-1">
-            Manage asset upgrades, retirements & lifecycle replacements
-          </p>
+            <h1 className="text-lg font-semibold text-white">
+              Asset Replacement
+            </h1>
 
-        </div>
+            <span
+              className="
+                px-2
+                py-0.5
+                rounded-full
+                bg-amber-500/10
+                text-amber-400
+                text-[10px]
+                font-medium
+              "
+            >
+              Lifecycle
+            </span>
 
-      </div>
+          </div>
 
-      {/* KPI CARDS */}
-
-      <div className="flex flex-wrap gap-4 mt-6">
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
-
-          <p className="text-3xl font-bold text-white">
-            {stats.total}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Total Replacements
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
-
-          <p className="text-3xl font-bold text-white">
-            {stats.active}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Active Assets
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
-
-          <p className="text-3xl font-bold text-white">
-            {stats.retired}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Retired Assets
+          <p className="text-sm text-slate-400 mt-1">
+            Manage upgrades, retirements and replacement planning
           </p>
 
         </div>
@@ -163,38 +184,70 @@ export default function AssetReplacementPage() {
 
     </div>
 
-    {/* RIGHT SECTION */}
+    {/* Stats */}
 
-    <div className="grid grid-cols-2 gap-3 lg:min-w-[320px]">
+    <div className="grid grid-cols-3 gap-3 mt-5">
 
-      <MiniCard
-        icon={TrendingUp}
-        title="Efficiency"
-        value="96%"
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Total Replacements
+        </p>
 
-      <MiniCard
-        icon={ShieldCheck}
-        title="Compliance"
-        value="99%"
-      />
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {stats.total}
+        </h3>
+      </div>
 
-      <MiniCard
-        icon={RefreshCw}
-        title="Upgrades"
-        value={`${stats.total}`}
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Active Assets
+        </p>
 
-      <MiniCard
-        icon={Archive}
-        title="Retired"
-        value={`${stats.retired}`}
-      />
+        <h3 className="text-2xl font-bold text-emerald-400 mt-2">
+          {stats.active}
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Retired Assets
+        </p>
+
+        <h3 className="text-2xl font-bold text-amber-400 mt-2">
+          {stats.retired}
+        </h3>
+      </div>
 
     </div>
 
   </div>
+
 </div>
+
 
       {/* ---------------- OVERVIEW ---------------- */}
 <button

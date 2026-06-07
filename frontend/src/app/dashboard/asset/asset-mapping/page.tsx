@@ -104,77 +104,98 @@ export default function AssetMappingPage() {
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
+   
+<div
+  className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    bg-[#0f172a]
+    border
+    border-slate-800
+    shadow-xl
+    p-5
+  "
+>
 
-  {/* Decorative Elements */}
-  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
-  <div className="absolute top-10 right-24 h-24 w-24 rounded-full border border-white/10" />
+  {/* Glow */}
 
-  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+  <div
+    className="
+      absolute
+      top-0
+      right-0
+      h-48
+      w-48
+      rounded-full
+      bg-blue-500/10
+      blur-3xl
+    "
+  />
 
-    {/* LEFT SIDE */}
+  <div
+    className="
+      absolute
+      bottom-0
+      left-0
+      h-32
+      w-32
+      rounded-full
+      bg-cyan-500/10
+      blur-3xl
+    "
+  />
 
-    <div>
+  <div className="relative z-10">
 
-      <div className="flex items-center gap-4">
+    {/* Header */}
 
-        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
-          <Boxes className="w-8 h-8 text-white" />
+      <div className="flex items-center gap-3">
 
+        <div
+          className="
+            h-11
+            w-11
+            rounded-xl
+            bg-blue-500/15
+            border
+            border-blue-500/20
+            flex
+            items-center
+            justify-center
+          "
+        >
+          <Boxes className="h-5 w-5 text-blue-400" />
         </div>
 
         <div>
 
-          <h1 className="text-2xl font-bold text-white">
-            Asset Mapping
-          </h1>
+          <div className="flex items-center gap-2">
 
-          <p className="text-emerald-100 mt-1">
-            Manage asset allocation across users & departments
-          </p>
+            <h1 className="text-lg font-semibold text-white">
+              Asset Mapping
+            </h1>
 
-        </div>
+            <span
+              className="
+                px-2
+                py-0.5
+                rounded-full
+                bg-blue-500/10
+                text-blue-400
+                text-[10px]
+                font-medium
+              "
+            >
+              Live
+            </span>
 
-      </div>
+          </div>
 
-      {/* KPI CARDS */}
-
-      <div className="flex flex-wrap gap-4 mt-6">
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
-
-          <p className="text-3xl font-bold text-white">
-            {totalAssets}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Assets Mapped
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
-
-          <p className="text-3xl font-bold text-white">
-            {totalUsers}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Assigned Users
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
-
-          <p className="text-3xl font-bold text-white">
-            {totalDepartments}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Departments
+          <p className="text-sm text-slate-400 mt-1">
+            Manage asset allocation across users and departments
           </p>
 
         </div>
@@ -183,37 +204,68 @@ export default function AssetMappingPage() {
 
     </div>
 
-    {/* RIGHT SIDE */}
+    {/* Stats */}
 
-    <div className="grid grid-cols-2 gap-3 lg:min-w-[320px]">
+    <div className="grid grid-cols-3 gap-3 mt-5">
 
-      <MiniCard
-        icon={TrendingUp}
-        title="Efficiency"
-        value="96%"
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Assets Mapped
+        </p>
 
-      <MiniCard
-        icon={ShieldCheck}
-        title="Compliance"
-        value="98%"
-      />
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {totalAssets}
+        </h3>
+      </div>
 
-      <MiniCard
-        icon={Users}
-        title="Allocation"
-        value={`${totalUsers}`}
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Assigned Users
+        </p>
 
-      <MiniCard
-        icon={Building2}
-        title="Coverage"
-        value={`${totalDepartments}`}
-      />
+        <h3 className="text-2xl font-bold text-cyan-400 mt-2">
+          {totalUsers}
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Departments
+        </p>
+
+        <h3 className="text-2xl font-bold text-blue-400 mt-2">
+          {totalDepartments}
+        </h3>
+      </div>
 
     </div>
 
   </div>
+
 </div>
 
       {/* ---------------- OVERVIEW ---------------- */}

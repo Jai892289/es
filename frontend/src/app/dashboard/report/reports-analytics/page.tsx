@@ -150,117 +150,180 @@ export default function ReportsPage() {
 
       {/* HERO */}
 
-    <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
+   <div
+  className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    bg-[#0f172a]
+    border
+    border-slate-800
+    shadow-xl
+    p-5
+  "
+>
 
-  {/* Decorative Background */}
-  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
-  <div className="absolute top-10 right-20 h-24 w-24 rounded-full border border-white/10" />
+  {/* Analytics Glow */}
 
-  <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+  <div
+    className="
+      absolute
+      top-0
+      right-0
+      h-56
+      w-56
+      rounded-full
+      bg-indigo-500/10
+      blur-3xl
+    "
+  />
 
-    {/* LEFT SIDE */}
+  <div
+    className="
+      absolute
+      bottom-0
+      left-0
+      h-40
+      w-40
+      rounded-full
+      bg-violet-500/10
+      blur-3xl
+    "
+  />
 
-    <div className="flex-1">
+  <div className="relative z-10">
 
-      <div className="flex items-center gap-4">
+    {/* Header */}
 
-        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
+    <div className="flex items-center gap-3">
 
-          <BarChart3 className="w-8 h-8 text-white" />
+      <div
+        className="
+          h-11
+          w-11
+          rounded-xl
+          bg-indigo-500/15
+          border
+          border-indigo-500/20
+          flex
+          items-center
+          justify-center
+        "
+      >
+        <BarChart3 className="h-5 w-5 text-indigo-400" />
+      </div>
 
-        </div>
+      <div>
 
-        <div>
+        <div className="flex items-center gap-2">
 
-          <h1 className="text-3xl font-bold text-white">
+          <h1 className="text-lg font-semibold text-white">
             Reports & Analytics
           </h1>
 
-          <p className="text-emerald-100 mt-1">
-            Asset tracking, performance insights & AMC monitoring
-          </p>
+          <span
+            className="
+              px-2
+              py-0.5
+              rounded-full
+              bg-indigo-500/10
+              text-indigo-400
+              text-[10px]
+              font-medium
+            "
+          >
+            Insights
+          </span>
 
         </div>
 
-      </div>
-
-      {/* KPI SECTION */}
-
-      <div className="flex flex-wrap gap-4 mt-6">
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
-
-          <p className="text-3xl font-bold text-white">
-            {cards.totalAssets}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Total Assets
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
-
-          <p className="text-3xl font-bold text-white">
-            ₹{cards.totalValue?.toLocaleString()}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Asset Value
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
-
-          <p className="text-3xl font-bold text-white">
-            {cards.newAssets || 0}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            New Assets
-          </p>
-
-        </div>
+        <p className="text-sm text-slate-400 mt-1">
+          Asset tracking, performance insights and AMC monitoring
+        </p>
 
       </div>
 
     </div>
 
-    {/* RIGHT SIDE */}
+    {/* KPI Cards */}
 
-    <div className="grid grid-cols-2 gap-3 lg:min-w-[340px]">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
 
-      <MiniCard
-        icon={Package2}
-        title="New Assets"
-        value={cards.newAssets || 0}
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Total Assets
+        </p>
 
-      <MiniCard
-        icon={AlertTriangle}
-        title="Expiring"
-        value={cards.expiringSoon || 0}
-      />
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {cards.totalAssets}
+        </h3>
+      </div>
 
-      <MiniCard
-        icon={TrendingUp}
-        title="Growth"
-        value="94%"
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Asset Value
+        </p>
 
-      <MiniCard
-        icon={ShieldCheck}
-        title="Health"
-        value="Stable"
-      />
+        <h3 className="text-2xl font-bold text-indigo-400 mt-2 truncate">
+          ₹{cards.totalValue?.toLocaleString()}
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          New Assets
+        </p>
+
+        <h3 className="text-2xl font-bold text-emerald-400 mt-2">
+          {cards.newAssets || 0}
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Expiring Soon
+        </p>
+
+        <h3 className="text-2xl font-bold text-amber-400 mt-2">
+          {cards.expiringSoon || 0}
+        </h3>
+      </div>
 
     </div>
 
   </div>
-
 
 </div>
 

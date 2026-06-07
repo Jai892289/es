@@ -194,8 +194,8 @@ export default function Sidebar({
         overflow-hidden
         ${
           collapsed
-            ? "w-[72px]"
-            : "w-[250px]"
+  ? "w-[72px]"
+  : "w-[260px]"
         }
       `}
     >
@@ -234,10 +234,13 @@ export default function Sidebar({
 
                 <div
                   className="
-                    w-full h-[64px]
-                    rounded-xl
-                    bg-white/[0.04]
-                    border border-white/[0.08]
+                    w-full h-[72px]
+rounded-2xl
+bg-gradient-to-r
+from-emerald-500/10
+to-cyan-500/10
+border border-white/[0.08]
+shadow-[0_0_20px_rgba(16,185,129,0.1)]
                     backdrop-blur-xl
                     flex items-center justify-center
                     overflow-hidden
@@ -302,18 +305,17 @@ export default function Sidebar({
                 openMenu ===
                 item.name
 
-                const isActive =
-  pathname === item.path ||
-  pathname.startsWith(
-    `${item.path}/`
-  ) ||
-  item.children?.some(
-    (sub) =>
-      pathname === sub.path ||
-      pathname.startsWith(
-        `${sub.path}/`
-      )
-  );
+               const isActive =
+  item.path === "/dashboard"
+    ? pathname === "/dashboard"
+    : item.children
+      ? item.children.some(
+          (sub) =>
+            pathname === sub.path ||
+            pathname.startsWith(`${sub.path}/`)
+        )
+      : pathname === item.path ||
+        pathname.startsWith(`${item.path}/`);
 
               // const isActive =
               //   pathname ===
@@ -356,11 +358,10 @@ export default function Sidebar({
                         ${
                           isActive
                             ? `
-                              bg-gradient-to-r
-                              from-emerald-500
-                              to-green-600
-                              text-white
-                              shadow-sm
+                              bg-green-600
+border border-emerald-500/25
+text-white
+shadow-[0_0_20px_rgba(16,185,129,0.15)]
                             `
                             : `
                               text-gray-300
@@ -585,6 +586,7 @@ export default function Sidebar({
                         </motion.div>
                       )}
                   </AnimatePresence>
+
                 </div>
               )
             })}

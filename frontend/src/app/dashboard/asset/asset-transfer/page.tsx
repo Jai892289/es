@@ -161,34 +161,97 @@ export default function AssetTransferPage() {
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
+  
+<div
+  className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    bg-[#0f172a]
+    border
+    border-slate-800
+    shadow-xl
+    p-5
+  "
+>
 
-  {/* Background Effects */}
-  <div className="absolute -top-16 -right-16 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
-  <div className="absolute top-10 right-20 h-24 w-24 rounded-full border border-white/10" />
+  {/* Glow */}
 
-  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+  <div
+    className="
+      absolute
+      top-0
+      right-0
+      h-48
+      w-48
+      rounded-full
+      bg-violet-500/10
+      blur-3xl
+    "
+  />
 
-    {/* LEFT SECTION */}
+  <div
+    className="
+      absolute
+      bottom-0
+      left-0
+      h-32
+      w-32
+      rounded-full
+      bg-cyan-500/5
+      blur-3xl
+    "
+  />
 
-    <div>
+  <div className="relative z-10">
 
-      <div className="flex items-center gap-4">
+    {/* Header */}
 
-        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
-          <ArrowLeftRight className="w-8 h-8 text-white" />
+      <div className="flex items-center gap-3">
 
+        <div
+          className="
+            h-11
+            w-11
+            rounded-xl
+            bg-violet-500/15
+            border
+            border-violet-500/20
+            flex
+            items-center
+            justify-center
+          "
+        >
+          <ArrowLeftRight className="h-5 w-5 text-violet-400" />
         </div>
 
         <div>
 
-          <h1 className="text-2xl font-bold text-white">
-            Asset Transfer
-          </h1>
+          <div className="flex items-center gap-2">
 
-          <p className="text-emerald-100 mt-1">
+            <h1 className="text-lg font-semibold text-white">
+              Asset Transfer
+            </h1>
+
+            <span
+              className="
+                px-2
+                py-0.5
+                rounded-full
+                bg-violet-500/10
+                text-violet-400
+                text-[10px]
+                font-medium
+              "
+            >
+              Live
+            </span>
+
+          </div>
+
+          <p className="text-sm text-slate-400 mt-1">
             Track, transfer and monitor organizational assets
           </p>
 
@@ -196,94 +259,94 @@ export default function AssetTransferPage() {
 
       </div>
 
-      {/* KPI CARDS */}
-
-      <div className="flex flex-wrap gap-4 mt-6">
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
-
-          <p className="text-3xl font-bold text-white">
-            {summary.totalTransfers}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Total Transfers
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
-
-          <p className="text-3xl font-bold text-white">
-            {summary.thisMonth}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            This Month
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
-
-          <p className="text-3xl font-bold text-white">
-            {/* {summary?.today || 0} */}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Today
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    {/* RIGHT SECTION */}
-
-    <div className="flex flex-col gap-3 lg:min-w-[260px]">
-
       <button
         onClick={() => setOpenModal(true)}
         className="
-          h-12
-          px-6
-          rounded-2xl
+          h-10
+          px-4
+          rounded-xl
           bg-white
-          text-emerald-600
-          font-semibold
-          shadow-lg
-          hover:scale-105
-          hover:bg-emerald-50
-          transition-all
-          flex items-center justify-center gap-2
+          text-slate-900
+          text-sm
+          font-medium
+          flex
+          items-center
+          gap-2
+          hover:bg-slate-100
+          transition-all cursor-pointer
         "
       >
-        <Plus className="w-5 h-5" />
+        <Plus className="h-4 w-4" />
         New Transfer
       </button>
 
-      <div className="grid grid-cols-2 gap-3">
+    </div>
 
-        <MiniCard
-          icon={TrendingUp}
-          title="Efficiency"
-          value="94%"
-        />
+    {/* Stats */}
 
-        <MiniCard
-          icon={Activity}
-          title="Status"
-          value="Active"
-        />
+    <div className="grid grid-cols-3 gap-3 mt-5">
 
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Total Transfers
+        </p>
+
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {summary.totalTransfers}
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          This Month
+        </p>
+
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {summary.thisMonth}
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Today
+        </p>
+
+        <h3 className="text-2xl font-bold text-white mt-2">
+          { 0}
+        </h3>
       </div>
 
     </div>
 
   </div>
+
 </div>
+
+
 
       {/* STATS */}
 

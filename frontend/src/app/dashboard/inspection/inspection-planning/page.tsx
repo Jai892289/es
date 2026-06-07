@@ -163,120 +163,185 @@ const handleCreateInspection =
     <div className="space-y-4 overflow-x-hidden">
 
       {/* HERO */}
+<div
+  className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    bg-[#0f172a]
+    border
+    border-slate-800
+    shadow-xl
+    p-5
+  "
+>
 
-<div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
+  {/* Compliance Glow */}
 
-  {/* Decorative Elements */}
+  <div
+    className="
+      absolute
+      top-0
+      right-0
+      h-56
+      w-56
+      rounded-full
+      bg-teal-500/10
+      blur-3xl
+    "
+  />
 
-  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
-  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
-  <div className="absolute top-10 right-24 h-24 w-24 rounded-full border border-white/10" />
+  <div
+    className="
+      absolute
+      bottom-0
+      left-0
+      h-40
+      w-40
+      rounded-full
+      bg-cyan-500/10
+      blur-3xl
+    "
+  />
 
-  <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
+  <div className="relative z-10">
 
-    {/* LEFT SECTION */}
+    {/* Header */}
 
-    <div className="flex-1">
+    <div className="flex items-center gap-3">
 
-      <div className="flex items-center gap-4">
+      <div
+        className="
+          h-11
+          w-11
+          rounded-xl
+          bg-teal-500/15
+          border
+          border-teal-500/20
+          flex
+          items-center
+          justify-center
+        "
+      >
+        <ClipboardCheck className="h-5 w-5 text-teal-400" />
+      </div>
 
-        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
+      <div>
 
-          <ClipboardCheck className="w-8 h-8 text-white" />
+        <div className="flex items-center gap-2">
 
-        </div>
-
-        <div>
-
-          <h1 className="text-3xl font-bold text-white">
+          <h1 className="text-lg font-semibold text-white">
             Inspection Planning
           </h1>
 
-          <p className="text-emerald-100 mt-1">
-            Schedule, monitor & manage compliance inspections
-          </p>
+          <span
+            className="
+              px-2
+              py-0.5
+              rounded-full
+              bg-teal-500/10
+              text-teal-400
+              text-[10px]
+              font-medium
+            "
+          >
+            Compliance
+          </span>
 
         </div>
 
-      </div>
-
-      {/* KPI CARDS */}
-
-      <div className="flex flex-wrap gap-4 mt-6">
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
-
-          <p className="text-3xl font-bold text-white">
-            {inspections.length}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Total Inspections
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
-
-          <p className="text-3xl font-bold text-white">
-            {completed}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Completed
-          </p>
-
-        </div>
-
-        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
-
-          <p className="text-3xl font-bold text-white">
-            {pending}
-          </p>
-
-          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
-            Pending
-          </p>
-
-        </div>
+        <p className="text-sm text-slate-400 mt-1">
+          Schedule, monitor and manage compliance inspections
+        </p>
 
       </div>
 
     </div>
 
-    {/* RIGHT SECTION */}
+    {/* KPI Cards */}
 
-    <div className="grid grid-cols-2 gap-3 lg:min-w-[340px]">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-5">
 
-      <MiniCard
-        icon={ShieldCheck}
-        title="Compliance"
-        value="98%"
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Total Inspections
+        </p>
 
-      <MiniCard
-        icon={Activity}
-        title="Pending"
-        value={pending}
-      />
+        <h3 className="text-2xl font-bold text-white mt-2">
+          {inspections.length}
+        </h3>
+      </div>
 
-      <MiniCard
-        icon={CheckCircle2}
-        title="Completed"
-        value={completed}
-      />
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Completed
+        </p>
 
-      <MiniCard
-        icon={CalendarDays}
-        title="Scheduled"
-        value={inspections.length}
-      />
+        <h3 className="text-2xl font-bold text-emerald-400 mt-2">
+          {completed}
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Pending
+        </p>
+
+        <h3 className="text-2xl font-bold text-amber-400 mt-2">
+          {pending}
+        </h3>
+      </div>
+
+      <div
+        className="
+          rounded-2xl
+          bg-white/[0.03]
+          border
+          border-white/[0.06]
+          p-4
+        "
+      >
+        <p className="text-[11px] uppercase tracking-wider text-slate-500">
+          Compliance Rate
+        </p>
+
+        <h3 className="text-2xl font-bold text-teal-400 mt-2">
+          {inspections.length
+            ? Math.round(
+                (completed / inspections.length) * 100
+              )
+            : 0}
+          %
+        </h3>
+      </div>
 
     </div>
 
   </div>
-
-
 
 </div>
 
