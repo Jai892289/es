@@ -25,6 +25,7 @@ import {
   Activity,
   Package2,
   ArrowUpRight,
+  Layers3,
 } from "lucide-react";
 
 import { getDashboardAnalyticsApi } from "@/lib/dashboard.api";
@@ -1268,92 +1269,305 @@ const overviewCards = useMemo(
       </div>
 
 
-      {showCategoriesModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <motion.div
-            initial={{
-              opacity: 0,
-              scale: 0.95,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-            }}
-            exit={{
-              opacity: 0,
-            }}
-            className="w-full max-w-2xl bg-white rounded-2xl shadow-xl overflow-hidden"
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between p-5 border-b">
-              <h2 className="text-lg font-semibold text-black">
+   {showCategoriesModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4">
+
+    <motion.div
+      initial={{
+        opacity: 0,
+        scale: 0.95,
+        y: 20,
+      }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+        y: 0,
+      }}
+      exit={{
+        opacity: 0,
+        scale: 0.95,
+      }}
+      className="
+        w-full
+        max-w-4xl
+        bg-white
+        rounded-[32px]
+        shadow-[0_25px_80px_rgba(0,0,0,0.25)]
+        overflow-hidden
+      "
+    >
+
+      {/* Premium Header */}
+
+      <div
+        className="
+          relative
+          overflow-hidden
+          bg-gradient-to-r
+          from-emerald-600
+          via-green-600
+          to-teal-600
+          px-6
+          py-5
+          text-white
+        "
+      >
+
+        <div className="absolute top-0 right-0 h-40 w-40 bg-white/10 rounded-full blur-3xl" />
+
+        <div className="relative z-10 flex items-center justify-between">
+
+          <div className="flex items-center gap-4">
+
+            <div
+              className="
+                h-14
+                w-14
+                rounded-2xl
+                bg-white/15
+                backdrop-blur-xl
+                border border-white/10
+                flex items-center justify-center
+              "
+            >
+              <Layers3 className="h-7 w-7" />
+            </div>
+
+            <div>
+
+              <h2 className="text-2xl font-bold">
                 Product Categories
               </h2>
 
-              <button
-                onClick={() =>
-                  setShowCategoriesModal(false)
-                }
-                className="text-gray-500 hover:text-black text-xl cursor-pointer"
-              >
-                ✕
-              </button>
+              <p className="text-sm text-white/80 mt-1">
+                Browse all inventory categories
+              </p>
+
             </div>
 
-            {/* Body */}
-            <div className="max-h-[70vh] overflow-y-auto p-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {dashboardData?.categories?.map(
-                  (cat: any, index: number) => {
-                    const Icon =
-                      iconMap[cat.name] || Laptop;
+          </div>
 
-                    const gradient =
-                      gradients[
-                      index % gradients.length
-                      ];
+          <button
+            onClick={() =>
+              setShowCategoriesModal(false)
+            }
+            className="
+              h-11
+              w-11
+              rounded-xl
+              bg-white/15
+              hover:bg-white/20
+              transition-all
+              cursor-pointer
+              flex
+              items-center
+              justify-center
+              text-lg
+            "
+          >
+            ✕
+          </button>
 
-                    return (
-                      <div
-                        key={cat.name}
-                        className="flex items-center justify-between p-4 border border-gray-200 rounded-xl hover:border-emerald-300 transition"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div
-                            className={`w-11 h-11 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white`}
-                          >
-                            <Icon className="w-5 h-5" />
-                          </div>
-
-                          <div>
-                            <p className="font-semibold text-black">
-                              {cat.name}
-                            </p>
-
-                            <p className="text-xs text-gray-500">
-                              Category
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="text-right">
-                          <p className="text-2xl font-bold text-black">
-                            {cat.count}
-                          </p>
-
-                          <p className="text-xs text-emerald-600">
-                            Assets
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  }
-                )}
-              </div>
-            </div>
-          </motion.div>
         </div>
-      )}
+
+        {/* Quick Stats */}
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-5">
+
+          <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-3 border border-white/10">
+
+            <p className="text-xs text-white/70">
+              Categories
+            </p>
+
+            <h3 className="text-2xl font-bold mt-1">
+              {dashboardData?.categories?.length || 0}
+            </h3>
+
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-3 border border-white/10">
+
+            <p className="text-xs text-white/70">
+              Total Assets
+            </p>
+
+            <h3 className="text-2xl font-bold mt-1">
+              {dashboardData?.categories?.reduce(
+                (acc: number, item: any) =>
+                  acc + item.count,
+                0
+              )}
+            </h3>
+
+          </div>
+
+          <div className="hidden sm:block bg-white/10 backdrop-blur-xl rounded-2xl p-3 border border-white/10">
+
+            <p className="text-xs text-white/70">
+              Status
+            </p>
+
+            <h3 className="text-2xl font-bold mt-1">
+              Active
+            </h3>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* Body */}
+
+      <div className="p-6 max-h-[70vh] overflow-y-auto">
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+          {dashboardData?.categories?.map(
+            (cat: any, index: number) => {
+
+              const Icon =
+                iconMap[cat.name] || Laptop;
+
+              const gradient =
+                gradients[
+                  index % gradients.length
+                ];
+
+              return (
+                <motion.div
+                  key={cat.name}
+                  whileHover={{
+                    y: -4,
+                    scale: 1.01,
+                  }}
+                  className="
+                    group
+                    relative
+                    overflow-hidden
+                    rounded-3xl
+                    border
+                    border-gray-100
+                    bg-white
+                    p-4
+                    shadow-sm
+                    hover:shadow-lg
+                    transition-all
+                  "
+                >
+
+                  <div
+                    className={`
+                      absolute
+                      top-0
+                      right-0
+                      h-24
+                      w-24
+                      rounded-full
+                      bg-gradient-to-br
+                      ${gradient}
+                      opacity-10
+                      blur-2xl
+                    `}
+                  />
+
+                  <div className="relative z-10">
+
+                    <div className="flex items-center justify-between">
+
+                      <div className="flex items-center gap-3">
+
+                        <div
+                          className={`
+                            h-12
+                            w-12
+                            rounded-2xl
+                            bg-gradient-to-br
+                            ${gradient}
+                            flex
+                            items-center
+                            justify-center
+                            text-white
+                            shadow-lg
+                          `}
+                        >
+                          <Icon className="h-5 w-5" />
+                        </div>
+
+                        <div>
+
+                          <h3 className="font-semibold text-slate-900">
+                            {cat.name}
+                          </h3>
+
+                          <p className="text-xs text-slate-500">
+                            Category
+                          </p>
+
+                        </div>
+
+                      </div>
+
+                      <span
+                        className="
+                          px-3
+                          py-1
+                          rounded-full
+                          bg-emerald-100
+                          text-emerald-700
+                          text-xs
+                          font-medium
+                        "
+                      >
+                        Active
+                      </span>
+
+                    </div>
+
+                    <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
+
+                      <div>
+
+                        <p className="text-xs text-slate-500">
+                          Assets
+                        </p>
+
+                        <h3 className="text-3xl font-bold text-slate-900 mt-1">
+                          {cat.count}
+                        </h3>
+
+                      </div>
+
+                      <div className="text-right">
+
+                        <p className="text-xs text-slate-500">
+                          Inventory
+                        </p>
+
+                        <p className="text-sm font-medium text-emerald-600 mt-1">
+                          Available
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </motion.div>
+              );
+            }
+          )}
+
+        </div>
+
+      </div>
+
+    </motion.div>
+
+  </div>
+)}
     </div>
   );
 }

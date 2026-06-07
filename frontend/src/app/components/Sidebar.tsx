@@ -195,7 +195,7 @@ export default function Sidebar({
         ${
           collapsed
   ? "w-[72px]"
-  : "w-[260px]"
+  : "w-[250px]"
         }
       `}
     >
