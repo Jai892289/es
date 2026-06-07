@@ -171,7 +171,7 @@ export default function DashboardPage() {
 
       {
         label:
-          "Complaints",
+          "Complaints ",
 
         value:
           dashboardData?.overview
@@ -399,7 +399,7 @@ export default function DashboardPage() {
 
       <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
         <p className="text-xs text-white/60">
-          Complaints
+          Complaints 
         </p>
 
         <h3 className="text-2xl font-bold mt-1">
@@ -503,7 +503,9 @@ export default function DashboardPage() {
               shadow-sm
               hover:shadow-lg
               transition-all
+              cursor-pointer
             "
+            onClick={()=>router.push("/dashboard/asset/asset-category")}
           >
 
             {/* Top Accent */}

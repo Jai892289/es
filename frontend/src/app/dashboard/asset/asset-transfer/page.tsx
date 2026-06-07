@@ -227,7 +227,7 @@ export default function AssetTransferPage() {
         <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
 
           <p className="text-3xl font-bold text-white">
-            {summary?.today || 0}
+            {/* {summary?.today || 0} */}
           </p>
 
           <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
