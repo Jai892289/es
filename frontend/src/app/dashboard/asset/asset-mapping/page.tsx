@@ -104,94 +104,117 @@ export default function AssetMappingPage() {
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-5 text-white shadow-md">
+      <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-        <div className="absolute top-0 right-0 w-52 h-52 bg-white/10 rounded-full blur-3xl" />
+  {/* Decorative Elements */}
+  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
+  <div className="absolute top-10 right-24 h-24 w-24 rounded-full border border-white/10" />
 
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
+  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    {/* LEFT SIDE */}
 
-          {/* LEFT */}
+    <div>
 
-          <div className="min-w-0">
+      <div className="flex items-center gap-4">
 
-            <div className="flex items-center gap-3">
+        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
 
-              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow shrink-0">
+          <Boxes className="w-8 h-8 text-white" />
 
-                <Boxes className="w-6 h-6" />
-              </div>
-
-              <div className="min-w-0">
-
-                <h1 className="text-xl font-semibold leading-tight break-words">
-                  Asset Mapping 
-                </h1>
-
-                <p className="text-green-50 mt-1 text-xs break-words">
-                  User & department asset allocation
-                </p>
-              </div>
-            </div>
-
-            {/* QUICK STATS */}
-
-            <div className="flex flex-wrap items-center gap-5 mt-4">
-
-              <div>
-
-                <h2 className="text-2xl font-bold leading-none">
-                  {totalAssets}
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Assets 
-                </p>
-              </div>
-
-              <div>
-
-                <h2 className="text-2xl font-bold leading-none">
-                  {totalUsers}
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Users
-                </p>
-              </div>
-
-              <div>
-
-                <h2 className="text-2xl font-bold leading-none">
-                  {totalDepartments}
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Departments
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT */}
-
-          <div className="flex flex-col gap-2 w-full lg:w-[240px]">
-
-            <MiniCard
-              icon={TrendingUp}
-              title="Efficiency"
-              value="96%"
-            />
-
-            <MiniCard
-              icon={ShieldCheck}
-              title="Security"
-              value="98%"
-            />
-          </div>
         </div>
+
+        <div>
+
+          <h1 className="text-2xl font-bold text-white">
+            Asset Mapping
+          </h1>
+
+          <p className="text-emerald-100 mt-1">
+            Manage asset allocation across users & departments
+          </p>
+
+        </div>
+
       </div>
+
+      {/* KPI CARDS */}
+
+      <div className="flex flex-wrap gap-4 mt-6">
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
+
+          <p className="text-3xl font-bold text-white">
+            {totalAssets}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Assets Mapped
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
+
+          <p className="text-3xl font-bold text-white">
+            {totalUsers}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Assigned Users
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
+
+          <p className="text-3xl font-bold text-white">
+            {totalDepartments}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Departments
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* RIGHT SIDE */}
+
+    <div className="grid grid-cols-2 gap-3 lg:min-w-[320px]">
+
+      <MiniCard
+        icon={TrendingUp}
+        title="Efficiency"
+        value="96%"
+      />
+
+      <MiniCard
+        icon={ShieldCheck}
+        title="Compliance"
+        value="98%"
+      />
+
+      <MiniCard
+        icon={Users}
+        title="Allocation"
+        value={`${totalUsers}`}
+      />
+
+      <MiniCard
+        icon={Building2}
+        title="Coverage"
+        value={`${totalDepartments}`}
+      />
+
+    </div>
+
+  </div>
+</div>
 
       {/* ---------------- OVERVIEW ---------------- */}
 
@@ -455,32 +478,29 @@ export default function AssetMappingPage() {
 
 /* ---------------- MINI CARD ---------------- */
 
-function MiniCard({
+const MiniCard = ({
   icon: Icon,
   title,
   value,
-}: any) {
-  return (
-    <div className="bg-white/15 backdrop-blur border border-white/10 rounded-xl p-3">
-      <div className="flex items-center justify-between">
-        <div className="flex-1 min-w-0">
-          <p className="text-[11px] text-white/80 leading-none">
-            {title}
-          </p>
+}: any) => (
+  <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl p-4">
 
-          <h3 className="text-xl font-bold text-white mt-2 leading-none">
-            {value}
-          </h3>
-        </div>
+    <div className="flex items-center justify-between">
 
-        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
-          <Icon className="w-5 h-5 text-white" />
-        </div>
-      </div>
+      <Icon className="w-5 h-5 text-white" />
+
+      <span className="text-lg font-bold text-white">
+        {value}
+      </span>
+
     </div>
-  );
-}
 
+    <p className="text-[11px] uppercase tracking-wider text-emerald-100 mt-3">
+      {title}
+    </p>
+
+  </div>
+);
 /* ---------------- OVERVIEW CARD ---------------- */
 
 function OverviewCard({

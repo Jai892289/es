@@ -5,6 +5,11 @@ import { useEffect, useState } from "react"
 import {
   FileDown,
   FileCode,
+  Package2,
+  AlertTriangle,
+  TrendingUp,
+  ShieldCheck,
+  BarChart3,
 } from "lucide-react"
 
 import {
@@ -145,79 +150,119 @@ export default function ReportsPage() {
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
+    <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
+  {/* Decorative Background */}
+  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
+  <div className="absolute top-10 right-20 h-24 w-24 rounded-full border border-white/10" />
 
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
+  <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+    {/* LEFT SIDE */}
 
-          {/* LEFT */}
+    <div className="flex-1">
 
-          <div className="min-w-0">
+      <div className="flex items-center gap-4">
 
-            <h1 className="text-xl md:text-2xl font-bold break-words">
-              Reports & Analytics
-            </h1>
+        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
 
-            <p className="text-white/90 mt-2 text-xs leading-5 max-w-xl break-words">
-              Asset tracking, analytics & AMC monitoring dashboard
-            </p>
+          <BarChart3 className="w-8 h-8 text-white" />
 
-            <div className="flex flex-wrap gap-4 mt-4">
-
-              <div>
-
-                <h2 className="text-2xl font-bold break-words">
-                  {
-                    cards.totalAssets
-                  }
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Total Assets
-                </p>
-              </div>
-
-              <div>
-
-                <h2 className="text-2xl font-bold break-words">
-                  ₹
-                  {
-                    cards.totalValue
-                  }
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Asset Value
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT */}
-
-          <div className="grid grid-cols-2 gap-3 w-full xl:w-[230px]">
-
-            <MiniCard
-              title="New Assets"
-              value={
-                cards.newAssets ||
-                0
-              }
-            />
-
-            <MiniCard
-              title="Expiring"
-              value={
-                cards.expiringSoon ||
-                0
-              }
-            />
-          </div>
         </div>
+
+        <div>
+
+          <h1 className="text-3xl font-bold text-white">
+            Reports & Analytics
+          </h1>
+
+          <p className="text-emerald-100 mt-1">
+            Asset tracking, performance insights & AMC monitoring
+          </p>
+
+        </div>
+
       </div>
+
+      {/* KPI SECTION */}
+
+      <div className="flex flex-wrap gap-4 mt-6">
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
+
+          <p className="text-3xl font-bold text-white">
+            {cards.totalAssets}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Total Assets
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
+
+          <p className="text-3xl font-bold text-white">
+            ₹{cards.totalValue?.toLocaleString()}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Asset Value
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
+
+          <p className="text-3xl font-bold text-white">
+            {cards.newAssets || 0}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            New Assets
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* RIGHT SIDE */}
+
+    <div className="grid grid-cols-2 gap-3 lg:min-w-[340px]">
+
+      <MiniCard
+        icon={Package2}
+        title="New Assets"
+        value={cards.newAssets || 0}
+      />
+
+      <MiniCard
+        icon={AlertTriangle}
+        title="Expiring"
+        value={cards.expiringSoon || 0}
+      />
+
+      <MiniCard
+        icon={TrendingUp}
+        title="Growth"
+        value="94%"
+      />
+
+      <MiniCard
+        icon={ShieldCheck}
+        title="Health"
+        value="Stable"
+      />
+
+    </div>
+
+  </div>
+
+
+</div>
 
       {/* ACTIONS */}
 {/* 

@@ -16,6 +16,8 @@ import {
   ArrowUpRight,
   UserPlus,
   Building2,
+  UserCheck,
+  Shield,
 } from "lucide-react"
 
 import {
@@ -322,95 +324,143 @@ const loadDepartments = async () => {
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
+<div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 p-5 text-white shadow-lg">
 
-        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
+  {/* Background Effects */}
 
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
+  <div className="absolute -top-10 -right-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+  <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
 
-          {/* LEFT */}
+    {/* LEFT */}
 
-          <div className="min-w-0">
+    <div>
 
-            <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
 
-              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-sm shrink-0">
+        <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur border border-white/20 flex items-center justify-center">
 
-                <Users className="w-6 h-6" />
-              </div>
+          <Users className="w-7 h-7 text-white" />
 
-              <div className="min-w-0">
-
-                <h1 className="text-xl md:text-2xl font-bold break-words">
-                  User Management
-                </h1>
-
-                <p className="text-green-50 mt-1 text-xs leading-5 break-words">
-                  Manage users, roles & permissions efficiently
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-4 mt-4">
-
-              <div>
-
-                <h2 className="text-2xl font-bold">
-                  {
-                    usersData.length
-                  }
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Total Users
-                </p>
-              </div>
-
-              <div>
-
-                <h2 className="text-2xl font-bold">
-                  98%
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  System Health
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT */}
-
-          <div className="grid grid-cols-2 gap-3 w-full xl:w-[260px]">
-
-            <MiniCard
-              icon={ShieldCheck}
-              title="Admins"
-              value={
-                usersData.filter(
-                  (u: any) =>
-                    u.role ===
-                    "ADMIN"
-                ).length
-              }
-            />
-
-            <MiniCard
-              icon={Activity}
-              title="Active"
-            value={
-  usersData.filter(
-    (u: any) =>
-      u.status ===
-      "ACTIVE"
-  ).length
-}
-            />
-          </div>
         </div>
+
+        <div>
+
+          <h1 className="text-2xl font-bold text-white">
+            User Management
+          </h1>
+
+          <p className="text-emerald-100 text-sm mt-1">
+            Manage users, roles & permissions
+          </p>
+
+        </div>
+
       </div>
+
+      {/* STATS */}
+
+      <div className="flex flex-wrap gap-6 mt-5">
+
+        <div>
+
+          <h2 className="text-3xl font-bold">
+            {usersData.length}
+          </h2>
+
+          <p className="text-xs text-emerald-100 mt-1">
+            Total Users
+          </p>
+
+        </div>
+
+        <div>
+
+          <h2 className="text-3xl font-bold">
+            {
+              usersData.filter(
+                (u: any) =>
+                  u.status === "ACTIVE"
+              ).length
+            }
+          </h2>
+
+          <p className="text-xs text-emerald-100 mt-1">
+            Active Users
+          </p>
+
+        </div>
+
+        <div>
+
+          <h2 className="text-3xl font-bold">
+            {
+              usersData.filter(
+                (u: any) =>
+                  u.role === "ADMIN"
+              ).length
+            }
+          </h2>
+
+          <p className="text-xs text-emerald-100 mt-1">
+            Admins
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* RIGHT */}
+
+    <div className="grid grid-cols-2 gap-3 xl:w-[260px]">
+
+      <MiniCard
+        icon={ShieldCheck}
+        title="Admins"
+        value={
+          usersData.filter(
+            (u: any) =>
+              u.role === "ADMIN"
+          ).length
+        }
+      />
+
+      <MiniCard
+        icon={Activity}
+        title="Active"
+        value={
+          usersData.filter(
+            (u: any) =>
+              u.status === "ACTIVE"
+          ).length
+        }
+      />
+
+      <MiniCard
+        icon={UserCheck}
+        title="Roles"
+        value={
+          new Set(
+            usersData.map(
+              (u: any) => u.role
+            )
+          ).size
+        }
+      />
+
+      <MiniCard
+        icon={Shield}
+        title="Health"
+        value="98%"
+      />
+
+    </div>
+
+  </div>
+
+</div>
 
       {/* OVERVIEW */}
 

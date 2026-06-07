@@ -13,6 +13,7 @@ import {
   TrendingUp,
   ShieldCheck,
   Layers3,
+  CheckCircle2,
 } from "lucide-react"
 
 import { getAssetStatusApi } from "@/lib/inventory.api"
@@ -109,75 +110,121 @@ export default function DashboardPage() {
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-2xl p-5 text-white shadow-md overflow-hidden relative">
+ <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
+  {/* Decorative Elements */}
+  <div className="absolute -top-16 -right-16 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
+  <div className="absolute bottom-0 right-20 w-40 h-40 bg-white/5 rounded-full" />
 
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-          <div className="min-w-0">
+    {/* Left Side */}
+    <div>
 
-            <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
 
-              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center shrink-0">
+        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
 
-                <Activity className="w-6 h-6" />
-              </div>
+          <Activity className="w-8 h-8 text-white" />
 
-              <div className="min-w-0">
-
-                <h1 className="text-xl font-semibold leading-tight break-words">
-                  Asset Status Dashboard
-                </h1>
-
-                <p className="text-green-50 text-xs mt-1 break-words">
-                  Monitor organization assets
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-5 mt-4">
-
-              <div>
-
-                <p className="text-2xl font-bold leading-none">
-                  {totalAssets}
-                </p>
-
-                <p className="text-[11px] text-green-100 mt-1">
-                  Total Assets
-                </p>
-              </div>
-
-              <div>
-
-                <p className="text-2xl font-bold leading-none">
-                  {statusData.length}
-                </p>
-
-                <p className="text-[11px] text-green-100 mt-1">
-                  Status Types
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full lg:w-auto">
-
-            <MiniCard
-              icon={TrendingUp}
-              title="Efficiency"
-              value="92%"
-            />
-
-            <MiniCard
-              icon={ShieldCheck}
-              title="Compliance"
-              value="98%"
-            />
-          </div>
         </div>
+
+        <div>
+
+          <h1 className="text-2xl font-bold text-white">
+            Asset Status Dashboard
+          </h1>
+
+          <p className="text-emerald-100 mt-1">
+            Real-time monitoring of inventory health & asset lifecycle
+          </p>
+
+        </div>
+
       </div>
+
+      {/* KPI Cards */}
+      <div className="flex flex-wrap gap-4 mt-6">
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
+
+          <p className="text-3xl font-bold text-white">
+            {totalAssets}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Total Assets
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
+
+          <p className="text-3xl font-bold text-white">
+            {statusData.length}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Status Types
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[140px]">
+
+          <p className="text-3xl font-bold text-white">
+            {
+              statusData.find(
+                (s) => s.status === "IN_USE"
+              )?.count || 0
+            }
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Active Assets
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* Right Side Metrics */}
+    <div className="grid grid-cols-2 gap-3 lg:min-w-[320px]">
+
+      <MiniCard
+        icon={TrendingUp}
+        title="Efficiency"
+        value="92%"
+      />
+
+      <MiniCard
+        icon={ShieldCheck}
+        title="Compliance"
+        value="98%"
+      />
+
+      <MiniCard
+        icon={CheckCircle2}
+        title="Operational"
+        value={`${statusData.find(
+          (s) => s.status === "IN_USE"
+        )?.count || 0}`}
+      />
+
+      <MiniCard
+        icon={AlertTriangle}
+        title="Repair Queue"
+        value={`${statusData.find(
+          (s) => s.status === "IN_REPAIR"
+        )?.count || 0}`}
+      />
+
+    </div>
+
+  </div>
+</div>
 
       {/* ---------------- STATS ---------------- */}
 
@@ -294,36 +341,29 @@ export default function DashboardPage() {
 
 /* ---------------- MINI CARD ---------------- */
 
-function MiniCard({
+const MiniCard = ({
   icon: Icon,
   title,
   value,
-}: any) {
+}: any) => (
+  <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl p-4">
 
-  return (
-    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 min-w-0 overflow-hidden">
+    <div className="flex items-center justify-between">
 
-      <div className="flex items-center gap-2">
+      <Icon className="w-5 h-5 text-white" />
 
-        <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+      <span className="text-xl font-bold text-white">
+        {value}
+      </span>
 
-          <Icon className="w-4 h-4" />
-        </div>
-
-        <div className="min-w-0">
-
-          <p className="text-[11px] text-white break-words">
-            {title}
-          </p>
-
-          <h3 className="text-sm font-semibold mt-1 break-words">
-            {value}
-          </h3>
-        </div>
-      </div>
     </div>
-  )
-}
+
+    <p className="text-xs uppercase tracking-wider text-emerald-100 mt-3">
+      {title}
+    </p>
+
+  </div>
+);
 
 /* ---------------- STATUS ROW ---------------- */
 

@@ -67,7 +67,7 @@ export default function DashboardPage() {
   const [loading, setLoading] =
     useState(true);
 
-    
+
 
   /* ---------------- AUTH ---------------- */
 
@@ -112,30 +112,30 @@ export default function DashboardPage() {
   }, []);
 
   const [selectedCategory, setSelectedCategory] =
-  useState("ALL");
+    useState("ALL");
 
-const selectedData =
-  selectedCategory === "ALL"
-    ? dashboardData?.yearlyProcurement || []
-    : dashboardData?.categories?.find(
+  const selectedData =
+    selectedCategory === "ALL"
+      ? dashboardData?.yearlyProcurement || []
+      : dashboardData?.categories?.find(
         (c: any) =>
           c.name === selectedCategory
       )?.monthlyData || [];
 
-const selectedTotal =
-  selectedCategory === "ALL"
-    ? dashboardData?.overview
+  const selectedTotal =
+    selectedCategory === "ALL"
+      ? dashboardData?.overview
         ?.totalItemsProcured
-    : dashboardData?.categories?.find(
+      : dashboardData?.categories?.find(
         (c: any) =>
           c.name === selectedCategory
       )?.count || 0;
 
   const procurementChart =
-  dashboardData?.yearlyProcurement || [];
+    dashboardData?.yearlyProcurement || [];
 
-const complaints =
-  dashboardData?.recentComplaints || [];
+  const complaints =
+    dashboardData?.recentComplaints || [];
 
   /* ---------------- OVERVIEW ---------------- */
 
@@ -248,390 +248,779 @@ const complaints =
       >
 
         {/* HERO */}
+<motion.div
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5 }}
+  className="
+    relative
+    overflow-hidden
+    rounded-3xl
+    bg-gradient-to-br
+    from-emerald-600
+    via-green-600
+    to-teal-600
+    p-6
+    shadow-xl
+    text-white
+    border border-white/10
+  "
+>
+  {/* Background Glow */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            scale: 0.98,
-          }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          transition={{
-            duration: 0.5,
-          }}
-          className="relative overflow-hidden bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 rounded-2xl p-5 shadow-md text-white"
+  <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+
+  <motion.div
+    animate={{ y: [0, -20, 0] }}
+    transition={{
+      duration: 10,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+    className="
+      absolute
+      -top-20
+      -right-20
+      w-72
+      h-72
+      bg-white/10
+      rounded-full
+      blur-3xl
+    "
+  />
+
+  <motion.div
+    animate={{ y: [0, 20, 0] }}
+    transition={{
+      duration: 12,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+    className="
+      absolute
+      -bottom-20
+      -left-20
+      w-72
+      h-72
+      bg-black/10
+      rounded-full
+      blur-3xl
+    "
+  />
+
+  <div className="relative z-10 flex flex-col lg:flex-row justify-between gap-6">
+
+    {/* LEFT */}
+
+    <div className="flex-1">
+
+      <div className="flex items-start gap-4">
+
+        <div
+          className="
+            w-14
+            h-14
+            rounded-2xl
+            bg-white/15
+            backdrop-blur-xl
+            flex
+            items-center
+            justify-center
+            border
+            border-white/10
+          "
         >
-
-          <motion.div
-            animate={{
-              y: [0, -15, 0],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute top-0 right-0 w-52 h-52 bg-white/10 rounded-full blur-3xl"
-          />
-
-          <motion.div
-            animate={{
-              y: [0, 15, 0],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl"
-          />
-
-          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-
-            {/* LEFT */}
-
-            <div className="min-w-0">
-
-              <div className="flex items-center gap-3">
-
-                <motion.div
-                  whileHover={{
-                    rotate: 5,
-                  }}
-                  className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow shrink-0"
-                >
-
-                  <Activity className="w-6 h-6" />
-                </motion.div>
-
-                <div className="min-w-0">
-
-                  <h1 className="text-xl font-semibold leading-tight break-words">
-                    Asset Dashboard
-                  </h1>
-
-                  <p className="text-green-50 mt-1 text-xs break-words">
-                    Real-time monitoring of assets & complaints
-                  </p>
-                </div>
-              </div>
-
-              {/* QUICK STATS */}
-
-              <div className="flex flex-wrap items-center gap-5 mt-4">
-
-                <div>
-
-                  <h2 className="text-2xl font-bold leading-none">
-                    {
-                      dashboardData?.overview
-                        ?.totalItemsProcured
-                    }
-                  </h2>
-
-                  <p className="text-green-100 text-[11px] mt-1">
-                    Total Assets
-                  </p>
-                </div>
-
-                <div>
-
-                  <h2 className="text-2xl font-bold leading-none">
-                    {
-                      dashboardData?.categories
-                        ?.length
-                    }
-                  </h2>
-
-                  <p className="text-green-100 text-[11px] mt-1">
-                    Categories
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT */}
-
-            <div className="grid grid-cols-2 gap-2 w-full lg:w-[250px]">
-
-              <MiniStat
-                label="Health"
-                value="94%"
-              />
-
-              <MiniStat
-                label="Operational"
-                value="89%"
-              />
-
-              <MiniStat
-                label="Complaints"
-                value={
-                  dashboardData?.overview
-                    ?.pendingComplaints || 0
-                }
-              />
-
-              <MiniStat
-                label="Warranty"
-                value={
-                  dashboardData?.overview
-                    ?.warrantyEndingSoon || 0
-                }
-              />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* CATEGORY */}
-
-        <div className="overflow-hidden">
-
-          <div className="flex items-center justify-between mb-3 gap-3">
-
-            <h2 className="text-lg font-semibold text-black break-words">
-              Product Categories
-            </h2>
-
-            <button
-              onClick={() =>
-                setShowCategoriesModal(true)
-              }
-              className="text-sm text-emerald-600 cursor-pointer font-medium whitespace-nowrap hover:text-emerald-700"
-            >
-              View All
-            </button>
-          </div>
-
-          <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
-
-            {dashboardData?.categories?.map(
-              (cat: any, i: number) => {
-
-                const Icon =
-                  iconMap[cat.name] ||
-                  Laptop;
-
-                const gradient =
-                  gradients[
-                  i % gradients.length
-                  ];
-
-                return (
-                  <motion.div
-                    key={cat.name}
-                    initial={{
-                      opacity: 0,
-                      y: 10,
-                    }}
-                    whileInView={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    viewport={{
-                      once: true,
-                    }}
-                    transition={{
-                      delay: i * 0.05,
-                    }}
-                    whileHover={{
-                      y: -3,
-                    }}
-                    className="group min-w-[200px] bg-white border border-gray-100 hover:border-emerald-100 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
-                  >
-
-                    <div className="flex items-start justify-between gap-2">
-
-                      <div
-                        className={`w-10 h-10 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center text-white shadow shrink-0`}
-                      >
-
-                        <Icon className="w-5 h-5" />
-                      </div>
-
-                      {/* <ArrowUpRight className="w-4 h-4 text-black shrink-0" /> */}
-                    </div>
-
-                    <div className="mt-3 min-w-0">
-
-                      <h3 className="text-sm font-semibold text-black break-words">
-                        {cat.name}
-                      </h3>
-
-                      <div className="mt-3 flex items-end justify-between gap-2">
-
-                        <h2 className="text-2xl font-bold text-black leading-none">
-                          {String(
-                            cat.count
-                          ).padStart(2, "0")}
-                        </h2>
-
-                        <span className="text-[10px] px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 font-medium whitespace-nowrap">
-                          Active
-                        </span>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              }
-            )}
-          </div>
+          <Activity className="w-7 h-7" />
         </div>
 
-        {/* OVERVIEW */}
+        <div>
+         
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-          {overviewCards.map((item, index) => {
-            const Icon = item.icon;
+          <h1 className="text-2xl font-bold tracking-tight">
+            Asset Dashboard
+          </h1>
 
-            return (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                whileHover={{ y: -3 }}
-                className="relative overflow-hidden m-1 bg-white rounded-2xl border border-gray-100 hover:border-emerald-200 p-5 shadow-sm hover:shadow-lg transition-all"
-              >
+          <p className="text-white/75 mt-2 max-w-lg">
+            Monitor assets, inventory,
+            complaints, warranty status.
+          </p>
+        </div>
+      </div>
+
+      {/* Stats */}
+
+      <div className="flex gap-8 mt-8">
+
+        <div>
+          <h2 className="text-4xl font-bold">
+            {dashboardData?.overview?.totalItemsProcured}
+          </h2>
+
+          <p className="text-white/70 text-sm mt-1">
+            Total Assets
+          </p>
+        </div>
+
+        <div>
+          <h2 className="text-4xl font-bold">
+            {dashboardData?.categories?.length}
+          </h2>
+
+          <p className="text-white/70 text-sm mt-1">
+            Categories
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* RIGHT */}
+
+    <div className="grid grid-cols-2 gap-3 lg:w-[320px]">
+
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
+        <p className="text-xs text-white/60">
+          Health
+        </p>
+
+        <h3 className="text-2xl font-bold mt-1">
+          94%
+        </h3>
+      </div>
+
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
+        <p className="text-xs text-white/60">
+          Operational
+        </p>
+
+        <h3 className="text-2xl font-bold mt-1">
+          89%
+        </h3>
+      </div>
+
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
+        <p className="text-xs text-white/60">
+          Complaints
+        </p>
+
+        <h3 className="text-2xl font-bold mt-1">
+          {dashboardData?.overview?.pendingComplaints || 0}
+        </h3>
+      </div>
+
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 p-4">
+        <p className="text-xs text-white/60">
+          Warranty
+        </p>
+
+        <h3 className="text-2xl font-bold mt-1">
+          {dashboardData?.overview?.warrantyEndingSoon || 0}
+        </h3>
+      </div>
+
+    </div>
+  </div>
+</motion.div>
+        {/* CATEGORY */}
+
+<div className="space-y-3">
+
+  {/* Header */}
+
+  <div className="flex items-center justify-between my-6">
+
+    <div>
+      <h2 className="text-xl font-semibold text-slate-900">
+        Product Categories
+      </h2>
+
+      <p className="text-xs text-slate-500">
+        Asset distribution across categories
+      </p>
+    </div>
+
+    <button
+      onClick={() => setShowCategoriesModal(true)}
+      className="
+        px-3
+        py-1.5
+        rounded-lg
+        bg-emerald-50
+        text-emerald-700
+        text-xs
+        font-medium
+        hover:bg-emerald-100
+        transition-all
+      "
+    >
+      View All
+    </button>
+
+  </div>
+
+  {/* Categories Grid */}
+
+  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+
+    {dashboardData?.categories?.map(
+      (cat: any, i: number) => {
+
+        const Icon =
+          iconMap[cat.name] || Laptop;
+
+        const gradient =
+          gradients[i % gradients.length];
+
+        return (
+          <motion.div
+            key={cat.name}
+            initial={{
+              opacity: 0,
+              y: 15,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+            }}
+            transition={{
+              delay: i * 0.05,
+            }}
+            whileHover={{
+              y: -4,
+              scale: 1.01,
+            }}
+            className="
+              group
+              relative
+              overflow-hidden
+              rounded-2xl
+              border
+              border-slate-200/70
+              bg-white
+              p-3
+              shadow-sm
+              hover:shadow-lg
+              transition-all
+            "
+          >
+
+            {/* Top Accent */}
+
+            <div
+              className={`
+                absolute
+                top-0
+                left-0
+                h-[3px]
+                w-full
+                bg-gradient-to-r
+                ${gradient}
+              `}
+            />
+
+            {/* Glow */}
+
+            <div
+              className={`
+                absolute
+                -top-8
+                -right-8
+                h-24
+                w-24
+                rounded-full
+                bg-gradient-to-br
+                ${gradient}
+                opacity-10
+                blur-2xl
+              `}
+            />
+
+            <div className="relative z-10">
+
+              {/* Top */}
+
+              <div className="flex items-center justify-between">
+
                 <div
-                  className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-r ${item.gradient} opacity-10 rounded-full blur-3xl`}
-                />
+                  className={`
+                    w-10
+                    h-10
+                    rounded-xl
+                    bg-gradient-to-br
+                    ${gradient}
+                    flex
+                    items-center
+                    justify-center
+                    text-white
+                    shadow
+                  `}
+                >
+                  <Icon className="w-4 h-4" />
+                </div>
 
-                <div className="relative flex items-center justify-between">
-                  <div className="min-w-0 flex-1">
-                    <p className="text-sm font-medium text-gray-600">
-                      {item.label}
+                <span
+                  className="
+                    px-2
+                    py-0.5
+                    rounded-full
+                    bg-emerald-50
+                    text-emerald-700
+                    text-[10px]
+                    font-medium
+                  "
+                >
+                  Active
+                </span>
+
+              </div>
+
+              {/* Content */}
+
+              <div className="mt-3">
+
+                <h3
+                  className="
+                    text-sm
+                    font-semibold
+                    text-slate-900
+                    truncate
+                  "
+                >
+                  {cat.name}
+                </h3>
+
+                <div className="mt-2 flex items-end justify-between">
+
+                  <div>
+
+                    <p className="text-[10px] text-slate-500">
+                      Assets
                     </p>
 
-                    <h2 className="text-4xl font-bold text-black mt-2">
-                      {item.value}
+                    <h2 className="text-2xl font-bold text-slate-900 leading-none mt-1">
+                      {String(cat.count).padStart(2, "0")}
                     </h2>
+
                   </div>
 
                   <div
-                    className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${item.gradient} flex items-center justify-center text-white shadow-lg shrink-0`}
+                    className="
+                      flex
+                      items-center
+                      gap-1
+                      text-emerald-600
+                      text-[11px]
+                      font-medium
+                    "
                   >
-                    <Icon className="w-7 h-7" />
+                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Live
                   </div>
+
                 </div>
-              </motion.div>
-            );
-          })}
+
+              </div>
+
+            </div>
+
+          </motion.div>
+        );
+      }
+    )}
+
+  </div>
+
+</div>
+
+
+        {/* OVERVIEW */}
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+  {overviewCards.map((item, index) => {
+    const Icon = item.icon;
+
+    return (
+      <motion.div
+        key={item.label}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: index * 0.06 }}
+        whileHover={{
+          y: -6,
+          scale: 1.02,
+        }}
+        className="
+          group
+          relative
+          overflow-hidden
+          rounded-3xl
+          border
+          border-slate-200/70
+          bg-white
+          p-5
+          shadow-sm
+          hover:shadow-2xl
+          transition-all
+          duration-300
+        "
+      >
+        {/* Glow Effect */}
+
+        <div
+          className={`
+            absolute
+            -top-10
+            -right-10
+            w-36
+            h-36
+            bg-gradient-to-br
+            ${item.gradient}
+            opacity-10
+            blur-3xl
+            group-hover:opacity-20
+            transition-all
+          `}
+        />
+
+        {/* Top Row */}
+
+        <div className="relative flex justify-between items-start">
+
+          <div className="flex-1">
+
+            <p className="text-xs uppercase tracking-wider text-gray-500 font-medium">
+              {item.label}
+            </p>
+
+            <h2 className="text-4xl font-bold text-gray-900 mt-3">
+              {item.value}
+            </h2>
+
+          </div>
+
+          <div
+            className={`
+              w-12
+              h-12
+              rounded-2xl
+              bg-gradient-to-br
+              ${item.gradient}
+              flex
+              items-center
+              justify-center
+              text-white
+              shadow-lg
+              shrink-0
+            `}
+          >
+            <Icon className="w-5 h-5" />
+          </div>
+
         </div>
+
+        {/* Bottom Row */}
+
+        <div className="relative mt-5 flex items-center justify-between">
+
+          <div className="flex items-center gap-2">
+
+            <div className="h-2 w-2 rounded-full bg-emerald-500" />
+
+            <span className="text-xs text-gray-500">
+              Updated now
+            </span>
+
+          </div>
+
+          <div
+            className="
+              px-2.5
+              py-1
+              rounded-full
+              bg-emerald-50
+              text-emerald-700
+              text-xs
+              font-medium
+            "
+          >
+            +12%
+          </div>
+
+        </div>
+      </motion.div>
+    );
+  })}
+</div>
       </motion.div>
 
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6">
 
-  {/* LEFT SIDE */}
-  <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
+        {/* LEFT SIDE */}
+<div
+  className="
+    bg-white
+    rounded-3xl
+    border
+    border-slate-200/70
+    shadow-sm
+    p-5
+  "
+>
 
-    
+  {/* Header */}
 
-    <div className="flex items-center justify-between mb-8">
+  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-5">
 
-      <h2 className="text-xl font-semibold text-blue-600">
-        Yearly Procurement by Category
+    <div>
+      <h2 className="text-lg font-semibold text-slate-900">
+        Yearly Procurement
       </h2>
 
-      <div className="flex gap-3">
+      <p className="text-xs text-slate-500 mt-1">
+        Monthly procurement distribution by category
+      </p>
+    </div>
 
-        <select className="px-4 py-2 rounded-full bg-gray-100">
-          <option>2026</option>
-        </select>
+    <div className="flex gap-2 flex-wrap">
 
-        <select
-  value={selectedCategory}
-  onChange={(e) =>
-    setSelectedCategory(e.target.value)
-  }
-  className="px-4 py-2 rounded-full bg-gray-100"
->
-  <option value="ALL">
-    All Categories
-  </option>
-
-  {dashboardData?.categories?.map(
-    (category: any) => (
-      <option
-        key={category.name}
-        value={category.name}
+      <select
+        className="
+          h-9
+          px-3
+          rounded-xl
+          border
+          border-slate-200
+          bg-white
+          text-sm
+          outline-none
+        "
       >
-        {category.name}
-      </option>
-    )
-  )}
-</select>
-      </div>
+        <option>2026</option>
+      </select>
+
+      <select
+        value={selectedCategory}
+        onChange={(e) =>
+          setSelectedCategory(e.target.value)
+        }
+        className="
+          h-9
+          px-3
+          rounded-xl
+          border
+          border-slate-200
+          bg-white
+          text-sm
+          outline-none
+        "
+      >
+        <option value="ALL">
+          All Categories
+        </option>
+
+        {dashboardData?.categories?.map(
+          (category: any) => (
+            <option
+              key={category.name}
+              value={category.name}
+            >
+              {category.name}
+            </option>
+          )
+        )}
+      </select>
 
     </div>
 
-    <div className="flex gap-6">
+  </div>
 
-      {/* CHART */}
-      <div className="flex-1">
+  {/* Body */}
 
-        <div className="flex items-end justify-between h-[260px]">
+  <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-4">
 
-          {selectedData?.map(
-            (item: any) => (
+    {/* Chart */}
+
+    <div
+      className="
+        bg-slate-50
+        rounded-2xl
+        p-4
+        border
+        border-slate-100
+      "
+    >
+
+      <div className="flex items-end justify-between h-[240px]">
+
+        {selectedData?.map(
+          (item: any) => {
+
+            const maxValue = Math.max(
+              ...dashboardData.yearlyProcurement.map(
+                (m: any) => m.count
+              )
+            );
+
+            return (
               <div
                 key={item.month}
-                className="flex flex-col items-center flex-1"
+                className="
+                  flex
+                  flex-col
+                  items-center
+                  flex-1
+                  group
+                "
               >
-                <span className="text-xs font-semibold mb-2">
+
+                <span
+                  className="
+                    text-[11px]
+                    font-semibold
+                    text-slate-600
+                    mb-2
+                  "
+                >
                   {item.count}
                 </span>
 
                 <div
-                  className="w-6 bg-emerald-500 rounded-t-md"
+                  className="
+                    w-7
+                    rounded-t-xl
+                    bg-gradient-to-t
+                    from-emerald-600
+                    via-emerald-500
+                    to-emerald-300
+                    transition-all
+                    duration-300
+                    group-hover:scale-105
+                  "
                   style={{
                     height: `${
                       item.count > 0
                         ? Math.max(
-                            (item.count /
-                              Math.max(
-                                ...dashboardData.yearlyProcurement.map(
-                                  (m: any) =>
-                                    m.count
-                                )
-                              )) *
+                            (item.count / maxValue) *
                               180,
-                            5
+                            6
                           )
-                        : 2
+                        : 4
                     }px`,
                   }}
                 />
 
-                <span className="text-xs mt-2">
+                <span
+                  className="
+                    text-[11px]
+                    text-slate-500
+                    mt-2
+                  "
+                >
                   {item.month}
                 </span>
-              </div>
-            )
-          )}
 
-        </div>
+              </div>
+            );
+          }
+        )}
 
       </div>
 
-      {/* SUMMARY CARD */}
-      <div className="w-[180px] bg-gray-50 rounded-3xl p-5 flex flex-col items-center justify-center">
+    </div>
 
-        <Laptop className="w-10 h-10 text-indigo-500 mb-4" />
+    {/* Summary Card */}
 
-        <p className="text-center text-gray-500">
-          Total Assets Procured
-        </p>
+    <div
+      className="
+        relative
+        overflow-hidden
+        rounded-2xl
+        bg-gradient-to-br
+        from-emerald-600
+        via-green-600
+        to-teal-600
+        text-white
+        p-5
+        flex
+        flex-col
+        justify-between
+      "
+    >
 
-        <h2 className="text-5xl font-bold text-emerald-500 mt-3">
-          {
-           selectedTotal
-          }
-        </h2>
+      {/* Glow */}
+
+      <div
+        className="
+          absolute
+          top-0
+          right-0
+          w-32
+          h-32
+          bg-white/10
+          rounded-full
+          blur-3xl
+        "
+      />
+
+      <div
+  className="
+    relative
+    z-10
+    flex
+    flex-col
+    items-center
+    text-center
+    h-full
+    justify-center
+  "
+>
+
+  <div
+    className="
+      w-12
+      h-12
+      rounded-xl
+      bg-white/15
+      backdrop-blur
+      flex
+      items-center
+      justify-center
+    "
+  >
+    <Laptop className="w-6 h-6" />
+  </div>
+
+  <p className="text-white/80 text-sm mt-4">
+    Total Procured
+  </p>
+
+  <h2 className="text-5xl font-bold mt-2">
+    {selectedTotal}
+  </h2>
+
+</div>
+
+      <div className="relative z-10 mt-6">
+
+        <div
+          className="
+            inline-flex
+            items-center
+            gap-2
+            px-3
+            py-1
+            rounded-full
+            bg-white/10
+            text-xs
+          "
+        >
+          <div className="w-2 h-2 rounded-full bg-green-300 animate-pulse" />
+          Live Data
+        </div>
 
       </div>
 
@@ -639,94 +1028,276 @@ const complaints =
 
   </div>
 
-  {/* RIGHT SIDE */}
- <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-sm">
+</div>
 
-  <h2 className="text-xl font-semibold text-blue-600 mb-8">
-    Recent Complaints
-  </h2>
+
+        {/* RIGHT SIDE */}
+        <div
+  className="
+    bg-white
+    rounded-3xl
+    border
+    border-slate-200/70
+    shadow-sm
+    overflow-hidden
+  "
+>
+
+  {/* Header */}
+
+  <div
+    className="
+      flex
+      items-center
+      justify-between
+      px-5
+      py-4
+      border-b
+      border-slate-100
+    "
+  >
+
+    <div>
+
+      <h2 className="text-lg font-semibold text-slate-900">
+        Recent Complaints
+      </h2>
+
+      <p className="text-xs text-slate-500 mt-1">
+        Latest submitted issues and requests
+      </p>
+
+    </div>
+
+    <div
+      className="
+        px-3
+        py-1
+        rounded-full
+        bg-red-50
+        text-red-600
+        text-xs
+        font-medium
+      "
+    >
+      {complaints?.length || 0} Active
+    </div>
+
+  </div>
 
   {complaints?.length > 0 ? (
+
     <>
-      <div className="space-y-6">
 
-        {complaints.slice(0, 5).map(
-          (item: any, index: number) => (
-            <div key={item.id || index}>
+      <div className="p-4 space-y-3">
 
-              <div className="flex items-start justify-between gap-4">
+        {complaints
+          .slice(0, 5)
+          .map(
+            (
+              item: any,
+              index: number
+            ) => {
 
-                <div className="flex-1">
+              const badgeColor =
+                item.urgency === "HIGH"
+                  ? "bg-red-50 text-red-600 border-red-100"
+                  : item.urgency ===
+                    "MEDIUM"
+                    ? "bg-orange-50 text-orange-600 border-orange-100"
+                    : "bg-blue-50 text-blue-600 border-blue-100";
 
-                  <h3 className="text-[18px] font-medium text-[#24124d]">
-                    {item.title}
-                  </h3>
+              return (
 
-                  <p className="text-gray-500 text-xs mt-2">
-                    By {item.fullName || "System"}
-                    {" | "}
-                    {new Date(
-                      item.createdAt
-                    ).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "2-digit",
-                      year: "numeric",
-                    })}
-                  </p>
-
-                </div>
-
-                <span
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold text-white
-                  ${
-                    item.urgency === "HIGH"
-                      ? "bg-red-500"
-                      : item.urgency === "MEDIUM"
-                      ? "bg-orange-500"
-                      : "bg-blue-500"
-                  }`}
+                <motion.div
+                  key={
+                    item.id ||
+                    index
+                  }
+                  whileHover={{
+                    x: 4,
+                  }}
+                  className="
+                    flex
+                    items-start
+                    justify-between
+                    gap-3
+                    p-3
+                    rounded-2xl
+                    border
+                    border-slate-100
+                    hover:border-emerald-200
+                    hover:bg-slate-50
+                    transition-all
+                  "
                 >
-                  {item.urgency}
-                </span>
 
-              </div>
+                  <div className="flex gap-3 flex-1">
 
-              {index !== 4 &&
-                index !== complaints.length - 1 && (
-                  <div className="border-b border-gray-100 mt-5" />
-              )}
+                    {/* Status Dot */}
 
-            </div>
-          )
-        )}
+                    <div
+                      className={`
+                        mt-2
+                        h-2.5
+                        w-2.5
+                        rounded-full
+                        ${
+                          item.urgency ===
+                          "HIGH"
+                            ? "bg-red-500"
+                            : item.urgency ===
+                              "MEDIUM"
+                            ? "bg-orange-500"
+                            : "bg-blue-500"
+                        }
+                      `}
+                    />
+
+                    <div className="min-w-0 flex-1">
+
+                      <h3
+                        className="
+                          text-sm
+                          font-semibold
+                          text-slate-900
+                          truncate
+                        "
+                      >
+                        {item.title}
+                      </h3>
+
+                      <div
+                        className="
+                          flex
+                          flex-wrap
+                          items-center
+                          gap-2
+                          mt-1
+                          text-xs
+                          text-slate-500
+                        "
+                      >
+
+                        <span>
+                          {item.fullName ||
+                            "System"}
+                        </span>
+
+                        <span>
+                          •
+                        </span>
+
+                        <span>
+                          {new Date(
+                            item.createdAt
+                          ).toLocaleDateString(
+                            "en-US",
+                            {
+                              month:
+                                "short",
+                              day: "2-digit",
+                            }
+                          )}
+                        </span>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  {/* Priority Badge */}
+
+                  <span
+                    className={`
+                      px-2.5
+                      py-1
+                      rounded-full
+                      text-[11px]
+                      font-semibold
+                      border
+                      whitespace-nowrap
+                      ${badgeColor}
+                    `}
+                  >
+                    {item.urgency}
+                  </span>
+
+                </motion.div>
+
+              );
+            }
+          )}
 
       </div>
 
       {/* Footer */}
-      <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end">
+
+      <div
+        className="
+          px-5
+          py-4
+          border-t
+          border-slate-100
+          bg-slate-50/50
+        "
+      >
 
         <Link
           href="/dashboard/complaints/view-complaint"
-          className="inline-flex items-center gap-2 text-emerald-600 font-medium hover:text-emerald-700 transition"
+          className="
+            flex
+            items-center
+            justify-center
+            gap-2
+            text-sm
+            font-medium
+            text-emerald-600
+            hover:text-emerald-700
+            transition
+          "
         >
           View All Complaints
 
-          <span className="text-lg">
+          <span>
             →
           </span>
+
         </Link>
 
       </div>
+
     </>
+
   ) : (
-    <div className="h-[320px] flex items-center justify-center text-gray-400">
-      No Recent Complaints
+
+    <div
+      className="
+        h-[250px]
+        flex
+        flex-col
+        items-center
+        justify-center
+        text-slate-400
+      "
+    >
+
+      <div className="text-4xl mb-3">
+        📭
+      </div>
+
+      <p className="text-sm">
+        No Recent Complaints
+      </p>
+
     </div>
+
   )}
 
 </div>
 
-</div>
+      </div>
 
 
       {showCategoriesModal && (

@@ -200,87 +200,117 @@ export default function CategoryWiseSummary() {
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
+   <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-        <div className="absolute top-0 right-0 w-52 h-52 bg-white/10 rounded-full blur-3xl" />
+  {/* Decorative Background */}
+  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
+  <div className="absolute top-10 right-20 h-24 w-24 rounded-full border border-white/10" />
 
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
+  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+    {/* LEFT SIDE */}
 
-          {/* LEFT */}
+    <div>
 
-          <div className="min-w-0">
+      <div className="flex items-center gap-4">
 
-            <div className="flex items-center gap-3">
+        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
 
-              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow shrink-0">
+          <Boxes className="w-8 h-8 text-white" />
 
-                <Boxes className="w-6 h-6" />
-              </div>
-
-              <div className="min-w-0">
-
-                <h1 className="text-xl font-semibold leading-tight break-words">
-                  Category Analytics
-                </h1>
-
-                <p className="text-green-50 mt-1 text-xs break-words">
-                  Inventory insights & stock performance
-                </p>
-              </div>
-            </div>
-
-            {/* QUICK STATS */}
-
-            <div className="flex flex-wrap items-center gap-5 mt-4">
-
-              <div>
-
-                <h2 className="text-2xl font-bold leading-none break-words">
-                  ₹
-                  {overview.stockValue ||
-                    0}
-                </h2>
-
-                <p className="text-green-100 text-[10px] mt-1">
-                  Stock Value 
-                </p>
-              </div>
-
-              <div>
-
-                <h2 className="text-2xl font-bold leading-none">
-                  {
-                    overview.totalItems
-                  }
-                </h2>
-
-                <p className="text-green-100 text-[10px] mt-1">
-                  Items
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT */}
-
-          <div className="flex flex-col gap-2 w-full xl:w-[220px]">
-
-            <MiniCard
-              icon={TrendingUp}
-              title="Growth"
-              value="92%"
-            />
-
-            <MiniCard
-              icon={ShieldCheck}
-              title="Health"
-              value="Stable"
-            />
-          </div>
         </div>
+
+        <div>
+
+          <h1 className="text-3xl font-bold text-white">
+            Category Analytics
+          </h1>
+
+          <p className="text-emerald-100 mt-1">
+            Inventory insights, stock trends & category performance
+          </p>
+
+        </div>
+
       </div>
+
+      {/* KPI Cards */}
+
+      <div className="flex flex-wrap gap-4 mt-6">
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
+
+          <p className="text-3xl font-bold text-white">
+            ₹{overview.stockValue?.toLocaleString() || 0}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Stock Value
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
+
+          <p className="text-3xl font-bold text-white">
+            {overview.totalItems}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Total Items
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
+
+          <p className="text-3xl font-bold text-white">
+            {overview?.length || 0}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Categories
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* RIGHT SIDE */}
+
+    <div className="grid grid-cols-2 gap-3 lg:min-w-[320px]">
+
+      <MiniCard
+        icon={TrendingUp}
+        title="Growth"
+        value="92%"
+      />
+
+      <MiniCard
+        icon={ShieldCheck}
+        title="Health"
+        value="Stable"
+      />
+
+      <MiniCard
+        icon={Boxes}
+        title="Categories"
+        value={`${overview?.length || 0}`}
+      />
+
+      <MiniCard
+        icon={Package2}
+        title="Inventory"
+        value={`${overview.totalItems || 0}`}
+      />
+
+    </div>
+
+  </div>
+</div>
 
       {/* FILTERS */}
 
@@ -617,36 +647,29 @@ export default function CategoryWiseSummary() {
 
 /* MINI CARD */
 
-function MiniCard({
+const MiniCard = ({
   icon: Icon,
   title,
   value,
-}: any) {
+}: any) => (
+  <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl p-4">
 
-  return (
-    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 overflow-hidden">
+    <div className="flex items-center justify-between">
 
-      <div className="flex items-center gap-2">
+      <Icon className="w-5 h-5 text-white" />
 
-        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+      <span className="text-lg font-bold text-white">
+        {value}
+      </span>
 
-          <Icon className="w-4 h-4" />
-        </div>
-
-        <div className="min-w-0">
-
-          <p className="text-xs text-white break-words">
-            {title}
-          </p>
-
-          <h3 className="text-lg font-bold mt-1 break-words">
-            {value}
-          </h3>
-        </div>
-      </div>
     </div>
-  )
-}
+
+    <p className="text-[11px] uppercase tracking-wider text-emerald-100 mt-3">
+      {title}
+    </p>
+
+  </div>
+);
 
 /* OVERVIEW CARD */
 

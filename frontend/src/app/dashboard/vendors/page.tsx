@@ -12,6 +12,7 @@ import {
   Users,
   Package2,
   Eye,
+  Handshake,
 } from "lucide-react"
 
 import Link from "next/link"
@@ -152,87 +153,117 @@ export default function VendorsPage() {
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
+  <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-        <div className="absolute top-0 right-0 w-52 h-52 bg-white/10 rounded-full blur-3xl" />
+  {/* Decorative Elements */}
+  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
+  <div className="absolute top-10 right-24 h-24 w-24 rounded-full border border-white/10" />
 
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
+  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+    {/* LEFT SECTION */}
 
-          {/* LEFT */}
+    <div>
 
-          <div className="min-w-0">
+      <div className="flex items-center gap-4">
 
-            <div className="flex items-center gap-3">
+        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
 
-              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shrink-0">
+          <Building2 className="w-8 h-8 text-white" />
 
-                <Building2 className="w-6 h-6" />
-              </div>
-
-              <div className="min-w-0">
-
-                <h1 className="text-xl font-semibold leading-tight break-words">
-                  Vendor Management 
-                </h1>
-
-                <p className="text-green-50 mt-1 text-xs break-words">
-                  Manage suppliers & manufacturers
-                </p>
-              </div>
-            </div>
-
-            {/* QUICK STATS */}
-
-            <div className="flex flex-wrap items-center gap-5 mt-4">
-
-              <div>
-
-                <h2 className="text-2xl font-bold leading-none">
-                  {
-                    totalVendors
-                  }
-                </h2>
-
-                <p className="text-green-100 text-[10px] mt-1">
-                  Vendors
-                </p>
-              </div>
-
-              <div>
-
-                <h2 className="text-2xl font-bold leading-none">
-                  {
-                    totalProducts
-                  }
-                </h2>
-
-                <p className="text-green-100 text-[10px] mt-1">
-                  Products
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT */}
-
-          <div className="flex flex-col gap-2 w-full xl:w-[220px]">
-
-            <MiniCard
-              icon={TrendingUp}
-              title="Growth"
-              value="92%"
-            />
-
-            <MiniCard
-              icon={ShieldCheck}
-              title="Trusted"
-              value="98%"
-            />
-          </div>
         </div>
+
+        <div>
+
+          <h1 className="text-3xl font-bold text-white">
+            Vendor Management
+          </h1>
+
+          <p className="text-emerald-100 mt-1">
+            Manage suppliers, manufacturers & procurement partners
+          </p>
+
+        </div>
+
       </div>
+
+      {/* KPI CARDS */}
+
+      <div className="flex flex-wrap gap-4 mt-6">
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
+
+          <p className="text-3xl font-bold text-white">
+            {totalVendors}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Vendors
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
+
+          <p className="text-3xl font-bold text-white">
+            {totalProducts}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Products
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
+
+          <p className="text-3xl font-bold text-white">
+            Active
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Partnerships
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* RIGHT SECTION */}
+
+    <div className="grid grid-cols-2 gap-3 lg:min-w-[320px]">
+
+      <MiniCard
+        icon={TrendingUp}
+        title="Growth"
+        value="92%"
+      />
+
+      <MiniCard
+        icon={ShieldCheck}
+        title="Trusted"
+        value="98%"
+      />
+
+      <MiniCard
+        icon={Package2}
+        title="Supply"
+        value={`${totalProducts}`}
+      />
+
+      <MiniCard
+        icon={Handshake}
+        title="Partners"
+        value={`${totalVendors}`}
+      />
+
+    </div>
+
+  </div>
+</div>
 
       {/* OVERVIEW */}
 

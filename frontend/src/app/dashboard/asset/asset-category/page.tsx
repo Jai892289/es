@@ -134,77 +134,122 @@ console.log("selectedCategory", selectedCategory)
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-2xl p-5 text-white shadow-md">
+  <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+  {/* Background Decoration */}
+  <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10" />
+  <div className="absolute right-10 bottom-0 h-40 w-40 rounded-full bg-white/5" />
 
-          <div>
+  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-            <div className="flex items-center gap-3">
+    {/* Left Section */}
+    <div>
 
-              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+      <div className="flex items-center gap-4">
 
-                <Layers3 className="w-6 h-6" />
-              </div>
+        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
 
-              <div>
+          <Layers3 className="w-8 h-8 text-white" />
 
-                <h1 className="text-xl font-semibold leading-none">
-                  Asset Categories
-                </h1>
-
-                <p className="text-green-50 text-xs mt-1">
-                  Manage inventory categories
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-5 mt-4 flex-wrap">
-
-              <div>
-
-                <p className="text-2xl font-bold leading-none">
-                  {categories.length}
-                </p>
-
-                <p className="text-[11px] text-green-100 mt-1">
-                  Categories
-                </p>
-              </div>
-
-              <div>
-
-                <p className="text-2xl font-bold leading-none">
-                  {totalAssets}
-                </p>
-
-                <p className="text-[11px] text-green-100 mt-1">
-                  Assets
-                </p>
-              </div>
-
-              <div>
-
-                <p className="text-2xl font-bold leading-none">
-                  ₹{totalAmount.toLocaleString()}
-                </p>
-
-                <p className="text-[11px] text-green-100 mt-1">
-                  Value
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <button
-            onClick={() => setOpenModal(true)}
-            className="h-10 px-4 rounded-xl cursor-pointer bg-white text-green-600 hover:bg-green-50 transition text-sm font-semibold shadow-sm flex items-center gap-2"
-          >
-            <Plus className="w-4 h-4" />
-            Add Category
-          </button>
         </div>
+
+        <div>
+
+          <h1 className="text-2xl font-bold text-white">
+            Asset Categories
+          </h1>
+
+          <p className="text-emerald-100 mt-1">
+            Organize and manage inventory categories efficiently
+          </p>
+
+        </div>
+
       </div>
+
+      {/* Stats */}
+      <div className="flex flex-wrap gap-4 mt-6">
+
+        <div className="bg-white/15 backdrop-blur-md rounded-2xl px-5 py-4 border border-white/10 min-w-[140px]">
+
+          <p className="text-3xl font-bold text-white">
+            {categories.length}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Categories
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md rounded-2xl px-5 py-4 border border-white/10 min-w-[140px]">
+
+          <p className="text-3xl font-bold text-white">
+            {totalAssets}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Total Assets
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md rounded-2xl px-5 py-4 border border-white/10 min-w-[180px]">
+
+          <p className="text-3xl font-bold text-white">
+            ₹{totalAmount.toLocaleString()}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Asset Value
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* Right Section */}
+    <div className="flex flex-col gap-3">
+
+      <button
+        onClick={() => setOpenModal(true)}
+        className="
+          h-12
+          px-6
+          rounded-2xl
+          bg-white
+          text-emerald-600
+          font-semibold
+          shadow-lg
+          hover:scale-105
+          hover:bg-emerald-50
+          transition-all
+          flex items-center justify-center gap-2
+        "
+      >
+        <Plus className="w-5 h-5" />
+        Add Category
+      </button>
+
+      <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 text-center">
+
+        <p className="text-xs uppercase text-emerald-100">
+          Category Health
+        </p>
+
+        <h3 className="text-2xl font-bold text-white mt-1">
+          Active
+        </h3>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
   
       {/* ---------------- CATEGORY GRID ---------------- */}

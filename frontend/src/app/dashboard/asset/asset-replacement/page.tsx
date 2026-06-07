@@ -12,6 +12,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   Wrench,
+  Archive,
 } from "lucide-react"
 
 import { createAssetReplacementApi, getAssetReplacementsApi } from "@/lib/inventory.api"
@@ -83,96 +84,117 @@ export default function AssetReplacementPage() {
 
       {/* ---------------- HERO ---------------- */}
 
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-5 text-white shadow-md">
+<div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-        <div className="absolute top-0 right-0 w-52 h-52 bg-white/10 rounded-full blur-3xl" />
+  {/* Decorative Elements */}
+  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
+  <div className="absolute top-12 right-24 h-24 w-24 rounded-full border border-white/10" />
 
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
+  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+    {/* LEFT SECTION */}
 
-          {/* LEFT */}
+    <div>
 
-          <div className="min-w-0">
+      <div className="flex items-center gap-4">
 
-            <div className="flex items-center gap-3">
+        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
 
-              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow shrink-0">
+          <RefreshCw className="w-8 h-8 text-white" />
 
-                <RefreshCw className="w-6 h-6" />
-              </div>
-
-              <div className="min-w-0">
-
-                <h1 className="text-xl font-semibold leading-tight break-words">
-                  Asset Replacement 
-                </h1>
-
-                <p className="text-green-50 mt-1 text-xs break-words">
-                  Track lifecycle upgrades & replacements
-                </p>
-              </div>
-            </div>
-
-            {/* QUICK STATS */}
-
-            <div className="flex flex-wrap items-center gap-5 mt-4">
-
-              <div>
-
-                <h2 className="text-2xl font-bold leading-none">
-                  {stats.total}
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Replacements
-                </p>
-              </div>
-
-              <div>
-
-                <h2 className="text-2xl font-bold leading-none">
-                  {stats.active}
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Active
-                </p>
-              </div>
-
-              <div>
-
-                <h2 className="text-2xl font-bold leading-none">
-                  {stats.retired}
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Retired
-                </p>
-              </div>
-            </div>
-          </div>
-
-          
-
-          {/* RIGHT */}
-
-          <div className="flex flex-col gap-2 w-full lg:w-[240px]">
-
-            <MiniCard
-              icon={TrendingUp}
-              title="Efficiency"
-              value="96%"
-            />
-
-            <MiniCard
-              icon={ShieldCheck}
-              title="Monitoring"
-              value="Active"
-            />
-          </div>
         </div>
+
+        <div>
+
+          <h1 className="text-2xl font-bold text-white">
+            Asset Replacement
+          </h1>
+
+          <p className="text-emerald-100 mt-1">
+            Manage asset upgrades, retirements & lifecycle replacements
+          </p>
+
+        </div>
+
       </div>
+
+      {/* KPI CARDS */}
+
+      <div className="flex flex-wrap gap-4 mt-6">
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
+
+          <p className="text-3xl font-bold text-white">
+            {stats.total}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Total Replacements
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
+
+          <p className="text-3xl font-bold text-white">
+            {stats.active}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Active Assets
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[150px]">
+
+          <p className="text-3xl font-bold text-white">
+            {stats.retired}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Retired Assets
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* RIGHT SECTION */}
+
+    <div className="grid grid-cols-2 gap-3 lg:min-w-[320px]">
+
+      <MiniCard
+        icon={TrendingUp}
+        title="Efficiency"
+        value="96%"
+      />
+
+      <MiniCard
+        icon={ShieldCheck}
+        title="Compliance"
+        value="99%"
+      />
+
+      <MiniCard
+        icon={RefreshCw}
+        title="Upgrades"
+        value={`${stats.total}`}
+      />
+
+      <MiniCard
+        icon={Archive}
+        title="Retired"
+        value={`${stats.retired}`}
+      />
+
+    </div>
+
+  </div>
+</div>
 
       {/* ---------------- OVERVIEW ---------------- */}
 <button
@@ -754,36 +776,29 @@ function ReplacementModal({
 
 /* ---------------- MINI CARD ---------------- */
 
-function MiniCard({
+const MiniCard = ({
   icon: Icon,
   title,
   value,
-}: any) {
+}: any) => (
+  <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl p-4">
 
-  return (
-    <div className="bg-white/15 backdrop-blur rounded-xl px-3 py-3 overflow-hidden">
+    <div className="flex items-center justify-between">
 
-      <div className="flex items-center gap-2">
+      <Icon className="w-5 h-5 text-white" />
 
-        <div className="w-9 h-9 rounded-lg bg-white/20 flex items-center justify-center shrink-0">
+      <span className="text-lg font-bold text-white">
+        {value}
+      </span>
 
-          <Icon className="w-4 h-4" />
-        </div>
-
-        <div className="min-w-0">
-
-          <p className="text-xs text-white break-words">
-            {title}
-          </p>
-
-          <h3 className="text-sm font-semibold mt-1 break-words">
-            {value}
-          </h3>
-        </div>
-      </div>
     </div>
-  )
-}
+
+    <p className="text-[11px] uppercase tracking-wider text-emerald-100 mt-3">
+      {title}
+    </p>
+
+  </div>
+);
 
 /* ---------------- OVERVIEW CARD ---------------- */
 

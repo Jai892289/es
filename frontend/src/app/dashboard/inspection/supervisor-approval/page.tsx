@@ -13,6 +13,8 @@ import {
   Activity,
   ClipboardCheck,
   ArrowUpRight,
+  CheckCircle2,
+  FileCheck,
 } from "lucide-react"
 
 import {
@@ -109,81 +111,121 @@ const handleReject = async (
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 text-white shadow-sm">
+     <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-        <div className="absolute top-0 right-0 w-56 h-56 bg-white/10 rounded-full blur-3xl" />
+  {/* Background Effects */}
 
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-black/10 rounded-full blur-3xl" />
+  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+  <div className="absolute bottom-0 left-0 h-40 w-40 rounded-full bg-black/10 blur-3xl" />
+  <div className="absolute top-10 right-24 h-24 w-24 rounded-full border border-white/10" />
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+  <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
 
-          {/* LEFT */}
+    {/* LEFT */}
 
-          <div className="min-w-0">
+    <div className="flex-1">
 
-            <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
 
-              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center shadow-sm shrink-0">
+        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
 
-                <ClipboardCheck className="w-6 h-6" />
-              </div>
+          <ClipboardCheck className="w-8 h-8 text-white" />
 
-              <div className="min-w-0">
-
-                <h1 className="text-xl md:text-2xl font-bold break-words">
-                  Supervisor Approval 
-                </h1>
-
-                <p className="text-green-50 mt-1 text-xs leading-5 break-words">
-                  Review & approve inspection reports efficiently
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-4 mt-4">
-
-              <div>
-
-                <h2 className="text-2xl font-bold">
-                  {reports.length}
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Total Reports
-                </p>
-              </div>
-
-              <div>
-
-                <h2 className="text-2xl font-bold">
-                  {stats.approved}
-                </h2>
-
-                <p className="text-green-100 text-[11px] mt-1">
-                  Approved
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT */}
-
-          <div className="grid grid-cols-2 gap-3 w-full xl:w-[280px]">
-
-            <MiniCard
-              icon={ShieldCheck}
-              title="Accuracy"
-              value="98%"
-            />
-
-            <MiniCard
-              icon={Activity}
-              title="Pending"
-              value={stats.pending}
-            />
-          </div>
         </div>
+
+        <div>
+
+          <h1 className="text-3xl font-bold text-white">
+            Supervisor Approval
+          </h1>
+
+          <p className="text-emerald-100 mt-1">
+            Review, verify & approve inspection reports efficiently
+          </p>
+
+        </div>
+
       </div>
+
+      {/* KPI SECTION */}
+
+      <div className="flex flex-wrap gap-4 mt-6">
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
+
+          <h2 className="text-3xl font-bold text-white">
+            {reports.length}
+          </h2>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Total Reports
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
+
+          <h2 className="text-3xl font-bold text-white">
+            {stats.approved}
+          </h2>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Approved
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-4 min-w-[170px]">
+
+          <h2 className="text-3xl font-bold text-white">
+            {stats.pending}
+          </h2>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Pending Review
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* RIGHT */}
+
+    <div className="grid grid-cols-2 gap-3 lg:min-w-[340px]">
+
+      <MiniCard
+        icon={ShieldCheck}
+        title="Accuracy"
+        value="98%"
+      />
+
+      <MiniCard
+        icon={Activity}
+        title="Pending"
+        value={stats.pending}
+      />
+
+      <MiniCard
+        icon={CheckCircle2}
+        title="Approved"
+        value={stats.approved}
+      />
+
+      <MiniCard
+        icon={FileCheck}
+        title="Compliance"
+        value="99%"
+      />
+
+    </div>
+
+  </div>
+
+ 
+
+</div>
 
       {/* OVERVIEW */}
 

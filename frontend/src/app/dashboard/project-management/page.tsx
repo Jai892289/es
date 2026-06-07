@@ -107,7 +107,7 @@ const pendingCount =
 }
 
   return (
-    <div className="space-y-4 w-full overflow-x-hidden max-w-[1280px] mx-auto">
+    <div className="space-y-4 w-full overflow-x-hidden mx-auto">
 
       {/* HERO */}
 

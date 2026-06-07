@@ -9,7 +9,11 @@ import {
   RotateCcw,
   Search,
   Package2,
+   Filter,
+  ChevronDown,
 } from "lucide-react"
+
+
 
 import { getInventoryApi } from "@/lib/inventory.api"
 
@@ -28,6 +32,13 @@ export default function InventoryPage() {
   const [amc, setAmc] = useState("")
 
   const [loading, setLoading] = useState(false)
+
+
+const [status, setStatus] =
+  useState("");
+
+const [selectedDate, setSelectedDate] =
+  useState("");
 
   /* ---------------- FETCH ---------------- */
 
@@ -79,157 +90,344 @@ export default function InventoryPage() {
     <div className="space-y-4">
 
       {/* ---------------- HERO ---------------- */}
+<div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-emerald-600 via-green-600 to-teal-600 p-6 shadow-xl">
 
-      <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-2xl p-5 text-white shadow-md">
+  {/* Background Decoration */}
+  <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/10" />
+  <div className="absolute right-10 bottom-0 h-32 w-32 rounded-full bg-white/5" />
 
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+  <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
-          <div>
+    {/* Left Section */}
+    <div>
 
-            <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
 
-              <div className="w-11 h-11 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
+        <div className="w-16 h-16 rounded-3xl bg-white/20 backdrop-blur-md border border-white/20 flex items-center justify-center">
 
-                <Package2 className="w-5 h-5" />
-              </div>
+          <Package2 className="w-8 h-8 text-white" />
 
-              <div>
-
-                <h1 className="text-xl font-semibold tracking-tight leading-none">
-                  Inventory Management
-                </h1>
-
-                <p className="text-green-50 text-xs mt-1">
-                  Manage products & AMC
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-5 mt-4">
-
-              <div>
-                <p className="text-2xl font-bold leading-none">
-                  {inventoryData.length}
-                </p>
-
-                <p className="text-[11px] text-green-100 mt-1">
-                  Products
-                </p>
-              </div>
-
-              <div>
-                <p className="text-2xl font-bold leading-none">
-                  {
-                    inventoryData.filter(
-                      (i) => i.amcAvailable
-                    ).length
-                  }
-                </p>
-
-                <p className="text-[11px] text-green-100 mt-1">
-                  AMC Active
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <Link
-            href="/dashboard/inventory/add"
-            className="h-10 px-4 rounded-xl bg-white text-green-600 hover:bg-green-50 transition text-sm font-semibold shadow-sm flex items-center justify-center"
-          >
-            + Add Product
-          </Link>
         </div>
+
+        <div>
+
+          <h1 className="text-2xl font-bold text-white">
+            Inventory Management
+          </h1>
+
+          <p className="text-emerald-100 mt-1">
+            Manage Assets, Inventory, AMC & Warranty Lifecycle
+          </p>
+
+        </div>
+
       </div>
 
+      {/* Stats */}
+      <div className="flex flex-wrap gap-4 mt-6">
+
+        <div className="bg-white/15 backdrop-blur-md rounded-2xl px-5 py-4 border border-white/10">
+
+          <p className="text-3xl font-bold text-white">
+            {inventoryData.length}
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Total Assets
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md rounded-2xl px-5 py-4 border border-white/10">
+
+          <p className="text-3xl font-bold text-white">
+            {
+              inventoryData.filter(
+                (i) => i.amcAvailable
+              ).length
+            }
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            AMC Active
+          </p>
+
+        </div>
+
+        <div className="bg-white/15 backdrop-blur-md rounded-2xl px-5 py-4 border border-white/10">
+
+          <p className="text-3xl font-bold text-white">
+            {
+              inventoryData.reduce(
+                (sum, item) =>
+                  sum + (item.quantity || 0),
+                0
+              )
+            }
+          </p>
+
+          <p className="text-xs uppercase tracking-wider text-emerald-100 mt-1">
+            Total Stock
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    {/* Right Section */}
+    <div className="flex flex-col gap-3">
+
+      <Link
+        href="/dashboard/inventory/add"
+        className="
+          h-12
+          px-6
+          rounded-2xl
+          bg-white
+          text-emerald-600
+          font-semibold
+          shadow-lg
+          hover:scale-105
+          transition-all
+          flex items-center justify-center gap-2
+        "
+      >
+        <Package2 className="w-4 h-4" />
+        Add Inventory
+      </Link>
+
+      <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-4 text-center">
+
+        <p className="text-xs uppercase text-emerald-100">
+          Inventory Health
+        </p>
+
+        <h3 className="text-2xl font-bold text-white mt-1">
+          Excellent
+        </h3>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
       {/* ---------------- FILTERS ---------------- */}
 
-      <div className="bg-white border border-gray-100 rounded-2xl p-3 shadow-sm">
+     <div className="bg-[#f8f9fb] rounded-3xl border border-gray-200 p-6 shadow-sm">
 
-        <div className="flex flex-wrap items-center gap-2">
+  <div className="flex flex-wrap items-center gap-4">
 
-          {/* SEARCH */}
+    {/* Filter Title */}
 
-          <div className="relative flex-1 min-w-[220px]">
+    <div className="flex items-center gap-3 mr-2">
 
-            <Search className="absolute left-3 top-3 w-4 h-4 text-gray-500" />
-
-            <input
-              type="text"
-              placeholder="Search..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-10 rounded-xl border border-gray-200 bg-gray-50 pl-10 pr-3 text-sm text-black outline-none focus:border-green-500 focus:bg-white transition"
-            />
-          </div>
-
-          {/* DEPARTMENT */}
-
-          <input
-            type="text"
-            placeholder="Department"
-            value={department}
-            onChange={(e) => setDepartment(e.target.value)}
-            className="h-10 rounded-xl border border-gray-200 bg-gray-50 px-3 text-sm text-black outline-none focus:border-green-500 focus:bg-white transition"
-          />
-
-          {/* CATEGORY */}
-
-          <input
-            type="text"
-            placeholder="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="h-10 rounded-xl border border-gray-200 bg-gray-50 px-3 text-sm text-black outline-none focus:border-green-500 focus:bg-white transition"
-          />
-
-          {/* VENDOR */}
-
-          <input
-            type="text"
-            placeholder="Vendor"
-            value={vendor}
-            onChange={(e) => setVendor(e.target.value)}
-            className="h-10 rounded-xl border border-gray-200 bg-gray-50 px-3 text-sm text-black outline-none focus:border-green-500 focus:bg-white transition"
-          />
-
-          {/* AMC */}
-
-          <select
-            value={amc}
-            onChange={(e) => setAmc(e.target.value)}
-            className="h-10 rounded-xl border border-gray-200 bg-gray-50 px-3 text-sm text-black outline-none focus:border-green-500 focus:bg-white transition"
-          >
-            <option value="">
-              AMC Status
-            </option>
-
-            <option value="true">
-              AMC Active 
-            </option>
-
-            <option value="false">
-              No AMC
-            </option>
-          </select>
-
-          {/* RESET */}
-
-          <button
-            onClick={() => {
-              setSearch("")
-              setDepartment("")
-              setCategory("")
-              setVendor("")
-              setAmc("")
-            }}
-            className="h-10 px-4 rounded-xl border border-red-100 bg-red-50 text-red-500 hover:bg-red-100 transition flex items-center gap-2 text-sm font-medium"
-          >
-            <RotateCcw className="w-4 h-4" />
-            Reset
-          </button>
-        </div>
+      <div className="w-10 h-10 rounded-2xl bg-white shadow-sm flex items-center justify-center">
+        <Filter className="w-5 h-5 text-gray-600" />
       </div>
+
+      <h3 className="text-xl font-semibold text-gray-800">
+        Filters
+      </h3>
+
+    </div>
+
+    {/* Department */}
+
+    <div className="relative">
+
+      <select
+        value={department}
+        onChange={(e) =>
+          setDepartment(e.target.value)
+        }
+        className="
+          appearance-none
+          h-12
+          min-w-[240px]
+          rounded-full
+          border
+          border-gray-300
+          bg-white
+          pl-6
+          pr-12
+          text-[15px]
+          font-medium
+          text-[#24124d]
+          shadow-sm
+          hover:border-emerald-400
+          focus:border-emerald-500
+          focus:ring-2
+          focus:ring-emerald-100
+          outline-none
+          transition
+        "
+      >
+        <option value="">
+          By Department
+        </option>
+
+        {[...new Set(
+          inventoryData.map(
+            (i) => i.department?.name
+          )
+        )].map(
+          (dept: any) =>
+            dept && (
+              <option
+                key={dept}
+                value={dept}
+              >
+                {dept}
+              </option>
+            )
+        )}
+      </select>
+
+      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500 pointer-events-none" />
+
+    </div>
+
+    {/* Category */}
+
+    <div className="relative">
+
+      <select
+        value={category}
+        onChange={(e) =>
+          setCategory(e.target.value)
+        }
+        className="
+          appearance-none
+          h-12
+          min-w-[220px]
+          rounded-full
+          border
+          border-gray-300
+          bg-white
+          pl-6
+          pr-12
+          text-[15px]
+          font-medium
+          text-[#24124d]
+          shadow-sm
+          hover:border-emerald-400
+          focus:border-emerald-500
+          focus:ring-2
+          focus:ring-emerald-100
+          outline-none
+          transition
+        "
+      >
+        <option value="">
+          By Category
+        </option>
+
+        {[...new Set(
+          inventoryData.map(
+            (i) => i.category?.name
+          )
+        )].map(
+          (cat: any) =>
+            cat && (
+              <option
+                key={cat}
+                value={cat}
+              >
+                {cat}
+              </option>
+            )
+        )}
+      </select>
+
+      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-500 pointer-events-none" />
+
+    </div>
+
+    
+
+    {/* Date */}
+
+    {/* <input
+      type="date"
+      value={selectedDate}
+      onChange={(e) =>
+        setSelectedDate(
+          e.target.value
+        )
+      }
+      className="
+        h-12
+        min-w-[200px]
+        rounded-full
+        border
+        border-gray-300
+        bg-white
+        px-6
+        text-[15px]
+        font-medium
+        text-[#24124d]
+        shadow-sm
+        hover:border-emerald-400
+        focus:border-emerald-500
+        focus:ring-2
+        focus:ring-emerald-100
+        outline-none
+        transition
+      "
+    /> */}
+
+    {/* Apply Button */}
+
+    <button
+      className="
+        h-12
+        px-8
+        rounded-full
+        bg-blue-600
+        text-white
+        font-medium
+        shadow-md
+        hover:bg-blue-700
+        transition-all
+      "
+    >
+      Apply Filter
+    </button>
+
+    {/* Reset */}
+
+    <button
+      onClick={() => {
+        setDepartment("");
+        setCategory("");
+        setStatus("");
+        setSelectedDate("");
+      }}
+      className="
+        h-12
+        px-5
+        rounded-full
+        bg-white
+        border
+        border-red-200
+        text-red-500
+        font-medium
+        hover:bg-red-50
+        transition
+        flex items-center gap-2
+      "
+    >
+      <RotateCcw className="w-4 h-4" />
+      Reset
+    </button>
+
+  </div>
+
+</div>
 
       {/* ---------------- LOADING ---------------- */}
 
@@ -261,7 +459,7 @@ export default function InventoryPage() {
                   "Procurement",
                   "Warranty",
                   "AMC",
-                  "",
+                  "Action",
                 ].map((head) => (
                   <th
                     key={head}
