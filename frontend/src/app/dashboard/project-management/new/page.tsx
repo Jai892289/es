@@ -246,72 +246,190 @@ const handleSubmit = async () => {
 
       {/* HERO */}
 
-      <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-500 p-4 shadow-sm text-white">
+      <div
+  className="
+    relative
+    overflow-hidden
+    rounded-[28px]
+    bg-gradient-to-br
+    from-slate-900
+    via-emerald-950
+    to-slate-900
+    border
+    border-emerald-500/10
+    p-5
+    shadow-[0_20px_60px_rgba(0,0,0,0.35)]
+    text-white
+  "
+>
 
-        <div className="absolute top-0 right-0 w-60 h-60 bg-white/10 rounded-full blur-3xl" />
+  {/* Background Effects */}
 
-        <div className="absolute bottom-0 left-0 w-44 h-44 bg-black/10 rounded-full blur-3xl" />
+  <div className="absolute -top-20 -right-20 h-72 w-72 rounded-full bg-emerald-500/10 blur-3xl" />
 
-        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+  <div className="absolute bottom-0 left-0 h-52 w-52 rounded-full bg-green-500/10 blur-3xl" />
 
-          {/* LEFT */}
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.08),transparent_40%)]" />
 
-          <div className="min-w-0">
+  <div className="relative z-10">
 
-            <div className="flex items-center gap-3">
+    <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6">
 
-              <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center shrink-0">
+      {/* LEFT */}
 
-                <Building2 className="w-6 h-6" />
-              </div>
+      <div className="flex-1">
 
-              <div className="min-w-0">
+        <div className="flex items-start gap-4">
 
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 border border-white/10 backdrop-blur text-[10px] font-medium">
-
-                  <Sparkles className="w-3 h-3" />
-
-                  Smart Workflow
-                </div>
-
-                <h1 className="text-xl md:text-2xl font-bold mt-2 break-words">
-                  Create New Project 
-                </h1>
-
-                <p className="text-white/90 mt-2 text-xs leading-5 max-w-2xl break-words">
-                  Create and manage government infrastructure projects,
-                  approvals, budgeting & workflows.
-                </p>
-              </div>
-            </div>
-
-            {/* MINI CARDS */}
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
-
-              <MiniCard
-                title="Steps"
-                value="10"
-              />
-
-              <MiniCard
-                title="Workflow"
-                value="Smart"
-              />
-
-              <MiniCard
-                title="Approval"
-                value="Multi"
-              />
-
-              <MiniCard
-                title="Tracking"
-                value="Live"
-              />
-            </div>
+          <div
+            className="
+              h-14
+              w-14
+              rounded-2xl
+              bg-emerald-500/15
+              backdrop-blur-xl
+              border
+              border-emerald-400/20
+              flex
+              items-center
+              justify-center
+              shrink-0
+            "
+          >
+            <Building2 className="h-7 w-7 text-emerald-300" />
           </div>
+
+          <div>
+
+            <div
+              className="
+                inline-flex
+                items-center
+                gap-2
+                px-3
+                py-1
+                rounded-full
+                bg-emerald-500/10
+                border
+                border-emerald-400/20
+                text-[10px]
+                font-medium
+                text-emerald-300
+              "
+            >
+              <Sparkles className="h-3 w-3" />
+              Smart Workflow
+            </div>
+
+            <h1 className="mt-3 text-2xl font-bold tracking-tight">
+              Create New Project
+            </h1>
+
+            <p className="mt-2 text-sm text-slate-300 max-w-2xl">
+              Create, monitor and manage infrastructure projects,
+              approvals, budgets and execution workflows from a
+              single platform.
+            </p>
+
+          </div>
+
         </div>
+
+        {/* KPI CARDS */}
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5">
+
+          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-3">
+
+            <p className="text-[11px] text-slate-400">
+              Steps
+            </p>
+
+            <h3 className="text-xl font-bold mt-1">
+              10
+            </h3>
+
+          </div>
+
+          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-3">
+
+            <p className="text-[11px] text-slate-400">
+              Workflow
+            </p>
+
+            <h3 className="text-xl font-bold mt-1 text-emerald-300">
+              Smart
+            </h3>
+
+          </div>
+
+          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-3">
+
+            <p className="text-[11px] text-slate-400">
+              Approval
+            </p>
+
+            <h3 className="text-xl font-bold mt-1">
+              Multi
+            </h3>
+
+          </div>
+
+          <div className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-3">
+
+            <p className="text-[11px] text-slate-400">
+              Tracking
+            </p>
+
+            <h3 className="text-xl font-bold mt-1 text-emerald-300">
+              Live
+            </h3>
+
+          </div>
+
+        </div>
+
       </div>
+
+      {/* RIGHT PANEL */}
+
+      <div
+        className="
+          xl:w-[240px]
+          rounded-3xl
+          bg-white/[0.04]
+          border
+          border-white/[0.06]
+          backdrop-blur-xl
+          p-4
+        "
+      >
+
+        <p className="text-xs text-slate-400">
+          Project Setup
+        </p>
+
+        <h2 className="text-4xl font-bold mt-2">
+          100%
+        </h2>
+
+        <div className="mt-4 h-2 rounded-full bg-white/10 overflow-hidden">
+
+          <div className="h-full w-full bg-gradient-to-r from-emerald-400 to-green-500 rounded-full" />
+
+        </div>
+
+        <p className="text-xs text-slate-400 mt-3">
+          Ready to create and configure project workflows
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
 
       {/* STEPPER */}
 
