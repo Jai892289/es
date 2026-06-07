@@ -16,6 +16,7 @@ import {
   createCategoryApi,
   getCategoryApi,
 } from "@/lib/category.api";
+import { useRouter } from "next/navigation";
 
 const gradientList = [
   "from-blue-500 to-cyan-500",
@@ -27,6 +28,7 @@ const gradientList = [
 ];
 
 export default function AssetCategoryPage() {
+  const router = useRouter();
 
   const [categories, setCategories] = useState<any[]>([]);
 
@@ -40,9 +42,9 @@ export default function AssetCategoryPage() {
   });
 
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
-const [openProductsModal, setOpenProductsModal] = useState(false);
+  const [openProductsModal, setOpenProductsModal] = useState(false);
 
-console.log("selectedCategory", selectedCategory)
+  console.log("selectedCategory", selectedCategory)
   /* ---------------- FETCH ---------------- */
 
   const fetchCategories = async () => {
@@ -129,15 +131,15 @@ console.log("selectedCategory", selectedCategory)
     },
   ];
 
- 
+
 
   return (
     <div className="space-y-4">
 
       {/* ---------------- HERO ---------------- */}
 
-<div
-  className="
+      <div
+        className="
     relative
     overflow-hidden
     rounded-[28px]
@@ -147,12 +149,12 @@ console.log("selectedCategory", selectedCategory)
     shadow-xl
     p-5
   "
->
+      >
 
-  {/* Ambient Glow */}
+        {/* Ambient Glow */}
 
-  <div
-    className="
+        <div
+          className="
       absolute
       top-0
       right-0
@@ -162,10 +164,10 @@ console.log("selectedCategory", selectedCategory)
       bg-emerald-500/10
       blur-3xl
     "
-  />
+        />
 
-  <div
-    className="
+        <div
+          className="
       absolute
       bottom-0
       left-0
@@ -175,18 +177,18 @@ console.log("selectedCategory", selectedCategory)
       bg-cyan-500/5
       blur-3xl
     "
-  />
+        />
 
-  <div className="relative z-10">
+        <div className="relative z-10">
 
-    {/* Top */}
+          {/* Top */}
 
-    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
-      <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3">
 
-        <div
-          className="
+              <div
+                className="
             h-11
             w-11
             rounded-xl
@@ -197,20 +199,20 @@ console.log("selectedCategory", selectedCategory)
             items-center
             justify-center
           "
-        >
-          <Layers3 className="h-5 w-5 text-emerald-400" />
-        </div>
+              >
+                <Layers3 className="h-5 w-5 text-emerald-400" />
+              </div>
 
-        <div>
+              <div>
 
-          <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
 
-            <h1 className="text-lg font-semibold text-white">
-              Asset Categories
-            </h1>
+                  <h1 className="text-lg font-semibold text-white">
+                    Asset Categories
+                  </h1>
 
-            <span
-              className="
+                  <span
+                    className="
                 px-2
                 py-0.5
                 rounded-full
@@ -219,23 +221,23 @@ console.log("selectedCategory", selectedCategory)
                 text-[10px]
                 font-medium
               "
-            >
-              Active
-            </span>
+                  >
+                    Active
+                  </span>
 
-          </div>
+                </div>
 
-          <p className="text-sm text-slate-400 mt-1">
-            Organize and manage inventory categories
-          </p>
+                <p className="text-sm text-slate-400 mt-1">
+                  Organize and manage inventory categories
+                </p>
 
-        </div>
+              </div>
 
-      </div>
+            </div>
 
-      <button
-        onClick={() => setOpenModal(true)}
-        className="
+            <button
+              onClick={() => setOpenModal(true)}
+              className="
           h-10
           px-4
           rounded-xl
@@ -249,105 +251,105 @@ console.log("selectedCategory", selectedCategory)
           hover:bg-slate-100
           transition-all cursor-pointer
         "
-      >
-        <Plus className="h-4 w-4" />
-        Add Category
-      </button>
+            >
+              <Plus className="h-4 w-4" />
+              Add Category
+            </button>
 
-    </div>
+          </div>
 
-    {/* Stats */}
+          {/* Stats */}
 
-    <div
-      className="
+          <div
+            className="
         grid
         grid-cols-3
         gap-3
         mt-5
       "
-    >
+          >
 
-      <div
-        className="
+            <div
+              className="
           rounded-2xl
           bg-white/[0.03]
           border
           border-white/[0.06]
           p-4
         "
-      >
-        <p className="text-[11px] uppercase tracking-wider text-slate-500">
-          Categories
-        </p>
+            >
+              <p className="text-[11px] uppercase tracking-wider text-slate-500">
+                Categories
+              </p>
 
-        <h3 className="text-2xl font-bold text-white mt-2">
-          {categories.length}
-        </h3>
-      </div>
+              <h3 className="text-2xl font-bold text-white mt-2">
+                {categories.length}
+              </h3>
+            </div>
 
-      <div
-        className="
+            <div
+              className="
           rounded-2xl
           bg-white/[0.03]
           border
           border-white/[0.06]
           p-4
         "
-      >
-        <p className="text-[11px] uppercase tracking-wider text-slate-500">
-          Assets
-        </p>
+            >
+              <p className="text-[11px] uppercase tracking-wider text-slate-500">
+                Assets
+              </p>
 
-        <h3 className="text-2xl font-bold text-white mt-2">
-          {totalAssets}
-        </h3>
-      </div>
+              <h3 className="text-2xl font-bold text-white mt-2">
+                {totalAssets}
+              </h3>
+            </div>
 
-      <div
-        className="
+            <div
+              className="
           rounded-2xl
           bg-white/[0.03]
           border
           border-white/[0.06]
           p-4
         "
-      >
-        <p className="text-[11px] uppercase tracking-wider text-slate-500">
-          Asset Value
-        </p>
+            >
+              <p className="text-[11px] uppercase tracking-wider text-slate-500">
+                Asset Value
+              </p>
 
-        <h3 className="text-2xl font-bold text-white mt-2 truncate">
-          ₹{totalAmount.toLocaleString()}
-        </h3>
+              <h3 className="text-2xl font-bold text-white mt-2 truncate">
+                ₹{totalAmount.toLocaleString()}
+              </h3>
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
-    </div>
-
-  </div>
-
-</div>
 
 
-  
       {/* ---------------- CATEGORY GRID ---------------- */}
-<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
-  {categories.map((c, i) => {
+        {categories.map((c, i) => {
 
-    const gradient =
-      gradientList[i % gradientList.length];
+          const gradient =
+            gradientList[i % gradientList.length];
 
-    return (
-      <motion.div
-        key={c.id}
-        whileHover={{
-          y: -6,
-          scale: 1.02,
-        }}
-        transition={{
-          duration: 0.25,
-        }}
-        className="
+          return (
+            <motion.div
+              key={c.id}
+              whileHover={{
+                y: -6,
+                scale: 1.02,
+              }}
+              transition={{
+                duration: 0.25,
+              }}
+              className="
           group
           relative
           overflow-hidden
@@ -363,16 +365,16 @@ console.log("selectedCategory", selectedCategory)
           transition-all
           duration-300
         "
-      >
+            >
 
-        {/* Decorative Glow */}
+              {/* Decorative Glow */}
 
-        <div className="absolute -top-10 -right-10 h-40 w-40 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute -top-10 -right-10 h-40 w-40 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="absolute -bottom-10 -left-10 h-32 w-32 bg-black/10 rounded-full blur-3xl" />
+              <div className="absolute -bottom-10 -left-10 h-32 w-32 bg-black/10 rounded-full blur-3xl" />
 
-        <div
-          className={`
+              <div
+                className={`
             absolute
             top-0
             right-0
@@ -384,18 +386,18 @@ console.log("selectedCategory", selectedCategory)
             opacity-10
             blur-3xl
           `}
-        />
+              />
 
-        <div className="relative z-10 p-4">
+              <div className="relative z-10 p-4">
 
-          {/* Header */}
+                {/* Header */}
 
-          <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between">
 
-            <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3">
 
-              <div
-                className={`
+                    <div
+                      className={`
                   h-11
                   w-11
                   rounded-xl
@@ -409,26 +411,26 @@ console.log("selectedCategory", selectedCategory)
                   transition-transform
                   duration-300
                 `}
-              >
-                <Layers3 className="h-5 w-5 text-white" />
-              </div>
+                    >
+                      <Layers3 className="h-5 w-5 text-white" />
+                    </div>
 
-              <div>
+                    <div>
 
-                <h3 className="font-semibold text-white text-base">
-                  {c.name}
-                </h3>
+                      <h3 className="font-semibold text-white text-base">
+                        {c.name}
+                      </h3>
 
-                <p className="text-xs text-white/70 mt-0.5">
-                  Asset Category
-                </p>
+                      <p className="text-xs text-white/70 mt-0.5">
+                        Asset Category
+                      </p>
 
-              </div>
+                    </div>
 
-            </div>
+                  </div>
 
-            <span
-              className="
+                  <span
+                    className="
                 px-2.5
                 py-1
                 rounded-full
@@ -440,18 +442,18 @@ console.log("selectedCategory", selectedCategory)
                 text-white
                 font-medium
               "
-            >
-              {c.products?.length || 0} Products
-            </span>
+                  >
+                    {c.products?.length || 0} Products
+                  </span>
 
-          </div>
+                </div>
 
-          {/* Stats */}
+                {/* Stats */}
 
-          <div className="grid grid-cols-2 gap-3 mt-4">
+                <div className="grid grid-cols-2 gap-3 mt-4">
 
-            <div
-              className="
+                  <div
+                    className="
                 rounded-2xl
                 bg-white/10
                 backdrop-blur-xl
@@ -459,18 +461,18 @@ console.log("selectedCategory", selectedCategory)
                 border-white/10
                 p-3
               "
-            >
-              <p className="text-[10px] uppercase tracking-wider text-white/70">
-                Assets
-              </p>
+                  >
+                    <p className="text-[10px] uppercase tracking-wider text-white/70">
+                      Assets
+                    </p>
 
-              <h4 className="text-2xl font-bold text-white mt-2">
-                {c.totalAssets || 0}
-              </h4>
-            </div>
+                    <h4 className="text-2xl font-bold text-white mt-2">
+                      {c.totalAssets || 0}
+                    </h4>
+                  </div>
 
-            <div
-              className="
+                  <div
+                    className="
                 rounded-2xl
                 bg-white/10
                 backdrop-blur-xl
@@ -478,22 +480,22 @@ console.log("selectedCategory", selectedCategory)
                 border-white/10
                 p-3
               "
-            >
-              <p className="text-[10px] uppercase tracking-wider text-white/70">
-                Value
-              </p>
+                  >
+                    <p className="text-[10px] uppercase tracking-wider text-white/70">
+                      Value
+                    </p>
 
-              <h4 className="text-lg font-bold text-white mt-2 truncate">
-                ₹{(c.totalAmount || 0).toLocaleString()}
-              </h4>
-            </div>
+                    <h4 className="text-lg font-bold text-white mt-2 truncate">
+                      ₹{(c.totalAmount || 0).toLocaleString()}
+                    </h4>
+                  </div>
 
-          </div>
+                </div>
 
-          {/* Footer */}
+                {/* Footer */}
 
-          <div
-            className="
+                <div
+                  className="
               flex
               items-center
               justify-between
@@ -502,29 +504,29 @@ console.log("selectedCategory", selectedCategory)
               border-t
               border-white/10
             "
-          >
+                >
 
-            <div>
+                  <div>
 
-              <p className="text-xs text-white/70">
-                Category Inventory
-              </p>
+                    <p className="text-xs text-white/70">
+                      Category Inventory
+                    </p>
 
-              <p className="text-sm font-medium text-white mt-1">
-                {c.totalAssets || 0} Assets
-              </p>
+                    <p className="text-sm font-medium text-white mt-1">
+                      {c.totalAssets || 0} Assets
+                    </p>
 
-            </div>
+                  </div>
 
-            <button
-              onClick={() => {
-                setSelectedCategory(c);
-                setOpenProductsModal(true);
-              }}
-              className="
+                  <button
+                    onClick={() => {
+                      setSelectedCategory(c);
+                      setOpenProductsModal(true);
+                    }}
+                    className="
                 px-4
                 py-2
-                rounded-xl
+                rounded-full
                 bg-white
                 text-emerald-700
                 text-xs
@@ -535,19 +537,19 @@ console.log("selectedCategory", selectedCategory)
                 shadow-lg
                 cursor-pointer
               "
-            >
-              View Products
-            </button>
+                  >
+                    View Products
+                  </button>
 
-          </div>
+                </div>
 
-        </div>
+              </div>
 
-      </motion.div>
-    );
-  })}
+            </motion.div>
+          );
+        })}
 
-</div>
+      </div>
       {/* ---------------- MODAL ---------------- */}
 
       {openModal && (
@@ -651,12 +653,12 @@ console.log("selectedCategory", selectedCategory)
         </div>
       )}
 
-  
-{openProductsModal && selectedCategory && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4">
 
-    <div
-      className="
+      {openProductsModal && selectedCategory && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4">
+
+          <div
+            className="
         w-full
         max-w-7xl
         max-h-[92vh]
@@ -665,12 +667,12 @@ console.log("selectedCategory", selectedCategory)
         bg-white
         shadow-[0_25px_80px_rgba(0,0,0,0.25)]
       "
-    >
+          >
 
-      {/* HEADER */}
+            {/* HEADER */}
 
-      <div
-        className="
+            <div
+              className="
           sticky
           top-0
           z-20
@@ -683,16 +685,16 @@ console.log("selectedCategory", selectedCategory)
           py-5
           text-white
         "
-      >
+            >
 
-        <div className="absolute top-0 right-0 h-40 w-40 bg-white/10 rounded-full blur-3xl" />
+              <div className="absolute top-0 right-0 h-40 w-40 bg-white/10 rounded-full blur-3xl" />
 
-        <div className="relative z-10 flex items-center justify-between">
+              <div className="relative z-10 flex items-center justify-between">
 
-          <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4">
 
-            <div
-              className="
+                  <div
+                    className="
                 h-14
                 w-14
                 rounded-2xl
@@ -704,29 +706,29 @@ console.log("selectedCategory", selectedCategory)
                 border
                 border-white/10
               "
-            >
-              <Layers3 className="h-7 w-7" />
-            </div>
+                  >
+                    <Layers3 className="h-7 w-7" />
+                  </div>
 
-            <div>
+                  <div>
 
-              <h2 className="text-2xl font-bold">
-                {selectedCategory.name}
-              </h2>
+                    <h2 className="text-2xl font-bold">
+                      {selectedCategory.name}
+                    </h2>
 
-              <p className="text-sm text-white/80 mt-1">
-                {selectedCategory.products?.length || 0} Products Available
-              </p>
+                    <p className="text-sm text-white/80 mt-1">
+                      {selectedCategory.products?.length || 0} Products Available
+                    </p>
 
-            </div>
+                  </div>
 
-          </div>
+                </div>
 
-          <button
-            onClick={() =>
-              setOpenProductsModal(false)
-            }
-            className="
+                <button
+                  onClick={() =>
+                    setOpenProductsModal(false)
+                  }
+                  className="
               h-11
               w-11
               rounded-xl
@@ -739,50 +741,59 @@ console.log("selectedCategory", selectedCategory)
               justify-center
               text-lg
             "
-          >
-            ✕
-          </button>
-
-        </div>
-
-      </div>
-
-      {/* BODY */}
-
-      <div className="p-6 overflow-y-auto max-h-[calc(92vh-100px)]">
-
-        {selectedCategory.products?.length ? (
-
-          <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
-
-            {selectedCategory.products.map(
-              (product: any) => (
-
-                <div
-                  key={product.id}
-                  className="
-                    group
-                    rounded-3xl
-                    border
-                    border-gray-100
-                    bg-white
-                    p-5
-                    shadow-sm
-                    hover:shadow-xl
-                    hover:-translate-y-1
-                    transition-all
-                    duration-300
-                  "
                 >
+                  ✕
+                </button>
 
-                  {/* Product Header */}
+              </div>
 
-                  <div className="flex items-start justify-between">
+            </div>
 
-                    <div className="flex items-center gap-3">
+            {/* BODY */}
 
-                      <div
-                        className="
+            <div className="p-6 overflow-y-auto max-h-[calc(92vh-100px)]">
+
+              {selectedCategory.products?.length ? (
+
+                <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+
+                  {selectedCategory.products.map(
+                    (product: any) => (
+
+                     <motion.div
+  key={product.id}
+  whileHover={{
+    y: -4,
+    scale: 1.01,
+  }}
+  onClick={() =>
+    router.push(
+      `/dashboard/inventory/${product.id}`
+    )
+  }
+  className="
+    group
+    cursor-pointer
+    rounded-3xl
+    border
+    border-gray-100
+    bg-white
+    p-5
+    shadow-sm
+    hover:shadow-xl
+    hover:border-emerald-300
+    transition-all
+  "
+>
+
+                        {/* Product Header */}
+
+                        <div className="flex items-start justify-between">
+
+                          <div className="flex items-center gap-3">
+
+                            <div
+                              className="
                           h-12
                           w-12
                           rounded-2xl
@@ -796,120 +807,119 @@ console.log("selectedCategory", selectedCategory)
                           font-bold
                           shadow-lg
                         "
-                      >
-                        {product.productName
-                          ?.charAt(0)
-                          ?.toUpperCase()}
-                      </div>
+                            >
+                              {product.productName
+                                ?.charAt(0)
+                                ?.toUpperCase()}
+                            </div>
 
-                      <div>
+                            <div>
 
-                        <h3 className="font-semibold text-lg text-slate-900">
-                          {product.productName}
-                        </h3>
+                              <h3 className="font-semibold text-lg text-slate-900">
+                                {product.productName}
+                              </h3>
 
-                        <p className="text-xs text-slate-500 mt-1">
-                          {product.status || "Active"}
-                        </p>
+                              <p className="text-xs text-slate-500 mt-1">
+                                {product.status || "Active"}
+                              </p>
 
-                      </div>
+                            </div>
 
-                    </div>
+                          </div>
 
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        product.amcAvailable
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-rose-100 text-rose-700"
-                      }`}
-                    >
-                      {product.amcAvailable
-                        ? "AMC Active"
-                        : "No AMC"}
-                    </span>
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-medium ${product.amcAvailable
+                                ? "bg-emerald-100 text-emerald-700"
+                                : "bg-rose-100 text-rose-700"
+                              }`}
+                          >
+                            {product.amcAvailable
+                              ? "AMC Active"
+                              : "No AMC"}
+                          </span>
 
-                  </div>
+                        </div>
 
-                  {/* Product Details */}
+                        {/* Product Details */}
 
-                  <div className="mt-5 space-y-3">
+                        <div className="mt-5 space-y-3">
 
-                    <ProductRow
-                      label="Quantity"
-                      value={product.quantity || "-"}
-                    />
+                          <ProductRow
+                            label="Quantity"
+                            value={product.quantity || "-"}
+                          />
 
-                    <ProductRow
-                      label="Serial Number"
-                      value={
-                        product.serialNumber ||
-                        "-"
-                      }
-                    />
+                          <ProductRow
+                            label="Serial Number"
+                            value={
+                              product.serialNumber ||
+                              "-"
+                            }
+                          />
 
-                    <ProductRow
-                      label="Invoice"
-                      value={
-                        product.invoiceNumber ||
-                        "-"
-                      }
-                    />
+                          <ProductRow
+                            label="Invoice"
+                            value={
+                              product.invoiceNumber ||
+                              "-"
+                            }
+                          />
 
-                    <ProductRow
-                      label="Unit Price"
-                      value={
-                        product.unitPrice
-                          ? `₹${Number(
+                          <ProductRow
+                            label="Unit Price"
+                            value={
                               product.unitPrice
-                            ).toLocaleString()}`
-                          : "-"
-                      }
-                    />
+                                ? `₹${Number(
+                                  product.unitPrice
+                                ).toLocaleString()}`
+                                : "-"
+                            }
+                          />
 
-                    <ProductRow
-                      label="Status"
-                      value={
-                        product.status || "-"
-                      }
-                    />
+                          <ProductRow
+                            label="Status"
+                            value={
+                              product.status || "-"
+                            }
+                          />
 
-                    <ProductRow
-                      label="Procurement Date"
-                      value={
-                        product.procurementDate
-                          ? new Date(
+                          <ProductRow
+                            label="Procurement Date"
+                            value={
                               product.procurementDate
-                            ).toLocaleDateString()
-                          : "-"
-                      }
-                    />
+                                ? new Date(
+                                  product.procurementDate
+                                ).toLocaleDateString()
+                                : "-"
+                            }
+                          />
 
-                    <ProductRow
-                      label="Warranty Expiry"
-                      value={
-                        product.warrantyExpiryDate
-                          ? new Date(
+                          <ProductRow
+                            label="Warranty Expiry"
+                            value={
                               product.warrantyExpiryDate
-                            ).toLocaleDateString()
-                          : "-"
-                      }
-                    />
+                                ? new Date(
+                                  product.warrantyExpiryDate
+                                ).toLocaleDateString()
+                                : "-"
+                            }
+                          />
 
-                  </div>
+                        </div>
+
+                      </motion.div>
+
+                    )
+                  )}
 
                 </div>
 
-              )
-            )}
+              ) : (
 
-          </div>
+                <div className="py-24 text-center">
 
-        ) : (
-
-          <div className="py-24 text-center">
-
-            <div
-              className="
+                  <div
+                    className="
                 h-20
                 w-20
                 mx-auto
@@ -919,28 +929,28 @@ console.log("selectedCategory", selectedCategory)
                 items-center
                 justify-center
               "
-            >
-              <Layers3 className="h-10 w-10 text-emerald-600" />
+                  >
+                    <Layers3 className="h-10 w-10 text-emerald-600" />
+                  </div>
+
+                  <h3 className="text-xl font-semibold mt-6 text-slate-800">
+                    No Products Found
+                  </h3>
+
+                  <p className="text-slate-500 mt-2">
+                    This category currently doesn't contain any products.
+                  </p>
+
+                </div>
+
+              )}
+
             </div>
-
-            <h3 className="text-xl font-semibold mt-6 text-slate-800">
-              No Products Found
-            </h3>
-
-            <p className="text-slate-500 mt-2">
-              This category currently doesn't contain any products.
-            </p>
 
           </div>
 
-        )}
-
-      </div>
-
-    </div>
-
-  </div>
-)}
+        </div>
+      )}
     </div>
   );
 }

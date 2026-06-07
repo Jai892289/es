@@ -11,6 +11,7 @@ import {
   Package2,
    Filter,
   ChevronDown,
+  Eye,
 } from "lucide-react"
 
 
@@ -517,176 +518,356 @@ const [selectedDate, setSelectedDate] =
 
           <table className="w-full">
 
-            <thead className="bg-gray-50 border-b border-gray-100">
+           <thead className="sticky top-0 bg-slate-50 border-b border-slate-200">
+  <tr>
+    {[
+  "Product",
+  "Category",
+  "Department",
+  "Inventory",
+  "Condition",
+  "AMC",
+  "Warranty",
+  "Action",
+].map((head) => (
+      <th
+        key={head}
+        className="
+          px-4
+          py-3
+          text-left
+          text-[11px]
+          font-semibold
+          uppercase
+          tracking-wider
+          text-slate-600
+          whitespace-nowrap
+        "
+      >
+        {head}
+      </th>
+    ))}
+  </tr>
+</thead>
 
-              <tr>
+          <tbody>
 
-                {[
-                  "Product",
-                  "Category",
-                  "Department",
-                  "Vendor",
-                  "Qty",
-                  "Procurement",
-                  "Warranty",
-                  "AMC",
-                  "Action",
-                ].map((head) => (
-                  <th
-                    key={head}
-                    className="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-black"
-                  >
-                    {head}
-                  </th>
-                ))}
-              </tr>
-            </thead>
+  {inventoryData.length > 0 ? (
 
-            <tbody>
+    inventoryData.map((item) => (
 
-              {inventoryData.length > 0 ? (
+      <tr
+        key={item.id}
+        className="
+          border-b
+          border-slate-100
+          hover:bg-emerald-50/40
+          transition-all
+          duration-200
+        "
+      >
 
-                inventoryData.map((item) => (
+        {/* PRODUCT */}
 
-                  <tr
-                    key={item.id}
-                    className="border-b border-gray-100 hover:bg-gray-50 transition"
-                  >
+        <td className="px-5 py-4">
 
-                    {/* PRODUCT */}
+          <div className="flex items-center gap-3">
 
-                    <td className="px-4 py-3">
+            <div
+              className="
+                h-12
+                w-12
+                rounded-2xl
+                bg-gradient-to-br
+                from-emerald-500
+                to-green-600
+                flex
+                items-center
+                justify-center
+                shadow-sm
+              "
+            >
+              <Package2 className="h-5 w-5 text-white" />
+            </div>
 
-                      <div className="flex items-center gap-3">
+            <div className="min-w-0">
 
-                        <div className="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center">
+              <h4 className="font-semibold text-slate-900 truncate">
+                {item.productName}
+              </h4>
 
-                          <Package2 className="w-4 h-4 text-green-600" />
-                        </div>
+              <p className="text-xs text-slate-500 mt-1">
+                {item.brandName || "-"} • {item.modelNumber || "-"}
+              </p>
 
-                        <div>
+              <p className="text-[11px] text-slate-400 mt-1">
+                SN: {item.serialNumber || "-"}
+              </p>
 
-                          <p className="font-semibold text-sm text-black leading-none">
-                            {item.productName}
-                          </p>
+            </div>
 
-                          <p className="text-[11px] text-black mt-1">
-                            {item.serialNumber || "N/A"}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
+          </div>
 
-                    {/* CATEGORY */}
+        </td>
 
-                    <td className="px-4 py-3 text-sm text-black">
-                      {item?.category?.name || "-"}
-                    </td>
+        {/* CATEGORY */}
 
-                    {/* DEPARTMENT */}
+        <td className="px-5 py-4">
 
-                    <td className="px-4 py-3 text-sm text-black">
-                      {item?.department?.name || "-"}
-                    </td>
+          <span
+            className="
+              inline-flex
+              items-center
+              px-3
+              py-1.5
+              rounded-full
+              bg-emerald-50
+              text-emerald-700
+              text-xs
+              font-medium
+            "
+          >
+            {item?.category?.name || "-"}
+          </span>
 
-                    {/* VENDOR */}
+        </td>
 
-                    <td className="px-4 py-3 text-sm text-black">
-                      {item?.vendor?.companyName || "-"}
-                    </td>
+        {/* DEPARTMENT */}
 
-                    {/* QTY */}
+        <td className="px-5 py-4">
 
-                    <td className="px-4 py-3">
+          <div>
 
-                      <span className="px-2 py-1 rounded-full bg-gray-100 text-black text-[11px] font-semibold">
-                        {item.quantity}
-                      </span>
-                    </td>
+            <p className="font-medium text-slate-800">
+              {item?.department?.name || "-"}
+            </p>
 
-                    {/* PROCUREMENT */}
+            <p className="text-xs text-slate-500">
+              {item?.department?.code || "-"}
+            </p>
 
-                    <td className="px-4 py-3 text-sm text-black">
+          </div>
 
-                      {item.procurementDate
-                        ? new Date(
-                            item.procurementDate
-                          ).toLocaleDateString()
-                        : "-"}
-                    </td>
+        </td>
 
-                    {/* WARRANTY */}
+        {/* INVENTORY */}
 
-                    <td className="px-4 py-3 text-sm text-black">
+        <td className="px-5 py-4 min-w-[180px]">
 
-                      {item.warrantyExpiryDate
-                        ? new Date(
-                            item.warrantyExpiryDate
-                          ).toLocaleDateString()
-                        : "-"}
-                    </td>
+          <div className="space-y-2">
 
-                    {/* AMC */}
+            <div className="flex justify-between text-xs">
 
-                    <td className="px-4 py-3">
+              <span className="text-slate-500">
+                Stock
+              </span>
 
-                      <span
-                        className={`px-2 py-1 rounded-full text-[11px] font-semibold ${
-                          item.amcAvailable
-                            ? "bg-green-100 text-green-700"
-                            : "bg-gray-100 text-black"
-                        }`}
-                      >
-                        {item.amcAvailable
-                          ? "Active"
-                          : "Inactive"}
-                      </span>
-                    </td>
+              <span className="font-semibold text-emerald-600">
+                {item.inStock}
+              </span>
 
-                    {/* ACTION */}
+            </div>
 
-                    <td className="px-4 py-3">
+            <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
 
-                      <Link
-                        href={`/dashboard/inventory/${item.id}`}
-                        className="inline-flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700 transition"
-                      >
-                        View
+              <div
+                className="h-full rounded-full bg-emerald-500"
+                style={{
+                  width: `${Math.min(
+                    ((item.inUse || 0) /
+                      (item.quantity || 1)) *
+                      100,
+                    100
+                  )}%`,
+                }}
+              />
 
-                        <ChevronRight className="w-4 h-4" />
-                      </Link>
-                    </td>
-                  </tr>
-                ))
+            </div>
 
-              ) : (
+            <div className="flex justify-between text-xs">
 
-                <tr>
+              <span className="text-slate-500">
+                In Use
+              </span>
 
-                  <td
-                    colSpan={9}
-                    className="py-12 text-center"
-                  >
+              <span className="font-semibold text-slate-800">
+                {item.inUse}
+              </span>
 
-                    <div className="flex flex-col items-center justify-center">
+            </div>
 
-                      <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-3">
+          </div>
 
-                        <Package2 className="w-7 h-7 text-gray-500" />
-                      </div>
+        </td>
 
-                      <h3 className="text-base font-semibold text-black">
-                        No Inventory Found
-                      </h3>
+        {/* CONDITION */}
 
-                      <p className="text-sm text-black mt-1">
-                        Try changing filters
-                      </p>
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
+        <td className="px-5 py-4">
+
+          <div className="space-y-2">
+
+            <div className="flex items-center justify-between text-xs gap-4">
+
+              <span className="text-orange-600 font-medium">
+                Repair
+              </span>
+
+              <span className="font-semibold text-slate-800">
+                {item.inRepair}
+              </span>
+
+            </div>
+
+            <div className="flex items-center justify-between text-xs gap-4">
+
+              <span className="text-red-600 font-medium">
+                Damaged
+              </span>
+
+              <span className="font-semibold text-slate-800">
+                {item.damaged}
+              </span>
+
+            </div>
+
+          </div>
+
+        </td>
+
+        {/* AMC */}
+
+        <td className="px-5 py-4">
+
+          <span
+            className={`
+              inline-flex
+              items-center
+              gap-2
+              px-3
+              py-1.5
+              rounded-full
+              text-xs
+              font-medium
+              ${
+                item.amcAvailable
+                  ? "bg-green-50 text-green-700"
+                  : "bg-red-50 text-red-700"
+              }
+            `}
+          >
+
+            <div
+              className={`
+                h-2
+                w-2
+                rounded-full
+                ${
+                  item.amcAvailable
+                    ? "bg-green-500"
+                    : "bg-red-500"
+                }
+              `}
+            />
+
+            {item.amcAvailable
+              ? "Active"
+              : "Inactive"}
+
+          </span>
+
+        </td>
+
+        {/* WARRANTY */}
+
+        <td className="px-5 py-4">
+
+          <div>
+
+            <p
+              className={`font-medium text-sm ${
+                new Date(item.warrantyExpiryDate) <
+                new Date()
+                  ? "text-red-600"
+                  : "text-emerald-600"
+              }`}
+            >
+              {item.warrantyExpiryDate
+                ? new Date(
+                    item.warrantyExpiryDate
+                  ).toLocaleDateString()
+                : "-"}
+            </p>
+
+            <p className="text-xs text-slate-500 mt-1">
+              Warranty
+            </p>
+
+          </div>
+
+        </td>
+
+        {/* ACTION */}
+
+        <td className="px-5 py-4">
+
+          <Link
+            href={`/dashboard/inventory/${item.id}`}
+          
+          >
+          
+            <Eye className="h-4 w-4" />
+
+          </Link>
+
+        </td>
+
+      </tr>
+
+    ))
+
+  ) : (
+
+    <tr>
+
+      <td
+        colSpan={8}
+        className="py-20 text-center"
+      >
+
+        <div className="flex flex-col items-center">
+
+          <div
+            className="
+              h-20
+              w-20
+              rounded-3xl
+              bg-slate-100
+              flex
+              items-center
+              justify-center
+              mb-4
+            "
+          >
+            <Package2 className="h-8 w-8 text-slate-400" />
+          </div>
+
+          <h3 className="text-lg font-semibold text-slate-800">
+            No Inventory Found
+          </h3>
+
+          <p className="text-slate-500 mt-2">
+            No assets match your current filters.
+          </p>
+
+        </div>
+
+      </td>
+
+    </tr>
+
+  )}
+
+</tbody>
           </table>
         </div>
       </div>

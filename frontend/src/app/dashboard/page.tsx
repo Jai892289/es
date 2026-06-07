@@ -409,7 +409,7 @@ const overviewCards = useMemo(
         text-xs
         font-medium
         hover:bg-emerald-100
-        transition-all
+        transition-all cursor-pointer
       "
     >
       View All
